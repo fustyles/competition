@@ -191,10 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, '你是繁體中文的程式設計助理，請回覆有關積木程式試題的問題。');
 
 	async function gemini_chat_response(gemini_chat_data) {
-		console.log(gemini_chat_response_br(gemini_chat_data, 'br'));
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		iframeDocument.body.insertAdjacentHTML("beforeend", "<br><br>Gemini：<br>"+gemini_chat_response_br(gemini_chat_data, 'br'));
+		iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
+		iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
 	}
 	window.gemini_chat_response = gemini_chat_response;
 	
@@ -203,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
-		var prompt = "請協助分析以下執行結果可能不符合試題要求的部分作陳述，但不必提及原始碼指令函式，因為原始碼來源為積木程式。若是正確的部分則不多做解釋簡單回覆。\n\n積木程式試題：\n"+
+		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，但不必提及原始碼指令函式，因為原始碼來源為積木程式。若是正確的部分則不多做解釋簡單回覆。請不要加上不必要的符號。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式轉JavaScript程式碼：\n"+
 		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace())+
