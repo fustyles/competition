@@ -187,6 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
+	var output_result = "";
+	
 	var GeminiKey = 'U2FsdGVkX1/QCbfZGgM4jikc7e72LweTWjOEW4GY5ofILt6eG56zT2wo9JHmlkdrR8L7opwW5dGyvOh62E3DqA==';
 	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, '你是繁體中文的程式設計助理，請回覆有關積木程式試題的問題。');
 
@@ -204,12 +206,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
-		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，但不必提及原始碼指令函式，因為原始碼來源為積木程式。若是正確的部分則不多做解釋簡單回覆。請不要加上不必要的符號。\n\n積木程式試題：\n"+
+		if (output_result=="") {
+			output_result = iframeDocument.body.innerHTML;
+		} else {
+			iframeElement.contentWindow.document.open();
+			iframeElement.contentWindow.document.write("");
+			iframeElement.contentWindow.document.close();
+			iframeElement.focus();
+			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
+		}
+		console.log(output_result);
+		console.log(iframeDocument.body);		
+		
+		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，撰寫的程式邏輯思考與流程的簡潔說明。回覆內容不要提及JavaScript原始碼與函式指令，因為原始碼來源為積木程式，國中小學生看不懂，不要使用*號字元加強重點內容。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式轉JavaScript程式碼：\n"+
 		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace())+
 		"\n\n執行結果：\n"+
-		iframeDocument.body.innerText.trim();
+		output_result;
 		await gemini_chat_run(prompt);
 	}
 	
@@ -224,12 +238,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"};main();")+"\<\/script\>\<\/body\>\<\/html\>";
 	  
 	  //console.log(iframe_code);
+	  output_result = "";
+	  
 	  try {
 		var iframe = document.getElementById("iframe_output");
 		iframe.contentWindow.document.open();
 		iframe.contentWindow.document.write(iframe_code);
 		iframe.contentWindow.document.close();
-		document.getElementById("iframe_output").focus();
+		iframe.focus();
 	  } catch (e) {
 		alert(e);
 	  }
