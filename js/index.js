@@ -187,9 +187,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
+	var GeminiKey = 'U2FsdGVkX1/QCbfZGgM4jikc7e72LweTWjOEW4GY5ofILt6eG56zT2wo9JHmlkdrR8L7opwW5dGyvOh62E3DqA==';
+	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, '你是繁體中文的程式設計助理，請回覆有關積木程式試題的問題。');
+
+	async function gemini_chat_response(gemini_chat_data) {
+		console.log(gemini_chat_response_br(gemini_chat_data, 'br'));
+		var iframeElement = document.getElementById('iframe_output');
+		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
+		iframeDocument.body.insertAdjacentHTML("beforeend", "<br><br>Gemini：<br>"+gemini_chat_response_br(gemini_chat_data, 'br'));
+	}
+	window.gemini_chat_response = gemini_chat_response;
+	
+	document.getElementById('gemini_ask').onclick = async function () {
+		if (!document.getElementById("question_input").value.trim()) return;
+		var iframeElement = document.getElementById('iframe_output');
+		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
+		
+		var prompt = "請協助分析以下執行結果可能不符合試題要求的部分，若是正確的部分則不多做解釋簡單回覆。\n\n積木程式試題：\n"+
+		document.getElementById("question_input").value+
+		"\n\n積木程式轉JavaScript程式碼：\n"+
+		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace())+
+		"\n\n執行結果：\n"+
+		iframeDocument.body.innerText.trim();
+		await gemini_chat_run(prompt);
+	}
+	
 	//執行程式
 	function runCode() {
 	  var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
 	  iframe_code += getScript(0);

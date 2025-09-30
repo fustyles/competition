@@ -42,5 +42,6 @@ var msg = [
 ["text_updateDefinition", "innerHTML", Blockly.Msg["TEXT_UPDATEDEFINITION"]],
 ["text_updateGenerate", "innerHTML", Blockly.Msg["TEXT_UPDATEGENERATE"]],
 ["text_updateCategory", "innerHTML", Blockly.Msg["TEXT_UPDATECATEGORY"]],
-["text_updateMessage", "innerHTML", Blockly.Msg["TEXT_UPDATEMESSAGE"]]
+["text_updateMessage", "innerHTML", Blockly.Msg["TEXT_UPDATEMESSAGE"]],
+["enter_question", "innerHTML", Blockly.Msg["ENTER_QUESTION"]]
 ];

@@ -20,6 +20,7 @@ var Blockly = Blockly || { Msg: Object.create(null) };
 Blockly.Msg.COPY_CLIPBOARD = "Copying to clipboard was successful!";
 Blockly.Msg.FUNCTION_ASYNC = "async";
 Blockly.Msg.ADD_COMMENT = "Add Comment";
+Blockly.Msg.ENTER_QUESTION = "Enter question";
 
 Blockly.Msg.ARRAY_CREATE_WITH_CONTAINER_TITLE_ADD = "array";
 Blockly.Msg.ARRAY_CREATE_WITH_CONTAINER_TOOLTIP = "Add, remove, or reorder sections to reconfigure this array block.";
