@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
-		var prompt = "請協助分析以下執行結果可能不符合試題要求的部分，若是正確的部分則不多做解釋簡單回覆。\n\n積木程式試題：\n"+
+		var prompt = "請協助分析以下執行結果可能不符合試題要求的部分作陳述，但不必提及原始碼指令函式，因為原始碼來源為積木程式。若是正確的部分則不多做解釋簡單回覆。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式轉JavaScript程式碼：\n"+
 		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace())+
