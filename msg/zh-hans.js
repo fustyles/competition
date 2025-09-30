@@ -20,7 +20,7 @@ var Blockly = Blockly || { Msg: Object.create(null) };
 Blockly.Msg.COPY_CLIPBOARD = "已复制执行结果到剪贴簿";
 Blockly.Msg.FUNCTION_ASYNC = "非同步(async)";
 Blockly.Msg.ADD_COMMENT = "加入批注";
-Blockly.Msg.ENTER_QUESTION = "输入试题";
+Blockly.Msg.ENTER_QUESTION = "试题输入";
 
 Blockly.Msg.ARDUINO = "ARDUINO";
 Blockly.Msg.ARDUINO_CODE = "程序代码　　　";
