@@ -227,6 +227,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		await gemini_chat_run(prompt);
 	}
 	
+	if (!navigator.onLine) document.getElementById('gemini_ask').style.display = "none"; 	
+	
 	//執行程式
 	function runCode() {
 	  var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
