@@ -1,0 +1,236 @@
+<!--
+@license
+Copyright 2025 Taiwan (ChungYi Fu)
+
+@author https://www.facebook.com/francefu/
+@Update 6/4/2025 00:00 (Taiwan Standard Time)
+-->
+
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">	
+	<meta http-equiv="Access-Control-Allow-Headers" content="Origin, X-Requested-With, Content-Type, Accept">
+	<meta http-equiv="Access-Control-Allow-Methods" content="GET,POST,PUT,DELETE,OPTIONS">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<meta http-equiv='Access-Control-Allow-Credentials' content='true'>	
+	<title>SpBlocklyJS (鳳山科技中心)</title>	
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" href="css/icon.css" />
+	<link rel="stylesheet" href="css/custom.css" />
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<script src="js/blockly_compressed.js"></script>
+	<script src="js/blocks_compressed.js"></script>
+	<script src="js/javascript_compressed.js"></script>
+	<script>
+		var lang = location.search.toLowerCase();
+		if (lang.indexOf("lang=en")!=-1)
+			lang = "en";
+		else if (lang.indexOf("lang=zh-hans")!=-1)
+			lang = "zh-hans";
+		else if (lang.indexOf("lang=zh-hant")!=-1)
+			lang = "zh-hant";	
+		else 
+			lang = "zh-hant";  //en, zh-hans, zh-hant
+		document.write("\<script src='msg/"+lang+".js'\>\<\/script>");
+	</script>	
+	<script src="js/index.js"></script>
+	<script src="js/message.js"></script>
+	<script src="plugin/ScreenShot/screenshot.js"></script>	
+	<script>
+		var lang = location.search.toLowerCase();
+		if (lang.indexOf("lang=en")!=-1)
+			lang = "en";
+		else if (lang.indexOf("lang=zh-hans")!=-1)
+			lang = "zh-hans";
+		else if (lang.indexOf("lang=zh-hant")!=-1)
+			lang = "zh-hant";	
+		else 
+			lang = "zh-hant";  //en, zh-hans, zh-hant
+	</script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
+	<script src="js/toolbox.js"></script>
+    <script src="js/beautify.js"></script>	
+	<script>
+	var block_script = ["competition"];
+	for (var i=0;i<block_script.length;i++) {
+	  document.write("\<script src='"+block_script[i]+"/blocks.js'\>\<\/script>");
+	  document.write("\<script src='"+block_script[i]+"/javascript.js'\>\<\/script>");
+	  document.write("\<script src='"+block_script[i]+"/toolbox.js'\>\<\/script>");
+	  document.write("\<script src='"+block_script[i]+"/"+lang+".js'\>\<\/script>");
+	}
+	</script>
+</head>
+<body class="root">
+<main id="main" class="has-tabs" >
+    <!-- PAGE TABS -->
+	<table>
+		<tr>
+			<td style="width: calc(100vw - 100px)">
+				<ul id="tabs">
+					<li id="tab_category_content"><a id="msg_toolbox" onclick="displayTab('category_content');">Toolbox</a></li>
+					<li id="tab_xml_content"><a id="msg_xml" onclick="displayTab('xml_content');">XML</a></li>
+					<li id="tab_javascript_content"><a id="msg_code" onclick="displayTab('code_content');">Javascript Code</a></li>
+				</ul>
+			</td>			
+			<td style="width: 100px">
+				<ul id="tabs">
+					<!-- https://fonts.google.com/icons -->
+					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons md-dark">play_arrow</i></a>
+					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons md-dark">create</i></a>
+					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons md-dark">folder_open</i></a>
+					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
+					<a style="display:none" href="#" id="button_save_html" title="Save html"><i class="material-icons md-dark">download_for_offline</i></a>
+					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">list_alt</i></a>
+					<a style="display:none" href="#" id="button_webSerial" title="Web Serial"><i class="material-icons md-dark">usb</i></a>
+					<a style="display:none" href="#" id="button_webBluetooth" title="Web Bluetooth"><i class="material-icons md-dark">bluetooth</i></a>
+					<a style="display:none" href="#" id="button_webMQTT" class="hide-link tooltipped" data-tooltip="Web MQTT"><i class="material-icons md-dark">bookmark</i></a>							
+					<a style="display:none" href="#" id="button_collaboration" title="MQTT Collaboration"><i class="material-icons md-dark">accessibility</i></a>			
+					<a style="display:none" href="#" id="button_tool" title="Open Blockly Developer Tools"><i class="material-icons md-dark">construction</i></a>	
+					<i>　</i>
+				    <i class="material-icons md-dark">language</i>
+					<i style="text-align: center;line-height: 50px;-align: middle;">
+						<select id="lang-selector" style="height:24px;font-size:18px">
+							<option value=""></option>
+							<option value="en">ENGLISH</option>
+							<option value="zh-hans">简体中文</option>
+							<option value="zh-hant">繁體中文</option>
+						</select>
+					</i>
+					<i>　　</i>
+				</ul>
+			</td>
+		</tr>					
+	</table>	
+	  
+	<!-- CONTENT  -->
+	<div class="drop-shadow"></div>
+	<div id="category_content" class="content">
+		<div id="root"></div>
+		<xml id="toolbox" style="display: none"></xml>
+	</div>
+	<div id="code_content" class="code_content">
+	</div>
+	<div id="xml_content" class="xml_content"></div>
+	<div id="dialog_toolbox" onmousedown="textareaFocus('dialog_toolbox_parent');" ontouchstart="textareaFocus('dialog_toolbox_parent');"></div>
+	
+	<div id="javascript_content" class="ui-widget-content" onmousedown="textareaFocus('javascript_content');" ontouchstart="textareaFocus('javascript_content');">
+		<div id="javascript_title" class="ui-widget-header">
+			<span id="title_code"></span>
+			<span class="contentzoom"><a href="#" id="button_copycode" title="Copy to clipboard"><i class="material-icons" style="vertical-align: middle; color: white;">featured_play_list</i></a></span>
+			<span class="contentzoom_right"><a onclick="contentZoom('javascript');" style="cursor: pointer" title="Show/Hide"><i class="material-icons" style="vertical-align: middle; color: white;">unfold_more</i></a></span>
+		</div>
+		<div id="javascript_code" class="update_code">
+			<div id="editor">
+				<iframe id="iframe_output" style="width:100%;height:100%;background-color: white;padding:0px;" frameborder="0" src="" scrolling="auto" allowpaymentrequest allow="fullscreen; geolocation; microphone; camera ; usb" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-downloads" onload="this.focus()"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div id="dialog_webSerial" onmousedown="textareaFocus('dialog_webSerial_parent');" ontouchstart="textareaFocus('dialog_webSerial_parent');" style="display:none">
+		<table>
+			<tr>
+				<td><span id="serial_baudrate">Baud Rate</span>
+				<select id="serial_baud">
+					<option value="9600">9600</option>
+					<option value="115200">115200</option>
+					<option value="300">300</option>
+					<option value="1200">1200</option>
+					<option value="2400">2400</option>
+					<option value="4800">4800</option>
+					<option value="19200">19200</option>
+					<option value="38400">38400</option>
+					<option value="57600">57600</option>
+					<option value="74880">74880</option>
+					<option value="230400">230400</option>
+					<option value="250000">250000</option>
+					<option value="500000">500000</option>
+					<option value="1000000">1000000</option>	
+					<option value="2000000">2000000</option>	
+				</select>
+				</td>
+				<td><button id="serial_close_port">Close Port</button><button id="serial_request_port">Select Port</button></td>
+			</tr>
+			<tr>
+				<td><input type="text" id="serial_command">
+				<select id="serial_end">
+					<option value=""></option>
+					<option value="\n">\n</option>
+				</select>
+				</td>
+				<td><button id="serial_sendString">Send String</button></td>
+			</tr>
+			<tr>
+				<td colspan="2"><div id="serial_status" style="width:500px;height:200px;border:2px black solid;overflow: auto;"></div></td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td align="right">
+				<button id="serial_clearStatus">Clear text</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="dialog_webBluetooth" style="display:none">
+		<table>
+			<tr>
+				<td colspan="2" align="right"><button id="Bluetooth_disconnect_device">Disconnect</button><button id="Bluetooth_request_device">Connect to Bluetooth</button></td>
+			</tr>
+			<tr>
+				<td><span id="title_uuid_service">Service UUID</span></td><td><input type="text" id="Bluetooth_uuid_service" size="38" value="4fafc201-1fb5-459e-8fcc-c5c9c331914b"></td>
+			</tr>
+			<tr>
+				<td><span id="title_uuid_tx">TX UUID</span></td><td><input type="text" id="Bluetooth_uuid_tx" size="38" value="beb5483e-36e1-4688-b7f5-ea07361b26a8"></td>
+			</tr>
+			<tr>
+				<td><span id="title_uuid_rx">RX UUID</span></td><td><input type="text" id="Bluetooth_uuid_rx" size="38" value="498c599b-2601-4600-bb7e-3aa295a92842"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="text" id="Bluetooth_command">
+					<select id="Bluetooth_end">
+						<option value=""></option>
+						<option value="\r">\r</option>		
+						<option value="\n">\n</option>	
+						<option value="\r\n">\r\n</option>	
+					</select>
+					<button id="Bluetooth_sendString">Send String</button>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><div id="Bluetooth_status" style="width:500px;height:120px;border:2px black solid;overflow: auto;"></div></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td align="right">
+					<button id="Bluetooth_clearText">Clear Text</button>
+				</td>
+			</tr>
+		</table>
+	</div>	
+	<div id="dialog_run" style="display:none;padding:0px;">
+		<iframe id="iframe_run" style="width:100%;height:100%;background-color: white;padding:0px;" frameborder="0" src="" scrolling="auto" allowpaymentrequest allow="fullscreen; geolocation; microphone; camera ; usb" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-downloads" onload="this.focus()"></iframe>
+	</div>	
+	<div id="dialog_collaboration" style="display:none">
+		<table>
+			<tr><td><span id="title_collaboration_broker">Broker</span></td><td><input type="text" id="collaboration_broker" size="38" value="wss://broker.mqttgo.io:8084/mqtt"></td></tr>
+			<tr><td><span id="title_collaboration_topic">Topic</span></td><td><input type="text" id="collaboration_topic" size="38" value="yourTopic/collaboration"></td></tr>
+			<tr><td><span id="title_collaboration_userid">User ID</span></td><td><input type="text" id="collaboration_userid" size="38" value=""></td></tr>
+			<tr><td><span id="title_collaboration_password">Password</span></td><td><input type="text" id="collaboration_password" size="38" value=""></td></tr>
+			<tr><td colspan="2"><span id="title_collaboration_tip"></span></td></tr>
+		</table>
+	</div>
+	<div id="dialog_searchblocks" style="display:none;padding:0px;">
+		<br><input type="text" id="searchblocks_keyword" size="24" value="">
+	</div>		
+</main>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/bootstrap.min.js" integrity="sha256-u+l2mGjpmGK/mFgUncmMcFKdMijvV+J3odlDJZSNUu8=" crossorigin="anonymous"></script>
+
+</body>
+</html>
