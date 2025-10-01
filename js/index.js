@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframeElement.contentWindow.document.close();
 			iframeElement.focus();
 			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
-		//}		
+		//}	
 		
 		var code = "";
 		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				else if (msg[i][1]=="title") {
 					if (document.getElementById(msg[i][0]))
 						document.getElementById(msg[i][0]).title=msg[i][2];
-				}					
+				}				
 			}
 		}
 	}		
