@@ -196,8 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		iframeDocument.body.insertAdjacentHTML("beforeend", "<br><br>Gemini：<br>"+gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
-		iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
-		iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
+		//iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
+		//iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
 	}
 	window.gemini_chat_response = gemini_chat_response;
 	
