@@ -206,17 +206,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
-		if (output_result=="") {
-			output_result = iframeDocument.body.innerHTML;
-		} else {
+		//if (output_result=="") {
+		//	output_result = iframeDocument.body.innerHTML;
+		//} else {
 			iframeElement.contentWindow.document.open();
 			iframeElement.contentWindow.document.write("");
 			iframeElement.contentWindow.document.close();
 			iframeElement.focus();
 			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
-		}	
+		//}		
 		
-		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，撰寫的程式邏輯思考與流程的簡潔說明。回覆內容不要提及JavaScript原始碼與函式指令，因為原始碼來源為積木程式，國中小學生看不懂，禁止使用Markdown語法。\n\n積木程式試題：\n"+
+		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，撰寫的程式邏輯思考與流程的簡潔說明。回覆內容不要提及JavaScript原始碼內容，因為原始碼來源為積木程式，國中、小學生看不懂原始碼內指令或函式的名稱，禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式轉JavaScript程式碼：\n"+
 		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
