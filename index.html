@@ -38,7 +38,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<script src="js/index.js"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>	
-	<script src="gemini_20240209/gemini.js"></script>
+	<script src="customBlocks/gemini/gemini.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>	
 	<script>
 		var lang = location.search.toLowerCase();
@@ -57,12 +57,12 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<script src="js/toolbox.js"></script>
     <script src="js/beautify.js"></script>	
 	<script>
-	var block_script = ["competition","gemini_20240209"];
+	var block_script = ["competition","gemini"];
 	for (var i=0;i<block_script.length;i++) {
-	  document.write("\<script src='"+block_script[i]+"/blocks.js'\>\<\/script>");
-	  document.write("\<script src='"+block_script[i]+"/javascript.js'\>\<\/script>");
-	  document.write("\<script src='"+block_script[i]+"/toolbox.js'\>\<\/script>");
-	  document.write("\<script src='"+block_script[i]+"/"+lang+".js'\>\<\/script>");
+	  document.write("\<script src='customBlocks/"+block_script[i]+"/blocks.js'\>\<\/script>");
+	  document.write("\<script src='customBlocks/"+block_script[i]+"/javascript.js'\>\<\/script>");
+	  document.write("\<script src='customBlocks/"+block_script[i]+"/toolbox.js'\>\<\/script>");
+	  document.write("\<script src='customBlocks/"+block_script[i]+"/"+lang+".js'\>\<\/script>");
 	}
 	</script>
 </head>
