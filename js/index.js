@@ -214,9 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframeElement.contentWindow.document.close();
 			iframeElement.focus();
 			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
-		}
-		console.log(output_result);
-		console.log(iframeDocument.body);		
+		}	
 		
 		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，撰寫的程式邏輯思考與流程的簡潔說明。回覆內容不要提及JavaScript原始碼與函式指令，因為原始碼來源為積木程式，國中小學生看不懂，禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
