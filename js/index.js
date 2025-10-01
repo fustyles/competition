@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
 		//}		
 		
-		var prompt = "請協助分析以下程式或執行結果可能不符合試題要求或有隱憂的部分作陳述，撰寫的程式邏輯思考與流程的簡潔說明。回覆內容不要提及JavaScript原始碼內容，因為原始碼來源為積木程式，國中、小學生看不懂原始碼內指令或函式的名稱，禁止使用Markdown語法。\n\n積木程式試題：\n"+
+		var prompt = "請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下程式則分析可能不符合試題要求或有隱憂的部分。回覆內容不要提及JavaScript原始碼內容，因為原始碼來源為積木程式，國中、小學生看不懂原始碼內指令或函式的名稱，禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式轉JavaScript程式碼：\n"+
 		Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
