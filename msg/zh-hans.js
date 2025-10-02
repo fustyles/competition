@@ -21,6 +21,7 @@ Blockly.Msg.COPY_CLIPBOARD = "已复制执行结果到剪贴簿";
 Blockly.Msg.FUNCTION_ASYNC = "非同步(async)";
 Blockly.Msg.ADD_COMMENT = "加入批注";
 Blockly.Msg.ENTER_QUESTION = "试题输入";
+Blockly.Msg.ENTER_QUERY = "询问问题";
 Blockly.Msg["GEMINI_ASK"] = "小凤 AI";
 
 Blockly.Msg.ARDUINO = "ARDUINO";

@@ -21,6 +21,7 @@ Blockly.Msg.COPY_CLIPBOARD = "已複製執行結果到剪貼簿";
 Blockly.Msg.FUNCTION_ASYNC = "非同步(async)";
 Blockly.Msg.ADD_COMMENT = "加入註解";
 Blockly.Msg.ENTER_QUESTION = "試題輸入";
+Blockly.Msg.ENTER_QUERY = "詢問問題";
 Blockly.Msg["GEMINI_ASK"] = "小鳳 AI";
 
 Blockly.Msg.ARDUINO = "ARDUINO";
