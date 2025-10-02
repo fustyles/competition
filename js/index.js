@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
 		//}	
 		
-		var code = "尚未作答！";
+		var code = "使用者尚未作答，沒有產生程式碼！";
 		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
 			code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 		
