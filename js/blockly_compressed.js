@@ -1593,7 +1593,7 @@ var ZoomControls$$module$build$src$core$zoom_controls=class{
 	
 constructor(a){
 	this.workspace=a;this.id="zoomControls";this.boundEvents=[];
-	this.zoomResetGroup=this.zoomOutGroup=this.zoomInGroup=this.zoomPreviousGroup=this.zoomNextGroup=this.ZoomShowCategoryGroup=this.zoomFitGroup=null;
+	this.zoomResetGroup=this.zoomOutGroup=this.zoomInGroup=this.zoomPreviousGroup=this.zoomNextGroup=this.ZoomShowCategoryGroup=this.zoomFitGroup=this.zoomChangeToolboxGroup=null;
 	this.HEIGHT=this.WIDTH=32;this.SMALL_SPACING=2;this.LARGE_SPACING=11;this.MARGIN_HORIZONTAL=this.MARGIN_VERTICAL=20;this.svgGroup=null;this.top=this.left=0;this.initialized=!1
 }
 
@@ -1605,6 +1605,7 @@ createDom(){this.svgGroup=createSvgElement$$module$build$src$core$utils$dom(Svg$
 	this.createZoomShowCategorySvg(a);
 	this.createZoomFitSvg(a);
 	this.createZoomCleanupSvg(a);
+	this.createZoomChangeToolboxSvg(a);
 	
 	this.workspace.isMovable()&&this.createZoomResetSvg(a);
 	return this.svgGroup
@@ -1629,8 +1630,8 @@ new Size$$module$build$src$core$utils$size(this.WIDTH,d),this.MARGIN_HORIZONTAL,
 		this.zoomNextGroup&&this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")");
 		this.ZoomShowCategoryGroup&&this.ZoomShowCategoryGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")");
 		this.zoomFitGroup&&this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")");
-		this.zoomCleanupGroup&&this.zoomCleanupGroup&&this.zoomCleanupGroup_.setAttribute("transform","translate(0, "+(e+6*(this.LARGE_SPACING+this.HEIGHT))+")");
-		
+		this.zoomCleanupGroup&&this.zoomCleanupGroup_.setAttribute("transform","translate(0, "+(e+6*(this.LARGE_SPACING+this.HEIGHT))+")");
+		this.zoomChangeToolboxGroup&&this.zoomChangeToolboxGroup_.setAttribute("transform","translate(0, "+(e+8*(this.LARGE_SPACING+this.HEIGHT))+")");	
 		
 	} else {
 		var e=this.SMALL_SPACING+this.HEIGHT,f;
@@ -1642,7 +1643,8 @@ new Size$$module$build$src$core$utils$size(this.WIDTH,d),this.MARGIN_HORIZONTAL,
 		this.zoomOutGroup.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")")
 		this.zoomCleanupGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")")
 		this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")")		
-		this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+6*(this.SMALL_SPACING+this.HEIGHT))+")")		
+		this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+6*(this.SMALL_SPACING+this.HEIGHT))+")")	
+		this.zoomChangeToolboxGroup.setAttribute("transform","translate(0, "+(e+8*(this.SMALL_SPACING+this.HEIGHT))+")")		
 	}
 	this.top=b.top;
 	//this.left=b.left;
@@ -1660,6 +1662,9 @@ createZoomFitSvg(a){this.zoomFitGroup=createSvgElement$$module$build$src$core$ut
 
 createZoomShowCategorySvg(a){this.zoomShowCategoryGroup=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.G,{"class":"blocklyZoom"},this.svgGroup);const b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.CLIPPATH,{id:"blocklyZoomShowCategoryClipPath"+a},this.zoomShowCategoryGroup);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.RECT,{width:32,height:32},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.IMAGE,{width:SPRITE$$module$build$src$core$sprites.width,height:SPRITE$$module$build$src$core$sprites.height,x:-160,y:-92,"clip-path":"url(#blocklyZoomShowCategoryClipPath"+a+")"},this.zoomShowCategoryGroup).setAttributeNS(XLINK_NS$$module$build$src$core$utils$dom,"xlink:href",this.workspace.options.pathToMedia+SPRITE$$module$build$src$core$sprites.url);this.boundEvents.push(conditionalBind$$module$build$src$core$browser_events(this.zoomShowCategoryGroup,
 "pointerdown",null,this.zoomShowCategory.bind(this)))}
+
+createZoomChangeToolboxSvg(a){this.zoomChangeToolboxGroup=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.G,{"class":"blocklyZoom"},this.svgGroup);const b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.CLIPPATH,{id:"blocklyZoomChangeToolboxClipPath"+a},this.zoomChangeToolboxGroup);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.RECT,{width:32,height:32},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.IMAGE,{width:SPRITE$$module$build$src$core$sprites.width,height:SPRITE$$module$build$src$core$sprites.height,x:-256,y:-92,"clip-path":"url(#blocklyZoomChangeToolboxClipPath"+a+")"},this.zoomChangeToolboxGroup).setAttributeNS(XLINK_NS$$module$build$src$core$utils$dom,"xlink:href",this.workspace.options.pathToMedia+SPRITE$$module$build$src$core$sprites.url);this.boundEvents.push(conditionalBind$$module$build$src$core$browser_events(this.zoomChangeToolboxGroup,
+"pointerdown",null,this.zoomChangeToolbox.bind(this)))}
 
 createZoomNextSvg(a){this.zoomNextGroup=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.G,{"class":"blocklyZoom"},this.svgGroup);const b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.CLIPPATH,{id:"blocklyZoomNextClipPath"+a},this.zoomNextGroup);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.RECT,{width:32,height:32},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.IMAGE,{width:SPRITE$$module$build$src$core$sprites.width,height:SPRITE$$module$build$src$core$sprites.height,x:-128,y:-92,"clip-path":"url(#blocklyZoomNextClipPath"+a+")"},this.zoomNextGroup).setAttributeNS(XLINK_NS$$module$build$src$core$utils$dom,"xlink:href",this.workspace.options.pathToMedia+SPRITE$$module$build$src$core$sprites.url);this.boundEvents.push(conditionalBind$$module$build$src$core$browser_events(this.zoomNextGroup,
 "pointerdown",null,this.zoomNext.bind(this)))}
@@ -1694,8 +1699,27 @@ zoomShowCategory(a){
 };
 zoomFit(){this.workspace.zoomToFit();};
 zoomCleanup(){this.workspace.cleanUp();};
-
-
+zoomChangeToolbox(a){
+	scratchStyle = !scratchStyle;	
+	if (scratchStyle) {
+		xmlBlockly = Blockly.Xml.workspaceToDom(this.workspace);
+		console.log(xmlBlockly);
+		xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
+		console.log(xmlBlockly);
+		this.workspace.dispose();
+		var workspace = window.loadToolbox('zelos', catSystemScratch);
+		Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
+	}
+	else {
+		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
+		console.log(xmlScratch);
+		xmlScratch = Blockly.Xml.domToText(xmlScratch);
+		console.log(xmlScratch);
+		this.workspace.dispose();		
+		var workspace = window.loadToolbox('thrasos', catSystem);
+		Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
+	}
+};
 
 
 fireZoomEvent(){const a=

@@ -14,6 +14,10 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+Blockly.JavaScript['javascript_start_scratch'] = function(block) {
+	return '';
+};
+
 Blockly.JavaScript['javascript_data_output'] = function(block) {
 	Blockly.JavaScript.definitions_['javascript_data_output'] = 'function data_output(msg, text) {\n'+
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+text+"<br>");\n'+
@@ -22,3 +26,4 @@ Blockly.JavaScript['javascript_data_output'] = function(block) {
 	var code = 'data_output("'+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]+'",'+TEXT+');\n';	
 	return code;
 };
+Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript['javascript_data_output'];
