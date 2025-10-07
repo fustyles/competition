@@ -7,8 +7,9 @@ Blockly.Msg["CATSCRATCH6"] = "函式";
 
 Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "輸入";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "輸出";
-Blockly.Msg["CATIO"] = "功能";
+Blockly.Msg["CATIO"] = "事件";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "當";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "被點擊";
+
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "說出";
