@@ -10,9 +10,13 @@ var mainPath = 'https://fustyles.github.io/webduino/SpBlocklyJS/';
 var showCode = false;
 var myTimer;
 var myTimer1;
+var workspace;
 var category;
 var categoryBlocks = [];
 var categoryExpand = [];
+var scratchStyle = false;
+var xmlBlockly = "";
+var xmlScratch = "";
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -30,36 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		return script;
 	}		
 	
-	//載入積木目錄
-	category = [
-		catSystem
-	];
+	function loadToolbox(renderer, categorySystem) {
+		//載入積木目錄
+		category = [
+			categorySystem
+		];
 	
-	//My Search
-	function updateCategoryBlocks(newCategory) {
-		categoryBlocks = [];
-		for (var i=0;i<newCategory.length;i++){
-			var categoryString = newCategory[i].replace(/(?:\r\n|\r|\n|\t)/g, "");
-			var xml = new DOMParser().parseFromString(categoryString,"text/xml");
-			searchCategoryBlocks(xml.firstChild.childNodes);
-		}
-		//console.log(categoryBlocks);
-	}
-	function searchCategoryBlocks(nodes) {
-		if (nodes.length>0) {
-			for (var j=0;j<nodes.length;j++){
-				if (nodes[j].nodeName=="category")
-					searchCategoryBlocks(nodes[j].childNodes);
-				else if (nodes[j].nodeName=="block")
-					categoryBlocks.push(new XMLSerializer().serializeToString(nodes[j]));
-			}
-		}
-	}
-	updateCategoryBlocks(category);
-	
-	
-	setTimeout(function(){
-		
 		var xmlToolbox='<xml id="toolbox">';
 		try {
 			for (var i=0;i<category.length;i++){
@@ -72,10 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(error);
 		}		
 		xmlToolbox+='</xml>';
+		
+		
 
 		//初始化工作區	
-		const workspace = Blockly.inject('root',{
-				media: 'media/'
+		workspace = Blockly.inject('root',{
+				renderer: renderer
+				,media: 'media/'
 				,toolbox: xmlToolbox
 				,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
 				,zoom:{controls: true, wheel: false, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
@@ -90,7 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				}			
 			}
 		);
+		return workspace;
+	}
+	window.loadToolbox = loadToolbox;
 		
+	setTimeout(function(){
+		
+		loadToolbox('thrasos', catSystem);
+		//loadToolbox('zelos', catSystemScratch);
 		updateMsg();
 		newFile();
 		
