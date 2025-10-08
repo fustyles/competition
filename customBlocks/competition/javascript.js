@@ -59,3 +59,20 @@ Blockly.JavaScript['controls_if_2_scratch'] = function(block) {
   var code = 'if ('+value_condition+') {\n'+statements_statement_if+'\n}\nelse{\n'+statements_statement_else+'\n}\n';
   return code;
 };
+
+Blockly.JavaScript['controls_repeat_ext_scratch'] = Blockly.JavaScript.forBlock['controls_repeat_ext'];
+Blockly.JavaScript['controls_whileUntil_scratch'] = Blockly.JavaScript.forBlock['controls_whileUntil'];
+Blockly.JavaScript['controls_flow_statements_scratch'] = Blockly.JavaScript.forBlock['controls_flow_statements'];
+Blockly.JavaScript['logic_boolean_scratch'] = Blockly.JavaScript.forBlock['logic_boolean'];
+Blockly.JavaScript['logic_comparev'] = Blockly.JavaScript.forBlock['logic_compare'];
+Blockly.JavaScript['logic_operation_scratch'] = Blockly.JavaScript.forBlock['logic_operation'];
+Blockly.JavaScript['logic_negate_scratch'] = Blockly.JavaScript.forBlock['logic_negate'];
+Blockly.JavaScript['math_arithmetic_scratch'] = Blockly.JavaScript.forBlock['math_arithmetic'];
+Blockly.JavaScript['math_single_scratch'] = Blockly.JavaScript.forBlock['math_single'];
+Blockly.JavaScript['math_round_scratch'] = Blockly.JavaScript.forBlock['math_round'];
+Blockly.JavaScript['math_modulo_scratch'] = Blockly.JavaScript.forBlock['math_modulo'];
+Blockly.JavaScript['math_random_int_scratch'] = Blockly.JavaScript.forBlock['math_random_int'];
+Blockly.JavaScript['text_join_scratch'] = Blockly.JavaScript.forBlock['text_join'];
+Blockly.JavaScript['text_charAt_scratch'] = Blockly.JavaScript.forBlock['text_charAt'];
+Blockly.JavaScript['text_indexOf_scratch'] = Blockly.JavaScript.forBlock['text_indexOf'];
+Blockly.JavaScript['text_length_scratch'] = Blockly.JavaScript.forBlock['text_length'];

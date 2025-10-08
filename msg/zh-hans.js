@@ -910,6 +910,7 @@ Blockly.Msg["CONTROLS_IF_TOOLTIP_2"] = "如果值为真，则执行第一块语�
 Blockly.Msg["CONTROLS_IF_TOOLTIP_3"] = "如果第一个值为真，则执行第一块的语句。否则，如果第二个值为真，则执行第二块的语句。";
 Blockly.Msg["CONTROLS_IF_TOOLTIP_4"] = "如果第一个值为真，则执行第一块对语句。否则，如果第二个值为真，则执行语句的第二块。如果没有值为真，则执行最后一块的语句。";
 Blockly.Msg["CONTROLS_REPEAT"] = "重复";
+Blockly.Msg["CONTROLS_REPEAT_TIMES"] = "次";
 Blockly.Msg["CONTROLS_REPEAT_HELPURL"] = "https://zh.wikipedia.org/wiki/For循环";
 Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"] = "";
 Blockly.Msg["CONTROLS_REPEAT_TITLE"] = "重复 %1 次";

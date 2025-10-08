@@ -877,6 +877,7 @@ Blockly.Msg["CONTROLS_IF_TOOLTIP_2"] = "If a value is true, then do the first bl
 Blockly.Msg["CONTROLS_IF_TOOLTIP_3"] = "If the first value is true, then do the first block of statements. Otherwise, if the second value is true, do the second block of statements.";
 Blockly.Msg["CONTROLS_IF_TOOLTIP_4"] = "If the first value is true, then do the first block of statements. Otherwise, if the second value is true, do the second block of statements. If none of the values are true, do the last block of statements.";
 Blockly.Msg["CONTROLS_REPEAT"] = "repeat";
+Blockly.Msg["CONTROLS_REPEAT_TIMES"] = "times";
 Blockly.Msg["CONTROLS_REPEAT_HELPURL"] = "https://en.wikipedia.org/wiki/For_loop";
 Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"] = "";
 Blockly.Msg["CONTROLS_REPEAT_TITLE"] = "repeat %1 times";

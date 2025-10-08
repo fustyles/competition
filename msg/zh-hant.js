@@ -910,6 +910,7 @@ Blockly.Msg["CONTROLS_IF_TOOLTIP_2"] = "值為是（true）就執行第一塊陳
 Blockly.Msg["CONTROLS_IF_TOOLTIP_3"] = "如果第一個值為 true，則執行第一個陳述式。否則，當第二個值為 true 時，則執行第二個陳述式。";
 Blockly.Msg["CONTROLS_IF_TOOLTIP_4"] = "如果第一個值為 true，則執行第一個陳述式。否則當第二個值為 true 時，則執行第二個陳述式。如果前幾個敘述都不為 ture，則執行最後一個陳述式。";
 Blockly.Msg["CONTROLS_REPEAT"] = "重複";
+Blockly.Msg["CONTROLS_REPEAT_TIMES"] = "次";
 Blockly.Msg["CONTROLS_REPEAT_HELPURL"] = "https://zh.wikipedia.org/wiki/For迴圈";
 Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"] = "";
 Blockly.Msg["CONTROLS_REPEAT_TITLE"] = "重複%1次";

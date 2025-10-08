@@ -39,7 +39,6 @@ Blockly.Blocks['javascript_start_scratch'] = {
     this.setStyle('control_blocks');
   }
 };
-console.log(Blockly.Theme);
 
 Blockly.Blocks['javascript_data_input_scratch'] = {
   init: function() {
@@ -51,7 +50,7 @@ Blockly.Blocks['javascript_data_input_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(!0);
 	this.setNextStatement(!0);
-    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+    this.setStyle('sensing_blocks');
   }
 };
 
@@ -61,7 +60,7 @@ Blockly.Blocks['javascript_data_input_get_scratch'] = {
         .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"]);
 	this.setInputsInline(true);
 	this.setOutput(true, null); 
-    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+    this.setStyle('sensing_blocks');
   }
 };
 
@@ -73,7 +72,7 @@ Blockly.Blocks['javascript_data_output_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(!0);
 	this.setNextStatement(!0);
-    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+    this.setStyle('looks_blocks');
   }
 };
 
@@ -89,7 +88,7 @@ Blockly.Blocks['controls_if_1_scratch'] = {
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(Blockly.Msg["CATSCRATCH2_HUE"]);
+    this.setStyle('control_blocks');
   }
 };
 
@@ -109,6 +108,309 @@ Blockly.Blocks['controls_if_2_scratch'] = {
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(Blockly.Msg["CATSCRATCH2_HUE"]);
+    this.setStyle('control_blocks');
   }
 };
+
+
+Blockly.Blocks['controls_repeat_ext_scratch'] = {
+  init: function() {
+    this.appendValueInput("TIMES")
+        .setCheck("Number")
+        .appendField(Blockly.Msg["CONTROLS_REPEAT"]);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["CONTROLS_REPEAT_TIMES"]);		
+    this.appendStatementInput("DO")
+        .appendField(Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setStyle('control_blocks');
+    this.setTooltip(Blockly.Msg["CONTROLS_REPEAT_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["CONTROLS_REPEAT_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['controls_whileUntil_scratch'] = {
+  init: function() {
+    this.appendValueInput("BOOL")
+        .setCheck("Boolean")
+        .appendField(Blockly.Msg["CONTROLS_REPEAT"])
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["CONTROLS_WHILEUNTIL_OPERATOR_WHILE"], "WHILE"],
+            [Blockly.Msg["CONTROLS_WHILEUNTIL_OPERATOR_UNTIL"], "UNTIL"]
+        ]), "MODE");
+    this.appendStatementInput("DO")
+        .appendField(Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"]);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setStyle('control_blocks');
+    this.setTooltip(Blockly.Msg["CONTROLS_WHILEUNTIL_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["CONTROLS_WHILEUNTIL_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['controls_flow_statements_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK"], "BREAK"],
+            [Blockly.Msg["CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE"], "CONTINUE"]
+        ]), "FLOW");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setStyle('control_blocks');
+    this.setInputsInline(true);
+    this.setTooltip(Blockly.Msg["CONTROLS_FLOW_STATEMENTS_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["CONTROLS_FLOW_STATEMENTS_HELPURL"]);
+  }
+};
+
+
+
+/*
+Blockly.Blocks['logic_boolean_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["LOGIC_BOOLEAN_TRUE"], "TRUE"],
+            [Blockly.Msg["LOGIC_BOOLEAN_FALSE"], "FALSE"]
+        ]), "BOOL");
+
+    this.setOutput(true, "Boolean");
+    this.setStyle('logic_blocks');
+    this.setInputsInline(true);
+    
+    this.setTooltip(Blockly.Msg["LOGIC_BOOLEAN_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["LOGIC_BOOLEAN_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['logic_compare_scratch'] = {
+  init: function() {
+    this.appendValueInput("A");
+    this.appendValueInput("B")
+        .appendField(new Blockly.FieldDropdown([
+            ["=", "EQ"],
+            ["\u2260", "NEQ"],
+            ["\u200f<", "LT"],
+            ["\u200f\u2264", "LTE"],
+            ["\u200f>", "GT"],
+            ["\u200f\u2265", "GTE"]
+        ]), "OP");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean"); 
+    this.setStyle('logic_blocks');
+    this.setHelpUrl(Blockly.Msg["LOGIC_COMPARE_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['logic_operation_scratch'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Boolean");
+    
+    this.appendValueInput("B")
+        .setCheck("Boolean")
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["LOGIC_OPERATION_AND"], "AND"],
+            [Blockly.Msg["LOGIC_OPERATION_OR"], "OR"]
+        ]), "OP");
+        
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setStyle('logic_blocks');
+    
+    this.setHelpUrl(Blockly.Msg["LOGIC_OPERATION_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['logic_negate_scratch'] = {
+  init: function() {
+    this.appendValueInput("BOOL")
+        .setCheck("Boolean")
+        .appendField(Blockly.Msg["LOGIC_NEGATE_TITLE"]);
+        
+    this.setOutput(true, "Boolean");
+    this.setStyle('logic_blocks');
+    this.setInputsInline(true);
+    
+    this.setTooltip(Blockly.Msg["LOGIC_NEGATE_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["LOGIC_NEGATE_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['math_arithmetic_scratch'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Number");
+    
+    this.appendValueInput("B")
+        .setCheck("Number")
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["MATH_ADDITION_SYMBOL"], "ADD"],
+            [Blockly.Msg["MATH_SUBTRACTION_SYMBOL"], "MINUS"],
+            [Blockly.Msg["MATH_MULTIPLICATION_SYMBOL"], "MULTIPLY"],
+            [Blockly.Msg["MATH_DIVISION_SYMBOL"], "DIVIDE"],
+            [Blockly.Msg["MATH_POWER_SYMBOL"], "POWER"]
+        ]), "OP");
+        
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setStyle('math_blocks');
+    this.setHelpUrl(Blockly.Msg["MATH_ARITHMETIC_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['math_single_scratch'] = {
+  init: function() {
+    this.appendValueInput("NUM")
+        .setCheck("Number")
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["MATH_SINGLE_OP_ROOT"], "ROOT"],
+            [Blockly.Msg["MATH_SINGLE_OP_ABSOLUTE"], "ABS"],
+            ["-", "NEG"],
+            ["ln", "LN"],
+            ["log10", "LOG10"],
+            ["e^", "EXP"],
+            ["10^", "POW10"]
+        ]), "OP");
+        
+    this.setOutput(true, "Number");
+    this.setStyle('math_blocks');
+    this.setInputsInline(true);
+    this.setHelpUrl(Blockly.Msg["MATH_SINGLE_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['math_round_scratch'] = {
+  init: function() {
+    this.appendValueInput("NUM")
+        .setCheck("Number")
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg["MATH_ROUND_OPERATOR_ROUND"], "ROUND"],
+            [Blockly.Msg["MATH_ROUND_OPERATOR_ROUNDUP"], "ROUNDUP"],
+            [Blockly.Msg["MATH_ROUND_OPERATOR_ROUNDDOWN"], "ROUNDDOWN"]
+        ]), "OP");
+        
+    this.setOutput(true, "Number");
+    this.setStyle('math_blocks');
+    this.setInputsInline(true);
+    
+    this.setTooltip(Blockly.Msg["MATH_ROUND_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["MATH_ROUND_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['math_modulo_scratch'] = {
+  init: function() {
+    this.appendValueInput("DIVIDEND")
+        .setCheck("Number")
+        .appendField(Blockly.Msg["MATH_MODULO_TITLE"]);
+    
+    this.appendValueInput("DIVISOR")
+        .setCheck("Number");
+        
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setStyle('math_blocks');
+    
+    this.setTooltip(Blockly.Msg["MATH_MODULO_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["MATH_MODULO_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['math_random_int_scratch'] = {
+  init: function() {
+    this.appendValueInput("FROM")
+        .setCheck("Number")
+        .appendField(Blockly.Msg["MATH_RANDOM_INT_TITLE"]);
+    
+    this.appendValueInput("TO")
+        .setCheck("Number");
+        
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setStyle('math_blocks');
+    
+    this.setTooltip(Blockly.Msg["MATH_RANDOM_INT_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["MATH_RANDOM_INT_HELPURL"]);
+  }
+};
+
+Blockly.Blocks['text_join_scratch'] = {
+  init: function() {
+    this.setHelpUrl(Blockly.Msg['TEXT_JOIN_HELPURL']);
+    this.setTooltip(Blockly.Msg['TEXT_JOIN_TOOLTIP']);
+    this.setStyle('text_blocks');
+    this.setOutput(true, 'String');
+    this.appendStatementInput('STACK');
+    this.setMutator(new Blockly.Mutator(['text_join_mutator']));
+  }
+};
+
+Blockly.Blocks['text_charAt_scratch'] = {
+  init: function() {
+    this.appendValueInput('VALUE')
+        .setCheck('String')
+        .appendField(Blockly.Msg['TEXT_CHARAT_TITLE']);
+    
+    this.appendDummyInput('AT');
+    
+    this.appendDummyInput('IN_TEXT')
+        .appendField(Blockly.Msg['TEXT_CHARAT_IN_TEXT']);
+        
+    this.appendDummyInput('DROPDOWN')
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg['TEXT_CHARAT_FROM_START'], 'FROM_START'],
+            [Blockly.Msg['TEXT_CHARAT_FROM_END'], 'FROM_END'],
+            [Blockly.Msg['TEXT_CHARAT_FIRST'], 'FIRST'],
+            [Blockly.Msg['TEXT_CHARAT_LAST'], 'LAST'],
+            [Blockly.Msg['TEXT_CHARAT_RANDOM'], 'RANDOM']
+        ]), 'WHERE');
+        
+    this.setInputsInline(true);
+    this.setOutput(true, 'String');
+    this.setStyle('text_blocks');
+    this.setHelpUrl(Blockly.Msg['TEXT_CHARAT_HELPURL']);
+    this.setMutator(new Blockly.Mutator(['text_charAt_mutator']));
+  }
+};
+
+Blockly.Blocks['text_indexOf_scratch'] = {
+  init: function() {
+    this.appendValueInput('VALUE')
+        .setCheck('String')
+        .appendField(Blockly.Msg['TEXT_INDEXOF_TITLE']);
+        
+    this.appendValueInput('FIND')
+        .setCheck('String')
+        .appendField(new Blockly.FieldDropdown([
+            [Blockly.Msg['TEXT_INDEXOF_OPERATOR_FIRST'], 'FIRST'],
+            [Blockly.Msg['TEXT_INDEXOF_OPERATOR_LAST'], 'LAST']
+        ]), 'END');
+        
+    this.setOutput(true, 'Number');
+    this.setStyle('text_blocks');
+    this.setInputsInline(true);
+    
+    this.setHelpUrl(Blockly.Msg['TEXT_INDEXOF_HELPURL']);
+  }
+};
+
+Blockly.Blocks['text_length_scratch'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck(["String", "Array"])
+        .appendField(Blockly.Msg["TEXT_LENGTH_TITLE"]);
+        
+    this.setOutput(true, "Number");
+    this.setStyle('text_blocks');
+    
+    this.setInputsInline(true);
+    
+    this.setTooltip(Blockly.Msg["TEXT_LENGTH_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["TEXT_LENGTH_HELPURL"]);
+  }
+};
+
+*/
