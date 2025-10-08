@@ -74,43 +74,129 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		);
 		
+		registerMyVariable();
 		registerMyLists();
 		
 		return workspace;
 	}
 	window.loadToolbox = loadToolbox;
 	
-	function registerMyLists(){
-		Blockly.mylists = {};
-		Blockly.MYLISTS_CATEGORY_NAME = "MYLISTS"; 
-		Blockly.mylists.CATEGORY_NAME = "MYLISTS"; 
-		Blockly.mylists.NAME_TYPE=Blockly.MYLISTS_CATEGORY_NAME;	
+	
+	
+	
+	function registerMyVariable(){
+		Blockly.myvariable = {};
+		Blockly.MYVARIABLE_CATEGORY_NAME = "MYVARIABLE"; 
+		Blockly.myvariable.CATEGORY_NAME = "MYVARIABLE"; 
+		Blockly.myvariable.NAME_TYPE=Blockly.MYVARIABLE_CATEGORY_NAME;	
 
-		Blockly.mylists.flyoutCategory = function(workspace) {
+		Blockly.myvariable.flyoutCategory = function(workspace) {
 			var blocks = [];
 			const btn = document.createElement("button");
-			btn.setAttribute("text","%{BKY_NEW_LISTS}");
-			btn.setAttribute("callbackKey","CREATE_MYLISTS");
+			btn.setAttribute("text","%{BKY_NEW_VARIABLE_OTHER}");
+			btn.setAttribute("callbackKey","CREATE_MYVARIABLE");
 			
-			workspace.registerButtonCallback("CREATE_MYLISTS", function(d) {
+			workspace.registerButtonCallback("CREATE_MYVARIABLE", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
-				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'list');
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Other');
 				
 				currentWorkspace.refreshToolboxSelection();			
 			});
 			blocks.push(btn);
 		
 	
-			const variables = workspace.getVariablesOfType("list");
+			const variables = workspace.getVariablesOfType("Other");
 			if (variables.length > 0) {
 				const latestVariable = variables[variables.length - 1];
 				
-				if (Blockly.Blocks['variables_get']) {
+				if (Blockly.Blocks['variables_get_other']) {
 					variables.sort(Blockly.VariableModel.compareByName);
 
 					for (const variable of variables) {
 						const getBlock = Blockly.utils.xml.createElement('block');
-						getBlock.setAttribute('type', 'variables_get');
+						getBlock.setAttribute('type', 'variables_get_other');
+						getBlock.setAttribute('gap', '8');
+						
+						getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+						blocks.push(getBlock);
+					}
+				}
+				
+				if (Blockly.Blocks['variables_set_other']) {
+					const setBlock = Blockly.utils.xml.createElement('block');
+					setBlock.setAttribute('type', 'variables_set_other');
+					setBlock.setAttribute('gap', Blockly.Blocks['variables_get'] ? '8' : '24');
+					setBlock.appendChild(Blockly.Variables.generateVariableFieldDom(latestVariable));
+					const deltaXml = Blockly.utils.xml.textToDom(
+						'<value name="VALUE"><shadow type="text_noquotes"><field name="TEXT">0</field></shadow></value>'
+					);
+					setBlock.appendChild(deltaXml);					
+					blocks.push(setBlock);
+				}
+
+				if (Blockly.Blocks['math_change_other']) {
+					const changeBlock = Blockly.utils.xml.createElement('block');
+					changeBlock.setAttribute('type', 'math_change_other');
+					changeBlock.setAttribute('gap', Blockly.Blocks['variables_get'] ? '20' : '8');
+
+					changeBlock.appendChild(Blockly.Variables.generateVariableFieldDom(latestVariable));
+					const deltaXml = Blockly.utils.xml.textToDom(
+						'<value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value>'
+					);
+					changeBlock.appendChild(deltaXml);
+					blocks.push(changeBlock);
+				}
+
+				
+			}
+
+			return blocks;
+		};
+
+		function registerMyListCategory() {
+			if (workspace) {
+				workspace.registerToolboxCategoryCallback(
+					Blockly.MYVARIABLE_CATEGORY_NAME, 
+					Blockly.myvariable.flyoutCategory
+				);				
+			} else {
+				setTimeout(registerMyListCategory, 100);
+			}
+		}
+		registerMyListCategory();
+	}
+	
+	function registerMyLists(){
+		Blockly.mylist = {};
+		Blockly.MYLIST_CATEGORY_NAME = "MYLIST"; 
+		Blockly.mylist.CATEGORY_NAME = "MYLIST"; 
+		Blockly.mylist.NAME_TYPE=Blockly.MYLIST_CATEGORY_NAME;	
+
+		Blockly.mylist.flyoutCategory = function(workspace) {
+			var blocks = [];
+			const btn = document.createElement("button");
+			btn.setAttribute("text","%{BKY_NEW_LIST}");
+			btn.setAttribute("callbackKey","CREATE_MYLIST");
+			
+			workspace.registerButtonCallback("CREATE_MYLIST", function(d) {
+				const currentWorkspace = d.getTargetWorkspace();
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Array');
+				
+				currentWorkspace.refreshToolboxSelection();			
+			});
+			blocks.push(btn);
+		
+	
+			const variables = workspace.getVariablesOfType("Array");
+			if (variables.length > 0) {
+				const latestVariable = variables[variables.length - 1];
+				
+				if (Blockly.Blocks['variables_get_array']) {
+					variables.sort(Blockly.VariableModel.compareByName);
+
+					for (const variable of variables) {
+						const getBlock = Blockly.utils.xml.createElement('block');
+						getBlock.setAttribute('type', 'variables_get_array');
 						getBlock.setAttribute('gap', '8');
 						
 						getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
@@ -125,8 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		function registerMyListCategory() {
 			if (workspace) {
 				workspace.registerToolboxCategoryCallback(
-					Blockly.MYLISTS_CATEGORY_NAME, 
-					Blockly.mylists.flyoutCategory
+					Blockly.MYLIST_CATEGORY_NAME, 
+					Blockly.mylist.flyoutCategory
 				);				
 			} else {
 				setTimeout(registerMyListCategory, 100);

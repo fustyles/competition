@@ -31,4 +31,8 @@ Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
 Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "The string %1 contains %2";
 
-Blockly.Msg["NEW_LISTS"] = "Create new list";
+Blockly.Msg["NEW_LIST"] = "Create new list";
+
+Blockly.Msg["NEW_VARIABLE_OTHER"] = "Create variables";
+Blockly.Msg["VARIABLES_SET_OTHER"] = "Variable %1 is set to %2";
+Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "Variable %1 changed to %2";

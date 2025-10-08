@@ -93,3 +93,18 @@ Blockly.JavaScript['text_contain_scratch'] = function(block) {
   code = text + '.includes(String('+find+'))';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript['variables_get_other'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
+  var code = VAR;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['variables_set_other'] = Blockly.JavaScript.forBlock['variables_set_local'];
+Blockly.JavaScript['math_change_other'] = Blockly.JavaScript.forBlock['math_change'];
+
+Blockly.JavaScript['variables_get_array'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
+  var code = VAR;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

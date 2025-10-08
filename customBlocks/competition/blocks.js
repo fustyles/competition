@@ -233,3 +233,79 @@ Blockly.common.defineBlocksWithJsonArray([
     "inputsInline": true
   }
 ]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "variables_get_other",
+	  "message0": "%1",
+	  "args0": [
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Other"],
+		  "defaultType": "Other"
+		}
+	  ],
+	  "output": ["String","Number","Boolean","Colour"],
+	  "style": "variables_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+		type:"variables_set_other"
+		,message0:"%{BKY_VARIABLES_SET_OTHER}"
+		,args0:[{type:"field_variable",name:"VAR",variable:"%{BKY_VARIABLES_DEFAULT_NAME}"},{type:"input_value",name:"VALUE"}]
+		,previousStatement:null
+		,nextStatement:null
+		,style:"variables_blocks"
+		,tooltip:"%{BKY_VARIABLES_SET_TOOLTIP}"
+		,helpUrl:"%{BKY_VARIABLES_SET_HELPURL}"
+		,extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "math_change_other",
+    "message0": "%{BKY_MATH_CHANGE_TITLE_OTHER}",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "%{BKY_MATH_CHANGE_TITLE_ITEM}"
+      },
+      {
+        "type": "input_value",
+        "name": "DELTA",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "variables_blocks",
+    "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
+    "extensions": [
+      "math_change_tooltip"
+    ]
+  }
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "variables_get_array",
+	  "message0": "%1",
+	  "args0": [
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		}
+	  ],
+	  "output": "Array",
+	  "style": "myblocks_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);

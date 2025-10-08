@@ -31,4 +31,8 @@ Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "字串組合 %1 %2";
 Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "字串 %1 的第 %2 字";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "字串 %1 包含 %2";
 
-Blockly.Msg["NEW_LISTS"] = "建立新清單";
+Blockly.Msg["NEW_LIST"] = "建立新清單";
+
+Blockly.Msg["NEW_VARIABLE_OTHER"] = "建立變數";
+Blockly.Msg["VARIABLES_SET_OTHER"] = "變數 %1 設為 %2";
+Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "變數 %1 改變 %2";
