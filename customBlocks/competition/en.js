@@ -26,3 +26,7 @@ Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "Answer to the question";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "If";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "Then";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "Otherwise";
+
+Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
+Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
+Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "The string %1 contains %2";

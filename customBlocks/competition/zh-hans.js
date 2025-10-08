@@ -26,3 +26,7 @@ Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "询问的答案";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "如果";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "那么";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "否则";
+
+Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "字串组合 %1 %2";
+Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "字串 %1 的第 %2 字";
+Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "字串 %1 包含 %2";
