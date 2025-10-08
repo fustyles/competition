@@ -9,7 +9,7 @@ Blockly.Blocks['javascript_data_input'] = {
 	this.appendValueInput("TEXT");			
 	this.setInputsInline(true);
 	this.setOutput(true, null); 
-    this.setColour(150);
+    this.setColour(60);
   }
 };
 
@@ -21,7 +21,7 @@ Blockly.Blocks['javascript_data_output'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(!0);
 	this.setNextStatement(!0);
-    this.setColour(150);
+    this.setColour(60);
   }
 };
 
@@ -36,7 +36,31 @@ Blockly.Blocks['javascript_start_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(0);
 	this.setNextStatement(!0);
-    this.setColour(60);
+    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+  }
+};
+
+Blockly.Blocks['javascript_data_input_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"]);
+	this.appendValueInput("TEXT");
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"]);	
+	this.setInputsInline(true);	  
+	this.setPreviousStatement(!0);
+	this.setNextStatement(!0);
+    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+  }
+};
+
+Blockly.Blocks['javascript_data_input_get_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"]);
+	this.setInputsInline(true);
+	this.setOutput(true, null); 
+    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
   }
 };
 
@@ -48,6 +72,6 @@ Blockly.Blocks['javascript_data_output_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(!0);
 	this.setNextStatement(!0);
-    this.setColour(150);
+    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
   }
 };

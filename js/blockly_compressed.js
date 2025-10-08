@@ -1703,21 +1703,19 @@ zoomChangeToolbox(a){
 	scratchStyle = !scratchStyle;	
 	if (scratchStyle) {
 		xmlBlockly = Blockly.Xml.workspaceToDom(this.workspace);
-		console.log(xmlBlockly);
 		xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
-		console.log(xmlBlockly);
 		this.workspace.dispose();
 		var workspace = window.loadToolbox('zelos', catSystemScratch);
-		Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
+		if (xmlScratch)
+			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 	}
 	else {
 		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
-		console.log(xmlScratch);
 		xmlScratch = Blockly.Xml.domToText(xmlScratch);
-		console.log(xmlScratch);
 		this.workspace.dispose();		
 		var workspace = window.loadToolbox('thrasos', catSystem);
-		Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
+		if (xmlBlockly)
+			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
 	}
 };
 
