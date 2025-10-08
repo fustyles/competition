@@ -2032,6 +2032,9 @@ module$build$src$core$blockly.isIcon=isIcon$$module$build$src$core$interfaces$i_
 module$build$src$core$blockly.procedures=module$build$src$core$procedures;module$build$src$core$blockly.registry=module$build$src$core$registry;module$build$src$core$blockly.renderManagement=module$build$src$core$render_management;module$build$src$core$blockly.serialization=module$build$src$core$serialization;module$build$src$core$blockly.setLocale=setLocale$$module$build$src$core$msg;module$build$src$core$blockly.setParentContainer=setParentContainer$$module$build$src$core$common;
 module$build$src$core$blockly.svgResize=svgResize$$module$build$src$core$common;module$build$src$core$blockly.thrasos=module$build$src$core$renderers$thrasos$thrasos;module$build$src$core$blockly.uiPosition=module$build$src$core$positionable_helpers;module$build$src$core$blockly.utils=module$build$src$core$utils;module$build$src$core$blockly.zelos=module$build$src$core$renderers$zelos$zelos;var module$exports$Blockly$main={},module$contents$Blockly$main_Msg=module$build$src$core$msg;"Blockly"in globalThis||(globalThis.Blockly={Msg:module$build$src$core$msg});
 module$build$src$core$blockly.__namespace__=$;
+
+
+
 return module$build$src$core$blockly;
 }));
 

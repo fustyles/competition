@@ -73,9 +73,67 @@ document.addEventListener('DOMContentLoaded', function() {
 				}			
 			}
 		);
+		
+		registerMyLists();
+		
 		return workspace;
 	}
 	window.loadToolbox = loadToolbox;
+	
+	function registerMyLists(){
+		Blockly.mylists = {};
+		Blockly.MYLISTS_CATEGORY_NAME = "MYLISTS"; 
+		Blockly.mylists.CATEGORY_NAME = "MYLISTS"; 
+		Blockly.mylists.NAME_TYPE=Blockly.MYLISTS_CATEGORY_NAME;	
+
+		Blockly.mylists.flyoutCategory = function(workspace) {
+			var blocks = [];
+			const btn = document.createElement("button");
+			btn.setAttribute("text","%{BKY_NEW_LISTS}");
+			btn.setAttribute("callbackKey","CREATE_MYLISTS");
+			
+			workspace.registerButtonCallback("CREATE_MYLISTS", function(d) {
+				const currentWorkspace = d.getTargetWorkspace();
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'list');
+				
+				currentWorkspace.refreshToolboxSelection();			
+			});
+			blocks.push(btn);
+		
+	
+			const variables = workspace.getVariablesOfType("list");
+			if (variables.length > 0) {
+				const latestVariable = variables[variables.length - 1];
+				
+				if (Blockly.Blocks['variables_get']) {
+					variables.sort(Blockly.VariableModel.compareByName);
+
+					for (const variable of variables) {
+						const getBlock = Blockly.utils.xml.createElement('block');
+						getBlock.setAttribute('type', 'variables_get');
+						getBlock.setAttribute('gap', '8');
+						
+						getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+						blocks.push(getBlock);
+					}
+				}
+			}
+
+			return blocks;
+		};
+
+		function registerMyListCategory() {
+			if (workspace) {
+				workspace.registerToolboxCategoryCallback(
+					Blockly.MYLISTS_CATEGORY_NAME, 
+					Blockly.mylists.flyoutCategory
+				);				
+			} else {
+				setTimeout(registerMyListCategory, 100);
+			}
+		}
+		registerMyListCategory();
+	}
 		
 	setTimeout(function(){
 		
