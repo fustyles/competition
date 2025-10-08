@@ -5,7 +5,7 @@ Blockly.Msg["CATSCRATCH4"] = "變數";
 Blockly.Msg["CATSCRATCH5"] = "清單";
 Blockly.Msg["CATSCRATCH6"] = "函式";
 
-Blockly.Msg["CATSCRATCH1_HUE"] = "80";
+Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
 Blockly.Msg["CATSCRATCH3_HUE"] = "230";
 Blockly.Msg["CATSCRATCH4_HUE"] = "310";
@@ -22,3 +22,7 @@ Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "說出";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"] = "詢問";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"] = "並等待";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "詢問的答案";
+
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "如果";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "那麼";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "否則";

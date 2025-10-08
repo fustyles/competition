@@ -19,4 +19,23 @@ var catSystemScratch = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    </category>'+
+'    <category name="%{BKY_CATSCRATCH2}" colour="%{BKY_CATSCRATCH2_HUE}">'+
+'    <block type="controls_if_1_scratch"></block>'+
+'    <block type="controls_if_2_scratch">'+
+'    </block>'+
+'    <block type="controls_repeat_ext">'+
+'    <value name="TIMES">'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">10</field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
+'    <block type="controls_whileUntil">'+
+'    <field name="MODE">WHILE</field>'+
+'    </block>'+
+'    <block type="controls_whileUntil">'+
+'    <field name="MODE">UNTIL</field>'+
+'    </block>'+
+'    <block type="controls_flow_statements"></block>'+
+'    </category>'+
 '</xml>';

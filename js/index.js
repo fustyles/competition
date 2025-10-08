@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		return script;
 	}		
 	
-	function loadToolbox(renderer, categorySystem) {
+	function loadToolbox(renderer, categorySystem, scale) {
 		//載入積木目錄
 		category = [
 			categorySystem
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				,media: 'media/'
 				,toolbox: xmlToolbox
 				,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
-				,zoom:{controls: true, wheel: false, startScale: 1.0, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
+				,zoom:{controls: true, wheel: false, startScale: scale, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
 				,trashcan: true
 				,move:{
 					scrollbars: {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	setTimeout(function(){
 		
-		loadToolbox('thrasos', catSystem);
+		loadToolbox('thrasos', catSystem, 1.0);
 		//loadToolbox('zelos', catSystemScratch);
 		updateMsg();
 		newFile();

@@ -44,3 +44,18 @@ Blockly.JavaScript['javascript_data_output'] = function(block) {
 	return code;
 };
 Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript['javascript_data_output'];
+
+Blockly.JavaScript['controls_if_1_scratch'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement_if = Blockly.JavaScript.statementToCode(block, 'statement_if');
+  var code = 'if ('+value_condition+') {\n'+statements_statement_if+'\n}\n';
+  return code;
+};
+
+Blockly.JavaScript['controls_if_2_scratch'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement_if = Blockly.JavaScript.statementToCode(block, 'statement_if');
+  var statements_statement_else = Blockly.JavaScript.statementToCode(block, 'statement_else');
+  var code = 'if ('+value_condition+') {\n'+statements_statement_if+'\n}\nelse{\n'+statements_statement_else+'\n}\n';
+  return code;
+};

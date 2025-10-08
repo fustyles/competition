@@ -5,7 +5,7 @@ Blockly.Msg["CATSCRATCH4"] = "Variable";
 Blockly.Msg["CATSCRATCH5"] = "List";
 Blockly.Msg["CATSCRATCH6"] = "Function";
 
-Blockly.Msg["CATSCRATCH1_HUE"] = "80";
+Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
 Blockly.Msg["CATSCRATCH3_HUE"] = "230";
 Blockly.Msg["CATSCRATCH4_HUE"] = "310";
@@ -22,3 +22,7 @@ Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "Speak";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"] = "Ask";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"] = "And wait";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "Answer to the question";
+
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "If";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "Then";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "Otherwise";

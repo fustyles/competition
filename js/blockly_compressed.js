@@ -1705,7 +1705,7 @@ zoomChangeToolbox(a){
 		xmlBlockly = Blockly.Xml.workspaceToDom(this.workspace);
 		xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
 		this.workspace.dispose();
-		var workspace = window.loadToolbox('zelos', catSystemScratch);
+		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 	}
@@ -1713,7 +1713,7 @@ zoomChangeToolbox(a){
 		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
 		xmlScratch = Blockly.Xml.domToText(xmlScratch);
 		this.workspace.dispose();		
-		var workspace = window.loadToolbox('thrasos', catSystem);
+		var workspace = window.loadToolbox('thrasos', catSystem, 1.0);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
 	}

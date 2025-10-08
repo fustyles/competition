@@ -36,7 +36,7 @@ Blockly.Blocks['javascript_start_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(0);
 	this.setNextStatement(!0);
-    this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+    this.setStyle('hat_blocks');
   }
 };
 
@@ -73,5 +73,41 @@ Blockly.Blocks['javascript_data_output_scratch'] = {
 	this.setPreviousStatement(!0);
 	this.setNextStatement(!0);
     this.setColour(Blockly.Msg["CATSCRATCH1_HUE"]);
+  }
+};
+
+Blockly.Blocks['controls_if_1_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"]);
+    this.appendValueInput("condition")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"]);
+    this.appendStatementInput("statement_if")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Msg["CATSCRATCH2_HUE"]);
+  }
+};
+
+Blockly.Blocks['controls_if_2_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"]);
+    this.appendValueInput("condition")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"]);
+    this.appendStatementInput("statement_if")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"]);
+    this.appendStatementInput("statement_else")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Msg["CATSCRATCH2_HUE"]);
   }
 };
