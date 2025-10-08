@@ -1625,26 +1625,27 @@ new Size$$module$build$src$core$utils$size(this.WIDTH,d),this.MARGIN_HORIZONTAL,
 		var e=this.SMALL_SPACING+this.HEIGHT,f;
 		
 		null==(f=this.zoomInGroup)||f.setAttribute("transform","translate(0, "+e+")")
-		this.zoomResetGroup&&this.zoomResetGroup.setAttribute("transform","translate(0, "+(e+1*(this.LARGE_SPACING+this.HEIGHT))+")");
-		this.zoomPreviousGroup&&this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+2*(this.SMALL_SPACING+this.HEIGHT))+")");
-		this.zoomNextGroup&&this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")");
-		this.ZoomShowCategoryGroup&&this.ZoomShowCategoryGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")");
-		this.zoomFitGroup&&this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")");
-		this.zoomCleanupGroup&&this.zoomCleanupGroup_.setAttribute("transform","translate(0, "+(e+6*(this.LARGE_SPACING+this.HEIGHT))+")");
-		this.zoomChangeToolboxGroup&&this.zoomChangeToolboxGroup_.setAttribute("transform","translate(0, "+(e+8*(this.LARGE_SPACING+this.HEIGHT))+")");	
+		this.zoomChangeToolboxGroup&&this.zoomChangeToolboxGroup_.setAttribute("transform","translate(0, "+(e+1*(this.LARGE_SPACING+this.HEIGHT))+")");			
+		this.zoomShowCategoryGroup&&this.zoomShowCategoryGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")");
+		this.zoomFitGroup&&this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+6*(this.SMALL_SPACING+this.HEIGHT))+")");
+		this.zoomResetGroup&&this.zoomResetGroup.setAttribute("transform","translate(0, "+(e+2*(this.LARGE_SPACING+this.HEIGHT))+")");
+		this.zoomOutGroup&&this.zoomOutGroup_.setAttribute("transform","translate(0, "+(e+7*(this.LARGE_SPACING+this.HEIGHT))+")");
+		this.zoomCleanupGroup&&this.zoomCleanupGroup_.setAttribute("transform","translate(0, "+(e+7*(this.LARGE_SPACING+this.HEIGHT))+")");
+		this.zoomPreviousGroup&&this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")");
+		this.zoomNextGroup&&this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")");
 		
 	} else {
 		var e=this.SMALL_SPACING+this.HEIGHT,f;
 		
-		this.ZoomShowCategoryGroup?this.LARGE_SPACING+this.HEIGHT:0
-		this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+0*(this.SMALL_SPACING+this.HEIGHT))+")")
-		this.zoomResetGroup.setAttribute("transform","translate(0, "+(e+1*(this.SMALL_SPACING+this.HEIGHT))+")")	
-		null==(f=this.zoomInGroup)||f.setAttribute("transform","translate(0, "+(e+2*(this.SMALL_SPACING+this.HEIGHT))+")")
-		this.zoomOutGroup.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")")
-		this.zoomCleanupGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")")
-		this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")")		
-		this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+6*(this.SMALL_SPACING+this.HEIGHT))+")")	
-		this.zoomChangeToolboxGroup.setAttribute("transform","translate(0, "+(e+8*(this.SMALL_SPACING+this.HEIGHT))+")")		
+		this.zoomChangeToolboxGroup.setAttribute("transform","translate(0, "+(e+(-1)*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomShowCategoryGroup.setAttribute("transform","translate(0, "+(e+0*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+1*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomResetGroup.setAttribute("transform","translate(0, "+(e+2*(this.SMALL_SPACING+this.HEIGHT))+")")	
+		null==(f=this.zoomInGroup)||f.setAttribute("transform","translate(0, "+(e+3*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomOutGroup.setAttribute("transform","translate(0, "+(e+4*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomCleanupGroup.setAttribute("transform","translate(0, "+(e+5*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomNextGroup.setAttribute("transform","translate(0, "+(e+6*(this.SMALL_SPACING+this.HEIGHT))+")")		
+		this.zoomPreviousGroup.setAttribute("transform","translate(0, "+(e+7*(this.SMALL_SPACING+this.HEIGHT))+")")	
 	}
 	this.top=b.top;
 	//this.left=b.left;
