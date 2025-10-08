@@ -36,9 +36,10 @@ Blockly.Blocks['javascript_start_scratch'] = {
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(0);
 	this.setNextStatement(!0);
-    this.setStyle('hat_blocks');
+    this.setStyle('control_blocks');
   }
 };
+console.log(Blockly.Theme);
 
 Blockly.Blocks['javascript_data_input_scratch'] = {
   init: function() {
