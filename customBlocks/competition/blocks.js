@@ -285,7 +285,8 @@ Blockly.common.defineBlocksWithJsonArray([
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "%{BKY_MATH_CHANGE_TITLE_ITEM}"
+		"variableTypes": ["Other"],
+		"defaultType": "Other"
       },
       {
         "type": "input_value",
@@ -363,6 +364,72 @@ Blockly.common.defineBlocksWithJsonArray([
         }
 	  ],
 	  "output": null,
+	  "style": "sound_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_deletealloflist_scratch",
+	  "message0": "%{BKY_LIST_DELETEALLOFLIST}",
+	  "args0": [
+        {
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		}
+	  ],
+	  "previousStatement": true,
+	  "nextStatement": true,
+	  "style": "sound_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_lengthoflist_scratch",
+	  "message0": "%{BKY_LIST_LENGTHOFLIST}",
+	  "args0": [
+        {
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		}
+	  ],
+	  "output": "Number",
+	  "style": "sound_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_insertatlist_scratch",
+	  "message0": "%{BKY_LIST_INSERTATLIST}",
+	  "args0": [
+        {
+          "type": "input_value",
+          "name": "ITEM",
+          "check": ["String","Number","Array"]
+        },
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		},
+        {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+        }
+	  ],
+	  "previousStatement": true,
+	  "nextStatement": true,
 	  "style": "sound_blocks",	  
 	  extensions:["contextMenu_variableSetterGetter"]
 	}

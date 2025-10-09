@@ -352,7 +352,6 @@ init(a){
 		b.push(this.nameDB_.getName(c[d],$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE));
 	a=$.allUsedVarModels$$module$build$src$core$variables(a);
 	for(c=0;c<a.length;c++) {
-		console.log(a[c].type=="Array");
 		if (a[c].type!="Array")
 			b.push(this.nameDB_.getName(a[c].getId(),$.NameType$$module$build$src$core$names.VARIABLE));
 		else

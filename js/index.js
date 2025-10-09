@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		xml = Blockly.Xml.domToPrettyText(xml);
 		
 		return script;
-	}		
+	}	
+
+	
 	
 	function loadToolbox(renderer, categorySystem, scale) {
 		//載入積木目錄
@@ -120,28 +122,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				
 				if (Blockly.Blocks['variables_set_other']) {
-					const setBlock = Blockly.utils.xml.createElement('block');
-					setBlock.setAttribute('type', 'variables_set_other');
-					setBlock.setAttribute('gap', Blockly.Blocks['variables_get'] ? '8' : '24');
-					setBlock.appendChild(Blockly.Variables.generateVariableFieldDom(latestVariable));
-					const deltaXml = Blockly.utils.xml.textToDom(
-						'<value name="VALUE"><shadow type="text_noquotes"><field name="TEXT">0</field></shadow></value>'
-					);
-					setBlock.appendChild(deltaXml);					
-					blocks.push(setBlock);
+					const listAddXml = '<block type="variables_set_other" gap="8"><field name="VAR" variabletype="Other">'+latestVariable.name+'</field><value name="VALUE"><shadow type="text_noquotes"><field name="TEXT">0</field></shadow></value></block>';
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 				}
 
 				if (Blockly.Blocks['math_change_other']) {
-					const changeBlock = Blockly.utils.xml.createElement('block');
-					changeBlock.setAttribute('type', 'math_change_other');
-					changeBlock.setAttribute('gap', Blockly.Blocks['variables_get'] ? '20' : '8');
-
-					changeBlock.appendChild(Blockly.Variables.generateVariableFieldDom(latestVariable));
-					const deltaXml = Blockly.utils.xml.textToDom(
-						'<value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value>'
-					);
-					changeBlock.appendChild(deltaXml);
-					blocks.push(changeBlock);
+					const listAddXml = '<block type="math_change_other" gap="8"><field name="VAR" variabletype="Other">'+latestVariable.name+'</field><value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));					
 				}
 
 				
@@ -205,11 +192,30 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 				}	
+				
 				if (Blockly.Blocks['list_itemoflist_scratch']) {
 					const listAddXml = '<block type="list_itemoflist_scratch" gap="24"><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
 			
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
-				}				
+				}
+
+				if (Blockly.Blocks['list_deletealloflist_scratch']) {
+					const listAddXml = '<block type="list_deletealloflist_scratch" gap="24"><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}	
+
+				if (Blockly.Blocks['list_lengthoflist_scratch']) {
+					const listAddXml = '<block type="list_lengthoflist_scratch" gap="24"><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}
+
+				if (Blockly.Blocks['list_insertatlist_scratch']) {
+					const listAddXml = '<block type="list_insertatlist_scratch" gap="24"><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}					
 			}
 
 			return blocks;
@@ -230,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	setTimeout(function(){
 		
-		loadToolbox('thrasos', catSystem, 1.0);
+		loadToolbox('', catSystem, 1.0);
 		//loadToolbox('zelos', catSystemScratch);
 		updateMsg();
 		newFile();
@@ -455,6 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					fr.onload = function (event) {
 						Blockly.getMainWorkspace().clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
+						console.log(Blockly.getMainWorkspace());
 						Blockly.Xml.domToWorkspace(blocks, Blockly.getMainWorkspace());
 						javascriptCode();
 						resetOutput();
