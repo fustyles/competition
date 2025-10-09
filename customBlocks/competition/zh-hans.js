@@ -18,13 +18,11 @@ Blockly.Msg["CATIO"] = "功能";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "当";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "被点击";
-Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "说出";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"] = "询问";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"] = "并等待";
+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "说出 %1";
+Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "询问 %1 并等待";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "询问的答案";
 
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "如果";
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "那么";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "如果 %1 那么";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "否则";
 
 Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "字串组合 %1 %2";
@@ -45,4 +43,6 @@ Blockly.Msg["LIST_INSERTATLIST"] = "插入 %1 到 %2 的第 %3 项";
 Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "替换 %1 的第 %2 项为 %3";
 Blockly.Msg["LIST_DELETEOFLIST"] = "删除 %1 的第 %2 项";
 Blockly.Msg["LIST_LISTCONTAINSITEM"] = "清单 %1 包含 %2 ？";
-Blockly.Msg["LIST_ITEMNUMOFLIST"] = "%2 中 %1 的项目编号";
+Blockly.Msg["LIST_ITEMNUMOFLIST"] = "%1 在 %2 里的项目编号";
+
+Blockly.Msg["NEW_FUNCTION"] = "建立函式";

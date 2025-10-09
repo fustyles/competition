@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		registerMyVariable();
 		registerMyLists();
+		registerMyFunction();
 		
 		return workspace;
 	}
@@ -97,14 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.registerButtonCallback("CREATE_MYVARIABLE", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
-				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Other');
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'other');
 				
 				currentWorkspace.refreshToolboxSelection();			
 			});
 			blocks.push(btn);
 		
 	
-			const variables = workspace.getVariablesOfType("Other");
+			const variables = workspace.getVariablesOfType("other");
 			if (variables.length > 0) {
 				const latestVariable = variables[variables.length - 1];
 				
@@ -122,12 +123,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				
 				if (Blockly.Blocks['variables_set_other']) {
-					const listAddXml = '<block type="variables_set_other" gap="8"><field name="VAR" variabletype="Other">'+latestVariable.name+'</field><value name="VALUE"><shadow type="text_noquotes"><field name="TEXT">0</field></shadow></value></block>';
+					const listAddXml = '<block type="variables_set_other" gap="8"><field name="VAR" variabletype="other">'+latestVariable.name+'</field><value name="VALUE"><shadow type="text_noquotes"><field name="TEXT">0</field></shadow></value></block>';
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 				}
 
 				if (Blockly.Blocks['math_change_other']) {
-					const listAddXml = '<block type="math_change_other" gap="8"><field name="VAR" variabletype="Other">'+latestVariable.name+'</field><value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
+					const listAddXml = '<block type="math_change_other" gap="8"><field name="VAR" variabletype="other">'+latestVariable.name+'</field><value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));					
 				}
 
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					for (const variable of variables) {
 						const getBlock = Blockly.utils.xml.createElement('block');
 						getBlock.setAttribute('type', 'variables_get_array');
-						getBlock.setAttribute('gap', '8');
+						getBlock.setAttribute('gap', '24');
 						
 						getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
 						blocks.push(getBlock);
@@ -215,6 +216,30 @@ document.addEventListener('DOMContentLoaded', function() {
 					const listAddXml = '<block type="list_insertatlist_scratch" gap="24"><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
 			
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}	
+
+				if (Blockly.Blocks['list_replaceitemoflist_scratch']) {
+					const listAddXml = '<block type="list_replaceitemoflist_scratch" gap="24"><field name="VAR" variabletype="Array">'+latestVariable.name+'</field><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}
+
+				if (Blockly.Blocks['list_deleteoflist_scratch']) {
+					const listAddXml = '<block type="list_deleteoflist_scratch" gap="24"><field name="VAR" variabletype="Array">'+latestVariable.name+'</field><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}
+
+				if (Blockly.Blocks['list_listcontainsitem_scratch']) {
+					const listAddXml = '<block type="list_listcontainsitem_scratch" gap="24"><field name="VAR" variabletype="Array">'+latestVariable.name+'</field><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}
+
+				if (Blockly.Blocks['list_itemnumoflist_scratch']) {
+					const listAddXml = '<block type="list_itemnumoflist_scratch" gap="24"><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 				}					
 			}
 
@@ -233,10 +258,45 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		registerMyListCategory();
 	}
+	
+	function registerMyFunction(){
+		Blockly.myfunction = {};
+		Blockly.MYFUNCTION_CATEGORY_NAME = "MYFUNCTION"; 
+		Blockly.myfunction.CATEGORY_NAME = "MYFUNCTION"; 
+		Blockly.myfunction.NAME_TYPE=Blockly.MYFUNCTION_CATEGORY_NAME;	
+
+		Blockly.myfunction.flyoutCategory = function(workspace) {
+			var blocks = [];
+			const btn = document.createElement("button");
+			btn.setAttribute("text","%{BKY_NEW_FUNCTION}");
+			btn.setAttribute("callbackKey","CREATE_MYFUNCTION");
+			
+			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
+				alert("Stay tuned.");;
+				
+				//currentWorkspace.refreshToolboxSelection();			
+			});
+			blocks.push(btn);
+
+			return blocks;
+		};
+
+		function registerMyListCategory() {
+			if (workspace) {
+				workspace.registerToolboxCategoryCallback(
+					Blockly.MYFUNCTION_CATEGORY_NAME, 
+					Blockly.myfunction.flyoutCategory
+				);				
+			} else {
+				setTimeout(registerMyListCategory, 100);
+			}
+		}
+		registerMyListCategory();
+	}	
 		
 	setTimeout(function(){
 		
-		loadToolbox('', catSystem, 1.0);
+		loadToolbox('geras', catSystem, 1.0);
 		//loadToolbox('zelos', catSystemScratch);
 		updateMsg();
 		newFile();

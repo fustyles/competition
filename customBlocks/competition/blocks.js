@@ -1,29 +1,53 @@
-Blockly.Blocks['javascript_data_input'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT) 
-        .appendField(new Blockly.FieldDropdown([
-			[Blockly.Msg["TEXT_PROMPT_TYPE_NUMBER"],"NUMBER"],		
-			[Blockly.Msg["TEXT_PROMPT_TYPE_TEXT"],"TEXT"]		
-		]), "type");
-	this.appendValueInput("TEXT");			
-	this.setInputsInline(true);
-	this.setOutput(true, null); 
-    this.setColour(60);
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_data_input",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "type",
+        "options": [
+          [
+            "%{BKY_TEXT_PROMPT_TYPE_NUMBER}",
+            "NUMBER"
+          ],
+          [
+            "%{BKY_TEXT_PROMPT_TYPE_TEXT}",
+            "TEXT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "output": null,
+    "inputsInline": true,
+    "colour": 60
   }
-};
+]);
 
-Blockly.Blocks['javascript_data_output'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]);
-	this.appendValueInput("TEXT");			
-	this.setInputsInline(true);	  
-	this.setPreviousStatement(!0);
-	this.setNextStatement(!0);
-    this.setColour(60);
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_data_output",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_label",
+        "text": "%{BKY_JAVASCRIPT_DATA_OUTPUT}"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": 60
   }
-};
+]);
 
 Blockly.Blocks['javascript_start_scratch'] = {
   init: function() {
@@ -40,130 +64,223 @@ Blockly.Blocks['javascript_start_scratch'] = {
   }
 };
 
-Blockly.Blocks['javascript_data_input_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"]);
-	this.appendValueInput("TEXT");
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"]);	
-	this.setInputsInline(true);	  
-	this.setPreviousStatement(!0);
-	this.setNextStatement(!0);
-    this.setStyle('sensing_blocks');
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_data_input_scratch",
+    "message0": "%{BKY_JAVASCRIPT_DATA_INPUT_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "style": "sensing_blocks" 
   }
-};
+]);
 
-Blockly.Blocks['javascript_data_input_get_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"]);
-	this.setInputsInline(true);
-	this.setOutput(true, null); 
-    this.setStyle('sensing_blocks');
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_data_input_get_scratch",
+    "message0": "%{BKY_JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH}",
+    "output": null,
+    "inputsInline": true,
+    "style": "sensing_blocks" 
   }
-};
+]);
 
-Blockly.Blocks['javascript_data_output_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"]);
-	this.appendValueInput("TEXT");			
-	this.setInputsInline(true);	  
-	this.setPreviousStatement(!0);
-	this.setNextStatement(!0);
-    this.setStyle('looks_blocks');
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_data_output_scratch",
+    "message0": "%{BKY_JAVASCRIPT_DATA_OUTPUT_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "style": "looks_blocks" 
   }
-};
+]);
 
-Blockly.Blocks['controls_if_1_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"]);
-    this.appendValueInput("condition")
-        .setCheck("Boolean");
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"]);
-    this.appendStatementInput("statement_if")
-        .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setStyle('control_blocks');
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "controls_if_1_scratch",
+    "message0": "%{BKY_JAVASCRIPT_CONTROLS_IF_IF_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "condition",
+        "check": "Boolean"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "statement_if"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "control_blocks"
   }
-};
+]);
 
-Blockly.Blocks['controls_if_2_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"]);
-    this.appendValueInput("condition")
-        .setCheck("Boolean");
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"]);
-    this.appendStatementInput("statement_if")
-        .setCheck("Boolean");
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"]);
-    this.appendStatementInput("statement_else")
-        .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setStyle('control_blocks');
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "controls_if_2_scratch",
+    "message0": "%{BKY_JAVASCRIPT_CONTROLS_IF_IF_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "condition",
+        "check": "Boolean"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "statement_if",
+        "check": "Boolean"
+      }
+    ],
+    "message2": "%{BKY_JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH}",
+    "args2": [
+    ],	
+    "message3": "%1",
+    "args3": [
+      {
+        "type": "input_statement",
+        "name": "statement_else"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "control_blocks"
   }
-};
+]);
 
-
-Blockly.Blocks['controls_repeat_ext_scratch'] = {
-  init: function() {
-    this.appendValueInput("TIMES")
-        .setCheck("Number")
-        .appendField(Blockly.Msg["CONTROLS_REPEAT"]);
-    this.appendDummyInput()
-        .appendField(Blockly.Msg["CONTROLS_REPEAT_TIMES"]);		
-    this.appendStatementInput("DO")
-        .appendField(Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"]);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setStyle('control_blocks');
-    this.setTooltip(Blockly.Msg["CONTROLS_REPEAT_TOOLTIP"]);
-    this.setHelpUrl(Blockly.Msg["CONTROLS_REPEAT_HELPURL"]);
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "controls_repeat_ext_scratch",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "field_label",
+        "text": "%{BKY_CONTROLS_REPEAT}"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMES",
+        "check": "Number"
+      },
+      {
+        "type": "field_label",
+        "text": "%{BKY_CONTROLS_REPEAT_TIMES}"
+      }
+    ],
+    "message1": "%1 %2",
+    "args1": [
+      {
+        "type": "field_label",
+        "text": "%{BKY_CONTROLS_REPEAT_INPUT_DO}"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "control_blocks",
+    "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
+    "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}"
   }
-};
+]);
 
-Blockly.Blocks['controls_whileUntil_scratch'] = {
-  init: function() {
-    this.appendValueInput("BOOL")
-        .setCheck("Boolean")
-        .appendField(Blockly.Msg["CONTROLS_REPEAT"])
-        .appendField(new Blockly.FieldDropdown([
-            [Blockly.Msg["CONTROLS_WHILEUNTIL_OPERATOR_WHILE"], "WHILE"],
-            [Blockly.Msg["CONTROLS_WHILEUNTIL_OPERATOR_UNTIL"], "UNTIL"]
-        ]), "MODE");
-    this.appendStatementInput("DO")
-        .appendField(Blockly.Msg["CONTROLS_REPEAT_INPUT_DO"]);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setStyle('control_blocks');
-    this.setTooltip(Blockly.Msg["CONTROLS_WHILEUNTIL_TOOLTIP"]);
-    this.setHelpUrl(Blockly.Msg["CONTROLS_WHILEUNTIL_HELPURL"]);
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "controls_whileUntil_scratch",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "field_label",
+        "text": "%{BKY_CONTROLS_REPEAT}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "%{BKY_CONTROLS_WHILEUNTIL_OPERATOR_WHILE}",
+            "WHILE"
+          ],
+          [
+            "%{BKY_CONTROLS_WHILEUNTIL_OPERATOR_UNTIL}",
+            "UNTIL"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BOOL",
+        "check": "Boolean"
+      }
+    ],
+    "message1": "%1 %2",
+    "args1": [
+      {
+        "type": "field_label",
+        "text": "%{BKY_CONTROLS_REPEAT_INPUT_DO}"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "control_blocks",
+    "tooltip": "%{BKY_CONTROLS_WHILEUNTIL_TOOLTIP}",
+    "helpUrl": "%{BKY_CONTROLS_WHILEUNTIL_HELPURL}"
   }
-};
+]);
 
-Blockly.Blocks['controls_flow_statements_scratch'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-            [Blockly.Msg["CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK"], "BREAK"],
-            [Blockly.Msg["CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE"], "CONTINUE"]
-        ]), "FLOW");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setStyle('control_blocks');
-    this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg["CONTROLS_FLOW_STATEMENTS_TOOLTIP"]);
-    this.setHelpUrl(Blockly.Msg["CONTROLS_FLOW_STATEMENTS_HELPURL"]);
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "controls_flow_statements_scratch",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FLOW",
+        "options": [
+          [
+            "%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK}",
+            "BREAK"
+          ],
+          [
+            "%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE}",
+            "CONTINUE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "style": "control_blocks",
+    "tooltip": "%{BKY_CONTROLS_FLOW_STATEMENTS_TOOLTIP}",
+    "helpUrl": "%{BKY_CONTROLS_FLOW_STATEMENTS_HELPURL}"
   }
-};
+]);
 
 Blockly.common.defineBlocksWithJsonArray([
   {
@@ -242,8 +359,8 @@ Blockly.common.defineBlocksWithJsonArray([
 		{
 		  "type": "field_variable",
 		  "name": "VAR",
-		  "variableTypes": ["Other"],
-		  "defaultType": "Other"
+		  "variableTypes": ["other"],
+		  "defaultType": "other"
 		}
 	  ],
 	  "output": ["String","Number","Boolean","Colour"],
@@ -260,8 +377,8 @@ Blockly.common.defineBlocksWithJsonArray([
 			{
 				"type":"field_variable",
 				"name":"VAR",
-			    "variableTypes": ["Other"],
-			    "defaultType": "Other"
+			    "variableTypes": ["other"],
+			    "defaultType": "other"
 			},
 			{
 				"type":"input_value",
@@ -285,8 +402,8 @@ Blockly.common.defineBlocksWithJsonArray([
       {
         "type": "field_variable",
         "name": "VAR",
-		"variableTypes": ["Other"],
-		"defaultType": "Other"
+		"variableTypes": ["other"],
+		"defaultType": "other"
       },
       {
         "type": "input_value",
@@ -430,7 +547,111 @@ Blockly.common.defineBlocksWithJsonArray([
 	  ],
 	  "previousStatement": true,
 	  "nextStatement": true,
-	  "style": "sound_blocks",	  
+	  "style": "sound_blocks",	
+	  "inputsInline": true,	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_replaceitemoflist_scratch",
+	  "message0": "%{BKY_LIST_REPLACEITEMOFLIST}",
+	  "args0": [
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		},
+        {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+        },
+		{
+          "type": "input_value",
+          "name": "ITEM",
+          "check": ["String","Number","Array"]
+        }
+	  ],
+	  "previousStatement": true,
+	  "nextStatement": true,
+	  "style": "sound_blocks",
+	  "inputsInline": true,
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_deleteoflist_scratch",
+	  "message0": "%{BKY_LIST_DELETEOFLIST}",
+	  "args0": [
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		},
+        {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+        }
+	  ],
+	  "previousStatement": true,
+	  "nextStatement": true,
+	  "style": "sound_blocks",
+	  "inputsInline": true,
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_listcontainsitem_scratch",
+	  "message0": "%{BKY_LIST_LISTCONTAINSITEM}",
+	  "args0": [
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		},
+		{
+          "type": "input_value",
+          "name": "ITEM",
+          "check": ["String","Number","Array"]
+        }
+	  ],
+	  "output": "Boolean",
+	  "style": "sound_blocks",
+	  "inputsInline": true,
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_itemnumoflist_scratch",
+	  "message0": "%{BKY_LIST_ITEMNUMOFLIST}",
+	  "args0": [
+		{
+          "type": "input_value",
+          "name": "ITEM",
+          "check": ["String","Number","Array"]
+        },
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		}
+	  ],
+	  "output": "Number",
+	  "style": "sound_blocks",
+	  "inputsInline": true,
 	  extensions:["contextMenu_variableSetterGetter"]
 	}
 ]);

@@ -41,7 +41,18 @@ var catSystemScratch = '<xml>'+
 '    </category>'+
 '    <category name="%{BKY_CATSCRATCH3}" colour="%{BKY_CATSCRATCH3_HUE}">'+
 '    <block type="logic_boolean"></block>'+
-'    <block type="logic_compare"></block>'+
+'    <block type="logic_compare">'+
+'    <value name="A">'+
+'    <shadow type="text_noquotes">'+
+'    <field name="TEXT">0</field>'+
+'    </shadow>'+
+'    </value>'+
+'    <value name="B">'+
+'    <shadow type="text_noquotes">'+
+'    <field name="TEXT">0</field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
 '    <block type="logic_operation"></block>'+
 '    <block type="logic_negate"></block>'+
 '    <block type="math_arithmetic">'+
@@ -140,5 +151,5 @@ var catSystemScratch = '<xml>'+
 '    </category>'+
 '    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="MYVARIABLE"></category>'+
 '    <category name="%{BKY_CATSCRATCH5}" colour="%{BKY_CATSCRATCH5_HUE}" custom="MYLIST"></category>'+
-'    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>'+
+'    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="MYFUNCTION"></category>'+
 '</xml>';

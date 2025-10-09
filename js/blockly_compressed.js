@@ -1709,6 +1709,7 @@ zoomChangeToolbox(a){
 		xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
 		this.workspace.dispose();
 		this.workspace = null;
+		document.getElementById("root").innerHTML = "";
 		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
@@ -1717,8 +1718,9 @@ zoomChangeToolbox(a){
 		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
 		xmlScratch = Blockly.Xml.domToText(xmlScratch);
 		this.workspace.dispose();
-		this.workspace = null;		
-		var workspace = window.loadToolbox('', catSystem, 1.0);
+		this.workspace = null;
+		document.getElementById("root").innerHTML = "";		
+		var workspace = window.loadToolbox('geras', catSystem, 1.0);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
 	}

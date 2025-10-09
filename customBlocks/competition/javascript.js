@@ -148,3 +148,32 @@ Blockly.JavaScript['list_insertatlist_scratch'] = function(block) {
   var code = VAR+'.splice('+index+'-1, 0, '+item+');\n';
   return code;
 };
+
+Blockly.JavaScript['list_replaceitemoflist_scratch'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  var item = Blockly.JavaScript.valueToCode(block, 'ITEM', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	  
+  var index = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_FUNCTION_CALL);  
+  var code = VAR+'.splice('+index+'-1, 1, '+item+');\n';
+  return code;
+};
+
+Blockly.JavaScript['list_deleteoflist_scratch'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  var index = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_FUNCTION_CALL);  
+  var code = VAR+'.splice('+index+'-1, 1);\n';
+  return code;
+};
+
+Blockly.JavaScript['list_listcontainsitem_scratch'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  var item = Blockly.JavaScript.valueToCode(block, 'ITEM', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	  
+  var code = VAR+'.includes('+item+')';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['list_itemnumoflist_scratch'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  var item = Blockly.JavaScript.valueToCode(block, 'ITEM', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	  
+  var code = VAR+'.indexOf('+item+')+1';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

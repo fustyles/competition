@@ -18,13 +18,11 @@ Blockly.Msg["CATIO"] = "Input/Output";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "When";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "Clicked";
-Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "Speak";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_HEAD_SCRATCH"] = "Ask";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_TIE_SCRATCH"] = "And wait";
+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "Speak %1";
+Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "Ask %1 And wait";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "Answer to the question";
 
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "If";
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_THEN_SCRATCH"] = "Then";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "If %1 Then";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "Otherwise";
 
 Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
@@ -45,4 +43,6 @@ Blockly.Msg["LIST_INSERTATLIST"] = "Insert %1 into item %3 of %2";
 Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "Replace item %2 of %1 with %3";
 Blockly.Msg["LIST_DELETEOFLIST"] = "Delete item %2 of %1" Item";
 Blockly.Msg["LIST_LISTCONTAINSITEM"] = "List %1 contains %2?";
-Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %1 in %2";
+Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
+
+Blockly.Msg["NEW_FUNCTION"] = "Create function";
