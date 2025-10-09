@@ -256,7 +256,18 @@ Blockly.common.defineBlocksWithJsonArray([
 	{
 		type:"variables_set_other"
 		,message0:"%{BKY_VARIABLES_SET_OTHER}"
-		,args0:[{type:"field_variable",name:"VAR",variable:"%{BKY_VARIABLES_DEFAULT_NAME}"},{type:"input_value",name:"VALUE"}]
+		,args0:[
+			{
+				"type":"field_variable",
+				"name":"VAR",
+			    "variableTypes": ["Other"],
+			    "defaultType": "Other"
+			},
+			{
+				"type":"input_value",
+				"name":"VALUE"
+			}
+		]
 		,previousStatement:null
 		,nextStatement:null
 		,style:"variables_blocks"
@@ -305,7 +316,54 @@ Blockly.common.defineBlocksWithJsonArray([
 		}
 	  ],
 	  "output": "Array",
-	  "style": "myblocks_blocks",	  
+	  "style": "sound_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_addtolist_scratch",
+	  "message0": "%{BKY_LIST_ADDTOLIST}",
+	  "args0": [
+        {
+          "type": "input_value",
+          "name": "ITEM",
+          "check": ["String","Number","Array"]
+        },
+		{
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		}
+	  ],
+	  "previousStatement": true,
+	  "nextStatement": true,
+	  "style": "sound_blocks",	  
+	  extensions:["contextMenu_variableSetterGetter"]
+	}
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+	{
+	  "type": "list_itemoflist_scratch",
+	  "message0": "%{BKY_LIST_ITEMOFLIST}",
+	  "args0": [
+        {
+		  "type": "field_variable",
+		  "name": "VAR",
+		  "variableTypes": ["Array"],
+		  "defaultType": "Array"
+		},
+        {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+        }
+	  ],
+	  "output": null,
+	  "style": "sound_blocks",	  
 	  extensions:["contextMenu_variableSetterGetter"]
 	}
 ]);

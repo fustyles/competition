@@ -81,9 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	window.loadToolbox = loadToolbox;
 	
-	
-	
-	
 	function registerMyVariable(){
 		Blockly.myvariable = {};
 		Blockly.MYVARIABLE_CATEGORY_NAME = "MYVARIABLE"; 
@@ -190,10 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			const variables = workspace.getVariablesOfType("Array");
 			if (variables.length > 0) {
 				const latestVariable = variables[variables.length - 1];
-				
+				variables.sort(Blockly.VariableModel.compareByName);
+			
 				if (Blockly.Blocks['variables_get_array']) {
-					variables.sort(Blockly.VariableModel.compareByName);
-
 					for (const variable of variables) {
 						const getBlock = Blockly.utils.xml.createElement('block');
 						getBlock.setAttribute('type', 'variables_get_array');
@@ -203,6 +199,17 @@ document.addEventListener('DOMContentLoaded', function() {
 						blocks.push(getBlock);
 					}
 				}
+				
+				if (Blockly.Blocks['list_addtolist_scratch']) {
+					const listAddXml = '<block type="list_addtolist_scratch" gap="24"><value name="ITEM"><shadow type="text_noquotes"><field name="TEXT">thing</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}	
+				if (Blockly.Blocks['list_itemoflist_scratch']) {
+					const listAddXml = '<block type="list_itemoflist_scratch" gap="24"><value name="INDEX"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value><field name="VAR" variabletype="Array">'+latestVariable.name+'</field></block>';
+			
+					blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+				}				
 			}
 
 			return blocks;
@@ -235,8 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				Blockly.hideChaff();
 			});
 		}
-	
-	}, 1000);	
+	}, 1000);
 
 	//新增自訂積木js檔
 	function addScript(url) {

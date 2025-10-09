@@ -108,3 +108,23 @@ Blockly.JavaScript['variables_get_array'] = function(block) {
   var code = VAR;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript['variables_get_array'] = function(block) {
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
+  var code = VAR;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['list_addtolist_scratch'] = function(block) {
+  var item = Blockly.JavaScript.valueToCode(block, 'ITEM', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
+  var code = VAR+'.push('+item+');\n';
+  return code;
+};
+
+Blockly.JavaScript['list_itemoflist_scratch'] = function(block) {
+  var index = Blockly.JavaScript.valueToCode(block, 'INDEX', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	
+  var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
+  var code = VAR+'['+index+'-1]';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

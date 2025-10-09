@@ -36,3 +36,13 @@ Blockly.Msg["NEW_LIST"] = "建立新清單";
 Blockly.Msg["NEW_VARIABLE_OTHER"] = "建立變數";
 Blockly.Msg["VARIABLES_SET_OTHER"] = "變數 %1 設為 %2";
 Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "變數 %1 改變 %2";
+
+Blockly.Msg["LIST_ADDTOLIST"] = "添加 %1 到 %2";
+Blockly.Msg["LIST_ITEMOFLIST"] = "%1 的第 %2 項";
+Blockly.Msg["LIST_DELETEALLOFLIST"] = "刪除 %1 的所有項目";
+Blockly.Msg["LIST_LENGTHOFLIST"] = "清單 %1 的長度";
+Blockly.Msg["LIST_INSERTATLIST"] = "插入 %1 到 %2 的第 %3 項";
+Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "替換 %1 的第 %2 項為 %3";
+Blockly.Msg["LIST_DELETEOFLIST"] = "刪除 %1 的第 %2 項";
+Blockly.Msg["LIST_LISTCONTAINSITEM"] = "清單 %1 包含 %2 ？";
+Blockly.Msg["LIST_ITEMNUMOFLIST"] = "%2 中 %1 的項目編號";

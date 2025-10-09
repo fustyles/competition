@@ -346,13 +346,23 @@ init(a){
 	this.functions_=Object.create(null);
 	
 	const b=[];
+	const e=[];
 	var c=$.allDeveloperVariables$$module$build$src$core$variables(a);
 	for(let d=0;d<c.length;d++)
 		b.push(this.nameDB_.getName(c[d],$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE));
 	a=$.allUsedVarModels$$module$build$src$core$variables(a);
-	for(c=0;c<a.length;c++)
-		b.push(this.nameDB_.getName(a[c].getId(),$.NameType$$module$build$src$core$names.VARIABLE));
-	b.length&&(this.definitions_.variables="var "+b.join(", ")+";");
+	for(c=0;c<a.length;c++) {
+		console.log(a[c].type=="Array");
+		if (a[c].type!="Array")
+			b.push(this.nameDB_.getName(a[c].getId(),$.NameType$$module$build$src$core$names.VARIABLE));
+		else
+			e.push(this.nameDB_.getName(a[c].getId(),$.NameType$$module$build$src$core$names.VARIABLE)+" = []");
+	}
+	this.definitions_.variables = "";
+	if (b.length>0)
+		this.definitions_.variables="var "+b.join(", ")+";\n";
+	if (e.length>0)
+		this.definitions_.variables=this.definitions_.variables+"var "+e.join(", ")+";";
 	this.isInitialized=!0
 }
 finish(a){
