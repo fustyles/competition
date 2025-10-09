@@ -41,7 +41,7 @@ Blockly.Msg["LIST_DELETEALLOFLIST"] = "Delete all items of %1";
 Blockly.Msg["LIST_LENGTHOFLIST"] = "Length of list %1";
 Blockly.Msg["LIST_INSERTATLIST"] = "Insert %1 into item %3 of %2";
 Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "Replace item %2 of %1 with %3";
-Blockly.Msg["LIST_DELETEOFLIST"] = "Delete item %2 of %1" Item";
+Blockly.Msg["LIST_DELETEOFLIST"] = "Delete item %2 of %1";
 Blockly.Msg["LIST_LISTCONTAINSITEM"] = "List %1 contains %2?";
 Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 

@@ -1639,7 +1639,7 @@ new Size$$module$build$src$core$utils$size(this.WIDTH,d),this.MARGIN_HORIZONTAL,
 	} else {
 		var e=this.SMALL_SPACING+this.HEIGHT,f;
 		
-		this.zoomChangeToolboxGroup.setAttribute("transform","translate(0, "+(e+(-1)*(this.SMALL_SPACING+this.HEIGHT))+")")
+		this.zoomChangeToolboxGroup.setAttribute("transform","translate(0, "+(e+9*(this.SMALL_SPACING+this.HEIGHT))+")")
 		this.zoomShowCategoryGroup.setAttribute("transform","translate(0, "+(e+0*(this.SMALL_SPACING+this.HEIGHT))+")")
 		this.zoomFitGroup.setAttribute("transform","translate(0, "+(e+1*(this.SMALL_SPACING+this.HEIGHT))+")")
 		this.zoomResetGroup.setAttribute("transform","translate(0, "+(e+2*(this.SMALL_SPACING+this.HEIGHT))+")")	
