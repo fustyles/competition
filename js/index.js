@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
 			code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 		
-		var prompt = "你是一位國中三年級的資優生名字是小鳳，請以國中三年級的學生口吻來回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但不提程式碼細節。回覆內容不要提及JavaScript程式碼內容，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱，禁止使用Markdown語法。\n\n積木程式試題：\n"+
+		var prompt = "你是一位國中三年級的資優生名字是小鳳，請以國中三年級的學生口吻來回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但不提程式碼細節。回覆內容不要提及JavaScript程式碼內容，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。變數input或變數input_data是系統內部自動產生的，學生並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式程式碼：\n"+code+
 		"\n\n使用者發問問題：\n"+
