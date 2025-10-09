@@ -14,7 +14,7 @@ var workspace;
 var category;
 var categoryBlocks = [];
 var categoryExpand = [];
-var scratchStyle = false;
+var scratchStyle = true;
 var xmlBlockly = "";
 var xmlScratch = "";
 
@@ -296,8 +296,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	setTimeout(function(){
 		
-		loadToolbox('geras', catSystem, 1.0);
-		//loadToolbox('zelos', catSystemScratch);
+		//loadToolbox('geras', catSystem, 1.0);
+		loadToolbox('zelos', catSystemScratch, 0.8);
 		updateMsg();
 		newFile();
 		
@@ -519,10 +519,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (file) {
 					var fr = new FileReader();           
 					fr.onload = function (event) {
-						Blockly.getMainWorkspace().clear();
+						workspace.clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
-						console.log(Blockly.getMainWorkspace());
-						Blockly.Xml.domToWorkspace(blocks, Blockly.getMainWorkspace());
+						Blockly.Xml.domToWorkspace(blocks, workspace);
 						javascriptCode();
 						resetOutput();
 					};
