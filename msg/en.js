@@ -23,6 +23,8 @@ Blockly.Msg.ADD_COMMENT = "Add Comment";
 Blockly.Msg.ENTER_QUESTION = "Enter question";
 Blockly.Msg.ENTER_QUERY = "Ask a question";
 Blockly.Msg["GEMINI_ASK"] = "FSM AI";
+Blockly.Msg["TEST_CODE"] = "Verification Program";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use the symbol ; to separate multiple test values.";
 Blockly.Msg.BUTTON_UPLOAD_CODE = "Execution process";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";

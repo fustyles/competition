@@ -23,6 +23,8 @@ Blockly.Msg.ADD_COMMENT = "加入批注";
 Blockly.Msg.ENTER_QUESTION = "试题输入";
 Blockly.Msg.ENTER_QUERY = "询问问题";
 Blockly.Msg["GEMINI_ASK"] = "小凤 AI";
+Blockly.Msg["TEST_CODE"] = "验证程式";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "请输入测试资料，以符号 ; 分隔要输入的数个测试值。";
 Blockly.Msg.BUTTON_UPLOAD_CODE = "执行过程";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";

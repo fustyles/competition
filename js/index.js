@@ -3,10 +3,10 @@
 Copyright 2025 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 6/4/2025 00:00 (Taiwan Standard Time)
+@Update 10/10/2025 00:00 (Taiwan Standard Time)
 */
 
-var mainPath = 'https://fustyles.github.io/webduino/SpBlocklyJS/';
+var mainPath = 'https://fustyles.github.io/competition/';
 var showCode = false;
 var myTimer;
 var myTimer1;
@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		return script;
 	}	
 
-	
-	
 	function loadToolbox(renderer, categorySystem, scale) {
 		//載入積木目錄
 		category = [
@@ -401,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	async function gemini_chat_response(gemini_chat_data) {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
-		iframeDocument.body.insertAdjacentHTML("beforeend", gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
+		iframeDocument.body.insertAdjacentHTML("beforeend", "<br>"+gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
 		//iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
 		//iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
 	}
@@ -426,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
 			code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 		
-		var prompt = "你是一位國中三年級的資優生名字是小鳳，請以國中三年級的學生口吻來回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但不提程式碼細節。回覆內容不要提及JavaScript程式碼內容，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。變數input或變數input_data是系統內部自動產生的，學生並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
+		var prompt = "你是一位國中三年級的資優生名字是小鳳，請以國中三年級的學生口吻來回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但不提程式碼細節。回覆內容不要提及JavaScript程式碼內容，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。變數input或變數input_data是系統內部自動產生的，使用者並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式程式碼：\n"+code+
 		"\n\n使用者發問問題：\n"+
@@ -444,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	  
 	  iframe_code += getScript(0);
 		
-	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"};main();")+"\<\/script\>\<\/body\>\<\/html\>";
+	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 	  
 	  //console.log(iframe_code);
 	  output_result = "";
@@ -459,6 +457,44 @@ document.addEventListener('DOMContentLoaded', function() {
 		alert(e);
 	  }
 	}
+	
+	//測試程式
+	document.getElementById('test_code').onclick = function () {
+	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
+	  if (input) {
+		var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+		var data = input.split(";");
+		for (var i=0;i<data.length;i++) {
+			if (isNaN(data[i]))
+				data[i]="'"+data[i]+"'";
+			else
+				data[i]=Number(data[i]);
+			code = code.replace("= data_input(","= data_input_test("+data[i]+", ");
+		}
+		console.log(code);
+	
+		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
+
+		iframe_code += getScript(0);
+
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
+
+		//console.log(iframe_code);
+		output_result = "";
+
+		try {
+			var iframe = document.getElementById("iframe_output");
+			iframe.contentWindow.document.open();
+			iframe.contentWindow.document.write(iframe_code);
+			iframe.contentWindow.document.close();
+			iframe.focus();
+		} catch (e) {
+			alert(e);
+		}
+
+	  
+	  }
+	}	
 	
 	//停止程式
 	function stopCode() {
@@ -561,7 +597,7 @@ function displayTab(id) {
 //JavaScript原始碼顯示
 function javascriptCode() {
 	var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
-	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{\n"+code+"};main();");
+	code = js_beautify(code);
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
 
