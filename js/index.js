@@ -514,16 +514,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
 	  if (input) {
 		var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
-		var data = input.split(";");
-		for (var i=0;i<data.length;i++) {
-			if (isNaN(data[i]))
-				data[i]="'"+data[i]+"'";
-			else
-				data[i]=Number(data[i]);
-			code = code.replace("= data_input(","= data_input_test("+data[i]+", ");
-		}
-		console.log(code);
-	
+		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
+	console.log(code);
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
 		iframe_code += getScript(0);

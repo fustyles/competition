@@ -1,5 +1,6 @@
 Blockly.JavaScript['javascript_data_input'] = function(block) {
-	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function data_input(msg, type) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input_data_test'] = 'var variable_data_test_index = -1;';	
+	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg, type) {\n'+
 	'  var input;\n'+
 	'  if (type=="NUMBER")\n'+
 	'  	input = Number(prompt(msg));\n'+
@@ -8,7 +9,11 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 	'  return input;\n'+
 	'}';
-	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function data_input_test(input, msg, type) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function variable_input_test (input, msg, type) {\n'+
+	'  variable_data_test_index++;\n'+
+	'  var arr = input.split(";");\n'+
+	'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+	'  input = arr[variable_data_test_index];\n'+
 	'  if (type=="NUMBER")\n'+
 	'  	input = Number(input);\n'+
 	'  else\n'+
@@ -18,7 +23,7 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	'}';	
 	var type = block.getFieldValue('type');
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)||" ";	
-	var code = 'data_input('+TEXT+', "'+type+'")';
+	var code = 'variable_input('+TEXT+', "'+type+'")';
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
@@ -37,9 +42,10 @@ Blockly.JavaScript['javascript_start_scratch'] = function(block) {
 };
 
 Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
+	Blockly.JavaScript.definitions_['javascript_data_input_data_test'] = 'var variable_data_test_index = -1;';		
 	Blockly.JavaScript.definitions_['javascript_data_input_data'] = 'var input_data;';	
-	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function data_input(msg) {\n'+
-	'  input = prompt(msg);\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg) {\n'+
+	'  var input = prompt(msg);\n'+
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 	'  if (isNaN(input))'+
 	'  	input = String(input);'+
@@ -47,12 +53,16 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	'  	input = Number(input);'+
 	'  return input;\n'+
 	'}';
-	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function data_input_test(input, msg) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function variable_input_test (input, msg) {\n'+
+	'  variable_data_test_index++;\n'+
+	'  var arr = input.split(";");\n'+
+	'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+	'  input = arr[variable_data_test_index];\n'+	
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 	'  return input;\n'+
 	'}';	
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)||" ";	
-	var code = 'input_data = data_input('+TEXT+');\n';
+	var code = 'input_data = variable_input('+TEXT+');\n';
 	return code;
 };
 
