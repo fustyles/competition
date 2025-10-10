@@ -26,7 +26,7 @@ Blockly.Msg["GEMINI_ASK"] = "小鳳AI";
 Blockly.Msg["GEMINI_CLEAR"] = "重設聊天";
 Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你確定要重設聊天嗎？";
 Blockly.Msg["TEST_CODE"] = "驗證程式";
-Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以符號 ; 分隔要輸入的數個測試值。";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以分號 ; 分隔要輸入的數個測試值。";
 Blockly.Msg.BUTTON_UPLOAD_CODE = "執行過程";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";
