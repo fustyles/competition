@@ -49,6 +49,17 @@ Blockly.common.defineBlocksWithJsonArray([
   }
 ]);
 
+Blockly.Blocks['javascript_createfunction_scratch'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"]);
+	this.setInputsInline(true);	  
+	this.setPreviousStatement(0);
+	this.setNextStatement(0);
+    this.setStyle('myblocks_blocks');
+  }
+};
+
 Blockly.Blocks['javascript_start_scratch'] = {
   init: function() {
     this.appendDummyInput()

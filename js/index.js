@@ -11,6 +11,7 @@ var showCode = false;
 var myTimer;
 var myTimer1;
 var workspace;
+var subWorkspace;
 var category;
 var categoryBlocks = [];
 var categoryExpand = [];
@@ -270,7 +271,25 @@ document.addEventListener('DOMContentLoaded', function() {
 			btn.setAttribute("callbackKey","CREATE_MYFUNCTION");
 			
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
-				alert("Stay tuned.");;
+				toggleForm(1);
+				
+				if (!subWorkspace) {
+					subWorkspace = Blockly.inject('createFunctionDiv', {
+						zoom: {
+							wheel: true,
+							startScale: 1.0,
+							maxScale: 3,
+							minScale: 0.3,
+							scaleSpeed: 1.2
+						},
+						rtl: false,
+					});
+					
+					var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="00"></block></xml>';
+					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
+					var singleBlock = subWorkspace.getTopBlocks(false)[0];
+					subWorkspace.centerOnBlock(singleBlock.id);
+				}
 				
 				//currentWorkspace.refreshToolboxSelection();			
 			});
@@ -290,7 +309,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		}
 		registerMyListCategory();
+	}
+
+	function toggleForm(show) {
+		const formDiv = document.getElementById('createFunction');
+		if (show) {
+			formDiv.style.display = 'flex'; 
+		} else {
+			formDiv.style.display = 'none';
+		}
 	}	
+	
+    document.getElementById('confirmButton').addEventListener('click', () => {
+        toggleForm(false);
+    });
+
+    document.getElementById('cancelButton').addEventListener('click', () => {
+        toggleForm(false);
+    });	
 		
 	setTimeout(function(){
 		
@@ -536,7 +572,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				else if (msg[i][1]=="title") {
 					if (document.getElementById(msg[i][0]))
 						document.getElementById(msg[i][0]).title=msg[i][2];
-				}				
+				}	
+				else if (msg[i][1]=="value") {
+					if (document.getElementById(msg[i][0]))
+						document.getElementById(msg[i][0]).value=msg[i][2];
+				}					
 			}
 		}
 	}		

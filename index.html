@@ -20,6 +20,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<link rel="stylesheet" href="css/icon.css" />
 	<link rel="stylesheet" href="css/custom.css" />
 	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link rel="stylesheet" href="css/createFunction.css">	
 	<script src="js/blockly_compressed.js"></script>
 	<script src="js/blocks_compressed.js"></script>
 	<script src="js/javascript_compressed.js"></script>
@@ -133,6 +134,33 @@ Copyright 2025 Taiwan (ChungYi Fu)
 			<iframe id="iframe_output" style="width:100%;height:55%;background-color: white;padding:0px;" frameborder="0" src="" scrolling="auto" allowpaymentrequest allow="fullscreen; geolocation; microphone; camera ; usb" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation" onload="this.focus()"></iframe>
 		</div>
 	</div>
+	
+    <div id="createFunction" class="modal-container">
+        <div id="createFunction_content">
+            <div id="createFunction_header" class="header">建立一個積木</div>
+
+            <div class="form-group">
+                <label id="createFunction_blockName_label" for="blockName">積木名稱</label>
+                <input id="createFunction_blockName_input" type="text" id="blockName" value="新積木">
+            </div>
+			
+            <div class="element-group-param">
+            </div>			
+
+            <div id="createFunctionDiv" style="width:600px;height:150px;"></div>
+
+            <div class="button-group-param">
+                <button id="createFunction_add1" class="param-button">添加輸入方塊<br>數字或文字</button>
+                <button id="createFunction_add2" class="param-button">添加輸入方塊<br>布林值</button>
+                <button id="createFunction_add3" class="param-button">添加說明文字</button>
+            </div>
+
+            <div class="button-group-footer">
+                <button id="cancelButton" class="action-button">取消</button>
+                <button id="confirmButton" class="action-button">確定</button>
+            </div>
+        </div>
+    </div>
 </div>
 </main>
 

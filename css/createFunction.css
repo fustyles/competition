@@ -1,0 +1,135 @@
+/* 按鈕基礎樣式 */
+.action-button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* 主要功能按鈕樣式 */
+#showFormButton {
+    background-color: #007bff;
+    color: white;
+}
+#showFormButton:hover {
+    background-color: #0056b3;
+}
+
+
+/* ==================================== */
+/* 模組化視窗 (Modal) 樣式     */
+/* ==================================== */
+
+/* 模組化容器樣式 - 負責遮罩和置中 */
+.modal-container {
+    /* 預設隱藏，由 JS 控制顯示 */
+    display: none; 
+
+    /* 關鍵定位：讓它在螢幕上置中且覆蓋整個視窗 */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 關鍵置中：Flexbox */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    
+    background-color: rgba(0, 0, 0, 0.5); /* 遮罩效果 */
+    z-index: 1000;
+}
+
+/* 內容區塊的樣式 - 實際的表單視窗 */
+#createFunction_content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 標題樣式 */
+.header {
+    background-color: #e0e0e0;
+    padding: 15px;
+    margin: -25px -25px 15px -25px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* 輸入框組樣式 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 輸入框樣式 */
+.form-group input, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 參數添加按鈕群組樣式 */
+.element-group-param {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-group-param {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.param-button {
+    flex: 1;
+    padding: 25px 10px;
+    margin: 0 5px;
+    background-color: #e8e8e8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.param-button:hover {
+    background-color: #d0d0d0;
+}
+
+/* 底部操作按鈕樣式 */
+.button-group-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+/* 取消按鈕樣式 */
+#cancelButton {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+/* 確定按鈕樣式 */
+#confirmButton {
+    background-color: #007bff;
+    color: white;
+    margin-left: 10px;
+}

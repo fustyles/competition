@@ -47,5 +47,13 @@ var msg = [
 ["enter_query", "innerHTML", Blockly.Msg["ENTER_QUERY"]],
 ["gemini_ask", "innerHTML", Blockly.Msg["GEMINI_ASK"]],
 ["gemini_clear", "innerHTML", Blockly.Msg["GEMINI_CLEAR"]],
-["test_code", "innerHTML", Blockly.Msg["TEST_CODE"]]
+["test_code", "innerHTML", Blockly.Msg["TEST_CODE"]],
+["createFunction_header", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_HEADER"]],
+["createFunction_blockName_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"]],
+["createFunction_blockName_input", "value", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"]],
+["createFunction_add1", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD1"]],
+["createFunction_add2", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD2"]],
+["createFunction_add3", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD3"]],
+["cancelButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CANCELBUTTON"]],
+["confirmButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"]]
 ];
