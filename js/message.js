@@ -46,5 +46,6 @@ var msg = [
 ["enter_question", "innerHTML", Blockly.Msg["ENTER_QUESTION"]],
 ["enter_query", "innerHTML", Blockly.Msg["ENTER_QUERY"]],
 ["gemini_ask", "innerHTML", Blockly.Msg["GEMINI_ASK"]],
+["gemini_clear", "innerHTML", Blockly.Msg["GEMINI_CLEAR"]],
 ["test_code", "innerHTML", Blockly.Msg["TEST_CODE"]]
 ];

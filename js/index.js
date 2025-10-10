@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.gemini_chat_response = gemini_chat_response;
 	
 	document.getElementById('gemini_ask').onclick = async function () {
-		if (!document.getElementById("question_input").value.trim()) return;
+		//if (!document.getElementById("question_input").value.trim()) return;
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
 			code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 		
-		var prompt = "你是一位國中三年級的資優生名字是小鳳，請以國中三年級的學生口吻來回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但不提程式碼細節。回覆內容不要提及JavaScript程式碼內容，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。變數input或變數input_data是系統內部自動產生的，使用者並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
+		var prompt = "你是一位在高雄就讀國中三年級的女資優生名字是小鳳AI，請以國中三年級的學生帶點撒嬌口吻來回答，妳可以杜撰自己的生平經歷。只在第一次回應時自我介紹是小鳳AI，不要加表情或符號等。並可依使用者要求改用指定的國家的語言回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但避免提原始程式碼細節。回覆內容不要提及JavaScript程式碼內容或函式名稱，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。變數input或變數input_data是系統內部自動產生的，使用者並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
 		"\n\n積木程式程式碼：\n"+code+
 		"\n\n使用者發問問題：\n"+
@@ -432,7 +432,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		await gemini_chat_run(prompt);
 	}
 	
-	if (!navigator.onLine) document.getElementById('gemini_ask').style.display = "none"; 	
+	document.getElementById('gemini_clear').onclick = async function () {
+		var query = confirm(Blockly.Msg["GEMINI_CLEAR_QUERY"]);
+		if (query) {
+			gemini_chat_clear();
+			var iframe = document.getElementById("iframe_output");
+			iframe.contentWindow.document.open();
+			iframe.contentWindow.document.write("");
+			iframe.contentWindow.document.close();
+			iframe.focus();
+		}
+	}
+	
+	if (!navigator.onLine) {
+		document.getElementById('gemini_ask').style.display = "none";
+		document.getElementById('gemini_clear').style.display = "none";
+	}
 	
 	//執行程式
 	function runCode() {
