@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	var output_result = "";
 	
-	var GeminiKey = 'U2FsdGVkX1/QCbfZGgM4jikc7e72LweTWjOEW4GY5ofILt6eG56zT2wo9JHmlkdrR8L7opwW5dGyvOh62E3DqA==';
+	var GeminiKey = 'U2FsdGVkX1+2bkZp6enholnTFb34fxWfSUNt84isYBmFmlJv6rxhpUFD1fY9c93M0p3P4N8TLjwwm5ul1uafwg==';
 	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, '你是繁體中文的程式設計助理，請回覆有關Blockly積木程式試題的問題。');
 
 	async function gemini_chat_response(gemini_chat_data) {
