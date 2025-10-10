@@ -96,7 +96,7 @@ Blockly.JavaScript['text_charAt_scratch'] = function(block) {
 
   var code;
   
-  code = text + '.charAt(Number('+where+')-1)';
+  code = 'String('+text + ').charAt(Number('+where+')-1)';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -106,7 +106,16 @@ Blockly.JavaScript['text_contain_scratch'] = function(block) {
 
   var code;
   
-  code = text + '.includes(String('+find+'))';
+  code = 'String('+text + ').includes(String('+find+'))';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['text_length_scratch'] = function(block) {
+  var text = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";
+
+  var code;
+  
+  code = 'String('+text + ').length';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 

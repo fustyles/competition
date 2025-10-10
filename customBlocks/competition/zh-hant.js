@@ -30,6 +30,7 @@ Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "否則";
 Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "字串組合 %1 %2";
 Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "字串 %1 的第 %2 字";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "字串 %1 包含 %2";
+Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "%1 的長度";
 
 Blockly.Msg["NEW_LIST"] = "建立新清單";
 

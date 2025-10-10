@@ -30,6 +30,7 @@ Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "Otherwise";
 Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
 Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "The string %1 contains %2";
+Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "Length of %1";
 
 Blockly.Msg["NEW_LIST"] = "Create new list";
 

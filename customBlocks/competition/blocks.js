@@ -363,6 +363,24 @@ Blockly.common.defineBlocksWithJsonArray([
 ]);
 
 Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "text_length_scratch",
+    "message0": "%{BKY_TEXT_LENGTH_TITLE_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "style": "text_blocks",
+    "helpUrl": "",
+    "inputsInline": true
+  }
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
 	{
 	  "type": "variables_get_other",
 	  "message0": "%1",

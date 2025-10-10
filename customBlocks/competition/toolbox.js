@@ -141,7 +141,7 @@ var catSystemScratch = '<xml>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
-'    <block type="text_length">'+
+'    <block type="text_length_scratch">'+
 '    <value name="VALUE">'+
 '    <shadow type="text_noquotes">'+
 '    <field name="TEXT">abc</field>'+
