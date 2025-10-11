@@ -12,8 +12,6 @@ Blockly.Msg["CATSCRATCH4_HUE"] = "310";
 Blockly.Msg["CATSCRATCH5_HUE"] = "260";
 Blockly.Msg["CATSCRATCH6_HUE"] = "290";
 
-Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "定義";
-
 Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "輸入";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "輸出";
 Blockly.Msg["CATIO"] = "功能";

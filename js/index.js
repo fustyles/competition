@@ -18,6 +18,7 @@ var categoryExpand = [];
 var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
+var createFunctionVariable = [[] ,[], []];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -258,6 +259,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		registerMyListCategory();
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	function registerMyFunction(){
 		Blockly.myfunction = {};
 		Blockly.MYFUNCTION_CATEGORY_NAME = "MYFUNCTION"; 
@@ -288,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="0"></block></xml>';
 					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
 					var singleBlock = subWorkspace.getTopBlocks(false)[0];
-					subWorkspace.centerOnBlock(singleBlock.id);
+					subWorkspace.centerOnBlock(singleBlock.id);					
 				}
 				
 				//currentWorkspace.refreshToolboxSelection();			
@@ -314,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	function toggleForm(show) {
 		const formDiv = document.getElementById('createFunction');
 		if (show) {
-			formDiv.style.display = 'flex'; 
+			formDiv.style.display = 'flex'; 			
 		} else {
 			formDiv.style.display = 'none';
 		}
@@ -327,6 +336,107 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleForm(false);
     });	
+	
+	const paramContainer = document.getElementById('paramListContainer');
+
+	function promptAndAddParam(type) {
+		
+		switch (type) {
+			case 'num':
+				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
+				if (promptText)
+					addParamTag(promptText, 'num');
+				break;
+			case 'bool':
+				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
+				if (promptText)
+					addParamTag(promptText, 'bool');
+				break;
+			case 'text':
+				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
+				if (promptText)
+					addParamTag(promptText, 'text');
+				break;
+		}
+	}
+
+	function addParamTag(name, type) {
+		if (createFunctionVariableExist(name, type)) {
+			alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
+			return;
+		}
+		
+		const tag = document.createElement('div');
+		tag.className = `param-tag type-${type}`;
+		tag.setAttribute('data-name', name);
+		tag.setAttribute('data-type', type);
+
+		const deleteBtn = document.createElement('span');
+		deleteBtn.className = 'delete-btn';
+		deleteBtn.textContent = 'x'; 
+		
+		deleteBtn.onclick = function(event) {
+			event.stopPropagation();
+			console.log(tag.getAttribute('data-name'));
+			console.log(tag.getAttribute('data-type'));
+			createFunctionVariableDelete(tag.getAttribute('data-name'), tag.getAttribute('data-type'));
+			paramContainer.removeChild(tag);
+		};
+
+		tag.textContent = name;
+		tag.appendChild(deleteBtn);
+		
+		paramContainer.appendChild(tag);
+	}
+	
+	function createFunctionVariableExist(name, type) {
+		if (createFunctionVariable.flat().includes(name))
+			return true;		
+		if (type=="num")
+			createFunctionVariable[0].push(name);
+		else if (type=="bool")
+			createFunctionVariable[1].push(name);
+		else if (type=="text")
+			createFunctionVariable[2].push(name);		
+		return false;
+	}
+	
+	function createFunctionVariableDelete(name, type) {		
+		if (type=="num") {
+			const index = createFunctionVariable[0].indexOf(name);
+			createFunctionVariable[0].splice(index, 1);
+		} else if (type=="bool") {
+			const index = createFunctionVariable[1].indexOf(name);			
+			createFunctionVariable[1].splice(index, 1);
+		} else if (type=="text") {
+			const index = createFunctionVariable[2].indexOf(name);			
+			createFunctionVariable[2].splice(index, 1);
+		}		
+	}
+
+	function createFunctionBlock() {		
+	
+	}		
+	
+    document.getElementById('createFunction_add_nt').addEventListener('click', () => {
+        promptAndAddParam('num');
+    });
+	
+	document.getElementById('createFunction_add_b').addEventListener('click', () => {
+        promptAndAddParam('bool');
+    });	
+	
+    document.getElementById('createFunction_add_t').addEventListener('click', () => {
+        promptAndAddParam('text');
+    });		
+
+
+
+
+
+
+
+		
 		
 	setTimeout(function(){
 		

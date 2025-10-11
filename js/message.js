@@ -51,9 +51,9 @@ var msg = [
 ["createFunction_header", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_HEADER"]],
 ["createFunction_blockName_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"]],
 ["createFunction_blockName_input", "value", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"]],
-["createFunction_add1", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD1"]],
-["createFunction_add2", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD2"]],
-["createFunction_add3", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD3"]],
+["createFunction_add_nt", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_NT"]],
+["createFunction_add_b", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_B"]],
+["createFunction_add_t", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_T"]],
 ["cancelButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CANCELBUTTON"]],
 ["confirmButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"]]
 ];

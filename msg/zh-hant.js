@@ -20,11 +20,14 @@ var Blockly = Blockly || { Msg: Object.create(null) };
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "建立一個積木";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "積木名稱";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"] = "新積木";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD1"] = "添加輸入方塊<br>數字或文字";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD2"] = "添加輸入方塊<br>布林值";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD3"] = "添加說明文字";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_NT"] = "添加輸入方塊<br>數字或文字";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_B"] = "添加輸入方塊<br>布林值";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_T"] = "添加說明文字";
 Blockly.Msg["JAVASCRIPT_CREATE_CANCELBUTTON"] = "取消";
 Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "確定";
+Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "定義";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "請輸入參數名稱：";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "參數名稱重複";
 
 Blockly.Msg.COPY_CLIPBOARD = "已複製執行結果到剪貼簿";
 Blockly.Msg.FUNCTION_ASYNC = "非同步(async)";

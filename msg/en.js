@@ -17,16 +17,17 @@
 
 var Blockly = Blockly || { Msg: Object.create(null) };
 
-
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "Create a block";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "Block name";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"] = "Newblock";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD1"] = "Add input block <br>Number or text";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD2"] = "Add input block <br>Boolean value";
-Blockly.Msg["JAVASCRIPT_CREATE_ADD3"] = "Add description text";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_NT"] = "Add input block <br>Number or text";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_B"] = "Add input block <br>Boolean value";
+Blockly.Msg["JAVASCRIPT_CREATE_ADD_T"] = "Add description text";
 Blockly.Msg["JAVASCRIPT_CREATE_CANCELBUTTON"] = "Cancel";
 Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "OK";
-
+Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "Definition";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the parameter name:";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
 
 Blockly.Msg.COPY_CLIPBOARD = "Copying to clipboard was successful!";
 Blockly.Msg.FUNCTION_ASYNC = "async";
