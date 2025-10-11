@@ -20,6 +20,7 @@ Blockly.Msg["CATIO"] = "Input/Output";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "When";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "Clicked";
+Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "The workspace must have an initialization block, execute cancel!";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "Speak %1";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "Ask %1 And wait";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "Answer to the question";

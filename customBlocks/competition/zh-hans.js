@@ -20,6 +20,7 @@ Blockly.Msg["CATIO"] = "功能";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "当";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "被点击";
+Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "工作区必须有一个初始化积木，执行取消！";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "说出 %1";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "询问 %1 并等待";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "询问的答案";

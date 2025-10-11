@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						rtl: false,
 					});
 					
-					var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="00"></block></xml>';
+					var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="0"></block></xml>';
 					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
 					var singleBlock = subWorkspace.getTopBlocks(false)[0];
 					subWorkspace.centerOnBlock(singleBlock.id);
@@ -487,6 +487,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	//執行程式
 	function runCode() {
+	  if (scratchStyle) {
+		const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
+		if (topBlocks.length!=1) {
+			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+			if (topBlocks.length==0) {
+				var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_start_scratch" x="10" y="10"></block></xml>';
+				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
+			}
+			return;
+		}
+	  }
+		
 	  var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
@@ -515,14 +527,37 @@ document.addEventListener('DOMContentLoaded', function() {
 	  if (input) {
 		var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
-	console.log(code);
+		
+		if (!scratchStyle) {
+			code += 'function variable_input_test (input, msg, type){\n'+
+			'  variable_data_test_index++;\n'+
+			'  var arr = input.split(";");\n'+
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+			'  input = arr[variable_data_test_index];\n'+
+			'  if (type=="NUMBER")\n'+
+			'  	input = Number(input);\n'+
+			'  else\n'+
+			'  	input = String(input);\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
+			'  return input;\n'+
+			'}';
+		} else {
+			code += 'function variable_input_test (input, msg){\n'+
+			'  variable_data_test_index++;\n'+
+			'  var arr = input.split(";");\n'+
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+			'  input = arr[variable_data_test_index];\n'+	
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
+			'  return input;\n'+
+			'}';
+		}			
+
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
 		iframe_code += getScript(0);
 
 		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 
-		//console.log(iframe_code);
 		output_result = "";
 
 		try {

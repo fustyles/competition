@@ -9,18 +9,7 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 	'  return input;\n'+
 	'}';
-	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function variable_input_test (input, msg, type) {\n'+
-	'  variable_data_test_index++;\n'+
-	'  var arr = input.split(";");\n'+
-	'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-	'  input = arr[variable_data_test_index];\n'+
-	'  if (type=="NUMBER")\n'+
-	'  	input = Number(input);\n'+
-	'  else\n'+
-	'  	input = String(input);\n'+
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
-	'  return input;\n'+
-	'}';	
+
 	var type = block.getFieldValue('type');
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)||" ";	
 	var code = 'variable_input('+TEXT+', "'+type+'")';
@@ -53,14 +42,7 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	'  	input = Number(input);'+
 	'  return input;\n'+
 	'}';
-	Blockly.JavaScript.definitions_['javascript_data_input_test'] = 'function variable_input_test (input, msg) {\n'+
-	'  variable_data_test_index++;\n'+
-	'  var arr = input.split(";");\n'+
-	'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-	'  input = arr[variable_data_test_index];\n'+	
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
-	'  return input;\n'+
-	'}';	
+
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)||" ";	
 	var code = 'input_data = variable_input('+TEXT+');\n';
 	return code;
