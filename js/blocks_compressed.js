@@ -540,6 +540,7 @@ var module$build$src$blocks$variables_dynamic={};module$build$src$blocks$variabl
 module$build$src$blocks$blocks.colour=module$build$src$blocks$colour;module$build$src$blocks$blocks.lists=module$build$src$blocks$lists;module$build$src$blocks$blocks.loops=module$build$src$blocks$loops;module$build$src$blocks$blocks.math=module$build$src$blocks$math;module$build$src$blocks$blocks.procedures=module$build$src$blocks$procedures;module$build$src$blocks$blocks.texts=module$build$src$blocks$text;module$build$src$blocks$blocks.variables=module$build$src$blocks$variables;
 module$build$src$blocks$blocks.variablesDynamic=module$build$src$blocks$variables_dynamic;
 module$build$src$blocks$blocks.__namespace__=$;
+
 return module$build$src$blocks$blocks;
 }));
 

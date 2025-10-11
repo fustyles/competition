@@ -2038,8 +2038,6 @@ module$build$src$core$blockly.procedures=module$build$src$core$procedures;module
 module$build$src$core$blockly.svgResize=svgResize$$module$build$src$core$common;module$build$src$core$blockly.thrasos=module$build$src$core$renderers$thrasos$thrasos;module$build$src$core$blockly.uiPosition=module$build$src$core$positionable_helpers;module$build$src$core$blockly.utils=module$build$src$core$utils;module$build$src$core$blockly.zelos=module$build$src$core$renderers$zelos$zelos;var module$exports$Blockly$main={},module$contents$Blockly$main_Msg=module$build$src$core$msg;"Blockly"in globalThis||(globalThis.Blockly={Msg:module$build$src$core$msg});
 module$build$src$core$blockly.__namespace__=$;
 
-
-
 return module$build$src$core$blockly;
 }));
 

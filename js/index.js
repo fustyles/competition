@@ -18,7 +18,7 @@ var categoryExpand = [];
 var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
-var createFunctionVariable = [[] ,[], []];
+var createFunctionVariable = ["", [] ,[], []];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -265,7 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	
 	
-	
+	const paramContainer = document.getElementById('paramListContainer');
+	const createFunctionBlockName = document.getElementById('createFunction_blockName_input');
 	
 	function registerMyFunction(){
 		Blockly.myfunction = {};
@@ -284,7 +285,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
-						zoom: {
+						renderer: 'zelos',
+						zoom: {						
 							wheel: true,
 							startScale: 1.0,
 							maxScale: 3,
@@ -294,10 +296,10 @@ document.addEventListener('DOMContentLoaded', function() {
 						rtl: false,
 					});
 					
-					var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="0"></block></xml>';
-					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
-					var singleBlock = subWorkspace.getTopBlocks(false)[0];
-					subWorkspace.centerOnBlock(singleBlock.id);					
+					createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
+					createFunctionBlockName.value = createFunctionVariable[0];
+					
+					createFunctionBlock();
 				}
 				
 				//currentWorkspace.refreshToolboxSelection();			
@@ -336,8 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleForm(false);
     });	
-	
-	const paramContainer = document.getElementById('paramListContainer');
 
 	function promptAndAddParam(type) {
 		
@@ -377,8 +377,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		deleteBtn.onclick = function(event) {
 			event.stopPropagation();
-			console.log(tag.getAttribute('data-name'));
-			console.log(tag.getAttribute('data-type'));
 			createFunctionVariableDelete(tag.getAttribute('data-name'), tag.getAttribute('data-type'));
 			paramContainer.removeChild(tag);
 		};
@@ -391,32 +389,99 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	function createFunctionVariableExist(name, type) {
 		if (createFunctionVariable.flat().includes(name))
-			return true;		
+			return true;
+		
 		if (type=="num")
-			createFunctionVariable[0].push(name);
-		else if (type=="bool")
 			createFunctionVariable[1].push(name);
+		else if (type=="bool")
+			createFunctionVariable[2].push(name);
 		else if (type=="text")
-			createFunctionVariable[2].push(name);		
+			createFunctionVariable[3].push(name);
+        createFunctionBlock();		
 		return false;
 	}
 	
 	function createFunctionVariableDelete(name, type) {		
 		if (type=="num") {
-			const index = createFunctionVariable[0].indexOf(name);
-			createFunctionVariable[0].splice(index, 1);
-		} else if (type=="bool") {
-			const index = createFunctionVariable[1].indexOf(name);			
+			const index = createFunctionVariable[1].indexOf(name);
 			createFunctionVariable[1].splice(index, 1);
-		} else if (type=="text") {
+		} else if (type=="bool") {
 			const index = createFunctionVariable[2].indexOf(name);			
 			createFunctionVariable[2].splice(index, 1);
-		}		
+		} else if (type=="text") {
+			const index = createFunctionVariable[3].indexOf(name);			
+			createFunctionVariable[3].splice(index, 1);
+		}
+        createFunctionBlock();		
 	}
 
-	function createFunctionBlock() {		
+	function createFunctionBlock() {
+		if (subWorkspace) {	
+			var xml = Blockly.utils.xml.textToDom('<xml></xml>');
+			subWorkspace.clear();		
+			xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="0"></block></xml>';
+			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
+			var singleBlock = subWorkspace.getTopBlocks(false)[0];
+			
+            singleBlock.appendDummyInput()
+                .appendField(createFunctionVariable[0]);		
+
+			for (var i=0;i<createFunctionVariable[1].length;i++) {
+				singleBlock.appendValueInput("INPUT"+createFunctionVariable[1][i])
+					.setCheck("String");
+				addShadowToInput(singleBlock, "INPUT"+createFunctionVariable[1][i], 'text_noquotes', createFunctionVariable[1][i]);
+			}
+
+			for (var i=0;i<createFunctionVariable[2].length;i++) {
+				singleBlock.appendDummyInput()			
+					.appendField(new FieldTextHexagon(createFunctionVariable[2][i]));
+			}
+				
+			for (var i=0;i<createFunctionVariable[3].length;i++) {				
+				singleBlock.appendDummyInput()
+					.appendField(createFunctionVariable[3][i]);
+			}
+				
+			singleBlock.setDeletable(false);
+			singleBlock.setInputsInline(true);
+			singleBlock.initSvg(); 
+			singleBlock.render(); 
+
+			subWorkspace.centerOnBlock(singleBlock.id);			
+		}
+	}
 	
-	}		
+	function addShadowToInput(block, inputName, shadowType, fieldValue) {
+		const input = block.getInput(inputName);
+		
+		if (!input || !input.connection) {
+			return;
+		}
+
+		const shadowDom = Blockly.utils.xml.createElement('shadow');
+		shadowDom.setAttribute('type', shadowType);
+
+		if (fieldValue !== undefined) {
+			const fieldDom = Blockly.utils.xml.createElement('field');
+			
+			if (shadowType === 'logic_boolean') {
+				 fieldDom.setAttribute('name', 'BOOL'); 
+			} else {
+				 fieldDom.setAttribute('name', 'TEXT');
+			}
+			
+			fieldDom.textContent = fieldValue;
+			shadowDom.appendChild(fieldDom);
+		}
+
+		input.connection.setShadowDom(shadowDom);
+		block.render(); 
+	}	
+
+	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
+        createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
+		createFunctionBlock();
+    });	
 	
     document.getElementById('createFunction_add_nt').addEventListener('click', () => {
         promptAndAddParam('num');
@@ -430,13 +495,48 @@ document.addEventListener('DOMContentLoaded', function() {
         promptAndAddParam('text');
     });		
 
-
-
-
-
-
-
+	class FieldTextHexagon extends Blockly.FieldTextInput {
+		static KEY_ = 'field_text_hexagon';
+		constructor(value, opt_validator, opt_config) {
+			super(value, opt_validator, opt_config);
+			this.SERIALIZABLE = true; 
+		}
 		
+		initView() {
+			super.initView();
+			
+			const oldRect = this.fieldBorderRect_;
+			if (oldRect) {
+				oldRect.remove();
+			}
+			
+			this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
+				Blockly.utils.Svg.PATH,
+				{
+					'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
+					'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
+					'class': 'blocklyFieldRect blocklyFieldTextHexagonPath'
+				},
+				this.fieldGroup_
+			);
+			
+			this.textElement_.style.fill = 'black'; 
+		}
+
+		updateSize_() {
+			super.updateSize_(); 
+		}
+	}
+
+	Blockly.FieldTextHexagon = FieldTextHexagon;
+	Blockly.registry.register(Blockly.registry.Type.FIELD, FieldTextHexagon.KEY_, FieldTextHexagon);
+
+
+
+
+
+
+
 		
 	setTimeout(function(){
 		
