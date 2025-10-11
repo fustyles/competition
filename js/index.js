@@ -718,8 +718,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  console.log(variable_data_test_index);\n'+			
-			'  console.log(arr);\n'+	
 			'  input = arr[variable_data_test_index];\n'+
 			'  if (type=="NUMBER")\n'+
 			'  	input = Number(input);\n'+
@@ -734,14 +732,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  console.log(variable_data_test_index);\n'+			
-			'  console.log(arr);\n'+			
 			'  input = arr[variable_data_test_index];\n'+	
 			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 			'  return input;\n'+
 			'}';
 		}			
-console.log(js_beautify(code));
+
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
 		iframe_code += getScript(0);
