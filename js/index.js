@@ -289,20 +289,19 @@ document.addEventListener('DOMContentLoaded', function() {
 						zoom: {						
 							wheel: true,
 							startScale: 1.0,
-							maxScale: 3,
-							minScale: 0.3,
+							maxScale: 1.0,
+							minScale: 1.0,
 							scaleSpeed: 1.2
 						},
 						rtl: false,
 					});
-					
-					createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
-					createFunctionBlockName.value = createFunctionVariable[0];
-					
-					createFunctionBlock();
 				}
 				
-				//currentWorkspace.refreshToolboxSelection();			
+				createFunctionVariable = ["", []];
+				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
+				createFunctionBlockName.value = createFunctionVariable[0];
+				paramContainer.innerHTML = "";
+				createFunctionBlock();
 			});
 			blocks.push(btn);
 
@@ -373,6 +372,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function createFunctionVariableExist(name, type) {
+		const variableModels = workspace.getAllVariables();
+		const variableNames = variableModels.map(variableModel => variableModel.name);
+		if (variableNames.includes(name))
+			return true;		
+		
 		if (createFunctionVariable[1].flat().includes(name))
 			return true;
 		createFunctionVariable[1].push([name, type]);
@@ -466,43 +470,80 @@ document.addEventListener('DOMContentLoaded', function() {
 	
     document.getElementById('createFunction_add_t').addEventListener('click', () => {
         promptAndAddParam('type_text');
-    });		
+    });
 
-	class FieldTextHexagon extends Blockly.FieldTextInput {
-		static KEY_ = 'field_text_hexagon';
-		constructor(value, opt_validator, opt_config) {
-			super(value, opt_validator, opt_config);
-			this.SERIALIZABLE = true; 
-		}
-		
-		initView() {
-			super.initView();
-			
-			const oldRect = this.fieldBorderRect_;
-			if (oldRect) {
-				oldRect.remove();
-			}
-			
-			this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
-				Blockly.utils.Svg.PATH,
-				{
-					'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
-					'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
-					'class': 'blocklyFieldRect blocklyFieldTextHexagonPath'
-				},
-				this.fieldGroup_
-			);
-			
-			this.textElement_.style.fill = 'black'; 
-		}
 
-		updateSize_() {
-			super.updateSize_(); 
-		}
-	}
 
-	Blockly.FieldTextHexagon = FieldTextHexagon;
-	Blockly.registry.register(Blockly.registry.Type.FIELD, FieldTextHexagon.KEY_, FieldTextHexagon);
+
+
+
+	
+
+class FieldTextHexagon extends Blockly.FieldTextInput {
+
+static KEY_ = 'field_text_hexagon';
+
+constructor(value, opt_validator, opt_config) {
+
+super(value, opt_validator, opt_config);
+
+this.SERIALIZABLE = true; 
+
+}
+
+
+initView() {
+
+super.initView();
+
+
+const oldRect = this.fieldBorderRect_;
+
+if (oldRect) {
+
+oldRect.remove();
+
+}
+
+
+this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
+
+Blockly.utils.Svg.PATH,
+
+{
+
+'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
+
+'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
+
+'class': 'blocklyFieldRect blocklyFieldTextHexagonPath'
+
+},
+
+this.fieldGroup_
+
+);
+
+
+this.textElement_.style.fill = 'black'; 
+
+}
+
+
+
+updateSize_() {
+
+super.updateSize_(); 
+
+}
+
+}
+
+
+
+Blockly.FieldTextHexagon = FieldTextHexagon;
+
+Blockly.registry.register(Blockly.registry.Type.FIELD, FieldTextHexagon.KEY_, FieldTextHexagon);
 
 
 
