@@ -340,18 +340,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	function promptAndAddParam(type) {
 		var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
-		if (promptText)
-			addParamTag(promptText, type);		
+		if (promptText) {
+			if (createFunctionVariableExist(promptText)) {
+				alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
+				return;
+			}	
+			if (promptText.trim()=="") {
+				return;
+			}
+			createFunctionVariable[1].push([promptText, type]);			
+			updateParamContainer();
+			createFunctionBlock();
+		}			
 	}
 
 	function addParamTag(name, type) {
-		if (createFunctionVariableExist(name, type)) {
-			alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
-			return;
-		}
-		
 		const tag = document.createElement('div');
-		tag.className = `param-tag type-${type}`;
+		tag.className = `param-tag ${type}`;
 		tag.setAttribute('data-name', name);
 		tag.setAttribute('data-type', type);
 
@@ -361,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		deleteBtn.onclick = function(event) {
 			event.stopPropagation();
-			createFunctionVariableDelete([tag.getAttribute('data-name'), tag.getAttribute('data-type')]);
+			createFunctionVariableDelete(tag.getAttribute('data-name'));
 			paramContainer.removeChild(tag);
 		};
 
@@ -371,22 +376,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		paramContainer.appendChild(tag);
 	}
 	
-	function createFunctionVariableExist(name, type) {
+	function createFunctionVariableExist(name) {
 		const variableModels = workspace.getAllVariables();
 		const variableNames = variableModels.map(variableModel => variableModel.name);
 		if (variableNames.includes(name))
 			return true;		
 		
 		if (createFunctionVariable[1].flat().includes(name))
-			return true;
-		createFunctionVariable[1].push([name, type]);
-        createFunctionBlock();		
+			return true;		
 		return false;
 	}
 	
-	function createFunctionVariableDelete(arrVariable) {
+	function createFunctionVariableDelete(name) {
 		const index = createFunctionVariable[1].findIndex(item => {
-			return item[0] === arrVariable[0] && item[1] === arrVariable[1];
+			return item[0] === name;
 		});		
 		createFunctionVariable[1].splice(index, 1);
         createFunctionBlock();		
@@ -404,20 +407,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 .appendField(createFunctionVariable[0]);		
 
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
-				if (createFunctionVariable[1][i][1]=="type_num") {
-					singleBlock.appendValueInput("INPUT_"+createFunctionVariable[1][i][0])
-						.setCheck("String");
-					addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
-				} else if (createFunctionVariable[1][i][1]=="type_bool") {
-					singleBlock.appendDummyInput()			
-						.appendField(new FieldTextHexagon(createFunctionVariable[1][i][0]));
-				} else if (createFunctionVariable[1][i][1]=="type_text") {			
-					singleBlock.appendDummyInput()
-						.appendField(createFunctionVariable[1][i][0]);
-				}
+				singleBlock.appendValueInput("INPUT_"+createFunctionVariable[1][i][0])
+					.setCheck("String");
+				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
 			}
 
-			singleBlock.setEditable(false);
+			//singleBlock.setEditable(false);
 			singleBlock.setDeletable(false);
 			singleBlock.setInputsInline(true);
 			singleBlock.initSvg(); 
@@ -446,10 +441,33 @@ document.addEventListener('DOMContentLoaded', function() {
 		const newBlockConnection = newBlock.outputConnection;
         input.connection.connect(newBlockConnection);
 		
-		newBlock.setEditable(false);
+		//newBlock.setEditable(false);
 		newBlock.setMovable(false);
-		newBlock.setDeletable(false);		
-	}	
+		newBlock.setDeletable(false);
+
+		const text_field = newBlock.getField('TEXT');
+        
+        if (text_field) {
+            text_field.setValidator(function(newValue) {
+                const oldValue = this.getValue();
+				if (newValue !== oldValue) {
+					const index = createFunctionVariable[1].findIndex(item => {
+						return item[0] === oldValue;
+					});		
+					createFunctionVariable[1][index][0] = newValue;
+					updateParamContainer();
+                }
+                return newValue;
+            });
+        }
+	}
+
+	function updateParamContainer() {
+		paramContainer.innerHTML = "";
+		for (var i=0;i<createFunctionVariable[1].length;i++) {
+			addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+		}
+	}
 
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
         createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
@@ -467,7 +485,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('createFunction_add_t').addEventListener('click', () => {
         promptAndAddParam('type_text');
     });
-
+	
+	
+/*	
+	
 	class FieldTextHexagon extends Blockly.FieldTextInput {
 		static KEY_ = 'field_text_hexagon';
 
@@ -511,10 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		FieldTextHexagon
 	);
 
-
-
-
-
+*/
 
 
 
