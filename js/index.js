@@ -18,7 +18,7 @@ var categoryExpand = [];
 var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
-var createFunctionVariable = ["", [] ,[], []];
+var createFunctionVariable = ["", []];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -340,24 +340,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
 
 	function promptAndAddParam(type) {
-		
-		switch (type) {
-			case 'num':
-				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
-				if (promptText)
-					addParamTag(promptText, 'num');
-				break;
-			case 'bool':
-				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
-				if (promptText)
-					addParamTag(promptText, 'bool');
-				break;
-			case 'text':
-				var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
-				if (promptText)
-					addParamTag(promptText, 'text');
-				break;
-		}
+		var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
+		if (promptText)
+			addParamTag(promptText, type);		
 	}
 
 	function addParamTag(name, type) {
@@ -377,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		deleteBtn.onclick = function(event) {
 			event.stopPropagation();
-			createFunctionVariableDelete(tag.getAttribute('data-name'), tag.getAttribute('data-type'));
+			createFunctionVariableDelete([tag.getAttribute('data-name'), tag.getAttribute('data-type')]);
 			paramContainer.removeChild(tag);
 		};
 
@@ -388,34 +373,23 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function createFunctionVariableExist(name, type) {
-		if (createFunctionVariable.flat().includes(name))
+		if (createFunctionVariable[1].flat().includes(name))
 			return true;
-		
-		if (type=="num")
-			createFunctionVariable[1].push(name);
-		else if (type=="bool")
-			createFunctionVariable[2].push(name);
-		else if (type=="text")
-			createFunctionVariable[3].push(name);
+		createFunctionVariable[1].push([name, type]);
         createFunctionBlock();		
 		return false;
 	}
 	
-	function createFunctionVariableDelete(name, type) {		
-		if (type=="num") {
-			const index = createFunctionVariable[1].indexOf(name);
-			createFunctionVariable[1].splice(index, 1);
-		} else if (type=="bool") {
-			const index = createFunctionVariable[2].indexOf(name);			
-			createFunctionVariable[2].splice(index, 1);
-		} else if (type=="text") {
-			const index = createFunctionVariable[3].indexOf(name);			
-			createFunctionVariable[3].splice(index, 1);
-		}
+	function createFunctionVariableDelete(arrVariable) {
+		const index = createFunctionVariable[1].findIndex(item => {
+			return item[0] === arrVariable[0] && item[1] === arrVariable[1];
+		});		
+		createFunctionVariable[1].splice(index, 1);
         createFunctionBlock();		
 	}
 
 	function createFunctionBlock() {
+				console.log(createFunctionVariable);
 		if (subWorkspace) {	
 			var xml = Blockly.utils.xml.textToDom('<xml></xml>');
 			subWorkspace.clear();		
@@ -427,21 +401,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 .appendField(createFunctionVariable[0]);		
 
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
-				singleBlock.appendValueInput("INPUT"+createFunctionVariable[1][i])
-					.setCheck("String");
-				addShadowToInput(singleBlock, "INPUT"+createFunctionVariable[1][i], 'text_noquotes', createFunctionVariable[1][i]);
+				if (createFunctionVariable[1][i][1]=="type_num") {
+					singleBlock.appendValueInput("INPUT"+createFunctionVariable[1][i][0])
+						.setCheck("String");
+					addShadowToInput(singleBlock, "INPUT"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
+				
+				} else if (createFunctionVariable[1][i][1]=="type_bool") {
+					singleBlock.appendDummyInput()			
+						.appendField(new FieldTextHexagon(createFunctionVariable[1][i][0]));
+				} else if (createFunctionVariable[1][i][1]=="type_text") {			
+					singleBlock.appendDummyInput()
+						.appendField(createFunctionVariable[1][i][0]);
+				}
 			}
 
-			for (var i=0;i<createFunctionVariable[2].length;i++) {
-				singleBlock.appendDummyInput()			
-					.appendField(new FieldTextHexagon(createFunctionVariable[2][i]));
-			}
-				
-			for (var i=0;i<createFunctionVariable[3].length;i++) {				
-				singleBlock.appendDummyInput()
-					.appendField(createFunctionVariable[3][i]);
-			}
-				
 			singleBlock.setDeletable(false);
 			singleBlock.setInputsInline(true);
 			singleBlock.initSvg(); 
@@ -484,15 +457,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
 	
     document.getElementById('createFunction_add_nt').addEventListener('click', () => {
-        promptAndAddParam('num');
+        promptAndAddParam('type_num');
     });
 	
 	document.getElementById('createFunction_add_b').addEventListener('click', () => {
-        promptAndAddParam('bool');
+        promptAndAddParam('type_bool');
     });	
 	
     document.getElementById('createFunction_add_t').addEventListener('click', () => {
-        promptAndAddParam('text');
+        promptAndAddParam('type_text');
     });		
 
 	class FieldTextHexagon extends Blockly.FieldTextInput {
