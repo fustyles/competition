@@ -283,6 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
 				toggleForm(1);
 				
+				if (subWorkspace)
+					subWorkspace.dispose();
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos',
@@ -348,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (promptText.trim()=="") {
 				return;
 			}
-			createFunctionVariable[1].push([promptText, type]);			
+			createFunctionVariableAdd(promptText, type);			
 			updateParamContainer();
 			createFunctionBlock();
 		}			
@@ -386,6 +388,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			return true;		
 		return false;
 	}
+	
+	function createFunctionVariableAdd(name, type) {
+		createFunctionVariable[1].push([name, type]);	
+	}	
 	
 	function createFunctionVariableDelete(name) {
 		const index = createFunctionVariable[1].findIndex(item => {
