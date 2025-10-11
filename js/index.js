@@ -393,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	function createFunctionBlock() {
-				console.log(createFunctionVariable);
 		if (subWorkspace) {	
 			var xml = Blockly.utils.xml.textToDom('<xml></xml>');
 			subWorkspace.clear();		
@@ -406,10 +405,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
 				if (createFunctionVariable[1][i][1]=="type_num") {
-					singleBlock.appendValueInput("INPUT"+createFunctionVariable[1][i][0])
+					singleBlock.appendValueInput("INPUT_"+createFunctionVariable[1][i][0])
 						.setCheck("String");
-					addShadowToInput(singleBlock, "INPUT"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
-				
+					addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
 				} else if (createFunctionVariable[1][i][1]=="type_bool") {
 					singleBlock.appendDummyInput()			
 						.appendField(new FieldTextHexagon(createFunctionVariable[1][i][0]));
@@ -419,6 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}
 
+			singleBlock.setEditable(false);
 			singleBlock.setDeletable(false);
 			singleBlock.setInputsInline(true);
 			singleBlock.initSvg(); 
@@ -428,31 +427,28 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
-	function addShadowToInput(block, inputName, shadowType, fieldValue) {
+	function addBlockToInput(block, inputName, shadowType, fieldValue) {
 		const input = block.getInput(inputName);
 		
 		if (!input || !input.connection) {
 			return;
 		}
 
-		const shadowDom = Blockly.utils.xml.createElement('shadow');
-		shadowDom.setAttribute('type', shadowType);
-
-		if (fieldValue !== undefined) {
-			const fieldDom = Blockly.utils.xml.createElement('field');
-			
-			if (shadowType === 'logic_boolean') {
-				 fieldDom.setAttribute('name', 'BOOL'); 
-			} else {
-				 fieldDom.setAttribute('name', 'TEXT');
-			}
-			
-			fieldDom.textContent = fieldValue;
-			shadowDom.appendChild(fieldDom);
-		}
-
-		input.connection.setShadowDom(shadowDom);
-		block.render(); 
+		const blockDom = Blockly.utils.xml.createElement('block');
+		blockDom.setAttribute('type', shadowType); 
+		
+		const fieldDom = Blockly.utils.xml.createElement('field');
+		fieldDom.setAttribute('name', 'TEXT');
+		fieldDom.textContent = fieldValue;
+		blockDom.appendChild(fieldDom);
+		
+		const newBlock = Blockly.Xml.domToBlock(blockDom, block.workspace);
+		const newBlockConnection = newBlock.outputConnection;
+        input.connection.connect(newBlockConnection);
+		
+		newBlock.setEditable(false);
+		newBlock.setMovable(false);
+		newBlock.setDeletable(false);		
 	}	
 
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
@@ -472,78 +468,50 @@ document.addEventListener('DOMContentLoaded', function() {
         promptAndAddParam('type_text');
     });
 
+	class FieldTextHexagon extends Blockly.FieldTextInput {
+		static KEY_ = 'field_text_hexagon';
+
+		constructor(value, opt_validator, opt_config) {
+			super(value, opt_validator, opt_config);
+			
+			this.SERIALIZABLE = true;
+		}
+
+		initView() {
+			super.initView();
+
+			const oldRect = this.fieldBorderRect_;
+			if (oldRect) {
+				oldRect.remove();
+			}
+
+			this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
+				Blockly.utils.Svg.PATH,
+				{
+					'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999',
+					'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999',
+					'class': 'blocklyFieldRect blocklyFieldTextHexagonPath',
+				},
+				this.fieldGroup_
+			);
+
+			this.textElement_.style.fill = 'black';
+		}
+
+		updateSize_() {
+			super.updateSize_();
+		}
+	}
+
+	Blockly.FieldTextHexagon = FieldTextHexagon;
+
+	Blockly.registry.register(
+		Blockly.registry.Type.FIELD,
+		FieldTextHexagon.KEY_,
+		FieldTextHexagon
+	);
 
 
-
-
-
-	
-
-class FieldTextHexagon extends Blockly.FieldTextInput {
-
-static KEY_ = 'field_text_hexagon';
-
-constructor(value, opt_validator, opt_config) {
-
-super(value, opt_validator, opt_config);
-
-this.SERIALIZABLE = true; 
-
-}
-
-
-initView() {
-
-super.initView();
-
-
-const oldRect = this.fieldBorderRect_;
-
-if (oldRect) {
-
-oldRect.remove();
-
-}
-
-
-this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
-
-Blockly.utils.Svg.PATH,
-
-{
-
-'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
-
-'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999', 
-
-'class': 'blocklyFieldRect blocklyFieldTextHexagonPath'
-
-},
-
-this.fieldGroup_
-
-);
-
-
-this.textElement_.style.fill = 'black'; 
-
-}
-
-
-
-updateSize_() {
-
-super.updateSize_(); 
-
-}
-
-}
-
-
-
-Blockly.FieldTextHexagon = FieldTextHexagon;
-
-Blockly.registry.register(Blockly.registry.Type.FIELD, FieldTextHexagon.KEY_, FieldTextHexagon);
 
 
 

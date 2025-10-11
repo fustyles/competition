@@ -149,7 +149,7 @@ var catSystemScratch = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    </category>'+
-'    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="MYVARIABLE"></category>'+
+'    <category name="%{BKY_CATSCRATCH4}" colour="%{BKY_CATSCRATCH4_HUE}" custom="MYVARIABLE"></category>'+
 '    <category name="%{BKY_CATSCRATCH5}" colour="%{BKY_CATSCRATCH5_HUE}" custom="MYLIST"></category>'+
-'    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="MYFUNCTION"></category>'+
+'    <category name="%{BKY_CATSCRATCH6}" colour="%{BKY_CATSCRATCH6_HUE}" custom="MYFUNCTION"></category>'+
 '</xml>';

@@ -19,6 +19,7 @@ var Blockly = Blockly || { Msg: Object.create(null) };
 
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "建立一個積木";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "積木名稱";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_LABEL"] = "參數列表";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"] = "新積木";
 Blockly.Msg["JAVASCRIPT_CREATE_ADD_NT"] = "添加輸入方塊<br>數字或文字";
 Blockly.Msg["JAVASCRIPT_CREATE_ADD_B"] = "添加輸入方塊<br>布林值";
