@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				handleBlockDelete(event);
 			}
 			
-			const targetWorkspace = event.getWorkspace();
+			const targetWorkspace = Blockly.getMainWorkspace();
 			
 			const allowedTypes = [
 				Blockly.Events.BLOCK_CREATE,
