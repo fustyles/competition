@@ -765,6 +765,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 		this.quarkIds_=null;
 		this.setMutator(new Blockly.icons.MutatorIcon([],this));
 		this.previousEnabledState_=!0;
+		this.setInputsInline(true);			
 	}
 	,defType_:"javascript_procedures_defnoreturn_scratch"
     ,mutationToDom: Blockly.Blocks['procedures_callnoreturn'].mutationToDom
