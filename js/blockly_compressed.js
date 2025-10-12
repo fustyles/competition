@@ -448,57 +448,6 @@ registerDisable$$module$build$src$core$contextmenu_items=function(){
 	})
 };
 
-registerDeleteNull$$module$build$src$core$contextmenu_items=function(){
-	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
-		{
-			displayText:function(){
-				var c=0;
-				var a=Blockly.getMainWorkspace();
-				if (a.blockDB_) {
-					for (var i in a.blockDB_) {
-						var b = a.getBlockById(i);
-						if (!b.parentBlock_&&b.outputConnection) {
-							c++;
-						}
-					}	
-				}				
-				return $.Msg$$module$build$src$core$msg.DELETENULL.replace("%1",String(c))
-			}
-			,preconditionFn:function(a){
-				for (var i in a.workspace.blockDB_) {
-					var b = a.workspace.getBlockById(i);
-					if (!b.parentBlock_&&b.outputConnection) {
-						return "enabled"
-					}
-				}
-				return "hidden"
-			}
-			,callback:function(a){
-				Blockly.Events.setGroup(!0);
-				var c=0;
-				if (a.workspace.blockDB_) {
-					for (var i in a.workspace.blockDB_) {
-						var b = a.workspace.getBlockById(i);
-						if (!b.parentBlock_&&b.outputConnection) {
-							c++;
-						}
-					}	
-				}				
-				var result = confirm($.Msg$$module$build$src$core$msg.DELETENULL.replace("%1",String(c)));
-				if (result) {
-					for (var i in a.workspace.blockDB_) {
-						var b = a.workspace.getBlockById(i);
-						if (!b.parentBlock_&&b.outputConnection) {
-							b.dispose();
-						}
-					}
-				}
-				Blockly.Events.setGroup(!1)
-			}
-			,scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.WORKSPACE,id:"blockDeleteNull",weight:7
-		}
-	)
-};
 registerDownload$$module$build$src$core$contextmenu_items=function(){
 	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
 		{
@@ -522,8 +471,7 @@ registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){regist
 
 
 
-registerDeleteNull$$module$build$src$core$contextmenu_items();
-registerDownload$$module$build$src$core$contextmenu_items();
+//registerDownload$$module$build$src$core$contextmenu_items();
 
 
 
