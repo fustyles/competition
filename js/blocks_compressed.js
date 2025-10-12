@@ -244,13 +244,51 @@ args0:[{type:"input_value",name:"FROM",check:"Number"},{type:"input_value",name:
 name:"X",check:"Number"},{type:"input_value",name:"Y",check:"Number"}],inputsInline:!0,output:"Number",style:"math_blocks",tooltip:"%{BKY_MATH_ATAN2_TOOLTIP}",helpUrl:"%{BKY_MATH_ATAN2_HELPURL}"}]),TOOLTIPS_BY_OP$$module$build$src$blocks$math={ADD:"%{BKY_MATH_ARITHMETIC_TOOLTIP_ADD}",MINUS:"%{BKY_MATH_ARITHMETIC_TOOLTIP_MINUS}",MULTIPLY:"%{BKY_MATH_ARITHMETIC_TOOLTIP_MULTIPLY}",DIVIDE:"%{BKY_MATH_ARITHMETIC_TOOLTIP_DIVIDE}",POWER:"%{BKY_MATH_ARITHMETIC_TOOLTIP_POWER}",ROOT:"%{BKY_MATH_SINGLE_TOOLTIP_ROOT}",
 ABS:"%{BKY_MATH_SINGLE_TOOLTIP_ABS}",NEG:"%{BKY_MATH_SINGLE_TOOLTIP_NEG}",LN:"%{BKY_MATH_SINGLE_TOOLTIP_LN}",LOG10:"%{BKY_MATH_SINGLE_TOOLTIP_LOG10}",EXP:"%{BKY_MATH_SINGLE_TOOLTIP_EXP}",POW10:"%{BKY_MATH_SINGLE_TOOLTIP_POW10}",SIN:"%{BKY_MATH_TRIG_TOOLTIP_SIN}",COS:"%{BKY_MATH_TRIG_TOOLTIP_COS}",TAN:"%{BKY_MATH_TRIG_TOOLTIP_TAN}",ASIN:"%{BKY_MATH_TRIG_TOOLTIP_ASIN}",ACOS:"%{BKY_MATH_TRIG_TOOLTIP_ACOS}",ATAN:"%{BKY_MATH_TRIG_TOOLTIP_ATAN}",SUM:"%{BKY_MATH_ONLIST_TOOLTIP_SUM}",MIN:"%{BKY_MATH_ONLIST_TOOLTIP_MIN}",
 MAX:"%{BKY_MATH_ONLIST_TOOLTIP_MAX}",AVERAGE:"%{BKY_MATH_ONLIST_TOOLTIP_AVERAGE}",MEDIAN:"%{BKY_MATH_ONLIST_TOOLTIP_MEDIAN}",MODE:"%{BKY_MATH_ONLIST_TOOLTIP_MODE}",STD_DEV:"%{BKY_MATH_ONLIST_TOOLTIP_STD_DEV}",RANDOM:"%{BKY_MATH_ONLIST_TOOLTIP_RANDOM}"};$.register$$module$build$src$core$extensions("math_op_tooltip",$.buildTooltipForDropdown$$module$build$src$core$extensions("OP",TOOLTIPS_BY_OP$$module$build$src$blocks$math));
-var IS_DIVISIBLEBY_MUTATOR_MIXIN$$module$build$src$blocks$math={mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation"),b="DIVISIBLE_BY"===this.getFieldValue("PROPERTY");a.setAttribute("divisor_input",String(b));return a},domToMutation:function(a){a="true"===a.getAttribute("divisor_input");this.updateShape_(a)},updateShape_:function(a){const b=this.getInput("DIVISOR");a?b||this.appendValueInput("DIVISOR").setCheck("Number"):b&&this.removeInput("DIVISOR")}},IS_DIVISIBLE_MUTATOR_EXTENSION$$module$build$src$blocks$math=
+var IS_DIVISIBLEBY_MUTATOR_MIXIN$$module$build$src$blocks$math={mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation"),b="DIVISIBLE_BY"===this.getFieldValue("PROPERTY");a.setAttribute("divisor_input",String(b));return a},
+
+domToMutation:function(a){a="true"===a.getAttribute("divisor_input");this.updateShape_(a)},updateShape_:function(a){const b=this.getInput("DIVISOR");a?b||this.appendValueInput("DIVISOR").setCheck("Number"):b&&this.removeInput("DIVISOR")}},IS_DIVISIBLE_MUTATOR_EXTENSION$$module$build$src$blocks$math=
 function(){this.getField("PROPERTY").setValidator(function(a){a="DIVISIBLE_BY"===a;this.getSourceBlock().updateShape_(a)})};$.registerMutator$$module$build$src$core$extensions("math_is_divisibleby_mutator",IS_DIVISIBLEBY_MUTATOR_MIXIN$$module$build$src$blocks$math,IS_DIVISIBLE_MUTATOR_EXTENSION$$module$build$src$blocks$math);$.register$$module$build$src$core$extensions("math_change_tooltip",$.buildTooltipWithFieldText$$module$build$src$core$extensions("%{BKY_MATH_CHANGE_TOOLTIP}","VAR"));
 var LIST_MODES_MUTATOR_MIXIN$$module$build$src$blocks$math={updateType_:function(a){"MODE"===a?this.outputConnection.setCheck("Array"):this.outputConnection.setCheck("Number")},mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("op",this.getFieldValue("OP"));return a},domToMutation:function(a){a=a.getAttribute("op");if(null===a)throw new TypeError("xmlElement had no op attribute");this.updateType_(a)}},LIST_MODES_MUTATOR_EXTENSION$$module$build$src$blocks$math=
-function(){this.getField("OP").setValidator(function(a){this.updateType_(a)}.bind(this))};$.registerMutator$$module$build$src$core$extensions("math_modes_of_list_mutator",LIST_MODES_MUTATOR_MIXIN$$module$build$src$blocks$math,LIST_MODES_MUTATOR_EXTENSION$$module$build$src$blocks$math);$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$math);var module$build$src$blocks$math={};module$build$src$blocks$math.blocks=blocks$$module$build$src$blocks$math;var blocks$$module$build$src$blocks$procedures={},PROCEDURE_DEF_COMMON$$module$build$src$blocks$procedures={setStatements_:function(a){this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField($.Msg$$module$build$src$core$msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)},updateParams_:function(){let a="";this.arguments_.length&&(a=$.Msg$$module$build$src$core$msg.PROCEDURES_BEFORE_PARAMS+
-" "+this.arguments_.join(", "));$.disable$$module$build$src$core$events$utils();try{this.setFieldValue(a,"PARAMS")}finally{$.enable$$module$build$src$core$events$utils()}},mutationToDom:function(a){const b=$.createElement$$module$build$src$core$utils$xml("mutation");a&&b.setAttribute("name",this.getFieldValue("NAME"));for(let c=0;c<this.argumentVarModels_.length;c++){const d=$.createElement$$module$build$src$core$utils$xml("arg"),e=this.argumentVarModels_[c];d.setAttribute("name",e.name);d.setAttribute("varid",
-e.getId());a&&this.paramIds_&&d.setAttribute("paramId",this.paramIds_[c]);b.appendChild(d)}this.hasStatements_||b.setAttribute("statements","false");return b},domToMutation:function(a){this.arguments_=[];this.argumentVarModels_=[];for(let c=0,d;d=a.childNodes[c];c++)if("arg"===d.nodeName.toLowerCase()){var b=d;const e=b.getAttribute("name");b=b.getAttribute("varid")||b.getAttribute("varId");this.arguments_.push(e);b=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,b,e,
-"");null!==b?this.argumentVarModels_.push(b):console.log(`Failed to create a variable named "${e}", ignoring.`)}this.updateParams_();$.mutateCallers$$module$build$src$core$procedures(this);this.setStatements_("false"!==a.getAttribute("statements"))},saveExtraState:function(){if(!this.argumentVarModels_.length&&this.hasStatements_)return null;const a=Object.create(null);if(this.argumentVarModels_.length){a.params=[];for(let b=0;b<this.argumentVarModels_.length;b++)a.params.push({name:this.argumentVarModels_[b].name,
+function(){this.getField("OP").setValidator(function(a){this.updateType_(a)}.bind(this))};$.registerMutator$$module$build$src$core$extensions("math_modes_of_list_mutator",LIST_MODES_MUTATOR_MIXIN$$module$build$src$blocks$math,LIST_MODES_MUTATOR_EXTENSION$$module$build$src$blocks$math);$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$math);var module$build$src$blocks$math={};module$build$src$blocks$math.blocks=blocks$$module$build$src$blocks$math;
+
+var blocks$$module$build$src$blocks$procedures={},PROCEDURE_DEF_COMMON$$module$build$src$blocks$procedures={setStatements_:function(a){this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField($.Msg$$module$build$src$core$msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)},updateParams_:function(){let a="";this.arguments_.length&&(a=$.Msg$$module$build$src$core$msg.PROCEDURES_BEFORE_PARAMS+
+" "+this.arguments_.join(", "));$.disable$$module$build$src$core$events$utils();try{this.setFieldValue(a,"PARAMS")}finally{$.enable$$module$build$src$core$events$utils()}},
+mutationToDom:function(a){
+	const b=$.createElement$$module$build$src$core$utils$xml("mutation");
+	a&&b.setAttribute("name",this.getFieldValue("NAME"));
+	for(let c=0;c<this.argumentVarModels_.length;c++) {	
+		const d=$.createElement$$module$build$src$core$utils$xml("arg"),
+		e=this.argumentVarModels_[c];
+		d.setAttribute("name",e.name);
+		d.setAttribute("varid",e.getId());
+		if (e.type)
+			d.setAttribute('type', e.type);
+		else
+			d.setAttribute('type', e.type);
+		a&&this.paramIds_&&d.setAttribute("paramId",this.paramIds_[c]);
+		b.appendChild(d)
+	}
+	this.hasStatements_||b.setAttribute("statements","false");
+	return b
+},
+domToMutation:function(a){
+	this.arguments_=[];
+	this.argumentVarModels_=[];
+	for(let c=0,d;d=a.childNodes[c];c++)
+		if("arg"===d.nodeName.toLowerCase()){
+			var b=d;
+			console.log(b);
+			const e=b.getAttribute("name");
+			const f=b.getAttribute("type");
+			b=b.getAttribute("varid")||b.getAttribute("varId");
+			this.arguments_.push(e);
+			b=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,b,e,f);
+			null!==b?this.argumentVarModels_.push(b):console.log(`Failed to create a variable named "${e}", ignoring.`)
+		}
+	this.updateParams_();$.mutateCallers$$module$build$src$core$procedures(this);
+	this.setStatements_("false"!==a.getAttribute("statements"))
+},
+saveExtraState:function(){if(!this.argumentVarModels_.length&&this.hasStatements_)return null;const a=Object.create(null);if(this.argumentVarModels_.length){a.params=[];for(let b=0;b<this.argumentVarModels_.length;b++)a.params.push({name:this.argumentVarModels_[b].name,
 id:this.argumentVarModels_[b].getId()})}this.hasStatements_||(a.hasStatements=!1);return a},loadExtraState:function(a){this.arguments_=[];this.argumentVarModels_=[];if(a.params)for(let c=0;c<a.params.length;c++){var b=a.params[c];b=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,b.id,b.name,"");this.arguments_.push(b.name);this.argumentVarModels_.push(b)}this.updateParams_();$.mutateCallers$$module$build$src$core$procedures(this);this.setStatements_(!1===a.hasStatements?
 !1:!0)},decompose:function(a){const b=$.createElement$$module$build$src$core$utils$xml("block");b.setAttribute("type","procedures_mutatorcontainer");var c=$.createElement$$module$build$src$core$utils$xml("statement");c.setAttribute("name","STACK");b.appendChild(c);for(let e=0;e<this.arguments_.length;e++){const f=$.createElement$$module$build$src$core$utils$xml("block");f.setAttribute("type","procedures_mutatorarg");var d=$.createElement$$module$build$src$core$utils$xml("field");d.setAttribute("name",
 "NAME");const g=$.createTextNode$$module$build$src$core$utils$xml(this.arguments_[e]);d.appendChild(g);f.appendChild(d);d=$.createElement$$module$build$src$core$utils$xml("next");f.appendChild(d);c.appendChild(f);c=d}a=$.domToBlock$$module$build$src$core$xml(b,a);"procedures_defreturn"===this.type?a.setFieldValue(this.hasStatements_,"STATEMENTS"):a.removeInput("STATEMENT_INPUT");$.mutateCallers$$module$build$src$core$procedures(this);return a},compose:function(a){this.arguments_=[];this.paramIds_=
@@ -309,8 +347,30 @@ blocks$$module$build$src$blocks$procedures.procedures_defreturn=Object.assign({}
 var PROCEDURES_MUTATORCONTAINER$$module$build$src$blocks$procedures={init:function(){this.appendDummyInput().appendField($.Msg$$module$build$src$core$msg.PROCEDURES_MUTATORCONTAINER_TITLE);this.appendStatementInput("STACK");this.appendDummyInput("STATEMENT_INPUT").appendField($.Msg$$module$build$src$core$msg.PROCEDURES_ALLOW_STATEMENTS).appendField($.fromJson$$module$build$src$core$field_registry({type:"field_checkbox",checked:!0}),"STATEMENTS");this.setStyle("procedure_blocks");this.setTooltip($.Msg$$module$build$src$core$msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP);
 this.contextMenu=!1}};blocks$$module$build$src$blocks$procedures.procedures_mutatorcontainer=PROCEDURES_MUTATORCONTAINER$$module$build$src$blocks$procedures;
 var PROCEDURES_MUTATORARGUMENT$$module$build$src$blocks$procedures={init:function(){const a=$.fromJson$$module$build$src$core$field_registry({type:"field_input",text:$.DEFAULT_ARG$$module$build$src$core$procedures});a.setValidator(this.validator_);a.oldShowEditorFn_=a.showEditor_;a.showEditor_=function(){this.createdVariables_=[];this.oldShowEditorFn_()};this.appendDummyInput().appendField($.Msg$$module$build$src$core$msg.PROCEDURES_MUTATORARG_TITLE).appendField(a,"NAME");this.setPreviousStatement(!0);
-this.setNextStatement(!0);this.setStyle("procedure_blocks");this.setTooltip($.Msg$$module$build$src$core$msg.PROCEDURES_MUTATORARG_TOOLTIP);this.contextMenu=!1;a.onFinishEditing_=this.deleteIntermediateVars_;a.createdVariables_=[];a.onFinishEditing_("x")},validator_:function(a){var b=this.getSourceBlock();const c=b.workspace.getRootWorkspace();a=a.replace(/[\s\xa0]+/g," ").replace(/^ | $/g,"");if(!a)return null;const d=(b.workspace.targetWorkspace||b.workspace).getAllBlocks(!1),e=a.toLowerCase();
-for(let f=0;f<d.length;f++){if(d[f].id===this.getSourceBlock().id)continue;const g=d[f].getFieldValue("NAME");if(g&&g.toLowerCase()===e)return null}if(b.isInFlyout)return a;(b=c.getVariable(a,""))&&b.name!==a&&c.renameVariableById(b.getId(),a);b||(b=c.createVariable(a,""))&&this.createdVariables_&&this.createdVariables_.push(b);return a},deleteIntermediateVars_:function(a){const b=this.getSourceBlock().workspace.getRootWorkspace();if(b)for(let c=0;c<this.createdVariables_.length;c++){const d=this.createdVariables_[c];
+this.setNextStatement(!0);this.setStyle("procedure_blocks");this.setTooltip($.Msg$$module$build$src$core$msg.PROCEDURES_MUTATORARG_TOOLTIP);this.contextMenu=!1;a.onFinishEditing_=this.deleteIntermediateVars_;a.createdVariables_=[];a.onFinishEditing_("x")},
+validator_:function(a){
+	var b=this.getSourceBlock();
+	const c=b.workspace.getRootWorkspace();
+	a=a.replace(/[\s\xa0]+/g," ").replace(/^ | $/g,"");
+	if(!a)
+		return null;
+	const d=(b.workspace.targetWorkspace||b.workspace).getAllBlocks(!1),
+	e=a.toLowerCase();
+	for(let f=0;f<d.length;f++){
+		if(d[f].id===this.getSourceBlock().id)
+			continue;
+		const g=d[f].getFieldValue("NAME");
+		if(g&&g.toLowerCase()===e)
+			return null
+	}
+	if(b.isInFlyout)
+		return a;
+
+	(b=c.getVariable(a,""))&&b.name!==a&&c.renameVariableById(b.getId(),a);
+	b||(b=c.createVariable(a,''))&&this.createdVariables_&&this.createdVariables_.push(b);
+	return a
+}
+,deleteIntermediateVars_:function(a){const b=this.getSourceBlock().workspace.getRootWorkspace();if(b)for(let c=0;c<this.createdVariables_.length;c++){const d=this.createdVariables_[c];
 d.name!==a&&b.deleteVariableById(d.getId())}}};blocks$$module$build$src$blocks$procedures.procedures_mutatorarg=PROCEDURES_MUTATORARGUMENT$$module$build$src$blocks$procedures;
 var PROCEDURE_CALL_COMMON$$module$build$src$blocks$procedures={getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){$.Names$$module$build$src$core$names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?$.Msg$$module$build$src$core$msg.PROCEDURES_CALLRETURN_TOOLTIP:$.Msg$$module$build$src$core$msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters_:function(a,b){var c=$.getDefinition$$module$build$src$core$procedures(this.getProcedureCall(),
 this.workspace);(c=(c=c&&c.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE))&&c.bubbleIsVisible())?this.setCollapsed(!1):(this.quarkConnections_={},this.quarkIds_=null);if(a.join("\n")===this.arguments_.join("\n"))this.quarkIds_=b;else{if(b.length!==a.length)throw RangeError("paramNames and paramIds must be the same length.");this.quarkIds_||(this.quarkConnections_={},this.quarkIds_=[]);for(let e=0;e<this.arguments_.length;e++){var d=this.getInput("ARG"+e);d&&(d=d.connection.targetConnection,

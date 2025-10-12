@@ -718,7 +718,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
         defaultName.setSpellcheck(!1);
 
         this.appendDummyInput()
-            .appendField(Blockly.Msg["PROCEDURES_DEFNORETURN_TITLE"])
+            .appendField(Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"])
             .appendField(defaultName, "NAME")
             .appendField("", "PARAMS")
 			.appendField("", "TITLE");

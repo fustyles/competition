@@ -170,7 +170,21 @@ Number(a[1]),a[3]&&(b.y+=Number(a[3])));return b};getInjectionDivXY$$module$buil
 getViewportBBox$$module$build$src$core$utils$svg_math=function(){const a=getViewportPageOffset$$module$build$src$core$utils$style();return new Rect$$module$build$src$core$utils$rect(a.y,document.documentElement.clientHeight+a.y,a.x,document.documentElement.clientWidth+a.x)};getDocumentScroll$$module$build$src$core$utils$svg_math=function(){const a=document.documentElement,b=window;return new Coordinate$$module$build$src$core$utils$coordinate(b.pageXOffset||a.scrollLeft,b.pageYOffset||a.scrollTop)};
 screenToWsCoordinates$$module$build$src$core$utils$svg_math=function(a,b){var c=b.x;b=b.y;const d=a.getInjectionDiv().getBoundingClientRect();c=new Coordinate$$module$build$src$core$utils$coordinate(c-d.left,b-d.top);b=a.getOriginOffsetInPixels();return Coordinate$$module$build$src$core$utils$coordinate.difference(c,b).scale(1/a.scale)};
 workspaceToDom$$module$build$src$core$xml=function(a,b){const c=$.createElement$$module$build$src$core$utils$xml("xml");var d=variablesToDom$$module$build$src$core$xml($.allUsedVarModels$$module$build$src$core$variables(a));d.hasChildNodes()&&c.appendChild(d);d=a.getTopComments(!0);for(let e=0;e<d.length;e++)c.appendChild(d[e].toXmlWithXY(b));a=a.getTopBlocks(!0);for(d=0;d<a.length;d++)c.appendChild(blockToDomWithXY$$module$build$src$core$xml(a[d],b));return c};
-variablesToDom$$module$build$src$core$xml=function(a){const b=$.createElement$$module$build$src$core$utils$xml("variables");for(let c=0;c<a.length;c++){const d=a[c],e=$.createElement$$module$build$src$core$utils$xml("variable");e.appendChild($.createTextNode$$module$build$src$core$utils$xml(d.name));d.type&&e.setAttribute("type",d.type);e.id=d.getId();b.appendChild(e)}return b};
+
+
+
+variablesToDom$$module$build$src$core$xml=function(a){
+	const b=$.createElement$$module$build$src$core$utils$xml("variables");
+	for(let c=0;c<a.length;c++){
+		const d=a[c],
+		e=$.createElement$$module$build$src$core$utils$xml("variable");
+		e.appendChild($.createTextNode$$module$build$src$core$utils$xml(d.name));
+		d.type&&e.setAttribute("type",d.type);
+		e.id=d.getId();
+		b.appendChild(e)
+	}
+	return b
+};
 blockToDomWithXY$$module$build$src$core$xml=function(a,b){if(a.isInsertionMarker()&&(a=a.getChildren(!1)[0],!a))return new DocumentFragment;let c=0;a.workspace.RTL&&(c=a.workspace.getWidth());b=blockToDom$$module$build$src$core$xml(a,b);if(isElement$$module$build$src$core$xml(b)){const d=a.getRelativeToSurfaceXY();b.setAttribute("x",String(Math.round(a.workspace.RTL?c-d.x:d.x)));b.setAttribute("y",String(Math.round(d.y)))}return b};
 fieldToDom$$module$build$src$core$xml=function(a){if(a.isSerializable()){const b=$.createElement$$module$build$src$core$utils$xml("field");b.setAttribute("name",a.name||"");return a.toXml(b)}return null};allFieldsToDom$$module$build$src$core$xml=function(a,b){for(let c=0;c<a.inputList.length;c++){const d=a.inputList[c];for(let e=0;e<d.fieldRow.length;e++){const f=fieldToDom$$module$build$src$core$xml(d.fieldRow[e]);f&&b.appendChild(f)}}};
 blockToDom$$module$build$src$core$xml=function(a,b){if(a.isInsertionMarker())return(b=a.getChildren(!1)[0])?blockToDom$$module$build$src$core$xml(b):new DocumentFragment;const c=$.createElement$$module$build$src$core$utils$xml(a.isShadow()?"shadow":"block");c.setAttribute("type",a.type);b||(c.id=a.id);if(a.mutationToDom){var d=a.mutationToDom();d&&(d.hasChildNodes()||d.hasAttributes())&&c.appendChild(d)}allFieldsToDom$$module$build$src$core$xml(a,c);if(d=a.getCommentText()){var e=a.getIcon(IconType$$module$build$src$core$icons$icon_types.COMMENT),
@@ -189,7 +203,21 @@ appendDomToWorkspace$$module$build$src$core$xml=function(a,b){if(!b.getBlocksBou
 d,["create"])}return a};
 $.domToBlock$$module$build$src$core$xml=function(a,b){$.disable$$module$build$src$core$events$utils();var c=b.getAllVariables();let d;try{if(d=domToBlockHeadless$$module$build$src$core$xml(a,b),b.rendered){const e=d,f=d.getDescendants(!1);e.setConnectionTracking(!1);for(let g=f.length-1;0<=g;g--)f[g].initSvg();for(let g=f.length-1;0<=g;g--)f[g].render(!1);setTimeout(function(){e.disposed||e.setConnectionTracking(!0)},1);e.updateDisabled();b.resizeContents()}else{const e=d.getDescendants(!1);for(let f=
 e.length-1;0<=f;f--)e[f].initModel()}}finally{$.enable$$module$build$src$core$events$utils()}if(isEnabled$$module$build$src$core$events$utils()){a=getAddedVariables$$module$build$src$core$variables(b,c);for(b=0;b<a.length;b++)c=a[b],fire$$module$build$src$core$events$utils(new (get$$module$build$src$core$events$utils(VAR_CREATE$$module$build$src$core$events$utils))(c));fire$$module$build$src$core$events$utils(new (get$$module$build$src$core$events$utils($.CREATE$$module$build$src$core$events$utils))(d))}return d};
-domToVariables$$module$build$src$core$xml=function(a,b){for(let d=0;d<a.children.length;d++){var c=a.children[d];const e=c.getAttribute("type"),f=c.getAttribute("id");c=c.textContent;if(!c)break;b.createVariable(c,e,f)}};
+
+
+
+domToVariables$$module$build$src$core$xml=function(a,b){
+	for(let d=0;d<a.children.length;d++){
+		var c=a.children[d];
+		const e=c.getAttribute("type"),f=c.getAttribute("id");
+		c=c.textContent;
+		if(!c)
+			break;	
+		b.createVariable(c,e,f)
+	}
+};
+
+
 mapSupportedXmlTags$$module$build$src$core$xml=function(a){const b={mutation:[],comment:[],data:[],field:[],input:[],next:[]};for(let c=0;c<a.children.length;c++){const d=a.children[c];if(d.nodeType!==NodeType$$module$build$src$core$utils$dom.TEXT_NODE)switch(d.nodeName.toLowerCase()){case "mutation":b.mutation.push(d);break;case "comment":b.comment.push(d);break;case "data":b.data.push(d);break;case "title":case "field":b.field.push(d);break;case "value":case "statement":b.input.push(d);break;case "next":b.next.push(d);
 break;default:console.warn("Ignoring unknown tag: "+d.nodeName)}}return b};applyMutationTagNodes$$module$build$src$core$xml=function(a,b){let c=!1;for(let d=0;d<a.length;d++){const e=a[d];b.domToMutation&&(b.domToMutation(e),b.initSvg&&(c=!0))}return c};
 applyCommentTagNodes$$module$build$src$core$xml=function(a,b){for(let d=0;d<a.length;d++){var c=a[d];const e=c.textContent,f="true"===c.getAttribute("pinned");let g;const h=parseInt(null!=(g=c.getAttribute("w"))?g:"50",10);let k;c=parseInt(null!=(k=c.getAttribute("h"))?k:"50",10);b.setCommentText(e);const l=b.getIcon(IconType$$module$build$src$core$icons$icon_types.COMMENT);isNaN(h)||isNaN(c)||l.setBubbleSize(new Size$$module$build$src$core$utils$size(h,c));l.setBubbleVisible(f);setTimeout(()=>l.setBubbleVisible(f),
@@ -1705,6 +1733,8 @@ zoomCleanup(){this.workspace.cleanUp();};
 zoomChangeToolbox(a){
 	scratchStyle = !scratchStyle;	
 	if (scratchStyle) {
+		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "";
+		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = "";
 		xmlBlockly = Blockly.Xml.workspaceToDom(this.workspace);
 		xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
 		this.workspace.dispose();
@@ -1715,6 +1745,8 @@ zoomChangeToolbox(a){
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 	}
 	else {
+		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
+		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
 		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
 		xmlScratch = Blockly.Xml.domToText(xmlScratch);
 		this.workspace.dispose();
