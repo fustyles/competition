@@ -44,12 +44,14 @@ Blockly.Msg["TEST_CODE_CORRECT"] = "Verification is correct";
 Blockly.Msg["TEST_CODE_ERROR"] = "Verification error";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use semicolons (;) to separate multiple test values ​​and answers.";
 Blockly.Msg["TEST_CODE_CHECK"] = "The workspace must have only one output block at the bottom, canceling verification!";
-Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
+Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process Show/Hide";
+Blockly.Msg["BUTTON_RESIZE"] = "Reset Window";
+Blockly.Msg["BUTTON_SHOWHIDE"] = "Show/Hide";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "Add Custom Blocks";
 Blockly.Msg["CUSTOMBLOCKS_TITLE"] = "Please input remote custom blocks url.\nIncluding files: blocks.js, javascript.js, toolbox.xml, en.js, zh-hant.js\n\nAnother way, You can add the url to \\package.nw\\customBlocks\\customblocks.js";
-Blockly.Msg["BUTTON_COPYCODE_SUCCESS"] = "Copy to clipboard successful";
+Blockly.Msg["BUTTON_COPYCODE_SUCCESS"] = "Copy execution results to clipboard successful";
 Blockly.Msg["MYBACKPACK_TITLE"] = "BACKPACK";
 Blockly.Msg["MSG_TOOLBOX"] = "Toolbox";
 Blockly.Msg["MSG_XML"] = "XML";

@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	//測試程式
-	document.getElementById('test_code').onclick = function () {
+	document.getElementById('button_test').onclick = function () {
 		
 	  var blocks = workspace.getBlocksByType("javascript_data_output");
 	  var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");

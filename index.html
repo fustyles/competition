@@ -83,16 +83,11 @@ Copyright 2025 Taiwan (ChungYi Fu)
 				<ul id="tabs">
 					<!-- https://fonts.google.com/icons -->
 					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons md-dark">play_arrow</i></a>
+					<a href="#" id="button_test" title="Verification Program"><i class="material-icons md-dark">done</i></a>
 					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons md-dark">create</i></a>
 					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons md-dark">folder_open</i></a>
 					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
-					<a style="display:none" href="#" id="button_save_html" title="Save html"><i class="material-icons md-dark">download_for_offline</i></a>
 					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">list_alt</i></a>
-					<a style="display:none" href="#" id="button_webSerial" title="Web Serial"><i class="material-icons md-dark">usb</i></a>
-					<a style="display:none" href="#" id="button_webBluetooth" title="Web Bluetooth"><i class="material-icons md-dark">bluetooth</i></a>
-					<a style="display:none" href="#" id="button_webMQTT" class="hide-link tooltipped" data-tooltip="Web MQTT"><i class="material-icons md-dark">bookmark</i></a>							
-					<a style="display:none" href="#" id="button_collaboration" title="MQTT Collaboration"><i class="material-icons md-dark">accessibility</i></a>			
-					<a style="display:none" href="#" id="button_tool" title="Open Blockly Developer Tools"><i class="material-icons md-dark">construction</i></a>	
 					<i>　</i>
 				    <i class="material-icons md-dark">language</i>
 					<i style="text-align: center;line-height: 50px;-align: middle;">
@@ -124,14 +119,14 @@ Copyright 2025 Taiwan (ChungYi Fu)
 		<div id="javascript_title" class="ui-widget-header">
 			<span id="title_code"></span>
 			<span class="contentzoom"><a href="#" id="button_copycode" title="Copy to clipboard"><i class="material-icons" style="vertical-align: middle; color: white;">featured_play_list</i></a></span>
-			<span class="contentzoom_right1"><a onclick="reloadZoom('javascript');" style="cursor: pointer" title="Reload"><i class="material-icons" style="vertical-align: middle; color: white;">refresh</i></a>	</span>		
-			<span class="contentzoom_right2"><a onclick="contentZoom('javascript');" style="cursor: pointer" title="Show/Hide"><i class="material-icons" style="vertical-align: middle; color: white;">unfold_more</i></a></span>
+			<span class="contentzoom_right1"><a id="button_resize" onclick="reloadZoom('javascript');" style="cursor: pointer" title="Resize"><i class="material-icons" style="vertical-align: middle; color: white;">refresh</i></a>	</span>		
+			<span class="contentzoom_right2"><a id="button_showhide" onclick="contentZoom('javascript');" style="cursor: pointer" title="Show/Hide"><i class="material-icons" style="vertical-align: middle; color: white;">unfold_more</i></a></span>
 		
 		</div>
 		<div id="javascript_code" class="update_code">
 			<span id="enter_question">Enter question</span>
 			<textarea id="question_input" style="flex:1;resize:none;height:25%;width:98%;" onfocus="this.select()"></textarea>
-			<span style="display: flex;width: 98%;justify-content: space-between;align-items: center;"><span><span id="enter_query">Query</span>    <button id="gemini_ask">小鳳AI</button></span><span><button id="gemini_clear">重設聊天</button>        <button id="test_code">驗證程式</button></span></span>
+			<span style="display: flex;width: 98%;justify-content: space-between;align-items: center;"><span><span id="enter_query">Query</span>　　<button id="gemini_clear">重設聊天</button>　　<button id="gemini_ask">小鳳AI</button></span></span>
 			<textarea id="query_input" style="flex:1;resize:none;height:5%;width:98%;" onfocus="this.select()"></textarea>			
 			<iframe id="iframe_output" style="width:100%;height:55%;background-color: white;padding:0px;" frameborder="0" src="" scrolling="auto" allowpaymentrequest allow="fullscreen; geolocation; microphone; camera ; usb" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation" onload="this.focus()"></iframe>
 		</div>
