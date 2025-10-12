@@ -885,7 +885,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	//測試程式
 	document.getElementById('test_code').onclick = function () {
 		
-		
+	  var blocks = workspace.getBlocksByType("javascript_data_output");
+	  var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
+	  if (blocks.length!=1&&blocks_scratch.length!=1) {
+		alert(Blockly.Msg["TEST_CODE_CHECK"]);
+		return;
+	  }
+	  
 	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
 	  if (input) {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);

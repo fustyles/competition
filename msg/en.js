@@ -42,6 +42,7 @@ Blockly.Msg["TEST_CODE"] = "Verification Program";
 Blockly.Msg["TEST_CODE_CORRECT"] = "Verification is correct";
 Blockly.Msg["TEST_CODE_ERROR"] = "Verification error";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use semicolons (;) to separate multiple test values ​​and answers.";
+Blockly.Msg["TEST_CODE_CHECK"] = "The workspace must have only one output block at the bottom, canceling verification!";
 Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";

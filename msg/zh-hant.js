@@ -44,6 +44,7 @@ Blockly.Msg["TEST_CODE"] = "驗證程式";
 Blockly.Msg["TEST_CODE_CORRECT"] = "驗證正確";
 Blockly.Msg["TEST_CODE_ERROR"] = "驗證錯誤";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以分號 ; 分隔要輸入的數個測試值與答案。";
+Blockly.Msg["TEST_CODE_CHECK"] = "工作區必須只有一個輸出積木置底，取消驗證！";
 Blockly.Msg["BUTTON_UPLOAD_CODE"] = "執行過程";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";

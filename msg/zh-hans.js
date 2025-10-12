@@ -41,7 +41,7 @@ Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你确定要重设聊天吗？";
 Blockly.Msg["TEST_CODE"] = "验证程式";
 Blockly.Msg["TEST_CODE_CORRECT"] = "验证正确";
 Blockly.Msg["TEST_CODE_ERROR"] = "验证错误";
-Blockly.Msg["TEST_CODE_MESSAGE"] = "请输入测试资料，以分号 ; 分隔要输入的数个测试值与答案。";
+Blockly.Msg["TEST_CODE_CHECK"] = "工作區必須只有一個輸出積木置底，取消驗證！";
 Blockly.Msg["BUTTON_UPLOAD_CODE"] = "执行过程";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
