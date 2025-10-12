@@ -114,14 +114,14 @@
 }
 
 /* 1. 橢圓形 (數字或文字) */
-.param-tag.type_num {
+.param-tag.other {
 	border-radius: 9999px;
 	color: #FFFFFF; 
 	background-color: #FD6723;
 }
 
 /* 2. 六邊形 (布林值) */
-.param-tag.type_bool {
+.param-tag.Boolean {
 	border-radius: 0;
 	/* 六邊形剪裁路徑 */
 	clip-path: polygon(
@@ -134,7 +134,7 @@
 }
 
 /* 3. 圓角矩形 (說明文字) */
-.param-tag.type_text {
+.param-tag.label {
 	border-radius: 8px;
 	color: #FFFFFF; 
 	background-color: #59C059;	
@@ -161,7 +161,7 @@
 	margin-top: 10px;
 }
 
-.param-button_nt {
+.param-button_ns {
 	flex: 1;
 	padding: 25px 10px;
 	margin: 0 5px;
@@ -186,7 +186,7 @@
 	font-size: 1em;
 }
 
-.param-button_t {
+.param-button_l {
 	flex: 1;
 	padding: 25px 10px;
 	margin: 0 5px;

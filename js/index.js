@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		var script = "<link rel='stylesheet' href='"+jsPath+"css/icon_custom.css' />";
 		
-		var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace(), true);
+		var xml = Blockly.Xml.workspaceToDom(workspace, true);
 		xml = Blockly.Xml.domToPrettyText(xml);
 		
 		return script;
@@ -75,6 +75,44 @@ document.addEventListener('DOMContentLoaded', function() {
 				}			
 			}
 		);
+		
+		function onWorkspaceChange(event) {
+			// 1. 檢查事件類型是否為 BLOCK_DELETE
+			if (event.type === Blockly.Events.BLOCK_DELETE) {
+				handleBlockDelete(event);
+			}
+		}
+		workspace.addChangeListener(onWorkspaceChange);
+		
+		function handleBlockDelete(event) {
+			const deletedXml = event.oldXml;
+			if (!deletedXml) {
+				return;
+			}
+
+			const blockType = deletedXml.getAttribute('type');
+
+			if (blockType === "javascript_procedures_defnoreturn_scratch") {
+				const nameField = deletedXml.querySelector('field[name="NAME"]');
+				if (!nameField) return; 
+
+				const procedureName = nameField.textContent;
+				const allVariables = workspace.getAllVariables();
+				allVariables.forEach(function(variableModel) {
+					const mutation = deletedXml.querySelector('mutation');
+					if (mutation) {
+						mutation.querySelectorAll('arg').forEach(function(arg) {
+							const varId = arg.getAttribute('varid');
+							const varName = arg.getAttribute('name');
+							const variableToDelete = workspace.getVariableById(varId);
+							if (variableToDelete) {
+								workspace.deleteVariableById(varId);
+							}
+						});
+					}
+				});
+			}
+		}
 		
 		registerMyVariable();
 		registerMyLists();
@@ -259,12 +297,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		registerMyListCategory();
 	}
 	
-	
-	
-	
-	
-	
-	
 	const paramContainer = document.getElementById('paramListContainer');
 	const createFunctionBlockName = document.getElementById('createFunction_blockName_input');
 	
@@ -282,9 +314,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
 				toggleForm(1);
-				
-				if (subWorkspace)
-					subWorkspace.dispose();
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos',
@@ -306,7 +335,53 @@ document.addEventListener('DOMContentLoaded', function() {
 				createFunctionBlock();
 			});
 			blocks.push(btn);
+			
+			var procedureBlocks = workspace.getBlocksByType("javascript_procedures_defnoreturn_scratch");
 
+			for (var i=0;i<procedureBlocks.length;i++) {
+				var procBlock = procedureBlocks[i];
+				var varModels = procBlock.argumentVarModels_;
+				
+				const callBlock = document.createElement('block');
+				callBlock.setAttribute('type', 'javascript_procedures_callnoreturn_scratch');
+
+				const mutation = document.createElement('mutation');
+				mutation.setAttribute('name', procBlock.getFieldValue("NAME"));
+				
+				varModels.forEach(function(variable) {
+					const arg = document.createElement('arg');
+					arg.setAttribute('name', variable.name);
+					mutation.appendChild(arg);				  
+				});
+
+				callBlock.appendChild(mutation);
+				blocks.push(callBlock);	
+				
+			
+				varModels.forEach(function(variable) {
+					if (variable.type=="other") {
+						if (Blockly.Blocks['variables_get_other']) {
+							const getBlock = Blockly.utils.xml.createElement('block');
+							getBlock.setAttribute('type', 'variables_get_other');
+							getBlock.setAttribute('gap', '24');
+							
+							getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+							blocks.push(getBlock);
+						}
+
+					} else if (variable.type=="Boolean") {
+						if (Blockly.Blocks['variables_get_boolean']) {
+							const getBlock = Blockly.utils.xml.createElement('block');
+							getBlock.setAttribute('type', 'variables_get_boolean');
+							getBlock.setAttribute('gap', '24');
+							
+							getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+							blocks.push(getBlock);
+						}
+					}
+				});
+			}
+			
 			return blocks;
 		};
 
@@ -334,6 +409,39 @@ document.addEventListener('DOMContentLoaded', function() {
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
         toggleForm(false);
+		
+		var xml = '<xml xmlns="https://developers.google.com/blockly/xml">\n'+
+				  '<variables>\n';
+		for (var i=0;i<createFunctionVariable[1].length;i++) {
+			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
+				xml += '<variable type="'+createFunctionVariable[1][i][1]+'" id="'+createFunctionVariable[1][i][2]+'">'+createFunctionVariable[1][i][0]+'</variable>\n';
+		}
+		xml += '</variables>\n'+
+		'<block type="javascript_procedures_defnoreturn_scratch">\n'+
+		'<mutation>\n';
+		for (var i=0;i<createFunctionVariable[1].length;i++) {
+			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
+				xml += '<arg name="'+createFunctionVariable[1][i][0]+'" varid="'+createFunctionVariable[1][i][2]+'" type="'+createFunctionVariable[1][i][1]+'"></arg>\n';
+		}	
+		xml += '</mutation>\n'+		
+		'<field name="NAME">'+createFunctionVariable[0]+'</field>\n';
+		var title = "";
+		for (var i=0;i<createFunctionVariable[1].length;i++) {
+			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]=="label")
+				title += createFunctionVariable[1][i][0]+' ';
+		}
+		xml += '<field name="TITLE">'+title+'</field>\n';
+		xml += '<comment pinned="false"></comment>\n'+
+		'</block>\n'+
+		'</xml>\n';
+		
+		console.log(xml);
+		var domBlock = Blockly.utils.xml.textToDom(xml);
+		var topBlocks = Blockly.Xml.domToWorkspace(domBlock, workspace);		
+		var block = workspace.getBlockById(topBlocks[0]);
+		var blockToCenterXY = getBlockToCenterXY(block);
+		block.moveBy(blockToCenterXY.x, blockToCenterXY.y);	
+		workspace.refreshToolboxSelection();
     });
 
     document.getElementById('cancelButton').addEventListener('click', () => {
@@ -390,8 +498,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function createFunctionVariableAdd(name, type) {
-		createFunctionVariable[1].push([name, type]);	
-	}	
+		createFunctionVariable[1].push([name, type, generatorVariableUid()]);		
+	}
+	
+	function generatorVariableUid() {
+		const ID_SOUP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+|~-={}[];<>,./`';
+		const length = 20;
+		let result = '';
+		for (let i = 0; i < length; i++) {
+		result += ID_SOUP.charAt(Math.floor(Math.random() * ID_SOUP.length));
+		}
+		return result;
+	};	
 	
 	function createFunctionVariableDelete(name) {
 		const index = createFunctionVariable[1].findIndex(item => {
@@ -474,22 +592,46 @@ document.addEventListener('DOMContentLoaded', function() {
 			addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
 		}
 	}
+	
+    function getBlockToMouseXY(block) {
+        var mouseClient = new Blockly.utils.Coordinate(mouse_cursor.pageX - window.scrollX, mouse_cursor.pageY - window.scrollY);
+        var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(workspace, mouseClient);
+        var blockPos = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
+        var blockToMouseXY = {};
+        blockToMouseXY.x = mousePos.x - blockPos.x;
+        blockToMouseXY.y = mousePos.y - blockPos.y;
+        return blockToMouseXY;
+    }
+
+    function getBlockToCenterXY(block) {
+        var position = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
+        var x = position.x;
+        var y = position.y;
+        var scrollX = workspace.scrollX / workspace.scale;
+        var scrollY = workspace.scrollY / workspace.scale;
+        var wsWidth = workspace.getParentSvg().width.baseVal.value / workspace.scale;
+        var wsHeight = workspace.getParentSvg().height.baseVal.value / workspace.scale;
+        var blockToCenterXY = {};
+        blockToCenterXY.x = wsWidth / 2 - block.width / 2 - scrollX - x;
+        blockToCenterXY.y = wsHeight / 2 - block.height / 2 - scrollY - y;
+        return blockToCenterXY;
+    }	
 
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
         createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
 		createFunctionBlock();
     });	
 	
-    document.getElementById('createFunction_add_nt').addEventListener('click', () => {
-        promptAndAddParam('type_num');
+    document.getElementById('createFunction_add_ns').addEventListener('click', () => {
+        promptAndAddParam('other');
     });
 	
 	document.getElementById('createFunction_add_b').addEventListener('click', () => {
-        promptAndAddParam('type_bool');
+        promptAndAddParam('Boolean');
     });	
 	
-    document.getElementById('createFunction_add_t').addEventListener('click', () => {
-        promptAndAddParam('type_text');
+    document.getElementById('createFunction_add_l').addEventListener('click', () => {
+        promptAndAddParam('label');
     });
 	
 	
@@ -587,8 +729,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	//新增初始化積木
 	function newFile() {
 		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
-		Blockly.getMainWorkspace().clear();
-		Blockly.Xml.domToWorkspace(xmlDoc, Blockly.getMainWorkspace());
+		workspace.clear();
+		Blockly.Xml.domToWorkspace(xmlDoc, workspace);
 		resetOutput();
 	}
 	
@@ -629,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	//匯出工作區積木與原始檔
 	document.getElementById('button_save_xml').onclick = function () {
 		try {
-			var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+			var xml = Blockly.Xml.workspaceToDom(workspace);
 			var xmlText = Blockly.Xml.domToText(xml);
 
 			var link = document.createElement('a');
@@ -673,8 +815,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		//}	
 		
 		var code = "使用者尚未作答，沒有產生程式碼！";
-		if (Blockly.getMainWorkspace().getAllBlocks().length>0)
-			code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+		if (workspace.getAllBlocks().length>0)
+			code = Blockly.JavaScript.workspaceToCode(workspace);
 		
 		var prompt = "你是一位在高雄就讀國中三年級的女資優生名字是小鳳AI，請以國中三年級的學生帶點撒嬌口吻來回答，妳可以杜撰自己的生平經歷。只在第一次回應時自我介紹是小鳳AI，不要加表情或符號等。並可依使用者要求改用指定的國家的語言回答。請協助撰寫程式邏輯思考與流程的簡潔說明，若使用者已寫下積木程式則對可能不符合試題要求或有隱憂的部分做表面陳述，但避免提原始程式碼細節。回覆內容不要提及JavaScript程式碼內容或函式名稱，因為程式碼來源為積木程式轉換而來，國中、小學生看不懂程式碼內指令或函式的名稱。若是使用者針對試題內容發問，預設都是指Blockly積木程式，請以Blockly積木程式撰寫方式回覆，block在中文裡稱為積木。變數input或變數input_data是系統內部自動產生的，使用者並不知有此變數因此避免提及。禁止使用Markdown語法。\n\n積木程式試題：\n"+
 		document.getElementById("question_input").value+
@@ -709,13 +851,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
 				var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_start_scratch" x="10" y="10"></block></xml>';
-				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
+				var startBlocks = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
+				var block = workspace.getBlockById(startBlocks[0]);
+				var blockToCenterXY = getBlockToCenterXY(block);
+                block.moveBy(blockToCenterXY.x, blockToCenterXY.y);				
 			}
 			return;
 		}
 	  }
 		
-	  var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+	  var code = Blockly.JavaScript.workspaceToCode(workspace);
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
@@ -741,7 +886,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('test_code').onclick = function () {
 	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
 	  if (input) {
-		var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = 'var variable_data_test_index = -1;\n' + code;
 		
@@ -897,14 +1042,14 @@ function displayTab(id) {
 
 //JavaScript原始碼顯示
 function javascriptCode() {
-	var code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+	var code = Blockly.JavaScript.workspaceToCode(workspace);
 	code = js_beautify(code);
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
 
 //XML原始碼顯示
 function xmlCode() {
-	var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace(), true);
+	var xml = Blockly.Xml.workspaceToDom(workspace, true);
 	var code = Blockly.Xml.domToPrettyText(xml);
 	document.getElementById('xml_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }

@@ -124,7 +124,7 @@ Blockly.JavaScript['variables_get_array'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['variables_get_array'] = function(block) {
+Blockly.JavaScript['variables_get_boolean'] = function(block) {
   var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
   var code = VAR;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
@@ -192,3 +192,59 @@ Blockly.JavaScript['list_itemnumoflist_scratch'] = function(block) {
   var code = VAR+'.indexOf('+item+')+1';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_defnoreturn'];
+Blockly.JavaScript['javascript_procedures_callnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_callnoreturn'];
+
+/*
+Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = function(block) {
+  const generator = Blockly.JavaScript;
+  
+  const procedureName = generator.nameDB_.getName(
+      block.getFieldValue('NAME'),
+      Blockly.Names.NameType.PROCEDURE
+  );
+
+  let statementPrefixCode = '';
+  if (generator.STATEMENT_PREFIX) {
+    statementPrefixCode += generator.injectId(generator.STATEMENT_PREFIX, block);
+  }
+  if (generator.STATEMENT_SUFFIX) {
+    statementPrefixCode += generator.injectId(generator.STATEMENT_SUFFIX, block);
+  }
+  if (statementPrefixCode) {
+    statementPrefixCode = generator.prefixLines(statementPrefixCode, generator.INDENT);
+  }
+
+  let loopTrapCode = '';
+  if (generator.INFINITE_LOOP_TRAP) {
+    loopTrapCode = generator.prefixLines(generator.injectId(generator.INFINITE_LOOP_TRAP, block), generator.INDENT);
+  }
+  
+  const branchCode = generator.statementToCode(block, 'STACK');
+  
+  const variableNames = [];
+  const argumentVarModels = block.getVars();
+  
+  for (let i = 0; i < argumentVarModels.length; i++) {
+    variableNames[i] = generator.nameDB_.getName(
+        argumentVarModels[i],
+        Blockly.Names.NameType.VARIABLE
+    );
+  }
+
+  let code = 'function ' + procedureName + '(' + variableNames.join(', ') + ') {\n' +
+      statementPrefixCode + 
+      loopTrapCode + 
+      branchCode + 
+      '}';
+
+  if (code.includes('await ')) {
+    code = 'async ' + code;
+  }
+  
+  code = generator.scrub_(block, code);
+  generator.definitions_['%' + procedureName] = code;
+  return null;
+};
+*/
