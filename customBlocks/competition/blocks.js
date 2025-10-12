@@ -721,7 +721,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
             .appendField(Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"])
             .appendField(defaultName, "NAME")
             .appendField("", "PARAMS")
-			.appendField("", "TITLE");
+			.appendField(new Blockly.FieldLabelSerializable(""), "TITLE");
 
         //this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
 
@@ -785,6 +785,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 		xml = new XMLSerializer().serializeToString(xml);
 		
 		if (xml.indexOf('type="undefined"')!=-1) {
+			console.log(this);
 			xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
 			xml = new XMLSerializer().serializeToString(xml);
 			xml = new DOMParser().parseFromString(xml,"text/xml").firstChild.childNodes;
@@ -793,6 +794,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 				if (xml[i].getAttribute("type")=="javascript_procedures_defnoreturn_scratch") {	
 					for (var j=0;j<xml[i].childNodes.length;j++) {			
 						if (xml[i].childNodes[j].textContent==this.getFieldValue("NAME")) {
+							console.log(xml[i]);
 							xml = Blockly.Xml.domToPrettyText(xml[i]);
 							xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml">'+xml.replace("x=","xx=").replace("y=","yy=")+'</xml>');
 							a.workspace.clear();
