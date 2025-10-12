@@ -3,13 +3,10 @@
 Copyright 2025 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 10/10/2025 00:00 (Taiwan Standard Time)
+@Update 13/10/2025 00:00 (Taiwan Standard Time)
 */
 
 var mainPath = 'https://fustyles.github.io/competition/';
-var showCode = false;
-var myTimer;
-var myTimer1;
 var workspace;
 var subWorkspace;
 var category;
@@ -54,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(error);
 		}		
 		xmlToolbox+='</xml>';
-		
 		
 
 		//初始化工作區	
@@ -775,11 +771,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		var div = document.getElementById('javascript_content');
 		if (div.style.display == "none") {
 			div.style.display = "block";
-			showCode = true;
 		}
 		else {
 			div.style.display = "none";
-			showCode = false;
 		}
 	}
 	
@@ -1163,7 +1157,6 @@ function contentZoom(content) {
 		if (content=="javascript") {
 			div_content.style.left = "calc(98% - 20vw)";
 			div_content.style.top = "64px";
-			showCode = false;
 		}
 	}
 	else {
@@ -1174,12 +1167,22 @@ function contentZoom(content) {
 		if (content=="javascript") {
 			div_content.style.left = div_content.l;	
 			div_content.style.top = div_content.t;
-			
-			var code = Blockly.JavaScript.workspaceToCode();			
-			editor.setValue(code);			
-			showCode = true;
 		}			
 	}
+}
+
+//縮放視窗
+function reloadZoom() {
+	const content = document.getElementById("javascript_content");
+	
+	content.style.width = '450px';
+	content.style.height = 'calc(100vh - 100px)';
+	content.style.left = 'calc(100vw - 478px)';
+	content.style.top = '64px';
+	content.style.padding = '0em';
+	content.style.fontSize = '14px';
+
+	content.style.position = 'absolute';
 }
 
 if (typeof require !== "undefined") {
