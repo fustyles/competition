@@ -77,9 +77,29 @@ document.addEventListener('DOMContentLoaded', function() {
 		);
 		
 		function onWorkspaceChange(event) {
-			// 1. 檢查事件類型是否為 BLOCK_DELETE
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
 				handleBlockDelete(event);
+			}
+			
+			const targetWorkspace = event.getWorkspace();
+			
+			const allowedTypes = [
+				Blockly.Events.BLOCK_CREATE,
+				Blockly.Events.BLOCK_DELETE,
+				Blockly.Events.BLOCK_MOVE,
+				Blockly.Events.BLOCK_CHANGE,
+				Blockly.Events.VAR_CREATE,
+				Blockly.Events.VAR_DELETE
+			];
+
+			if (allowedTypes.includes(event.type)) {
+				if (scratchStyle) {
+					xmlScratch = Blockly.Xml.workspaceToDom(targetWorkspace);
+					xmlScratch = Blockly.Xml.domToText(xmlScratch);
+				} else {	
+					xmlBlockly = Blockly.Xml.workspaceToDom(targetWorkspace);
+					xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
+				}
 			}
 		}
 		workspace.addChangeListener(onWorkspaceChange);
@@ -731,6 +751,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
 		workspace.clear();
 		Blockly.Xml.domToWorkspace(xmlDoc, workspace);
+		
+		xmlBlockly = "";	
+		xmlScratch = "";
+		
 		resetOutput();
 	}
 	
@@ -772,6 +796,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('button_save_xml').onclick = function () {
 		try {
 			var xml = Blockly.Xml.workspaceToDom(workspace);
+			if (scratchStyle)
+				xml.setAttribute('platform', 'scratch');
+			else
+				xml.setAttribute('platform', 'blockly');
 			var xmlText = Blockly.Xml.domToText(xml);
 
 			var link = document.createElement('a');
@@ -1023,6 +1051,13 @@ document.addEventListener('DOMContentLoaded', function() {
 					fr.onload = function (event) {
 						workspace.clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
+						
+						var platformValue = blocks.getAttribute('platform');
+						if (platformValue === 'scratch')
+							changeToolboxStyle(true);
+						else
+							changeToolboxStyle(false);
+						
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						javascriptCode();
 						resetOutput();
@@ -1038,6 +1073,33 @@ document.addEventListener('DOMContentLoaded', function() {
 		setTimeout(function(){
 			input.click();
 		},500);
+	}
+
+	function changeToolboxStyle(scratchStyle) {
+		if (scratchStyle) {
+			Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "";
+			Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = "";
+			xmlBlockly = Blockly.Xml.workspaceToDom(this.workspace);
+			xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
+			this.workspace.dispose();
+			this.workspace = null;
+			document.getElementById("root").innerHTML = "";
+			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
+			if (xmlScratch)
+				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
+		}
+		else {
+			Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
+			Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
+			xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
+			xmlScratch = Blockly.Xml.domToText(xmlScratch);
+			this.workspace.dispose();
+			this.workspace = null;
+			document.getElementById("root").innerHTML = "";		
+			var workspace = window.loadToolbox('geras', catSystem, 1.0);
+			if (xmlBlockly)
+				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
+		}
 	}	
 	
 	//切換語言
