@@ -44,7 +44,8 @@ Blockly.Msg["TEST_CODE_CORRECT"] = "Correct";
 Blockly.Msg["TEST_CODE_ERROR"] = "Error";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use semicolons (;) to separate multiple test values ​​and answers.";
 Blockly.Msg["TEST_CODE_CHECK"] = "The workspace must have only one output block at the bottom, canceling verification!";
-Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process Show/Hide";
+Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
+Blockly.Msg["BUTTON_SHOW_CODE"] = "Execution process show/hide";
 Blockly.Msg["BUTTON_RESIZE"] = "Reset Window";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "Show/Hide";
 

@@ -4,7 +4,7 @@ var msg = [
 ["msg_code", "innerHTML", Blockly.Msg["MSG_CODE"]],
 ["button_run", "title", Blockly.Msg["BUTTON_RUN"]],
 ["button_addBlocks", "title", Blockly.Msg["BUTTON_ADDBLOCKS"]],
-["button_code", "title", Blockly.Msg["BUTTON_UPLOAD_CODE"]],
+["button_code", "title", Blockly.Msg["BUTTON_SHOW_CODE"]],
 ["button_developertool", "title", Blockly.Msg["BUTTON_DEVELOPERTOOL"]],
 ["button_reset", "title", Blockly.Msg["BUTTON_RESET"]],
 ["button_export_blocks", "title", Blockly.Msg["BUTTON_EXPORT_BLOCKS"]],

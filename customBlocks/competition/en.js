@@ -1,9 +1,9 @@
-Blockly.Msg["CATSCRATCH1"] = "Event";
-Blockly.Msg["CATSCRATCH2"] = "Control";
-Blockly.Msg["CATSCRATCH3"] = "Calculation";
-Blockly.Msg["CATSCRATCH4"] = "Variable";
-Blockly.Msg["CATSCRATCH5"] = "List";
-Blockly.Msg["CATSCRATCH6"] = "Function";
+Blockly.Msg["CATSCRATCH1"] = "EVENT";
+Blockly.Msg["CATSCRATCH2"] = "CONTROL";
+Blockly.Msg["CATSCRATCH3"] = "CALCULATION";
+Blockly.Msg["CATSCRATCH4"] = "VARIABLE";
+Blockly.Msg["CATSCRATCH5"] = "LIST";
+Blockly.Msg["CATSCRATCH6"] = "FUNCTION";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";

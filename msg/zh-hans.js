@@ -43,7 +43,8 @@ Blockly.Msg["TEST_CODE"] = "验证程式";
 Blockly.Msg["TEST_CODE_CORRECT"] = "正确";
 Blockly.Msg["TEST_CODE_ERROR"] = "错误";
 Blockly.Msg["TEST_CODE_CHECK"] = "工作區必須只有一個輸出積木置底，取消驗證！";
-Blockly.Msg["BUTTON_UPLOAD_CODE"] = "执行过程 显示/隐藏";
+Blockly.Msg["BUTTON_UPLOAD_CODE"] = "执行过程";
+Blockly.Msg["BUTTON_SHOW_CODE"] = "执行过程 显示/隐藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重设视窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
 
