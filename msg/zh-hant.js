@@ -31,6 +31,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "請輸入參數名稱
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "參數名稱重複";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "與：";
+Blockly.Msg["DOWNLOAD"] = "下載積木圖片"
 
 Blockly.Msg["COPY_CLIPBOARD"] = "已複製執行結果到剪貼簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";

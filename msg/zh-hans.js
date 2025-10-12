@@ -29,6 +29,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "确定";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "定义";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "请输入参数名称：";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "参数名称重复";
+Blockly.Msg["DOWNLOAD"] = "下载积木图片"
 
 Blockly.Msg["COPY_CLIPBOARD"] = "已复制执行结果到剪贴簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";

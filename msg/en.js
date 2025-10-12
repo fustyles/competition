@@ -29,6 +29,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "OK";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "Definition";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the parameter name:";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
+Blockly.Msg["DOWNLOAD"] = "Download PNG"
 
 Blockly.Msg["COPY_CLIPBOARD"] = "Copying to clipboard was successful!";
 Blockly.Msg["FUNCTION_ASYNC"] = "async";

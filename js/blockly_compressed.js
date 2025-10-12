@@ -448,6 +448,15 @@ registerDisable$$module$build$src$core$contextmenu_items=function(){
 	})
 };
 
+registerDelete$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(a){var b=a.block;a=b.getDescendants(!1).length;(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)},preconditionFn(a){return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"},callback(a){a.block&&
+a.block.checkAndDelete()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6})};
+registerHelp$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(){return $.Msg$$module$build$src$core$msg.HELP},preconditionFn(a){a=a.block;return("function"===typeof a.helpUrl?a.helpUrl():a.helpUrl)?"enabled":"hidden"},callback(a){a.block.showHelp()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockHelp",weight:7})};
+registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){registerDuplicate$$module$build$src$core$contextmenu_items();registerComment$$module$build$src$core$contextmenu_items();registerInline$$module$build$src$core$contextmenu_items();registerCollapseExpandBlock$$module$build$src$core$contextmenu_items();registerDisable$$module$build$src$core$contextmenu_items();
+
+
+
+
+
 registerDownload$$module$build$src$core$contextmenu_items=function(){
 	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
 		{
@@ -459,19 +468,7 @@ registerDownload$$module$build$src$core$contextmenu_items=function(){
 	)
 };
 
-
-
-
-registerDelete$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(a){var b=a.block;a=b.getDescendants(!1).length;(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)},preconditionFn(a){return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"},callback(a){a.block&&
-a.block.checkAndDelete()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6})};
-registerHelp$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(){return $.Msg$$module$build$src$core$msg.HELP},preconditionFn(a){a=a.block;return("function"===typeof a.helpUrl?a.helpUrl():a.helpUrl)?"enabled":"hidden"},callback(a){a.block.showHelp()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockHelp",weight:7})};
-registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){registerDuplicate$$module$build$src$core$contextmenu_items();registerComment$$module$build$src$core$contextmenu_items();registerInline$$module$build$src$core$contextmenu_items();registerCollapseExpandBlock$$module$build$src$core$contextmenu_items();registerDisable$$module$build$src$core$contextmenu_items();
-
-
-
-
-
-//registerDownload$$module$build$src$core$contextmenu_items();
+registerDownload$$module$build$src$core$contextmenu_items();
 
 
 
