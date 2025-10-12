@@ -30,17 +30,19 @@ Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "Definition";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the parameter name:";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
 
-Blockly.Msg.COPY_CLIPBOARD = "Copying to clipboard was successful!";
-Blockly.Msg.FUNCTION_ASYNC = "async";
-Blockly.Msg.ADD_COMMENT = "Add Comment";
-Blockly.Msg.ENTER_QUESTION = "Enter question";
-Blockly.Msg.ENTER_QUERY = "Conversation content";
+Blockly.Msg["COPY_CLIPBOARD"] = "Copying to clipboard was successful!";
+Blockly.Msg["FUNCTION_ASYNC"] = "async";
+Blockly.Msg["ADD_COMMENT"] = "Add Comment";
+Blockly.Msg["ENTER_QUESTION"] = "Enter question";
+Blockly.Msg["ENTER_QUERY"] = "Conversation content";
 Blockly.Msg["GEMINI_ASK"] = "FSM AI";
 Blockly.Msg["GEMINI_CLEAR"] = "Reset chat";
 Blockly.Msg["GEMINI_CLEAR_QUERY"] = "Are you sure you want to reset the chat?";
 Blockly.Msg["TEST_CODE"] = "Verification Program";
-Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use the symbol ; to separate multiple test values.";
-Blockly.Msg.BUTTON_UPLOAD_CODE = "Execution process";
+Blockly.Msg["TEST_CODE_CORRECT"] = "Verification is correct";
+Blockly.Msg["TEST_CODE_ERROR"] = "Verification error";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use semicolons (;) to separate multiple test values ​​and answers.";
+Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "Add Custom Blocks";

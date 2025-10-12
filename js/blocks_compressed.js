@@ -277,7 +277,6 @@ domToMutation:function(a){
 	for(let c=0,d;d=a.childNodes[c];c++)
 		if("arg"===d.nodeName.toLowerCase()){
 			var b=d;
-			console.log(b);
 			const e=b.getAttribute("name");
 			const f=b.getAttribute("type");
 			b=b.getAttribute("varid")||b.getAttribute("varId");

@@ -16,7 +16,7 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 };
 
 Blockly.JavaScript['javascript_data_output'] = function(block) {
-	Blockly.JavaScript.definitions_['javascript_data_output'] = 'function data_output(msg, text) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_output'] = 'function data_output (msg, text) {\n'+
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+text+"<br>");\n'+
 	'}';	
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";

@@ -884,10 +884,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	//測試程式
 	document.getElementById('test_code').onclick = function () {
+		
+		
 	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
 	  if (input) {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
+		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
 		code = 'var variable_data_test_index = -1;\n' + code;
 		
 		if (!scratchStyle) {
@@ -904,6 +907,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 			'  return input;\n'+
 			'}';
+			
 		} else {
 			code += ''+
 			'function variable_input_test (input, msg){\n'+
@@ -914,7 +918,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
 			'  return input;\n'+
 			'}';
-		}			
+		}
+
+		code += ''+
+		    'function data_output_test (input, msg, text) {\n'+
+			'  var arr = input.split(";");\n'+			
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+text+"<br>");\n'+
+			'  if (text==arr[arr.length-1])\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>'+Blockly.Msg["TEST_CODE_CORRECT"]+'");\n'+
+			'  else\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>'+Blockly.Msg["TEST_CODE_ERROR"]+'");\n'+
+			'}';		
 
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 

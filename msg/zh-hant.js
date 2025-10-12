@@ -32,18 +32,19 @@ Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "參數名稱重複";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "與：";
 
-
-Blockly.Msg.COPY_CLIPBOARD = "已複製執行結果到剪貼簿";
-Blockly.Msg.FUNCTION_ASYNC = "非同步(async)";
-Blockly.Msg.ADD_COMMENT = "加入註解";
-Blockly.Msg.ENTER_QUESTION = "試題輸入";
-Blockly.Msg.ENTER_QUERY = "對話內容";
+Blockly.Msg["COPY_CLIPBOARD"] = "已複製執行結果到剪貼簿";
+Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
+Blockly.Msg["ADD_COMMENT"] = "加入註解";
+Blockly.Msg["ENTER_QUESTION"] = "試題輸入";
+Blockly.Msg["ENTER_QUERY"] = "對話內容";
 Blockly.Msg["GEMINI_ASK"] = "小鳳AI";
 Blockly.Msg["GEMINI_CLEAR"] = "重設聊天";
 Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你確定要重設聊天嗎？";
 Blockly.Msg["TEST_CODE"] = "驗證程式";
-Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以分號 ; 分隔要輸入的數個測試值。";
-Blockly.Msg.BUTTON_UPLOAD_CODE = "執行過程";
+Blockly.Msg["TEST_CODE_CORRECT"] = "驗證正確";
+Blockly.Msg["TEST_CODE_ERROR"] = "驗證錯誤";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以分號 ; 分隔要輸入的數個測試值與答案。";
+Blockly.Msg["BUTTON_UPLOAD_CODE"] = "執行過程";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自訂積木";
