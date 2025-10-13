@@ -1181,17 +1181,20 @@ function contentZoom(content) {
 }
 
 //縮放視窗
-function reloadZoom() {
-	const content = document.getElementById("javascript_content");
-	
-	content.style.width = '450px';
-	content.style.height = 'calc(100vh - 100px)';
-	content.style.left = 'calc(100vw - 478px)';
-	content.style.top = '64px';
-	content.style.padding = '0em';
-	content.style.fontSize = '14px';
+function reloadZoom(content) {
+	const div_content = document.getElementById(content+"_content");
+	if (div_content.style.height!= "40px") {
+		const content = document.getElementById("javascript_content");
+		
+		content.style.width = '450px';
+		content.style.height = 'calc(100vh - 100px)';
+		content.style.left = 'calc(100vw - 478px)';
+		content.style.top = '64px';
+		content.style.padding = '0em';
+		content.style.fontSize = '14px';
 
-	content.style.position = 'absolute';
+		content.style.position = 'absolute';
+	}
 }
 
 if (typeof require !== "undefined") {
