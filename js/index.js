@@ -80,12 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			const targetWorkspace = Blockly.getMainWorkspace();
 			
 			const allowedTypes = [
-				Blockly.Events.BLOCK_CREATE,
-				Blockly.Events.BLOCK_DELETE,
-				Blockly.Events.BLOCK_MOVE,
-				Blockly.Events.BLOCK_CHANGE,
-				Blockly.Events.VAR_CREATE,
-				Blockly.Events.VAR_DELETE
+				Blockly.Events.BLOCK_CHANGE
 			];
 
 			if (allowedTypes.includes(event.type)) {
@@ -1051,10 +1046,13 @@ document.addEventListener('DOMContentLoaded', function() {
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
 						
 						var platformValue = blocks.getAttribute('platform');
-						if (platformValue === 'scratch')
+						if (platformValue == 'scratch'){
+							scratchStyle = true;
 							changeToolboxStyle(true);
-						else
+						} else {
+							scratchStyle = false;
 							changeToolboxStyle(false);
+						}
 						
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						javascriptCode();
@@ -1073,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		},500);
 	}
 
-	function changeToolboxStyle(scratchStyle) {
+	function changeToolboxStyle() {
 		if (scratchStyle) {
 			Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "";
 			Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = "";
@@ -1085,8 +1083,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
 			if (xmlScratch)
 				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
-		}
-		else {
+		} else {
 			Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
 			Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
 			xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
