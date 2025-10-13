@@ -29,10 +29,10 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "確定";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "定義";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "請輸入參數名稱：";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "參數名稱重複";
+Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "工作區必須有一個初始化積木，執行取消！";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["DOWNLOAD"] = "下載積木圖片"
-
 Blockly.Msg["COPY_CLIPBOARD"] = "已複製執行結果到剪貼簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
 Blockly.Msg["ADD_COMMENT"] = "加入註解";
@@ -50,7 +50,7 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "執行過程";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "執行過程 顯示/隱藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重設視窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "顯示/隱藏";
-Blockly.Msg["QUESTION_INPUT"] = "輸入試題";
+Blockly.Msg["QUESTION_INPUT"] = "輸入積木程式試題";
 Blockly.Msg["QUERY_INPUT"] = "輸入AI對話內容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";

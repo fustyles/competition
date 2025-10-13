@@ -29,8 +29,10 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "OK";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "Definition";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the parameter name:";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
+Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "The workspace must have an initialization block, execute cancel!";
+Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "with:";
+Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["DOWNLOAD"] = "Download PNG"
-
 Blockly.Msg["COPY_CLIPBOARD"] = "Copying to clipboard was successful!";
 Blockly.Msg["FUNCTION_ASYNC"] = "async";
 Blockly.Msg["ADD_COMMENT"] = "Add Comment";
@@ -48,7 +50,7 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "Execution process show/hide";
 Blockly.Msg["BUTTON_RESIZE"] = "Reset Window";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "Show/Hide";
-Blockly.Msg["QUESTION_INPUT"] = "Enter the question";
+Blockly.Msg["QUESTION_INPUT"] = "Input Blockly programming question";
 Blockly.Msg["QUERY_INPUT"] = "Enter the conversation content with AI";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";

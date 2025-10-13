@@ -29,8 +29,10 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "确定";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "定义";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "请输入参数名称：";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "参数名称重复";
+Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "工作区必须有一个初始化积木，执行取消！";
+Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "与：";
+Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "与：";
 Blockly.Msg["DOWNLOAD"] = "下载积木图片"
-
 Blockly.Msg["COPY_CLIPBOARD"] = "已复制执行结果到剪贴簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
 Blockly.Msg["ADD_COMMENT"] = "加入批注";
@@ -47,7 +49,7 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "执行过程";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "执行过程 显示/隐藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重设视窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
-Blockly.Msg["QUESTION_INPUT"] = "输入试题";
+Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入AI对话内容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
