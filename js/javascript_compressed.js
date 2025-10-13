@@ -269,12 +269,9 @@ procedures_callnoreturn$$module$build$src$generators$javascript$procedures=funct
 "null",c+=b.INDENT+"return "+a+";\n"):c+=b.INDENT+"return;\n";return c+"}\n"},text$$module$build$src$generators$javascript$text=function(a,b){return[b.quote_(a.getFieldValue("TEXT")),Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]},
 
 text_noquotes$$module$build$src$generators$javascript$text=function(a,b){
-	console.log(a.getFieldValue("TEXT"));
-	console.log(isNaN(a.getFieldValue("TEXT")));
 	var text = a.getFieldValue("TEXT");
-	if (isNaN(a.getFieldValue("TEXT"))||(/^\s*$/.test("   "))) {
+	if (isNaN(text)||(/^\s*$/.test(text))) {
 		text = "'"+a.getFieldValue("TEXT")+"'";
-		console.log(text);
 	} else {
 		text = a.getFieldValue("TEXT");
 	}
