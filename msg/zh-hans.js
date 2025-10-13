@@ -34,7 +34,7 @@ Blockly.Msg["DOWNLOAD"] = "下载积木图片"
 Blockly.Msg["COPY_CLIPBOARD"] = "已复制执行结果到剪贴簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
 Blockly.Msg["ADD_COMMENT"] = "加入批注";
-Blockly.Msg["ENTER_QUESTION"] = "试题输入";
+Blockly.Msg["ENTER_QUESTION"] = "试题";
 Blockly.Msg["ENTER_QUERY"] = "对话内容";
 Blockly.Msg["GEMINI_ASK"] = "小凤 AI";
 Blockly.Msg["GEMINI_CLEAR"] = "重设聊天";
@@ -47,6 +47,8 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "执行过程";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "执行过程 显示/隐藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重设视窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
+Blockly.Msg["QUESTION_INPUT"] = "输入试题";
+Blockly.Msg["QUERY_INPUT"] = "输入对话内容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自定义积木";

@@ -34,7 +34,7 @@ Blockly.Msg["DOWNLOAD"] = "Download PNG"
 Blockly.Msg["COPY_CLIPBOARD"] = "Copying to clipboard was successful!";
 Blockly.Msg["FUNCTION_ASYNC"] = "async";
 Blockly.Msg["ADD_COMMENT"] = "Add Comment";
-Blockly.Msg["ENTER_QUESTION"] = "Enter question";
+Blockly.Msg["ENTER_QUESTION"] = "Question";
 Blockly.Msg["ENTER_QUERY"] = "Conversation content";
 Blockly.Msg["GEMINI_ASK"] = "ASK AI";
 Blockly.Msg["GEMINI_CLEAR"] = "Reset chat";
@@ -48,6 +48,8 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Execution process";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "Execution process show/hide";
 Blockly.Msg["BUTTON_RESIZE"] = "Reset Window";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "Show/Hide";
+Blockly.Msg["QUESTION_INPUT"] = "输入试题";
+Blockly.Msg["QUERY_INPUT"] = "输入对话内容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "Add Custom Blocks";

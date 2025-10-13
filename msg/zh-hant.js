@@ -36,7 +36,7 @@ Blockly.Msg["DOWNLOAD"] = "下載積木圖片"
 Blockly.Msg["COPY_CLIPBOARD"] = "已複製執行結果到剪貼簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
 Blockly.Msg["ADD_COMMENT"] = "加入註解";
-Blockly.Msg["ENTER_QUESTION"] = "試題輸入";
+Blockly.Msg["ENTER_QUESTION"] = "試題";
 Blockly.Msg["ENTER_QUERY"] = "對話內容";
 Blockly.Msg["GEMINI_ASK"] = "小鳳AI";
 Blockly.Msg["GEMINI_CLEAR"] = "重設聊天";
@@ -50,6 +50,8 @@ Blockly.Msg["BUTTON_UPLOAD_CODE"] = "執行過程";
 Blockly.Msg["BUTTON_SHOW_CODE"] = "執行過程 顯示/隱藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重設視窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "顯示/隱藏";
+Blockly.Msg["QUESTION_INPUT"] = "輸入試題";
+Blockly.Msg["QUERY_INPUT"] = "輸入對話內容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自訂積木";

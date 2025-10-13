@@ -45,8 +45,8 @@ var msg = [
 ["text_updateMessage", "innerHTML", Blockly.Msg["TEXT_UPDATEMESSAGE"]],
 ["enter_question", "innerHTML", Blockly.Msg["ENTER_QUESTION"]],
 ["enter_query", "innerHTML", Blockly.Msg["ENTER_QUERY"]],
-["gemini_ask", "innerHTML", Blockly.Msg["GEMINI_ASK"]],
-["gemini_clear", "innerHTML", Blockly.Msg["GEMINI_CLEAR"]],
+["gemini_ask", "title", Blockly.Msg["GEMINI_ASK"]],
+["gemini_clear", "title", Blockly.Msg["GEMINI_CLEAR"]],
 ["button_test", "title", Blockly.Msg["TEST_CODE"]],
 ["createFunction_header", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_HEADER"]],
 ["createFunction_blockName_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"]],
@@ -58,5 +58,7 @@ var msg = [
 ["cancelButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CANCELBUTTON"]],
 ["confirmButton", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"]],
 ["button_resize", "title", Blockly.Msg["BUTTON_RESIZE"]],
-["button_showhide", "title", Blockly.Msg["BUTTON_SHOWHIDE"]]
+["button_showhide", "title", Blockly.Msg["BUTTON_SHOWHIDE"]],
+["question_input", "placeholder", Blockly.Msg["QUESTION_INPUT"]],
+["query_input", "placeholder", Blockly.Msg["QUERY_INPUT"]]
 ];
