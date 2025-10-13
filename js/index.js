@@ -927,7 +927,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  	input = Number(input);\n'+
 			'  else\n'+
 			'  	input = String(input);\n'+
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  return input;\n'+
 			'}';
 			
@@ -938,7 +938,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 			'  input = arr[variable_data_test_index];\n'+	
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  return input;\n'+
 			'}';
 		}
@@ -946,7 +946,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		code += ''+
 		    'function data_output_test (input, msg, text) {\n'+
 			'  var arr = input.split(";");\n'+			
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+text+"<br>");\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  if (text==arr[arr.length-1])\n'+
 			'    document.body.insertAdjacentHTML("beforeend", "<BR>'+Blockly.Msg["TEST_CODE_CORRECT"]+'");\n'+
 			'  else\n'+
