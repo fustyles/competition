@@ -8,7 +8,7 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	'  	input = Number(prompt(msg));\n'+
 	'  else\n'+
 	'  	input = prompt(msg);\n'+
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+	
 	'  return input;\n'+
 	'}';
 
