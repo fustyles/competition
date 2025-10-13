@@ -335,9 +335,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						renderer: 'zelos',
 						zoom: {						
 							wheel: true,
-							startScale: 1.0,
-							maxScale: 1.0,
-							minScale: 1.0,
+							startScale: 0.9,
+							maxScale: 0.9,
+							minScale: 0.9,
 							scaleSpeed: 1.2
 						},
 						rtl: false,

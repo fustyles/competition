@@ -1685,7 +1685,7 @@ zoomChangeToolbox(a){
 		this.workspace.dispose();
 		this.workspace = null;
 		document.getElementById("root").innerHTML = "";
-		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
+		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 	}
