@@ -39,6 +39,7 @@ Blockly.Msg["ADD_COMMENT"] = "加入註解";
 Blockly.Msg["ENTER_QUESTION"] = "試題";
 Blockly.Msg["ENTER_QUERY"] = "對話內容";
 Blockly.Msg["GEMINI_ASK"] = "小鳳AI";
+Blockly.Msg["GEMINI_KEY"] = 'U2FsdGVkX1+2bkZp6enholnTFb34fxWfSUNt84isYBmFmlJv6rxhpUFD1fY9c93M0p3P4N8TLjwwm5ul1uafwg==';
 Blockly.Msg["GEMINI_CLEAR"] = "重設聊天";
 Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你確定要重設聊天嗎？";
 Blockly.Msg["GEMINI_ROLE"] = "你是程式設計助理，請回覆有關Blockly積木程式試題的問題。";
