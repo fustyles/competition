@@ -919,6 +919,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!scratchStyle) {
 			code += ''+
 			'function variable_input_test (input, msg, type){\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
@@ -926,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  if (type=="NUMBER")\n'+
 			'  	input = Number(input);\n'+
 			'  else\n'+
-			'  	input = String(input);\n'+
+			'  	input = input;\n'+
 			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  return input;\n'+
 			'}';
@@ -934,6 +937,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else {
 			code += ''+
 			'function variable_input_test (input, msg){\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
@@ -945,6 +951,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		code += ''+
 		    'function data_output_test (input, msg, text) {\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
 			'  var arr = input.split(";");\n'+			
 			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  if (text==arr[arr.length-1])\n'+

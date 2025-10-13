@@ -1,11 +1,14 @@
 Blockly.JavaScript['javascript_data_input'] = function(block) {	
 	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg, type) {\n'+
 	'  var input;\n'+
+	'  if (input === null) {'+
+	'      input = "";'+
+	'  }'+
 	'  if (type=="NUMBER")\n'+
 	'  	input = Number(prompt(msg));\n'+
 	'  else\n'+
 	'  	input = prompt(msg);\n'+
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
+	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 	'  return input;\n'+
 	'}';
 
@@ -17,7 +20,7 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 
 Blockly.JavaScript['javascript_data_output'] = function(block) {
 	Blockly.JavaScript.definitions_['javascript_data_output'] = 'function data_output (msg, text) {\n'+
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+text+"<br>");\n'+
+	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+
 	'}';	
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";
 	var code = 'data_output("'+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]+'",'+TEXT+');\n';	
@@ -33,11 +36,12 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	Blockly.JavaScript.definitions_['javascript_data_input_data'] = 'var input_data;';	
 	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg) {\n'+
 	'  var input = prompt(msg);\n'+
-	'  document.body.insertAdjacentHTML("beforeend", msg+"："+input+"<br>");\n'+
-	'  if (isNaN(input))'+
-	'  	input = String(input);'+
-	'  else'+
-	'  	input = Number(input);'+
+	'  if (input === null) {'+
+	'      input = "";'+
+	'  }'+	
+	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+	'  if (!isNaN(input) && input.trim() !== "")'+
+	'      input = Number(input);'+
 	'  return input;\n'+
 	'}';
 
@@ -76,7 +80,7 @@ Blockly.JavaScript['text_join_scratch'] = function(block) {
 
   var code;
   
-  code = 'String('+text1 + ')+String('+text2+')';
+  code = text1+'+'+text2;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
