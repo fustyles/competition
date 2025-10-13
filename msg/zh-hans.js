@@ -48,7 +48,7 @@ Blockly.Msg["BUTTON_SHOW_CODE"] = "执行过程 显示/隐藏";
 Blockly.Msg["BUTTON_RESIZE"] = "重设视窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
 Blockly.Msg["QUESTION_INPUT"] = "输入试题";
-Blockly.Msg["QUERY_INPUT"] = "输入对话内容";
+Blockly.Msg["QUERY_INPUT"] = "输入AI对话内容";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自定义积木";
