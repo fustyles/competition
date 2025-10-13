@@ -142,8 +142,6 @@ a+="var "+h+" = "+d+";\n");d=e;e.match(/^\w+$/)||$.isNumber$$module$build$src$co
 $.NameType$$module$build$src$core$names.VARIABLE),a+="var "+f+" = "+d+";\n");d=b.nameDB_.getDistinctName(c+"_index",$.NameType$$module$build$src$core$names.VARIABLE);e=b.INDENT+c+" = "+f+"["+d+"];\n"+e;return a+("for (var "+d+" in "+f+") {\n"+e+"}\n")},controls_flow_statements$$module$build$src$generators$javascript$loops=function(a,b){let c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){const d=a.getSurroundLoop();
 d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break;\n";case "CONTINUE":return c+"continue;\n"}throw Error("Unknown flow statement.");},math_number$$module$build$src$generators$javascript$math=function(a,b){a=Number(a.getFieldValue("NUM"));return[a,0<=a?Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC:Order$$module$build$src$generators$javascript$javascript_generator.UNARY_NEGATION]},
 math_arithmetic$$module$build$src$generators$javascript$math=function(a,b){
-	console.log(a);
-	console.log(b);
 	var c={
 		ADD:[" + ",Order$$module$build$src$generators$javascript$javascript_generator.ADDITION],
 		MINUS:[" - ",Order$$module$build$src$generators$javascript$javascript_generator.SUBTRACTION],

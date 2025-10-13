@@ -57,51 +57,51 @@ var catSystemScratch = '<xml>'+
 '    <block type="logic_negate"></block>'+
 '    <block type="math_arithmetic">'+
 '    <value name="A">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">0</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">0</field>'+
 '    </shadow>'+
 '    </value>'+
 '    <value name="B">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">0</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">0</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
 '    <block type="math_single">'+
 '    <value name="NUM">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">9</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">9</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
 '    <block type="math_round">'+
 '    <value name="NUM">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">3.1</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">3.1</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
 '    <block type="math_modulo">'+
 '    <value name="DIVIDEND">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">64</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">64</field>'+
 '    </shadow>'+
 '    </value>'+
 '    <value name="DIVISOR">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">10</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">10</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
 '    <block type="math_random_int">'+
 '    <value name="FROM">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">1</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">1</field>'+
 '    </shadow>'+
 '    </value>'+
 '    <value name="TO">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">100</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">100</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
@@ -124,8 +124,8 @@ var catSystemScratch = '<xml>'+
 '    </shadow>'+
 '    </value>'+
 '    <value name="WHERE">'+
-'    <shadow type="text_noquotes">'+
-'    <field name="TEXT">1</field>'+
+'    <shadow type="math_number">'+
+'    <field name="NUM">1</field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
