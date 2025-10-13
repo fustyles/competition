@@ -49,7 +49,7 @@ Blockly.Msg["BUTTON_SHOW_CODE"] = "Execution process show/hide";
 Blockly.Msg["BUTTON_RESIZE"] = "Reset Window";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "Show/Hide";
 Blockly.Msg["QUESTION_INPUT"] = "Enter the question";
-Blockly.Msg["QUERY_INPUT"] = "Enter the conversation content";
+Blockly.Msg["QUERY_INPUT"] = "Enter the conversation content with AI";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "Add Custom Blocks";
