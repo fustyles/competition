@@ -36,12 +36,12 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	Blockly.JavaScript.definitions_['javascript_data_input_data'] = 'var input_data;';	
 	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg) {\n'+
 	'  var input = prompt(msg);\n'+
-	'  if (input === null) {'+
-	'      input = "";'+
-	'  }'+	
+	'  if (input === null) {\n'+
+	'      input = "";\n'+
+	'  }\n'+	
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-	'  if (!isNaN(input) && input.trim() !== "")'+
-	'      input = Number(input);'+
+	'  if (!isNaN(input) && input.trim() !== "")\n'+
+	'      input = Number(input);\n'+
 	'  return input;\n'+
 	'}';
 

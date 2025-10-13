@@ -1051,7 +1051,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (file) {
 					var fr = new FileReader();           
 					fr.onload = function (event) {
-						workspace.clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
 						
 						var platformValue = blocks.getAttribute('platform');
@@ -1062,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							scratchStyle = false;
 							changeToolboxStyle(false);
 						}
-						
+						workspace.clear();
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						javascriptCode();
 						resetOutput();
