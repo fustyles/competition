@@ -392,7 +392,7 @@ Blockly.common.defineBlocksWithJsonArray([
 		  "defaultType": "other"
 		}
 	  ],
-	  "output": ["String","Number","Boolean","Colour"],
+	  "output": ["String","Number","other"],
 	  "style": "variables_blocks",	  
 	  extensions:["contextMenu_variableSetterGetter"]
 	}
