@@ -127,7 +127,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 			<span id="enter_question" placeholder="Enter question">Question</span><br>
 			<textarea id="question_input" style="flex:1;height:25%;width:98%;" onfocus="this.select()"></textarea>
 			<ul id="tabs"><textarea id="query_input" style="width:72%;" onfocus="this.select()" placeholder="Chat with AI"></textarea>　<a href="#" id="gemini_clear" title="Import your blocks"><i class="material-icons md-dark">autorenew</i></a>　<a href="#" id="gemini_ask" title="Import your blocks"><i class="material-icons md-dark">face_retouching_natural</i></a></ul>	
-			<iframe id="iframe_output" style="width:100%;height:60%;background-color: white;padding:0px;" frameborder="0" src="" scrolling="auto" allowpaymentrequest allow="fullscreen; geolocation; microphone; camera ; usb" sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation" onload="this.focus()"></iframe>
+			<iframe id="iframe_output" style="width:100%; height:60%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
 		</div>
 	</div>
 	
