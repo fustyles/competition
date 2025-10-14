@@ -446,7 +446,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		'</block>\n'+
 		'</xml>\n';
 		
-		console.log(xml);
 		var domBlock = Blockly.utils.xml.textToDom(xml);
 		var topBlocks = Blockly.Xml.domToWorkspace(domBlock, workspace);		
 		var block = workspace.getBlockById(topBlocks[0]);

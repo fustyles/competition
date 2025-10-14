@@ -374,8 +374,62 @@ d.name!==a&&b.deleteVariableById(d.getId())}}};blocks$$module$build$src$blocks$p
 var PROCEDURE_CALL_COMMON$$module$build$src$blocks$procedures={getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){$.Names$$module$build$src$core$names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?$.Msg$$module$build$src$core$msg.PROCEDURES_CALLRETURN_TOOLTIP:$.Msg$$module$build$src$core$msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters_:function(a,b){var c=$.getDefinition$$module$build$src$core$procedures(this.getProcedureCall(),
 this.workspace);(c=(c=c&&c.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE))&&c.bubbleIsVisible())?this.setCollapsed(!1):(this.quarkConnections_={},this.quarkIds_=null);if(a.join("\n")===this.arguments_.join("\n"))this.quarkIds_=b;else{if(b.length!==a.length)throw RangeError("paramNames and paramIds must be the same length.");this.quarkIds_||(this.quarkConnections_={},this.quarkIds_=[]);for(let e=0;e<this.arguments_.length;e++){var d=this.getInput("ARG"+e);d&&(d=d.connection.targetConnection,
 this.quarkConnections_[this.quarkIds_[e]]=d,c&&d&&-1===b.indexOf(this.quarkIds_[e])&&(d.disconnect(),d.getSourceBlock().bumpNeighbours()))}this.arguments_=[].concat(a);this.argumentVarModels_=[];for(a=0;a<this.arguments_.length;a++)c=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,null,this.arguments_[a],""),this.argumentVarModels_.push(c);this.updateShape_();if(this.quarkIds_=b)for(b=0;b<this.arguments_.length;b++)if(a=this.quarkIds_[b],a in this.quarkConnections_){let e;
-(null==(e=this.quarkConnections_[a])?0:e.reconnect(this,"ARG"+b))||delete this.quarkConnections_[a]}}},updateShape_:function(){for(var a=0;a<this.arguments_.length;a++){var b=this.getField("ARGNAME"+a);if(b){$.disable$$module$build$src$core$events$utils();try{b.setValue(this.arguments_[a])}finally{$.enable$$module$build$src$core$events$utils()}}else b=$.fromJson$$module$build$src$core$field_registry({type:"field_label",text:this.arguments_[a]}),this.appendValueInput("ARG"+a).setAlign($.Align$$module$build$src$core$inputs$input.RIGHT).appendField(b,
-"ARGNAME"+a).init()}for(a=this.arguments_.length;this.getInput("ARG"+a);a++)this.removeInput("ARG"+a);if(a=this.getInput("TOPROW"))this.arguments_.length?this.getField("WITH")||(a.appendField($.Msg$$module$build$src$core$msg.PROCEDURES_CALL_BEFORE_PARAMS,"WITH"),a.init()):this.getField("WITH")&&a.removeField("WITH")},mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("name",this.getProcedureCall());for(let b=0;b<this.arguments_.length;b++){const c=
+(null==(e=this.quarkConnections_[a])?0:e.reconnect(this,"ARG"+b))||delete this.quarkConnections_[a]}}},
+
+updateShape_: function() {
+    for (var a = 0; a < this.arguments_.length; a++) {
+        var b = this.getField("ARGNAME" + a);
+        
+        if (b) {
+            $.disable$$module$build$src$core$events$utils();
+            try {
+                b.setValue(this.arguments_[a]);
+            } finally {
+                $.enable$$module$build$src$core$events$utils();
+            }
+        } else {
+            b = $.fromJson$$module$build$src$core$field_registry({
+                type: "field_label",
+                text: this.arguments_[a]
+            }),
+            this.appendValueInput("ARG" + a)
+                .setAlign($.Align$$module$build$src$core$inputs$input.RIGHT)
+                .appendField(b, "ARGNAME" + a)
+                .init();
+				
+			const blockDom = Blockly.utils.xml.createElement('shadow');
+			blockDom.setAttribute('type', "text");
+
+			const fieldDom = Blockly.utils.xml.createElement('field');
+			fieldDom.setAttribute('name', 'TEXT');
+			fieldDom.textContent = "";
+			blockDom.appendChild(fieldDom);
+
+			// 使用 this.workspace 將 DOM 轉換為區塊
+			const newBlock = Blockly.Xml.domToBlock(blockDom, this.workspace);
+			const newBlockConnection = newBlock.outputConnection;
+
+
+			const input = this.getInput("ARG" + a);
+			const inputConnection = input ? input.connection : null;
+			if (inputConnection) {
+				inputConnection.connect(newBlockConnection);
+			}					
+        }
+    }
+    
+    for (a = this.arguments_.length; this.getInput("ARG" + a); a++) {
+        this.removeInput("ARG" + a);
+    }
+    
+    if (a = this.getInput("TOPROW")) {
+        this.arguments_.length ?
+            this.getField("WITH") || (a.appendField($.Msg$$module$build$src$core$msg.PROCEDURES_CALL_BEFORE_PARAMS, "WITH"), a.init()) :
+            this.getField("WITH") && a.removeField("WITH")
+    }
+}
+
+,mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("name",this.getProcedureCall());for(let b=0;b<this.arguments_.length;b++){const c=
 $.createElement$$module$build$src$core$utils$xml("arg");c.setAttribute("name",this.arguments_[b]);a.appendChild(c)}return a},domToMutation:function(a){var b=a.getAttribute("name");this.renameProcedure(this.getProcedureCall(),b);b=[];const c=[];for(let d=0,e;e=a.childNodes[d];d++)"arg"===e.nodeName.toLowerCase()&&(b.push(e.getAttribute("name")),c.push(e.getAttribute("paramId")));this.setProcedureParameters_(b,c)},saveExtraState:function(){const a=Object.create(null);a.name=this.getProcedureCall();
 this.arguments_.length&&(a.params=this.arguments_);return a},loadExtraState:function(a){this.renameProcedure(this.getProcedureCall(),a.name);if(a=a.params){const b=[];b.length=a.length;b.fill(null);this.setProcedureParameters_(a,b)}},getVars:function(){return this.arguments_},getVarModels:function(){return this.argumentVarModels_},onchange:function(a){if(this.workspace&&!this.workspace.isFlyout&&a.recordUndo)if(a.type===$.CREATE$$module$build$src$core$events$utils&&-1!==a.ids.indexOf(this.id)){var b=
 this.getProcedureCall();b=$.getDefinition$$module$build$src$core$procedures(b,this.workspace);!b||b.type===this.defType_&&JSON.stringify(b.getVars())===JSON.stringify(this.arguments_)||(b=null);if(!b){$.setGroup$$module$build$src$core$events$utils(a.group);a=$.createElement$$module$build$src$core$utils$xml("xml");b=$.createElement$$module$build$src$core$utils$xml("block");b.setAttribute("type",this.defType_);var c=this.getRelativeToSurfaceXY(),d=c.y+2*$.config$$module$build$src$core$config.snapRadius;

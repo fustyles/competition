@@ -751,59 +751,118 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
     callType_: "javascript_procedures_callnoreturn_scratch"
 };
 
-
 Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
-	init:function(){
-		this.appendDummyInput("TOPROW").appendField("","NAME");
-		this.setPreviousStatement(!0);
-		this.setNextStatement(!0);
-		this.setStyle("procedure_blocks");
-		this.setHelpUrl(Blockly.Msg["PROCEDURES_CALLNORETURN_HELPURL"]);
-		this.arguments_=[];
-		this.argumentVarModels_=[];
-		this.quarkConnections_={};
-		this.quarkIds_=null;
-		this.setMutator(new Blockly.icons.MutatorIcon([],this));
-		this.previousEnabledState_=!0;
-		this.setInputsInline(true);			
-	}
-	,defType_:"javascript_procedures_defnoreturn_scratch"
-    ,mutationToDom: Blockly.Blocks['procedures_callnoreturn'].mutationToDom
-    ,domToMutation: Blockly.Blocks['procedures_callnoreturn'].domToMutation
-    ,getProcedureCall: Blockly.Blocks['procedures_callnoreturn'].getProcedureCall
-    ,setProcedureCall: Blockly.Blocks['procedures_callnoreturn'].setProcedureCall
-    ,getVars:function(){return this.arguments_}
-    ,getVarsModels: Blockly.Blocks['procedures_callnoreturn'].getVarsModels
-    ,updateShape_: Blockly.Blocks['procedures_callnoreturn'].updateShape_	
-    ,onchange: Blockly.Blocks['procedures_callnoreturn'].onchange
-	,setProcedureParameters_: Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters_
-    ,renameProcedure: Blockly.Blocks['procedures_callnoreturn'].renameProcedure
-    ,decompose: Blockly.Blocks['procedures_callnoreturn'].decompose
-    ,compose: Blockly.Blocks['procedures_callnoreturn'].compose
-	,saveConnections:function(a){
-		var xml = Blockly.Xml.workspaceToDom(a.workspace);
-		xml = new XMLSerializer().serializeToString(xml);
-		
-		if (xml.indexOf('type="undefined"')!=-1) {
-			console.log(this);
-			xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-			xml = new XMLSerializer().serializeToString(xml);
-			xml = new DOMParser().parseFromString(xml,"text/xml").firstChild.childNodes;
-			
-			for (var i=0;i<xml.length;i++) {
-				if (xml[i].getAttribute("type")=="javascript_procedures_defnoreturn_scratch") {	
-					for (var j=0;j<xml[i].childNodes.length;j++) {			
-						if (xml[i].childNodes[j].textContent==this.getFieldValue("NAME")) {
-							console.log(xml[i]);
-							xml = Blockly.Xml.domToPrettyText(xml[i]);
-							xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml">'+xml.replace("x=","xx=").replace("y=","yy=")+'</xml>');
-							a.workspace.clear();
-							Blockly.Xml.domToWorkspace(xml, a.workspace);							
-							break;
-						}
+    init: function() {
+        this.appendDummyInput("TOPROW").appendField("", "NAME");
+        this.setPreviousStatement(!0);
+        this.setNextStatement(!0);
+        this.setStyle("procedure_blocks");
+        this.setHelpUrl(Blockly.Msg["PROCEDURES_CALLNORETURN_HELPURL"]);
+        this.arguments_ = [];
+        this.argumentVarModels_ = [];
+        this.quarkConnections_ = {};
+        this.quarkIds_ = null;
+        this.setMutator(new Blockly.icons.MutatorIcon([], this));
+        this.previousEnabledState_ = !0;
+        this.setInputsInline(true);
+    },
+
+    defType_: "javascript_procedures_defnoreturn_scratch",
+    mutationToDom: Blockly.Blocks['procedures_callnoreturn'].mutationToDom,
+    domToMutation: Blockly.Blocks['procedures_callnoreturn'].domToMutation,
+    getProcedureCall: Blockly.Blocks['procedures_callnoreturn'].getProcedureCall,
+    getVarsModels: Blockly.Blocks['procedures_callnoreturn'].getVarsModels,
+    onchange: Blockly.Blocks['procedures_callnoreturn'].onchange,
+    setProcedureParameters_: Blockly.Blocks['procedures_callnoreturn'].setProcedureParameters_,
+    renameProcedure: Blockly.Blocks['procedures_callnoreturn'].renameProcedure,
+    getVars: function() {
+        return this.arguments_
+    },
+    updateShape_: function() {
+        for (var a = 0; a < this.arguments_.length; a++) {
+            var b = this.getField("ARGNAME" + a);
+
+            if (b) {
+                Blockly.Events.disable();
+                try {
+                    b.setValue(this.arguments_[a]);
+                } finally {
+                    Blockly.Events.enable();
+                }
+            } else {
+                b = new Blockly.FieldLabel(this.arguments_[a]);
+					
+				const allVariables = workspace.getAllVariables();
+				allVariables.find(variableModel => {
+					if (variableModel.name === b.value_&&variableModel.type=="other") {
+						this.appendValueInput("ARG" + a)
+							.setAlign(Blockly.Align_RIGHT)
+							.setCheck(["String","Number"])
+							.appendField(b, "ARGNAME" + a).init();
+							
+						const blockDom = Blockly.utils.xml.createElement('shadow');
+						blockDom.setAttribute('type', "text_noquotes");
+
+						const fieldDom = Blockly.utils.xml.createElement('field');
+						fieldDom.setAttribute('name', 'TEXT');
+						fieldDom.textContent = "";
+						blockDom.appendChild(fieldDom);
+
+						// 使用 this.workspace 將 DOM 轉換為區塊
+						const newBlock = Blockly.Xml.domToBlock(blockDom, this.workspace);
+						const newBlockConnection = newBlock.outputConnection;
+
+
+						const input = this.getInput("ARG" + a);
+						const inputConnection = input ? input.connection : null;
+						if (inputConnection) {
+							inputConnection.connect(newBlockConnection);
+						}							
+					} else if (variableModel.name === b.value_&&variableModel.type=="Boolean") {
+						this.appendValueInput("ARG" + a)
+							.setAlign(Blockly.Align_RIGHT)
+							.setCheck("Boolean")
+							.appendField(b, "ARGNAME" + a).init();
 					}
-				}
-			}		
-		}
-	}	
+				});		
+            }
+        }
+
+        for (a = this.arguments_.length; this.getInput("ARG" + a); a++) {
+            this.removeInput("ARG" + a);
+        }
+
+        if (a = this.getInput("TOPROW")) {
+            this.arguments_.length ?
+                this.getField("WITH") || (a.appendField(Blockly.Msg['PROCEDURES_CALL_BEFORE_PARAMS'], "WITH"), a.init()) :
+                this.getField("WITH") && a.removeField("WITH")
+        }
+    },
+    decompose: Blockly.Blocks['procedures_callnoreturn'].decompose,
+    compose: Blockly.Blocks['procedures_callnoreturn'].compose,
+    saveConnections: function(a) {
+        var xml = Blockly.Xml.workspaceToDom(a.workspace);
+        xml = new XMLSerializer().serializeToString(xml);
+
+        // 檢查是否有未定義的區塊類型 (type="undefined")
+        if (xml.indexOf('type="undefined"') != -1) {
+            xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+            xml = new XMLSerializer().serializeToString(xml);
+            xml = new DOMParser().parseFromString(xml, "text/xml").firstChild.childNodes;
+
+            for (var i = 0; i < xml.length; i++) {
+                if (xml[i].getAttribute("type") == "javascript_procedures_defnoreturn_scratch") {
+                    for (var j = 0; j < xml[i].childNodes.length; j++) {
+                        if (xml[i].childNodes[j].textContent == this.getFieldValue("NAME")) {
+                            xml = Blockly.Xml.domToPrettyText(xml[i]);
+                            xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml">' + xml.replace("x=", "xx=").replace("y=", "yy=") + '</xml>');
+                            a.workspace.clear();
+                            Blockly.Xml.domToWorkspace(xml, a.workspace);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 };

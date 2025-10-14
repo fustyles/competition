@@ -487,8 +487,14 @@ $.rename$$module$build$src$core$procedures=function(a){var b=this.getSourceBlock
 flyoutCategory$$module$build$src$core$procedures=function(a){function b(f,g){for(let k=0;k<f.length;k++){var h=f[k][0];const l=f[k][1],n=$.createElement$$module$build$src$core$utils$xml("block");n.setAttribute("type",g);n.setAttribute("gap","16");const m=$.createElement$$module$build$src$core$utils$xml("mutation");m.setAttribute("name",h);n.appendChild(m);for(h=0;h<l.length;h++){const p=$.createElement$$module$build$src$core$utils$xml("arg");p.setAttribute("name",l[h]);m.appendChild(p)}c.push(n)}}
 const c=[];if(Blocks$$module$build$src$core$blocks.procedures_defnoreturn){var d=$.createElement$$module$build$src$core$utils$xml("block");d.setAttribute("type","procedures_defnoreturn");d.setAttribute("gap","16");var e=$.createElement$$module$build$src$core$utils$xml("field");e.setAttribute("name","NAME");e.appendChild($.createTextNode$$module$build$src$core$utils$xml($.Msg$$module$build$src$core$msg.PROCEDURES_DEFNORETURN_PROCEDURE));d.appendChild(e);c.push(d)}
 
-Blocks$$module$build$src$core$blocks.procedures_defreturn&&
-(d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","procedures_defreturn"),d.setAttribute("gap","16"),e=$.createElement$$module$build$src$core$utils$xml("field"),e.setAttribute("name","NAME"),e.appendChild($.createTextNode$$module$build$src$core$utils$xml($.Msg$$module$build$src$core$msg.PROCEDURES_DEFRETURN_PROCEDURE)),d.appendChild(e),c.push(d));
+if (Blocks$$module$build$src$core$blocks.procedures_defreturn) {
+    // Variable declaration is perfectly fine inside a block {}
+    var listAddXml = '<block type="procedures_defreturn" gap="16"><field name="NAME">' + 
+                     $.Msg$$module$build$src$core$msg.PROCEDURES_DEFRETURN_PROCEDURE + 
+                     '</field><value name="RETURN"><Shadow type="text"><field name="TEXT"></field></Shadow></value></block>';
+    
+    c.push(Blockly.utils.xml.textToDom(listAddXml));
+}
 /*
 Blocks$$module$build$src$core$blocks.procedures_return&&
 (d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","procedures_return"),d.setAttribute("gap","16"),c.push(d));
