@@ -1195,21 +1195,31 @@ function contentZoom(content) {
 	}
 }
 
-//縮放視窗
+//重設視窗
 function reloadZoom(content) {
-	const div_content = document.getElementById(content+"_content");
-	if (div_content.style.height!= "40px") {
-		const content = document.getElementById("javascript_content");
-		
-		content.style.width = '450px';
-		content.style.height = 'calc(100vh - 100px)';
-		content.style.left = 'calc(100vw - 478px)';
-		content.style.top = '64px';
-		content.style.padding = '0em';
-		content.style.fontSize = '14px';
+    const div_content = document.getElementById(content + "_content");
 
-		content.style.position = 'absolute';
-	}
+    if (div_content.style.height != "40px") {
+        const contentDiv = document.getElementById("javascript_content");
+
+        contentDiv.style.width = '450px';
+        contentDiv.style.height = 'calc(100vh - 100px)';
+        contentDiv.style.left = 'calc(100vw - 478px)';
+        contentDiv.style.top = '64px';
+        contentDiv.style.padding = '0em';
+        contentDiv.style.fontSize = '14px';
+        contentDiv.style.position = 'absolute';
+
+        const questionInput = document.getElementById("question_input");
+        const queryInput = document.getElementById("query_input");
+
+		questionInput.style.flex = '1';
+		questionInput.style.height = '25%';
+		questionInput.style.width = '98%';
+
+		queryInput.style.width = '72%';
+		queryInput.style.height = '3.2em';
+    }
 }
 
 if (typeof require !== "undefined") {
