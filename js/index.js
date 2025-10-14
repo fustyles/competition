@@ -820,15 +820,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		
-		//if (output_result=="") {
-		//	output_result = iframeDocument.body.innerHTML;
-		//} else {
-			iframeElement.contentWindow.document.open();
-			iframeElement.contentWindow.document.write("");
-			iframeElement.contentWindow.document.close();
-			iframeElement.focus();
-			iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
-		//}	
+		iframeElement.contentWindow.document.open();
+		iframeElement.contentWindow.document.write("");
+		iframeElement.contentWindow.document.close();
+		iframeElement.focus();
+		iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
 		
 		var code = Blockly.Msg["NOCODE"];
 		if (workspace.getAllBlocks().length > 0)
@@ -1107,7 +1103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.workspace.dispose();
 			this.workspace = null;
 			document.getElementById("root").innerHTML = "";
-			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.8);
+			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 			if (xmlScratch)
 				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 		} else {
