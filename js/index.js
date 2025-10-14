@@ -850,6 +850,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	document.getElementById('gemini_clear').onclick = async function () {
+		document.getElementById("query_input").value = "";
 		var query = confirm(Blockly.Msg["GEMINI_CLEAR_QUERY"]);
 		if (query) {
 			gemini_chat_clear();
