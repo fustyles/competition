@@ -1009,7 +1009,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	function updateMsg() {
 		if (typeof msg != "undefined") {
 			for (var i=0;i<msg.length;i++) {
-				if (msg[i][1]=="innerHTML") {
+				if (msg[i][0]=="document") {
+					document.title=msg[i][2];
+				}				
+				else if (msg[i][1]=="innerHTML") {
 					if (document.getElementById(msg[i][0]))
 						document.getElementById(msg[i][0]).innerHTML=msg[i][2];
 				}
@@ -1026,7 +1029,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						document.getElementById(msg[i][0]).placeholder=msg[i][2];
 				}				
 			}
-			document.title = Blockly.Msg["FSM_TITLE"];
 		}
 	}		
 	

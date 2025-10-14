@@ -1,4 +1,5 @@
 var msg = [
+["document", "title", Blockly.Msg["FSM_TITLE"]],
 ["msg_toolbox", "innerHTML", Blockly.Msg["MSG_TOOLBOX"]],
 ["msg_xml", "innerHTML", Blockly.Msg["MSG_XML"]],
 ["msg_code", "innerHTML", Blockly.Msg["MSG_CODE"]],
