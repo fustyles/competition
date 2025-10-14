@@ -39,7 +39,7 @@ Blockly.Msg["ADD_COMMENT"] = "Add Comment";
 Blockly.Msg["ENTER_QUESTION"] = "Question";
 Blockly.Msg["ENTER_QUERY"] = "Conversation content";
 Blockly.Msg["GEMINI_ASK"] = "ASK AI";
-Blockly.Msg["GEMINI_KEY"] = 'U2FsdGVkX1+2bkZp6enholnTFb34fxWfSUNt84isYBmFmlJv6rxhpUFD1fY9c93M0p3P4N8TLjwwm5ul1uafwg==';
+Blockly.Msg["GEMINI_KEY"] = 'U2FsdGVkX18husMZJiZB05heX0JkFt1tddp55nfvMItbiiXiGgoG0mzSWuKS+bMMp6g+5WBjXJz0X6hm8hiQiw==';
 Blockly.Msg["GEMINI_CLEAR"] = "Reset chat";
 Blockly.Msg["GEMINI_CLEAR_QUERY"] = "Are you sure you want to reset the chat?";
 Blockly.Msg["GEMINI_ROLE"] = "You are a programming assistant. Please answer questions about Blockly programming exams.";
