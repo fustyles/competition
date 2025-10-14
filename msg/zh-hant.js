@@ -17,6 +17,7 @@
 
 var Blockly = Blockly || { Msg: Object.create(null) };
 
+Blockly.Msg["FSM_TITLE"] = "鳳山科技中心";
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "建立一個積木";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "積木名稱";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_LABEL"] = "參數列表";
