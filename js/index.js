@@ -805,7 +805,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var output_result = "";
 	
 	var GeminiKey = Blockly.Msg["GEMINI_KEY"];
-	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, '你是程式設計助理，請回覆有關Blockly積木程式試題的問題。');
+	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 
 	async function gemini_chat_response(gemini_chat_data) {
 		var iframeElement = document.getElementById('iframe_output');
