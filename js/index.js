@@ -19,8 +19,6 @@ var createFunctionVariable = ["", []];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
-	document.title = Blockly.Msg["FSM_TITLE"];
-	
 	function getScript(output) {
 		if (output)
 			var jsPath = mainPath;
@@ -1028,6 +1026,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						document.getElementById(msg[i][0]).placeholder=msg[i][2];
 				}				
 			}
+			document.title = Blockly.Msg["FSM_TITLE"];
 		}
 	}		
 	
