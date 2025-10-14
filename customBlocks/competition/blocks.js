@@ -373,7 +373,7 @@ Blockly.common.defineBlocksWithJsonArray([
         "check": "String"
       }
     ],
-    "output": "String",
+    "output": "Number",
     "style": "text_blocks",
     "helpUrl": "",
     "inputsInline": true
