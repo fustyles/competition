@@ -19,6 +19,8 @@ var createFunctionVariable = ["", []];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
+	initialMoveDiv();
+	
 	function getScript(output) {
 		if (output)
 			var jsPath = mainPath;
@@ -481,6 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		tag.className = `param-tag ${type}`;
 		tag.setAttribute('data-name', name);
 		tag.setAttribute('data-type', type);
+		tag.classList.add("draggable");
 
 		const deleteBtn = document.createElement('span');
 		deleteBtn.className = 'delete-btn';
@@ -627,7 +630,167 @@ document.addEventListener('DOMContentLoaded', function() {
         blockToCenterXY.x = wsWidth / 2 - block.width / 2 - scrollX - x;
         blockToCenterXY.y = wsHeight / 2 - block.height / 2 - scrollY - y;
         return blockToCenterXY;
-    }	
+    }
+
+	function initialMoveDiv() {
+		const container = document.getElementById('paramListContainer');
+		// 確保這些變數在外部作用域被定義 (例如在 document.addEventListener('DOMContentLoaded', ...) 內部)
+		let draggedElement = null; 
+		let offsetX = 0;           // 滑鼠點擊點與元素左邊緣的偏移量
+		let offsetY = 0;           // 滑鼠點擊點與元素上邊緣的偏移量
+
+		const handleMouseDown = (e) => {
+			// 確保只對 .draggable 元素響應，且不是刪除按鈕
+			if (!e.target.classList.contains('draggable') || e.target.classList.contains('delete-btn')) {
+				return;
+			}
+
+			draggedElement = e.target;
+			
+			// 1. 獲取元素在文檔流中的當前位置 (相對於視口)
+			const rect = draggedElement.getBoundingClientRect();
+			
+			// 2. 計算滑鼠點擊位置和元素左上角位置的【偏移量】
+			offsetX = e.clientX - rect.left;
+			offsetY = e.clientY - rect.top;
+
+			// 將元素設定為 dragging 狀態 (這會將其 position 設為 absolute)
+			document.body.classList.add('no-select');
+			draggedElement.classList.add('dragging');
+			
+			// 3. 設定元素的初始絕對定位位置 (非常重要！)
+			// 必須先將 position 設為 absolute 才能透過 style.left/top 定位。
+			// 在這一步，元素應該看起來完全沒有移動。
+			draggedElement.style.left = rect.left + 'px';
+			draggedElement.style.top = rect.top + 'px';
+			
+			// 註冊 document 上的移動和釋放事件
+			document.addEventListener('mousemove', handleMouseMove);
+			document.addEventListener('mouseup', handleMouseUp);
+
+			// 阻止瀏覽器默認的拖曳行為 (例如圖片拖曳)
+			e.preventDefault(); 
+		};
+		
+		
+		/**
+		 * 處理滑鼠移動事件 (拖曳中)
+		 * @param {MouseEvent} e - 滑鼠事件對象
+				 */
+		const handleMouseMove = (e) => {
+			if (!draggedElement) return;
+
+			// 根據滑鼠當前位置 減去 偏移量，計算元素的新位置
+			const newX = e.clientX - offsetX; // <-- 使用了 offsetX
+			const newY = e.clientY - offsetY; // <-- 使用了 offsetY
+
+			// 更新元素的位置
+			draggedElement.style.left = newX + 'px';
+			draggedElement.style.top = newY + 'px';
+		};
+
+		/**
+		 * 處理滑鼠釋放事件 (拖曳結束)
+		 * @param {MouseEvent} e - 滑鼠事件對象
+		 */
+		const handleMouseUp = (e) => {
+			if (!draggedElement) return;
+
+			// 移除 document 上的事件監聽器
+			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('mouseup', handleMouseUp);
+			
+			document.body.classList.remove('no-select');
+			
+			// 獲取所有 div 元素
+			const allElements = Array.from(container.children).filter(el => el.classList.contains('draggable'));
+			const currentIndex = allElements.indexOf(draggedElement);
+			
+			if (currentIndex === -1) {
+				 // 發生錯誤，重置樣式並退出
+				resetDraggedElement();
+				return;
+			}
+
+			// 被拖曳元素的中心 X 坐標
+			const draggedRect = draggedElement.getBoundingClientRect();
+			const draggedCenterX = draggedRect.left + draggedRect.width / 2;
+			
+			let targetElement = null;
+
+			// 1. 檢查右邊的元素 (如果存在)
+			const nextIndex = currentIndex + 1;
+			if (nextIndex < allElements.length) {
+				const nextElement = allElements[nextIndex];
+				const nextRect = nextElement.getBoundingClientRect();
+				// 如果被拖曳元素的中心點越過了右邊元素的左邊緣
+				if (draggedCenterX > nextRect.left + nextRect.width / 2) {
+					targetElement = nextElement;
+				}
+			}
+
+			// 2. 檢查左邊的元素 (如果還沒有找到目標，並且左邊元素存在)
+			if (!targetElement) {
+				const prevIndex = currentIndex - 1;
+				if (prevIndex >= 0) {
+					const prevElement = allElements[prevIndex];
+					const prevRect = prevElement.getBoundingClientRect();
+					// 如果被拖曳元素的中心點越過了左邊元素的右邊緣
+					if (draggedCenterX < prevRect.left + prevRect.width / 2) {
+						 targetElement = prevElement;
+					}
+				}
+			}
+			
+			// 執行交換
+			if (targetElement) {
+				swapElements(draggedElement, targetElement);
+			}
+			
+			// 重置被拖曳元素的樣式和狀態
+			resetDraggedElement();
+		};
+		
+		/**
+		 * 交換兩個 DOM 元素的位置
+		 * @param {HTMLElement} node1 - 元素 A
+		 * @param {HTMLElement} node2 - 元素 B
+		 */
+		const swapElements = (node1, node2) => {
+			// node1 (被拖曳的) 和 node2 (目標) 必須在同一個父元素內
+			const parent = node1.parentNode;
+			
+			// 判斷 node1 在 node2 的前面還是後面
+			if (Array.from(parent.children).indexOf(node1) < Array.from(parent.children).indexOf(node2)) {
+				// node1 在 node2 前面: 將 node2 插入到 node1 的前面，然後將 node1 插入到 node2 的新位置 (即 node2 的下一個元素)
+				parent.insertBefore(node2, node1);
+				parent.insertBefore(node1, node2.nextSibling);
+			} else {
+				// node1 在 node2 後面: 將 node1 插入到 node2 的前面，然後將 node2 插入到 node1 的新位置 (即 node1 的下一個元素)
+				parent.insertBefore(node1, node2);
+				parent.insertBefore(node2, node1.nextSibling);
+			}
+		};
+		
+		/**
+		 * 重置被拖曳元素的樣式
+		 */
+		const resetDraggedElement = () => {
+			 if (draggedElement) {
+				draggedElement.classList.remove('dragging');
+				draggedElement.style.position = ''; // 移除 position 屬性，回歸到 CSS 的設定 (relative)
+				draggedElement.style.left = '';     // 清除絕對定位的坐標
+				draggedElement.style.top = '';
+				draggedElement.style.zIndex = '';
+				draggedElement = null;              // 清空當前被拖曳元素
+				offsetX = 0;
+				offsetY = 0;
+			}
+		};
+
+		// 在容器上註冊滑鼠按下事件，利用事件委派
+		container.addEventListener('mousedown', handleMouseDown);
+	}	
 
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
         createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;

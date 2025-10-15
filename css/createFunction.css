@@ -109,7 +109,6 @@
 	justify-content: center;
 	padding: 6px 14px; /* 調整內邊距，使其更接近影像 */
 	font-size: 14px;
-	cursor: default;
 	white-space: nowrap;
 }
 
@@ -214,4 +213,20 @@
 	background-color: #007bff;
 	color: white;
 	border-color: #007bff;
+}
+
+/* 拖曳時的樣式 (必須加上 !important 以確保覆蓋 param-tag 或其他定位) */
+.dragging {
+    cursor: grabbing !important;
+    opacity: 0.8;
+    /* 拖曳時設為絕對定位，讓它浮在上面 */
+    position: absolute !important; 
+    z-index: 1000 !important;
+}
+
+/* 確保可拖曳元素有抓取游標 */
+.draggable {
+    cursor: grab;
+    /* 為了配合拖曳邏輯中的位置計算，建議設置為 relative */
+    position: relative;
 }
