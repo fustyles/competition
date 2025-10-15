@@ -2031,7 +2031,7 @@ return module$build$src$core$blockly;
 
 
 
-class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
+class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     static KEY_ = 'field_zelos_oval_bg';
 
 	static getRoundRectPath(x, y, width, height, radius) {
@@ -2046,11 +2046,31 @@ class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
 				a ${radius},${radius} 0 0 1 ${radius},-${radius}
 				z`;
 	}
+	
+	static getHexagonPath(width, height) {
+		const slant = height / 2;
 
-    constructor(value, text_color, background_color, opt_config) {
+		const x = 0;
+		const y = 0;
+
+		const path = [
+			`M ${x + slant},${y}`,
+			`l ${width},0`,
+			`l ${slant},${height / 2}`,
+			`l -${slant},${height / 2}`,
+			`l -${width},0`,
+			`l -${slant},-${height / 2}`,
+		];
+
+		return path.join(' ');
+	}		
+	
+
+    constructor(value, text_color, background_color, background_style, opt_config) {
         super(value || '  ', opt_config); 
 		this.textColor_ = text_color || '#FFFFFF';
         this.backgroundColor_ = background_color || '#FD6723';
+		this.backgroundStyle_ = background_style || 0;
     } 
 
     initView() {
@@ -2103,41 +2123,61 @@ class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
         const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
 
         let fieldHeight = 30;
-		const cornerRadius = fieldHeight / 2;
+		
 		
 		const textWidth = this.textElement_.getComputedTextLength();
-        
-        const totalWidth = textWidth + cornerRadius*2; 
+		let cornerRadius = 0;
+		let totalWidth = 0;
+		let gRectPath = "";
+		let textPadding = 0;
+		
+		if (this.backgroundStyle_==0) {
+			cornerRadius = fieldHeight / 6;
+			totalWidth = textWidth + cornerRadius*2;
+			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
+				0, 0, 
+				totalWidth, 
+				fieldHeight, 
+				cornerRadius 
+			);
+			textPadding = 5;
+		} else if (this.backgroundStyle_==1) {
+			cornerRadius = fieldHeight / 2;
+			totalWidth = textWidth + cornerRadius*2;
+			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
+				0, 0, 
+				totalWidth, 
+				fieldHeight, 
+				cornerRadius 
+			);
+			textPadding = 14;
+		} else if (this.backgroundStyle_==2) {
+			totalWidth = textWidth + fieldHeight;
+			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, fieldHeight);
+			textPadding = 14;
+		}
+		this.fieldBorderRect_.setAttribute('d', gRectPath);
 
-        this.size_.width = totalWidth; 
-        
-        const d = FieldZelosOvalBackground.getRoundRectPath(
-            0, 0, 
-            totalWidth, 
-            fieldHeight, 
-            cornerRadius 
-        );
-
-        this.fieldBorderRect_.setAttribute('d', d);
+		this.size_.width = totalWidth;		
         
         const translateX = 0;
         const translateY = -4; 
         
         this.fieldBorderRect_.setAttribute('transform', `translate(${translateX}, ${translateY})`);
 
-		let textPadding = 14;
         this.textElement_.setAttribute('x', textPadding);
         
         this.applyColour();
+		
     } 
 }
 
-Blockly.FieldZelosOvalBackground = FieldZelosOvalBackground;
+Blockly.FieldZelosLabelBackground = FieldZelosLabelBackground;
 
 Blockly.registry.register(
     Blockly.registry.Type.FIELD,
-    FieldZelosOvalBackground.KEY_,
-    FieldZelosOvalBackground
+    FieldZelosLabelBackground.KEY_,
+    FieldZelosLabelBackground
 );
 
 
