@@ -1130,13 +1130,20 @@ document.addEventListener('DOMContentLoaded', function() {
 //切換頁籤
 var tabs = ['code_content','xml_content','category_content'];
 function displayTab(id) {
+	var div = document.getElementById('javascript_content');
 	for (var i in tabs) {
 		const tab = document.getElementById(tabs[i]);
 		tab.style.display = (tabs[i]==id)?"block":"none";
-		if (id=='code_content') 
+		if (id=='code_content') {
+			div.style.display = "none";
 			javascriptCode();
-		else if (id=='xml_content') 
+		}
+		else if (id=='xml_content') {
+			div.style.display = "none";
 			xmlCode();
+		}
+		else
+			div.style.display = "block";	
 	}
 }
 
