@@ -769,7 +769,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 							} else if (variableModel.name === this.arguments_[i]&&variableModel.type=="Boolean") {
 								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i], null, {
 									textColor: '#FFFFFF',
-									backgroundColor: '#CC9900',
+									backgroundColor: '#4C97FF',
 									shapeType: 2
 								}), 'SCRATCH_ARG'+i);
 
