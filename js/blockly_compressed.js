@@ -2028,4 +2028,117 @@ return module$build$src$core$blockly;
 }));
 
 
+
+class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
+    static KEY_ = 'field_zelos_oval_bg';
+
+	static getRoundRectPath(x, y, width, height, radius) {
+		return `M ${x + radius},${y}
+				h ${width - 2 * radius}
+				a ${radius},${radius} 0 0 1 ${radius},${radius}
+				v ${height - 2 * radius}
+				a ${radius},${radius} 0 0 1 -${radius},${radius}
+				h -${width - 2 * radius}
+				a ${radius},${radius} 0 0 1 -${radius},-${radius}
+				v -${height - 2 * radius}
+				a ${radius},${radius} 0 0 1 ${radius},-${radius}
+				z`;
+	}
+
+    constructor(value, text_color, background_color) {
+        super(value || '  '); 
+		this.textColor_ = text_color || '#FFFFFF';
+        this.backgroundColor_ = background_color || '#FD6723';
+    } 
+
+    initView() {
+        super.initView();
+        
+        if (this.fieldBorderRect_) {
+            this.fieldBorderRect_.remove();
+        }
+
+        this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
+            Blockly.utils.Svg.PATH,
+            {
+                'class': 'blocklyFieldRect blocklyFieldZelosOvalPath',
+                'fill': '#FFFFFF', 
+                'stroke': '#FFFFFF' 
+            },
+            this.fieldGroup_
+        );
+        
+        this.fieldGroup_.insertBefore(this.fieldBorderRect_, this.textElement_);
+        this.textElement_.style.fill = this.textColor_; 
+        this.applyColour(); 
+    }
+
+    applyColour() {
+        if (!this.fieldBorderRect_) {
+            return;
+        }
+		
+        this.fieldBorderRect_.setAttribute('fill', this.backgroundColor_);
+        this.fieldBorderRect_.setAttribute('stroke', this.backgroundColor_);
+		
+        if (this.textElement_) {
+             this.textElement_.style.fill = this.textColor_;
+        }		
+    }
+    
+    showEditor_() {
+      
+    }
+
+    updateSize_() {
+        super.updateSize_();
+
+        if (!this.fieldBorderRect_ || !this.sourceBlock_ || !this.sourceBlock_.workspace.getRenderer()) {
+            return;
+        }
+
+        const renderer = this.sourceBlock_.workspace.getRenderer();
+        const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
+
+        let fieldHeight = 30;
+		const cornerRadius = fieldHeight / 2;
+		
+		const gcomputedTextLength = this.textElement_.getComputedTextLength();
+        
+		let textWidth = gcomputedTextLength * 0.988;
+        
+        const totalWidth = textWidth + cornerRadius*2; 
+
+        this.size_.width = totalWidth; 
+        
+        const d = FieldZelosOvalBackground.getRoundRectPath(
+            0, 0, 
+            totalWidth, 
+            fieldHeight, 
+            cornerRadius 
+        );
+
+        this.fieldBorderRect_.setAttribute('d', d);
+        
+        const translateX = 0;
+        const translateY = -4; 
+        
+        this.fieldBorderRect_.setAttribute('transform', `translate(${translateX}, ${translateY})`);
+
+		let textPadding = 10;
+        this.textElement_.setAttribute('x', textPadding);
+        
+        this.applyColour();
+    } 
+}
+
+Blockly.FieldZelosOvalBackground = FieldZelosOvalBackground;
+
+Blockly.registry.register(
+    Blockly.registry.Type.FIELD,
+    FieldZelosOvalBackground.KEY_,
+    FieldZelosOvalBackground
+);
+
+
 //# sourceMappingURL=blockly_compressed.js.map
