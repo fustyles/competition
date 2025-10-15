@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		try {
 			for (var i=0;i<category.length;i++){
 				category[i] = category[i].replace(/\<category /g, "<category expanded=\"false\" ");
-				//console.log(category[i]);
 				var xml = new DOMParser().parseFromString(category[i],"text/xml");
 				xmlToolbox+=new XMLSerializer().serializeToString(xml.firstChild).replace("<xml>","").replace("</xml>","");
 			}
@@ -749,6 +748,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			// 重置被拖曳元素的樣式和狀態
 			resetDraggedElement();
+			
+			flashVariablesList();
 		};
 		
 		/**
@@ -790,7 +791,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		// 在容器上註冊滑鼠按下事件，利用事件委派
 		container.addEventListener('mousedown', handleMouseDown);
-	}	
+	}
+
+	function flashVariablesList() {
+		// 1. 取得容器元素
+		const container = document.getElementById('paramListContainer');
+		
+		if (!container) {
+			console.error("找不到 ID 為 'paramListContainer' 的容器元素！");
+			return [];
+		}
+
+		// 2. 選擇器：選取容器內所有 div 元素
+		// 注意：如果您確定 div 都有特定的 class (例如 'param-tag')，
+		// 使用更精確的選擇器會更好，例如：container.querySelectorAll('div.param-tag')
+		const divElements = container.querySelectorAll('div');
+		
+		// 3. 遍歷元素並提取 data-name
+		var createFunctionVariable1 = ["", []];
+		Array.from(divElements).map(div => {
+			// 使用 dataset 屬性是獲取 data-* 屬性的現代且推薦的方式
+			// dataset.name 對應於 data-name
+			createFunctionVariable1[0] = createFunctionVariable[0];
+			
+			for (var i=0;i<createFunctionVariable[1].length;i++) {
+				if (createFunctionVariable[1][i][0]==div.getAttribute('data-name')) {
+					createFunctionVariable1[1].push([createFunctionVariable[1][i][0],createFunctionVariable[1][i][1],createFunctionVariable[1][i][2]]);
+					break;
+				}
+			} 
+		});
+		createFunctionVariable = createFunctionVariable1;
+		updateParamContainer();
+		createFunctionBlock();
+	}
+
 
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
         createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
@@ -809,57 +844,6 @@ document.addEventListener('DOMContentLoaded', function() {
         promptAndAddParam('label');
     });
 	
-	
-/*	
-	
-	class FieldTextHexagon extends Blockly.FieldTextInput {
-		static KEY_ = 'field_text_hexagon';
-
-		constructor(value, opt_validator, opt_config) {
-			super(value, opt_validator, opt_config);
-			
-			this.SERIALIZABLE = true;
-		}
-
-		initView() {
-			super.initView();
-
-			const oldRect = this.fieldBorderRect_;
-			if (oldRect) {
-				oldRect.remove();
-			}
-
-			this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
-				Blockly.utils.Svg.PATH,
-				{
-					'fill': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999',
-					'stroke': this.sourceBlock_ ? this.sourceBlock_.getColour() : '#999999',
-					'class': 'blocklyFieldRect blocklyFieldTextHexagonPath',
-				},
-				this.fieldGroup_
-			);
-
-			this.textElement_.style.fill = 'black';
-		}
-
-		updateSize_() {
-			super.updateSize_();
-		}
-	}
-
-	Blockly.FieldTextHexagon = FieldTextHexagon;
-
-	Blockly.registry.register(
-		Blockly.registry.Type.FIELD,
-		FieldTextHexagon.KEY_,
-		FieldTextHexagon
-	);
-
-*/
-
-
-
-
 		
 	setTimeout(function(){
 		
@@ -1052,7 +1036,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 	  
-	  //console.log(iframe_code);
 	  output_result = "";
 	  
 	  try {
