@@ -2029,6 +2029,8 @@ return module$build$src$core$blockly;
 
 
 
+
+
 class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
     static KEY_ = 'field_zelos_oval_bg';
 
@@ -2045,8 +2047,8 @@ class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
 				z`;
 	}
 
-    constructor(value, text_color, background_color) {
-        super(value || '  '); 
+    constructor(value, text_color, background_color, opt_config) {
+        super(value || '  ', opt_config); 
 		this.textColor_ = text_color || '#FFFFFF';
         this.backgroundColor_ = background_color || '#FD6723';
     } 
@@ -2103,9 +2105,7 @@ class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
         let fieldHeight = 30;
 		const cornerRadius = fieldHeight / 2;
 		
-		const gcomputedTextLength = this.textElement_.getComputedTextLength();
-        
-		let textWidth = gcomputedTextLength * 0.988;
+		const textWidth = this.textElement_.getComputedTextLength();
         
         const totalWidth = textWidth + cornerRadius*2; 
 
@@ -2125,7 +2125,7 @@ class FieldZelosOvalBackground extends Blockly.FieldLabelSerializable {
         
         this.fieldBorderRect_.setAttribute('transform', `translate(${translateX}, ${translateY})`);
 
-		let textPadding = 10;
+		let textPadding = 14;
         this.textElement_.setAttribute('x', textPadding);
         
         this.applyColour();
@@ -2139,6 +2139,9 @@ Blockly.registry.register(
     FieldZelosOvalBackground.KEY_,
     FieldZelosOvalBackground
 );
+
+
+
 
 
 //# sourceMappingURL=blockly_compressed.js.map
