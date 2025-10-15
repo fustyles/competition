@@ -451,7 +451,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		var block = workspace.getBlockById(topBlocks[0]);
 		var blockToCenterXY = getBlockToCenterXY(block);
 		block.moveBy(blockToCenterXY.x, blockToCenterXY.y);	
+		
 		workspace.refreshToolboxSelection();
+		workspace.render();
     });
 
     document.getElementById('cancelButton').addEventListener('click', () => {

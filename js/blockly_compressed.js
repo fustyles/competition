@@ -470,13 +470,13 @@ registerDownload$$module$build$src$core$contextmenu_items=function(){
 
 registerDownload$$module$build$src$core$contextmenu_items();
 
-
-
-
-
 registerDelete$$module$build$src$core$contextmenu_items();registerHelp$$module$build$src$core$contextmenu_items()};
 registerDefaultOptions$$module$build$src$core$contextmenu_items=function(){registerWorkspaceOptions_$$module$build$src$core$contextmenu_items();registerBlockOptions_$$module$build$src$core$contextmenu_items()};isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block=function(a){return void 0!==a.getProcedureModel&&void 0!==a.doProcedureUpdate&&void 0!==a.isProcedureDef};
 isObservable$$module$build$src$core$interfaces$i_observable=function(a){return void 0!==a.startPublishing&&void 0!==a.stopPublishing};
+
+
+
+
 allProcedures$$module$build$src$core$procedures=function(a){const b=a.getProcedureMap().getProcedures().filter(d=>!d.getReturnTypes()).map(d=>[d.getName(),d.getParameters().map(e=>e.getName()),!1]);a.getBlocksByType("procedures_defnoreturn",!1).forEach(d=>{!isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block(d)&&isLegacyProcedureDefBlock$$module$build$src$core$interfaces$i_legacy_procedure_blocks(d)&&b.push(d.getProcedureDef())});const c=a.getProcedureMap().getProcedures().filter(d=>
 !!d.getReturnTypes()).map(d=>[d.getName(),d.getParameters().map(e=>e.getName()),!0]);a.getBlocksByType("procedures_defreturn",!1).forEach(d=>{!isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block(d)&&isLegacyProcedureDefBlock$$module$build$src$core$interfaces$i_legacy_procedure_blocks(d)&&c.push(d.getProcedureDef())});b.sort(procTupleComparator$$module$build$src$core$procedures);c.sort(procTupleComparator$$module$build$src$core$procedures);return[b,c]};
 procTupleComparator$$module$build$src$core$procedures=function(a,b){return a[0].localeCompare(b[0],void 0,{sensitivity:"base"})};$.findLegalName$$module$build$src$core$procedures=function(a,b){if(b.isInFlyout)return a;for(a=a||$.Msg$$module$build$src$core$msg.UNNAMED_KEY||"unnamed";!isLegalName$$module$build$src$core$procedures(a,b.workspace,b);){const c=a.match(/^(.*?)(\d+)$/);a=c?c[1]+(parseInt(c[2])+1):a+"2"}return a};
@@ -504,7 +504,14 @@ if (Blocks$$module$build$src$core$blocks.procedures_ifreturn) {
 }
 
 
-c.length&&c[c.length-1].setAttribute("gap","24");a=allProcedures$$module$build$src$core$procedures(a);b(a[0],"procedures_callnoreturn");b(a[1],"procedures_callreturn");return c};
+c.length&&c[c.length-1].setAttribute("gap","24");
+a=allProcedures$$module$build$src$core$procedures(a);
+b(a[0],"procedures_callnoreturn");
+b(a[1],"procedures_callreturn");
+return c
+};
+
+
 updateMutatorFlyout$$module$build$src$core$procedures=function(a){var b=[],c=a.getBlocksByType("procedures_mutatorarg",!1);for(let f=0,g;g=c[f];f++)b.push(g.getFieldValue("NAME"));c=$.createElement$$module$build$src$core$utils$xml("xml");const d=$.createElement$$module$build$src$core$utils$xml("block");d.setAttribute("type","procedures_mutatorarg");const e=$.createElement$$module$build$src$core$utils$xml("field");e.setAttribute("name","NAME");b=generateUniqueNameFromOptions$$module$build$src$core$variables($.DEFAULT_ARG$$module$build$src$core$procedures,
 b);b=$.createTextNode$$module$build$src$core$utils$xml(b);e.appendChild(b);d.appendChild(e);c.appendChild(d);a.updateToolbox(c)};
 mutatorOpenListener$$module$build$src$core$procedures=function(a){if(a.type===BUBBLE_OPEN$$module$build$src$core$events$utils&&"mutator"===a.bubbleType&&a.isOpen&&a.blockId){a=getWorkspaceById$$module$build$src$core$common(a.workspaceId).getBlockById(a.blockId);var b=a.type;if("procedures_defnoreturn"===b||"procedures_defreturn"===b)a=a.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE).getWorkspace(),updateMutatorFlyout$$module$build$src$core$procedures(a),a.addChangeListener(mutatorChangeListener$$module$build$src$core$procedures)}};
@@ -2032,7 +2039,13 @@ return module$build$src$core$blockly;
 
 
 class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
-    static KEY_ = 'field_zelos_oval_bg';
+    static KEY_ = 'field_zelos_label_background';
+	
+    static SHAPE_TYPES = {
+        SQUARE: 0,
+        OVAL: 1,
+        HEXAGON: 2
+    };	
 
 	static getRoundRectPath(x, y, width, height, radius) {
 		return `M ${x + radius},${y}
@@ -2066,11 +2079,14 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 	}		
 	
 
-    constructor(value, text_color, background_color, background_style, opt_config) {
-        super(value || '  ', opt_config); 
-		this.textColor_ = text_color || '#FFFFFF';
-        this.backgroundColor_ = background_color || '#FD6723';
-		this.backgroundStyle_ = background_style || 0;
+    constructor(value, opt_class, opt_config) {
+        super(value || '  ', null, opt_config); 
+		
+		opt_config = opt_config || {};
+		
+		this.textColor_ = opt_config.textColor || '#FFFFFF';
+		this.backgroundColor_ = opt_config.backgroundColor || '#FD6723';
+		this.backgroundStyle_ = opt_config.shapeType || 0;
     } 
 
     initView() {
@@ -2083,7 +2099,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         this.fieldBorderRect_ = Blockly.utils.dom.createSvgElement(
             Blockly.utils.Svg.PATH,
             {
-                'class': 'blocklyFieldRect blocklyFieldZelosOvalPath',
+                'class': 'blocklyFieldRect blocklyFieldZelosLabelPath',
                 'fill': '#FFFFFF', 
                 'stroke': '#FFFFFF' 
             },
@@ -2122,50 +2138,48 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         const renderer = this.sourceBlock_.workspace.getRenderer();
         const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
 
-        let fieldHeight = 30;
-		
-		
 		const textWidth = this.textElement_.getComputedTextLength();
+		let fieldHeight = 30;
 		let cornerRadius = 0;
-		let totalWidth = 0;
+		let finalWidth = textWidth;
 		let gRectPath = "";
-		let textPadding = 0;
+		let paddingLeft = 0;
 		
-		if (this.backgroundStyle_==0) {
+		if (this.backgroundStyle_==0) { // Square
 			cornerRadius = fieldHeight / 6;
-			totalWidth = textWidth + cornerRadius*2;
+			finalWidth = textWidth + cornerRadius*2;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
-				totalWidth, 
+				finalWidth, 
 				fieldHeight, 
 				cornerRadius 
 			);
-			textPadding = 5;
-		} else if (this.backgroundStyle_==1) {
+			paddingLeft = 5;
+		} else if (this.backgroundStyle_==1) { // Oval
 			cornerRadius = fieldHeight / 2;
-			totalWidth = textWidth + cornerRadius*2;
+			finalWidth = textWidth + cornerRadius*2;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
-				totalWidth, 
+				finalWidth, 
 				fieldHeight, 
 				cornerRadius 
 			);
-			textPadding = 14;
-		} else if (this.backgroundStyle_==2) {
-			totalWidth = textWidth + fieldHeight;
+			paddingLeft = 14;
+		} else if (this.backgroundStyle_==2) { // Hexagon
+			finalWidth = textWidth + fieldHeight;
 			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, fieldHeight);
-			textPadding = 14;
+			paddingLeft = 14;
 		}
 		this.fieldBorderRect_.setAttribute('d', gRectPath);
 
-		this.size_.width = totalWidth;		
+		this.size_.width = finalWidth;		
         
         const translateX = 0;
         const translateY = -4; 
         
         this.fieldBorderRect_.setAttribute('transform', `translate(${translateX}, ${translateY})`);
 
-        this.textElement_.setAttribute('x', textPadding);
+        this.textElement_.setAttribute('x', paddingLeft);
         
         this.applyColour();
 		

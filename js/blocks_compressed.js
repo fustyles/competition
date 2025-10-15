@@ -251,8 +251,18 @@ function(){this.getField("PROPERTY").setValidator(function(a){a="DIVISIBLE_BY"==
 var LIST_MODES_MUTATOR_MIXIN$$module$build$src$blocks$math={updateType_:function(a){"MODE"===a?this.outputConnection.setCheck("Array"):this.outputConnection.setCheck("Number")},mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("op",this.getFieldValue("OP"));return a},domToMutation:function(a){a=a.getAttribute("op");if(null===a)throw new TypeError("xmlElement had no op attribute");this.updateType_(a)}},LIST_MODES_MUTATOR_EXTENSION$$module$build$src$blocks$math=
 function(){this.getField("OP").setValidator(function(a){this.updateType_(a)}.bind(this))};$.registerMutator$$module$build$src$core$extensions("math_modes_of_list_mutator",LIST_MODES_MUTATOR_MIXIN$$module$build$src$blocks$math,LIST_MODES_MUTATOR_EXTENSION$$module$build$src$blocks$math);$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$math);var module$build$src$blocks$math={};module$build$src$blocks$math.blocks=blocks$$module$build$src$blocks$math;
 
-var blocks$$module$build$src$blocks$procedures={},PROCEDURE_DEF_COMMON$$module$build$src$blocks$procedures={setStatements_:function(a){this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField($.Msg$$module$build$src$core$msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)},updateParams_:function(){let a="";this.arguments_.length&&(a=$.Msg$$module$build$src$core$msg.PROCEDURES_BEFORE_PARAMS+
-" "+this.arguments_.join(", "));$.disable$$module$build$src$core$events$utils();try{this.setFieldValue(a,"PARAMS")}finally{$.enable$$module$build$src$core$events$utils()}},
+var blocks$$module$build$src$blocks$procedures={},PROCEDURE_DEF_COMMON$$module$build$src$blocks$procedures={setStatements_:function(a){this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField($.Msg$$module$build$src$core$msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)}
+,updateParams_:function(){
+	let a="";
+	this.arguments_.length&&(a=$.Msg$$module$build$src$core$msg.PROCEDURES_BEFORE_PARAMS+" "+this.arguments_.join(", "));
+	$.disable$$module$build$src$core$events$utils();
+	try{
+		this.setFieldValue(a,"PARAMS")
+	}finally{
+		$.enable$$module$build$src$core$events$utils()
+	}
+}
+,
 mutationToDom:function(a){
 	const b=$.createElement$$module$build$src$core$utils$xml("mutation");
 	a&&b.setAttribute("name",this.getFieldValue("NAME"));
