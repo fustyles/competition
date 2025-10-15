@@ -280,7 +280,7 @@ var catSystem = '<xml>'+
 '    <block type="javascript_data_input">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+
-'    <field name="TEXT">請輸入文字</field>'+
+'    <field name="TEXT"></field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
@@ -300,9 +300,10 @@ var catSystem = '<xml>'+
 '    <block type="text_prompt_ext">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+
-'    <field name="TEXT">請輸入文字</field>'+
+'    <field name="TEXT"></field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
+
 
 */
