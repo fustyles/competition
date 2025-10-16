@@ -2044,7 +2044,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     static SHAPE_TYPES = {
         SQUARE: 0,
         OVAL: 1,
-        HEXAGON: 2
+        HEXAGON: 2,
+        DIAMOND: 3		
     };	
 
 	static getRoundRectPath(x, y, width, height, radius) {
@@ -2076,7 +2077,25 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		];
 
 		return path.join(' ');
-	}		
+	}
+
+	static getDiamondPath(width, height) {
+        const halfWidth = width / 2;
+        const halfHeight = height / 2;
+
+        const x = 0;
+        const y = 0;
+
+        const path = [
+            `M ${x + halfWidth},${y}`,
+            `L ${x + width},${y + halfHeight}`,
+            `L ${x + halfWidth},${y + height}`,
+            `L ${x},${y + halfHeight}`,
+            'Z'
+        ];
+
+        return path.join(' ');
+    }
 	
 
     constructor(value, opt_class, opt_config) {
@@ -2135,41 +2154,50 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
             return;
         }
 
-        const renderer = this.sourceBlock_.workspace.getRenderer();
-        const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
+        //const renderer = this.sourceBlock_.workspace.getRenderer();
+        //const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
 
 		const textWidth = this.textElement_.getComputedTextLength();
 		let fieldHeight = 30;
 		let cornerRadius = 0;
 		let finalWidth = textWidth;
+		let finalHeight = fieldHeight
 		let gRectPath = "";
 		let paddingLeft = 0;
 		
 		if (this.backgroundStyle_==0) { // Square
-			cornerRadius = fieldHeight / 6;
+			cornerRadius = finalHeight / 6;
 			finalWidth = textWidth + cornerRadius*2;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
 				finalWidth, 
-				fieldHeight, 
+				finalHeight, 
 				cornerRadius 
 			);
 			paddingLeft = 5;
 		} else if (this.backgroundStyle_==1) { // Oval
-			cornerRadius = fieldHeight / 2;
+			cornerRadius = finalHeight / 2;
 			finalWidth = textWidth + cornerRadius*2;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
 				finalWidth, 
-				fieldHeight, 
+				finalHeight, 
 				cornerRadius 
 			);
 			paddingLeft = 14;
 		} else if (this.backgroundStyle_==2) { // Hexagon
-			finalWidth = textWidth + fieldHeight;
-			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, fieldHeight);
+			finalWidth = textWidth + finalHeight;
+			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, finalHeight);
 			paddingLeft = 14;
+		} else if (this.backgroundStyle_==3) { // Diamond
+            finalWidth = textWidth * 2;
+            gRectPath = FieldZelosLabelBackground.getDiamondPath(
+                finalWidth, 
+                finalHeight
+            );
+			paddingLeft = finalWidth / 4;
 		}
+		
 		this.fieldBorderRect_.setAttribute('d', gRectPath);
 
 		this.size_.width = finalWidth;		
