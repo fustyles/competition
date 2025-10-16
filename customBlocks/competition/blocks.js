@@ -717,10 +717,11 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
         defaultName.setValidator(Blockly.Procedures.rename);
         defaultName.setSpellcheck(!1);
 
-        this.appendDummyInput("main")
+        this.appendDummyInput()
             .appendField(Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"])
             .appendField(defaultName, "NAME")
             .appendField("", "PARAMS");	
+		this.appendDummyInput("arg");			
 		this.appendDummyInput()
 			.appendField(new Blockly.FieldLabelSerializable(""), "TITLE");
         //this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
@@ -753,7 +754,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 
 		Blockly.Events.disable();
         try {
-            const paramsInput = this.getInput('main'); 
+            const paramsInput = this.getInput('arg'); 
 
             if (paramsInput) {
                 for (var i = 0; i < this.arguments_.length; i++) {
