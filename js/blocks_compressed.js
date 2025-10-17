@@ -415,7 +415,6 @@ updateShape_: function() {
 			fieldDom.textContent = "";
 			blockDom.appendChild(fieldDom);
 
-			// 使用 this.workspace 將 DOM 轉換為區塊
 			const newBlock = Blockly.Xml.domToBlock(blockDom, this.workspace);
 			const newBlockConnection = newBlock.outputConnection;
 
@@ -480,7 +479,8 @@ updateShape_: function() {
 		const g=e.getAttribute("type");
 		const h=e.getAttribute("varId");
 		this.arguments_.push(e);
-		$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,h,f,g);	
+		if (!this.workspace.getVariableById(h))
+			$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,h,f,g);	
 	}
 	
 	this.setProcedureParameters_(b,c)
