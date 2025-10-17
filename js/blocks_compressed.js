@@ -461,7 +461,7 @@ updateShape_: function() {
 
         if (modelToUse) {
             c.setAttribute("varid", modelToUse.getId());			
-            c.setAttribute("type", modelToUse.type || "other");
+            c.setAttribute("type", modelToUse.type || "");
         }
 		
 		a.appendChild(c)
