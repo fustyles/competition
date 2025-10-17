@@ -439,8 +439,63 @@ updateShape_: function() {
     }
 }
 
-,mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("name",this.getProcedureCall());for(let b=0;b<this.arguments_.length;b++){const c=
-$.createElement$$module$build$src$core$utils$xml("arg");c.setAttribute("name",this.arguments_[b]);a.appendChild(c)}return a},domToMutation:function(a){var b=a.getAttribute("name");this.renameProcedure(this.getProcedureCall(),b);b=[];const c=[];for(let d=0,e;e=a.childNodes[d];d++)"arg"===e.nodeName.toLowerCase()&&(b.push(e.getAttribute("name")),c.push(e.getAttribute("paramId")));this.setProcedureParameters_(b,c)},saveExtraState:function(){const a=Object.create(null);a.name=this.getProcedureCall();
+,mutationToDom:function(){
+	const a=$.createElement$$module$build$src$core$utils$xml("mutation");
+	const procedureName = this.getProcedureCall(); // 獲取程序名稱
+	a.setAttribute("name",procedureName);
+	
+	// 獲取工作區的變數管理器實例
+    const variableMap = this.workspace.getVariableMap();
+	
+	console.log(this);
+	console.log(this.arguments_);
+	console.log(this.argumentVarModels_);
+	for(let b=0;b<this.arguments_.length;b++){
+		const argName = this.arguments_[b];
+		const c=$.createElement$$module$build$src$core$utils$xml("arg");
+		c.setAttribute("name",argName);
+		
+        let modelToUse = null;
+        for (const type of variableMap.getVariableTypes()) {
+            const models = variableMap.getVariablesOfType(type);
+            modelToUse = models.find(m => m.name === argName);
+            if (modelToUse) {
+                break;
+            }
+        }
+
+        if (modelToUse) {
+            c.setAttribute("type", modelToUse.type || "other");
+            c.setAttribute("varid", modelToUse.getId());
+        } else {
+        }
+
+		
+		a.appendChild(c)
+	}
+	return a
+}
+,domToMutation:function(a){
+	var b=a.getAttribute("name");
+	this.renameProcedure(this.getProcedureCall(),b);
+	b=[];
+	const c=[];
+	for(let d=0,e;e=a.childNodes[d];d++) {
+		"arg"===e.nodeName.toLowerCase()&&(b.push(e.getAttribute("name")),c.push(e.getAttribute("paramId")));
+		const f=e.getAttribute("name");
+		const g=e.getAttribute("type");
+		const h=e.getAttribute("varId");
+		this.arguments_.push(e);
+		$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,h,f,g);	
+	}
+	
+	this.setProcedureParameters_(b,c)
+}
+
+
+
+
+,saveExtraState:function(){const a=Object.create(null);a.name=this.getProcedureCall();
 this.arguments_.length&&(a.params=this.arguments_);return a},loadExtraState:function(a){this.renameProcedure(this.getProcedureCall(),a.name);if(a=a.params){const b=[];b.length=a.length;b.fill(null);this.setProcedureParameters_(a,b)}},getVars:function(){return this.arguments_},getVarModels:function(){return this.argumentVarModels_},onchange:function(a){if(this.workspace&&!this.workspace.isFlyout&&a.recordUndo)if(a.type===$.CREATE$$module$build$src$core$events$utils&&-1!==a.ids.indexOf(this.id)){var b=
 this.getProcedureCall();b=$.getDefinition$$module$build$src$core$procedures(b,this.workspace);!b||b.type===this.defType_&&JSON.stringify(b.getVars())===JSON.stringify(this.arguments_)||(b=null);if(!b){$.setGroup$$module$build$src$core$events$utils(a.group);a=$.createElement$$module$build$src$core$utils$xml("xml");b=$.createElement$$module$build$src$core$utils$xml("block");b.setAttribute("type",this.defType_);var c=this.getRelativeToSurfaceXY(),d=c.y+2*$.config$$module$build$src$core$config.snapRadius;
 b.setAttribute("x",`${c.x+$.config$$module$build$src$core$config.snapRadius*(this.RTL?-1:1)}`);b.setAttribute("y",`${d}`);c=this.mutationToDom();b.appendChild(c);c=$.createElement$$module$build$src$core$utils$xml("field");c.setAttribute("name","NAME");d=this.getProcedureCall();const e=$.findLegalName$$module$build$src$core$procedures(d,this);d!==e&&this.renameProcedure(d,e);c.appendChild($.createTextNode$$module$build$src$core$utils$xml(d));b.appendChild(c);a.appendChild(b);$.domToWorkspace$$module$build$src$core$xml(a,

@@ -766,18 +766,18 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 									textColor: '#FFFFFF',
 									backgroundColor: '#FD6723',
 									shapeType: 1
-								}), 'SCRATCH_ARG'+i);
+								}), 'ARG'+i);
 							} else if (variableModel.name === this.arguments_[i]&&variableModel.type=="Boolean") {
 								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i], null, {
 									textColor: '#FFFFFF',
 									backgroundColor: '#4C97FF',
 									shapeType: 2
-								}), 'SCRATCH_ARG'+i);
+								}), 'ARG'+i);
 
 							}
 						});
                     } else {
-                        paramsInput.appendField(this.arguments_[i], 'SCRATCH_ARG'+i);
+                        paramsInput.appendField(this.arguments_[i], 'ARG'+i);
                     }
                 }
             }
