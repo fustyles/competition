@@ -444,12 +444,8 @@ updateShape_: function() {
 	const procedureName = this.getProcedureCall(); // 獲取程序名稱
 	a.setAttribute("name",procedureName);
 	
-	// 獲取工作區的變數管理器實例
     const variableMap = this.workspace.getVariableMap();
 	
-	console.log(this);
-	console.log(this.arguments_);
-	console.log(this.argumentVarModels_);
 	for(let b=0;b<this.arguments_.length;b++){
 		const argName = this.arguments_[b];
 		const c=$.createElement$$module$build$src$core$utils$xml("arg");
