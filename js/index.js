@@ -545,9 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .appendField(createFunctionVariable[0]);		
 
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
-				singleBlock.appendValueInput("INPUT_"+createFunctionVariable[1][i][0])
-					.setCheck("String");
-				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], 'text_noquotes', createFunctionVariable[1][i][0]);
+				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
 			}
 
 			//singleBlock.setEditable(false);
@@ -560,44 +558,40 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
-	function addBlockToInput(block, inputName, shadowType, fieldValue) {
-		const input = block.getInput(inputName);
-		
-		if (!input || !input.connection) {
-			return;
+	function addBlockToInput(block, inputName, fieldValue) {
+		let customField;
+		if (fieldValue[1]=="other") {
+			customField = new FieldZelosInputBackground(fieldValue[0], null, {
+				textColor: '#FFFFFF',
+				backgroundColor: '#FD6723',
+				shapeType: 1
+			});
 		}
-
-		const blockDom = Blockly.utils.xml.createElement('block');
-		blockDom.setAttribute('type', shadowType); 
+		else if (fieldValue[1]=="Boolean") {
+			customField = new FieldZelosInputBackground(fieldValue[0], null, {
+				textColor: '#FFFFFF',
+				backgroundColor: '#3373CC',
+				shapeType: 2
+			});
+		}
 		
-		const fieldDom = Blockly.utils.xml.createElement('field');
-		fieldDom.setAttribute('name', 'TEXT');
-		fieldDom.textContent = fieldValue;
-		blockDom.appendChild(fieldDom);
-		
-		const newBlock = Blockly.Xml.domToBlock(blockDom, block.workspace);
-		const newBlockConnection = newBlock.outputConnection;
-        input.connection.connect(newBlockConnection);
-		
-		//newBlock.setEditable(false);
-		newBlock.setMovable(false);
-		newBlock.setDeletable(false);
-
-		const text_field = newBlock.getField('TEXT');
-        
-        if (text_field) {
-            text_field.setValidator(function(newValue) {
-                const oldValue = this.getValue();
+		const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
+		if (customField && customField.setValidator) {
+			customField.setValidator(function(newValue) {
+				const oldValue = this.getValue();
 				if (newValue !== oldValue) {
 					const index = createFunctionVariable[1].findIndex(item => {
 						return item[0] === oldValue;
-					});		
-					createFunctionVariable[1][index][0] = newValue;
-					updateParamContainer();
-                }
-                return newValue;
-            });
-        }
+					});
+					
+					if (index !== -1) {
+						 createFunctionVariable[1][index][0] = newValue;
+						 updateParamContainer(); 
+					}
+				}
+				return newValue;
+			});
+		}
 	}
 
 	function updateParamContainer() {
@@ -749,7 +743,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 重置被拖曳元素的樣式和狀態
 			resetDraggedElement();
 			
-			flashVariablesList();
+			updateVariablesList();
 		};
 		
 		/**
@@ -793,7 +787,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		container.addEventListener('mousedown', handleMouseDown);
 	}
 
-	function flashVariablesList() {
+	function updateVariablesList() {
 		// 1. 取得容器元素
 		const container = document.getElementById('paramListContainer');
 		
