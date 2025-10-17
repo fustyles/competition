@@ -575,8 +575,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 		
-		const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
 		if (customField && customField.setValidator) {
+			const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
 			customField.setValidator(function(newValue) {
 				const oldValue = this.getValue();
 				if (newValue !== oldValue) {
