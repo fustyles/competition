@@ -417,9 +417,27 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else {
 			formDiv.style.display = 'none';
 		}
+	}
+
+	function hasDuplicate(dataArray) {
+		if (Array.isArray(dataArray)) {
+			for (var i = 0; i < dataArray.length - 1; i++) {
+				for (var j = i + 1; j < dataArray.length; j++) {
+					if (dataArray[i][0] === dataArray[j][0]) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}	
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
+		if (hasDuplicate(createFunctionVariable[1])) {
+			alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
+			return;
+		}	
+		
         toggleForm(false);
 		
 		var xml = '<xml xmlns="https://developers.google.com/blockly/xml">\n'+
@@ -490,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		deleteBtn.onclick = function(event) {
 			event.stopPropagation();
-			createFunctionVariableDelete(tag.getAttribute('data-name'));
+			createFunctionVariableDelete(tag.getAttribute('data-name'), tag.getAttribute('data-type'));
 			paramContainer.removeChild(tag);
 		};
 
@@ -525,9 +543,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		return result;
 	};	
 	
-	function createFunctionVariableDelete(name) {
+	function createFunctionVariableDelete(name, type) {
 		const index = createFunctionVariable[1].findIndex(item => {
-			return item[0] === name;
+			return (item[0] === name&&item[1] === type);
 		});		
 		createFunctionVariable[1].splice(index, 1);
         createFunctionBlock();		
@@ -582,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (newValue !== oldValue) {
 					const index = createFunctionVariable[1].findIndex(item => {
 						return item[0] === oldValue;
-					});
+					});					
 					
 					if (index !== -1) {
 						 createFunctionVariable[1][index][0] = newValue;
