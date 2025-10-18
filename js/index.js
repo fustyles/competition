@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				shapeType: 2
 			});
 		} 
-		else {
+		else if (fieldValue[1]=="label") {
 			customField = new FieldZelosInputBackground(fieldValue[0], null, {
 				textColor: '#FFFFFF',
 				backgroundColor: '#59C059',
@@ -488,12 +488,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			formDiv.style.display = 'none';
 		}
 	}
+	
+	function createFunctionVariableExist(name) {
+		const variableModels = workspace.getAllVariables();
+		const variableNames = variableModels.map(variableModel => variableModel.name);
+		if (variableNames.includes(name))
+			return true;
+		else
+			return false;
+	}	
 
 	function hasDuplicateNull(dataArray) {
+		const variableModels = workspace.getAllVariables();
+		const variableNames = variableModels.map(variableModel => variableModel.name);
+	
 		if (Array.isArray(dataArray)) {
 			for (var i = 0; i < dataArray.length - 1; i++) {
 				for (var j = i + 1; j < dataArray.length; j++) {
-					if (dataArray[i][0] === dataArray[j][0]) {
+					if (dataArray[i][0] === dataArray[j][0]&&dataArray[i][1]!="label") {
 						return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 					}
 				}
@@ -503,6 +515,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i = 0; i < dataArray.length - 1; i++) {
 				if (dataArray[i][0].trim() == "") {
 					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"];
+				} 
+				else if (variableNames.includes(dataArray[i][0])&&dataArray[i][1]!="label") {
+					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 				}
 			}
 		}
@@ -566,13 +581,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
 		if (promptText) {
-			if (createFunctionVariableExist(promptText)) {
+			if (type!="label"&&createFunctionVariableExist(promptText)) {
 				alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
 				return;
 			}	
-			if (promptText.trim()=="") {
-				return;
-			}
+
 			createFunctionVariableAdd(promptText, type);			
 			updateParamContainer();
 			createFunctionBlock();
@@ -600,17 +613,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		tag.appendChild(deleteBtn);
 		
 		paramContainer.appendChild(tag);
-	}
-	
-	function createFunctionVariableExist(name) {
-		const variableModels = workspace.getAllVariables();
-		const variableNames = variableModels.map(variableModel => variableModel.name);
-		if (variableNames.includes(name))
-			return true;		
-		
-		if (createFunctionVariable[1].flat().includes(name))
-			return true;		
-		return false;
 	}
 	
 	function createFunctionVariableAdd(name, type) {
