@@ -30,6 +30,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_CONFIRMBUTTON"] = "OK";
 Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"] = "Define";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the parameter name:";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
+Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"] = "Parameter name cannot be empty";
 Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "The workspace must have an initialization block, execute cancel!";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "with:";

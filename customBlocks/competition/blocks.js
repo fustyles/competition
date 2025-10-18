@@ -53,6 +53,9 @@ Blockly.Blocks['javascript_createfunction_scratch'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.Msg["JAVASCRIPT_CREATE_DEFINITION_SCRATCH"]);
+    this.appendDummyInput()
+        .appendField("", "NAME");
+	this.setMovable(false);
 	this.setInputsInline(true);	  
 	this.setPreviousStatement(0);
 	this.setNextStatement(0);

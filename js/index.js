@@ -328,15 +328,24 @@ document.addEventListener('DOMContentLoaded', function() {
 				toggleForm(1);
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
-						renderer: 'zelos',
-						zoom: {						
-							wheel: true,
-							startScale: 0.9,
-							maxScale: 0.9,
-							minScale: 0.9,
-							scaleSpeed: 1.2
-						},
-						rtl: false,
+						renderer: 'zelos'
+						,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
+						,zoom:{wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
+						,move:{
+							scrollbars: {
+							  horizontal: false,
+							  vertical: false
+							},
+							drag: true,
+							wheel: true
+						}						
+					});
+					
+					subWorkspace.addChangeListener(function(event) {
+						if (event.type === Blockly.Events.VIEWPORT_CHANGE) {
+							if (blocks.length==1)
+								subWorkspace.centerOnBlock(blocks[0].id);
+						}
 					});
 				}
 				
@@ -409,6 +418,66 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		registerMyListCategory();
 	}
+	
+	function createFunctionBlock() {
+		if (subWorkspace) {	
+			subWorkspace.clear();		
+			var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch"><field name="NAME">'+createFunctionVariable[0]+'</field></block></xml>';
+			var singleBlock_id = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
+			var singleBlock = subWorkspace.getBlockById(singleBlock_id[0]);
+
+			for (var i=0;i<createFunctionVariable[1].length;i++) {
+				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
+			}
+	 
+			singleBlock.render();
+			
+			subWorkspace.centerOnBlock(singleBlock.id);
+		}
+	}
+
+	function addBlockToInput(block, inputName, fieldValue) {
+		let customField;
+		if (fieldValue[1]=="other") {
+			customField = new FieldZelosInputBackground(fieldValue[0], null, {
+				textColor: '#FFFFFF',
+				backgroundColor: '#FD6723',
+				shapeType: 1
+			});
+		}
+		else if (fieldValue[1]=="Boolean") {
+			customField = new FieldZelosInputBackground(fieldValue[0], null, {
+				textColor: '#FFFFFF',
+				backgroundColor: '#3373CC',
+				shapeType: 2
+			});
+		} 
+		else {
+			customField = new FieldZelosInputBackground(fieldValue[0], null, {
+				textColor: '#FFFFFF',
+				backgroundColor: '#59C059',
+				shapeType: 0
+			});
+		}
+		
+		if (customField && customField.setValidator) {
+			const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
+			customField.setValidator(function(newValue) {
+				const oldValue = this.getValue();
+				if (newValue !== oldValue) {
+					const index = createFunctionVariable[1].findIndex(item => {
+						return item[0] === oldValue;
+					});					
+					
+					if (index !== -1) {
+						 createFunctionVariable[1][index][0] = newValue;
+						 updateParamContainer(); 
+					}
+				}
+				return newValue;
+			});
+		}
+	}	
 
 	function toggleForm(show) {
 		const formDiv = document.getElementById('createFunction');
@@ -419,24 +488,32 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	function hasDuplicate(dataArray) {
+	function hasDuplicateNull(dataArray) {
 		if (Array.isArray(dataArray)) {
 			for (var i = 0; i < dataArray.length - 1; i++) {
 				for (var j = i + 1; j < dataArray.length; j++) {
 					if (dataArray[i][0] === dataArray[j][0]) {
-						return true;
+						return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 					}
 				}
 			}
 		}
-		return false;
+		if (Array.isArray(dataArray)) {
+			for (var i = 0; i < dataArray.length - 1; i++) {
+				if (dataArray[i][0].trim() == "") {
+					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"];
+				}
+			}
+		}
+		return "";
 	}	
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
-		if (hasDuplicate(createFunctionVariable[1])) {
-			alert(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"]);
+		var message = hasDuplicateNull(createFunctionVariable[1]);
+		if (message) {
+			alert(message);
 			return;
-		}	
+		}		
 		
         toggleForm(false);
 		
@@ -480,6 +557,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
 
 	function promptAndAddParam(type) {
+		var message = hasDuplicateNull(createFunctionVariable[1]);
+		if (message) {
+			alert(message);
+			return;
+		}	
+		
 		var promptText = prompt(Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"]);
 		if (promptText) {
 			if (createFunctionVariableExist(promptText)) {
@@ -551,72 +634,22 @@ document.addEventListener('DOMContentLoaded', function() {
         createFunctionBlock();		
 	}
 
-	function createFunctionBlock() {
-		if (subWorkspace) {	
-			var xml = Blockly.utils.xml.textToDom('<xml></xml>');
-			subWorkspace.clear();		
-			xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch" x="0" y="0"></block></xml>';
-			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
-			var singleBlock = subWorkspace.getTopBlocks(false)[0];
-			
-            singleBlock.appendDummyInput()
-                .appendField(createFunctionVariable[0]);		
-
-			for (var i=0;i<createFunctionVariable[1].length;i++) {
-				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
-			}
-
-			//singleBlock.setEditable(false);
-			singleBlock.setDeletable(false);
-			singleBlock.setInputsInline(true);
-			singleBlock.initSvg(); 
-			singleBlock.render(); 
-
-			subWorkspace.centerOnBlock(singleBlock.id);			
-		}
-	}
-	
-	function addBlockToInput(block, inputName, fieldValue) {
-		let customField;
-		if (fieldValue[1]=="other") {
-			customField = new FieldZelosInputBackground(fieldValue[0], null, {
-				textColor: '#FFFFFF',
-				backgroundColor: '#FD6723',
-				shapeType: 1
-			});
-		}
-		else if (fieldValue[1]=="Boolean") {
-			customField = new FieldZelosInputBackground(fieldValue[0], null, {
-				textColor: '#FFFFFF',
-				backgroundColor: '#3373CC',
-				shapeType: 2
-			});
-		}
-		
-		if (customField && customField.setValidator) {
-			const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
-			customField.setValidator(function(newValue) {
-				const oldValue = this.getValue();
-				if (newValue !== oldValue) {
-					const index = createFunctionVariable[1].findIndex(item => {
-						return item[0] === oldValue;
-					});					
-					
-					if (index !== -1) {
-						 createFunctionVariable[1][index][0] = newValue;
-						 updateParamContainer(); 
-					}
-				}
-				return newValue;
-			});
-		}
-	}
-
 	function updateParamContainer() {
 		paramContainer.innerHTML = "";
+		var createFunctionVariableTemp = [];
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
-			addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+			if (createFunctionVariable[1][i][1] != "label") {
+				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+				createFunctionVariableTemp.push([createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]]);
+			}
 		}
+		for (var i=0;i<createFunctionVariable[1].length;i++) {
+			if (createFunctionVariable[1][i][1] == "label") {			
+				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+				createFunctionVariableTemp.push([createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]]);
+			}
+		}
+		createFunctionVariable[1] = createFunctionVariableTemp;
 	}
 	
     function getBlockToMouseXY(block) {
@@ -858,7 +891,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 		
 	setTimeout(function(){
-		
 		loadToolbox('geras', catSystem, 1.0);
 		//loadToolbox('zelos', catSystemScratch, 0.8);
 		updateMsg();
