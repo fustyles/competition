@@ -343,6 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 					subWorkspace.addChangeListener(function(event) {
 						if (event.type === Blockly.Events.VIEWPORT_CHANGE) {
+							var blocks = subWorkspace.getAllBlocks();
 							if (blocks.length==1)
 								subWorkspace.centerOnBlock(blocks[0].id);
 						}
