@@ -291,6 +291,8 @@
     
     /* 為表格外部添加 1px 黑色實線 */
     border: 1px solid black;
+	
+	font-size: 10px; /* 範例：設定為 10 像素 */	
     
     /* 可選：讓表格寬度適應父容器 */
     //width: 2000px;
