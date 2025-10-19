@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos'
 						,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
-						,zoom:{wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
+						,zoom:{wheel: true, startScale: 0.9, maxScale: 1.8, minScale: 0.3, scaleSpeed: 1.2}
 						,move:{
 							scrollbars: {
 							  horizontal: false,
