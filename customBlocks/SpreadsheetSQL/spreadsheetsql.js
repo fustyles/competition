@@ -135,6 +135,8 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 				k++;
 				innerData += "<tr>";
 				for (var j=0;j<spreadsheetsql_head_response[task_id][i].length;j++) {
+					if (!spreadsheetsql_head_response[task_id][i][j])
+						spreadsheetsql_head_response[task_id][i][j] = "";
 					innerData += "<td id='"+task_id+"_"+i+"_"+j+"'>"+spreadsheetsql_head_response[task_id][i][j].replace(/\n/g,'<br>')+"</td>";
 				}
 				innerData += "</tr>";
@@ -143,6 +145,8 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 		for (var i=0;i<spreadsheetsql_response[task_id].length;i++) {
 			innerData += "<tr>";
 			for (var j=0;j<spreadsheetsql_response[task_id][i].length;j++) {
+				if (!spreadsheetsql_response[task_id][i][j])
+					spreadsheetsql_response[task_id][i][j] = "";
 				if (j==0) {
 					var title = spreadsheetsql_response[task_id][i][3]+'\n\n\n'+Blockly.Msg["TEST_DATA"]+'\n{"data":["'+spreadsheetsql_response[task_id][i].slice(4).join('","')+'"]}';
 					innerData += "<td id='"+task_id+"_"+(i+k)+"_"+j+"'><button title='"+title+"' onclick='document.getElementById(\"question_input\").value = this.title;window.toggleImportQuestionForm(false);var iframe = document.getElementById(\"iframe_output\");iframe.contentWindow.document.open();iframe.contentWindow.document.write(\"\");iframe.contentWindow.document.close();iframe.focus();'>"+spreadsheetsql_response[task_id][i][j]+"</button></td>"
