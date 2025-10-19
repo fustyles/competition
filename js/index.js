@@ -1221,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					iframe_output.contentWindow.document.close();
 					iframe_output.focus();		
 					
-					if (isTemporaryContainer && container.parentNode) {
+					if (container.parentNode) {
 						container.parentNode.removeChild(container);
 					}					
 				}
