@@ -464,11 +464,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (customField && customField.setValidator) {
 			const input_field = block.appendDummyInput(inputName).appendField(customField, 'TEXT');
 			customField.setValidator(function(newValue) {
+				var fieldTpye = "";
+				if (this.backgroundStyle_==1)
+					fieldTpye = "other";
+				else if (this.backgroundStyle_==2)
+					fieldTpye = "Boolean";
+				else if (this.backgroundStyle_==0)
+					fieldTpye = "label";			
+			
 				const oldValue = this.getValue();
+
 				if (newValue !== oldValue) {
-					const index = createFunctionVariable[1].findIndex(item => {
-						return item[0] === oldValue;
-					});					
+					const index = createFunctionVariable[1].findIndex(item => {						
+						return item[0] === oldValue&&item[1] === fieldTpye;
+					});				
 					
 					if (index !== -1) {
 						 createFunctionVariable[1][index][0] = newValue;
@@ -505,7 +514,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (Array.isArray(dataArray)) {
 			for (var i = 0; i < dataArray.length - 1; i++) {
 				for (var j = i + 1; j < dataArray.length; j++) {
-					if (dataArray[i][0] === dataArray[j][0]&&dataArray[i][1]!="label") {
+					if (dataArray[i][0] === dataArray[j][0]&&dataArray[i][1]!="label"&&dataArray[j][1]!="label") {
 						return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 					}
 				}
@@ -592,11 +601,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		}			
 	}
 
-	function addParamTag(name, type) {
+	function addParamTag(name, type, varid) {
 		const tag = document.createElement('div');
 		tag.className = `param-tag ${type}`;
 		tag.setAttribute('data-name', name);
 		tag.setAttribute('data-type', type);
+		tag.setAttribute('data-varid', varid);
 		tag.classList.add("draggable");
 
 		const deleteBtn = document.createElement('span');
@@ -605,7 +615,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		deleteBtn.onclick = function(event) {
 			event.stopPropagation();
-			createFunctionVariableDelete(tag.getAttribute('data-name'), tag.getAttribute('data-type'));
+			createFunctionVariableDelete(tag.getAttribute('data-varid'));
 			paramContainer.removeChild(tag);
 		};
 
@@ -629,9 +639,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		return result;
 	};	
 	
-	function createFunctionVariableDelete(name, type) {
+	function createFunctionVariableDelete(varid) {
 		const index = createFunctionVariable[1].findIndex(item => {
-			return (item[0] === name&&item[1] === type);
+			return (item[2] === varid);
 		});		
 		createFunctionVariable[1].splice(index, 1);
         createFunctionBlock();		
@@ -642,13 +652,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		var createFunctionVariableTemp = [];
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][1] != "label") {
-				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]);
 				createFunctionVariableTemp.push([createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]]);
 			}
 		}
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][1] == "label") {			
-				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1]);
+				addParamTag(createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]);
 				createFunctionVariableTemp.push([createFunctionVariable[1][i][0], createFunctionVariable[1][i][1], createFunctionVariable[1][i][2]]);
 			}
 		}
@@ -863,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			createFunctionVariable1[0] = createFunctionVariable[0];
 			
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
-				if (createFunctionVariable[1][i][0]==div.getAttribute('data-name')) {
+				if (createFunctionVariable[1][i][0]==div.getAttribute('data-name')&&createFunctionVariable[1][i][1]==div.getAttribute('data-type')) {
 					createFunctionVariable1[1].push([createFunctionVariable[1][i][0],createFunctionVariable[1][i][1],createFunctionVariable[1][i][2]]);
 					break;
 				}
