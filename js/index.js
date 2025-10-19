@@ -1192,10 +1192,10 @@ console.log(inputArray);
 					'  var arr = input.split(";");\n'+
 					'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 					'  input = arr[variable_data_test_index];\n'+
-					'  //if (type=="NUMBER")\n'+
-					'  //	input = Number(input);\n'+
-					'  //else\n'+
-					'  //input = input;\n'+
+					'  if (type=="NUMBER")\n'+
+					'  	input = Number(input);\n'+
+					'  else\n'+
+					'    input = input;\n'+
 					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 					'  return input;\n'+
 					'}';

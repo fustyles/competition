@@ -4,9 +4,9 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 	'  if (input === null) {\n'+
 	'      input = "";\n'+
 	'  }\n'+
-	'  //if (type=="NUMBER")\n'+
-	'  //input = Number(prompt(msg));\n'+
-	'  //else\n'+
+	'  if (type=="NUMBER")\n'+
+	'    input = Number(prompt(msg));\n'+
+	'  else\n'+
 	'  	input = prompt(msg);\n'+
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+	
 	'  return input;\n'+
