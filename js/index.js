@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!keyword)
 			spreadsheetsql_executeSql('select *', "question");
 		else
-			spreadsheetsql_executeSql("select * where B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
+			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);

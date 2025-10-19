@@ -63,9 +63,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
     max-width: 800px;
+    max-height: 600px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+#importQuestionsList {
+	overflow: auto; /* 核心屬性：內容溢出時自動顯示捲軸 */
+	border: 1px solid #ccc; /* 方便觀察容器邊界 */
+	height: 350px; /* 關鍵：設定固定的高度 */
+	width: 778px; /* 設定寬度，捲軸會影響內容寬度 */
+	padding: 10px;
 }
 
 /* 標題樣式 */
@@ -125,7 +134,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
-    width: 300px; /* 建議使用固定寬度，防止佔用過多空間 */
+    width: 200px; /* 建議使用固定寬度，防止佔用過多空間 */
     box-sizing: border-box;
 }
 
@@ -284,7 +293,7 @@
     border: 1px solid black;
     
     /* 可選：讓表格寬度適應父容器 */
-    width: 1500px;
+    //width: 2000px;
 }
 
 /* 2. 設定表格單元格 (td) 的樣式 */
