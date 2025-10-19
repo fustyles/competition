@@ -1154,100 +1154,151 @@ document.addEventListener('DOMContentLoaded', function() {
 	*/
 	document.getElementById('button_test').onclick = function () {
 		
-	  var blocks = workspace.getBlocksByType("javascript_data_output");
-	  var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
-	  if (blocks.length!=1&&blocks_scratch.length!=1) {
-		alert(Blockly.Msg["TEST_CODE_CHECK"]);
-		return;
-	  }
-	  
-	  var question_input = document.getElementById("question_input").value;
-	  const jsonRegex = /\{[\s\S]*?\}/;
-	  const match = question_input.match(jsonRegex);
-	  var inputArray = [];
-	  if (match) {
-        var jsonObject = JSON.parse(match[0]);
-		inputArray = jsonObject.data;
-	  } else {
-        inputArray.push(prompt(Blockly.Msg["TEST_CODE_MESSAGE"]));
-	  }	  
-	  
-console.log(inputArray);
-	  if (inputArray.length>0) {
-		  for (var i=0;i<inputArray.length;i++) {
+		var blocks = workspace.getBlocksByType("javascript_data_output");
+		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
+		if (blocks.length!=1&&blocks_scratch.length!=1) {
+			alert(Blockly.Msg["TEST_CODE_CHECK"]);
+			return;
+		}
+
+		var question_input = document.getElementById("question_input").value;
+		const jsonRegex = /\{[\s\S]*?\}/;
+		const match = question_input.match(jsonRegex);
+		var inputArray = [];
+		if (match) {
+		var jsonObject = JSON.parse(match[0]);
+			inputArray = jsonObject.data;
+		} else {
+			inputArray.push(prompt(Blockly.Msg["TEST_CODE_MESSAGE"]));
+		}	  
+
+		if (inputArray.length>0) {
+			runMultipleIframeTests(inputArray);
+		}
+	}
+	
+	function runMultipleIframeTests(inputArray, containerId = 'iframeContainer') {
+		if (inputArray.length === 0) return;
+
+		let outputResult = "";
+		let completedCount = 0;
+		const totalTests = inputArray.length;
+
+		// 獲取或創建一個專門放置 iframe 的容器
+		let container = document.getElementById(containerId);
+		if (!container) {
+			container = document.createElement('div');
+			container.id = containerId;
+			document.body.appendChild(container); // 將容器添加到文檔中
+		}
+
+		// 使用 forEach (或 let i=0...for loop) 確保閉包正確
+		inputArray.forEach((testCode, index) => {
+			// 🚨 關鍵修正：使用 const 或 let 確保每個迴圈都有獨立的 iframe 副本
+			const iframe = document.createElement("iframe");
+			iframe.id = "iframe_" + index;
+			iframe.style.width = "0";
+			iframe.style.height = "0";
+			iframe.style.border = "none";
+			
+			container.appendChild(iframe);
+
+			iframe.onload = function() {
+				iframe.onload = null; 
 				
-				var input = inputArray[i];
-				var code = Blockly.JavaScript.workspaceToCode(workspace);
-				code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
-				code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
-				code = 'var variable_data_test_index = -1;\n' + code;
+				const bodyContent = iframe.contentWindow.document.body.innerText;
+				outputResult += "[ "+Blockly.Msg["TEST_DATA"] + "："+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
 				
-				if (!scratchStyle) {
-					code += ''+
-					'function variable_input_test (input, msg, type){\n'+
-					'  if (input === null) {'+
-					'      input = "";'+
-					'  }'+			
-					'  variable_data_test_index++;\n'+
-					'  var arr = input.split(";");\n'+
-					'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-					'  input = arr[variable_data_test_index];\n'+
-					'  if (type=="NUMBER")\n'+
-					'  	input = Number(input);\n'+
-					'  else\n'+
-					'    input = input;\n'+
-					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-					'  return input;\n'+
-					'}';
+				if (iframe.parentNode) {
+					iframe.parentNode.removeChild(iframe);
+				}
+				
+				completedCount++;
+				if (completedCount === totalTests) {
+					var iframe_output = document.getElementById("iframe_output");
+					iframe_output.contentWindow.document.open();
+					iframe_output.contentWindow.document.write(outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>"));
+					iframe_output.contentWindow.document.close();
+					iframe_output.focus();		
 					
-				} else {
-					code += ''+
-					'function variable_input_test (input, msg){\n'+
-					'  if (input === null) {'+
-					'      input = "";'+
-					'  }'+			
-					'  variable_data_test_index++;\n'+
-					'  var arr = input.split(";");\n'+
-					'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-					'  input = arr[variable_data_test_index];\n'+	
-					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-					'  return input;\n'+
-					'}';
+					if (isTemporaryContainer && container.parentNode) {
+						container.parentNode.removeChild(container);
+					}					
 				}
+			};
 
-				code += ''+
-					'function data_output_test (input, msg, text) {\n'+
-					'  if (input === null) {'+
-					'      input = "";'+
-					'  }'+			
-					'  var arr = input.split(";");\n'+			
-					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
-					'  if (text==arr[arr.length-1])\n'+
-					'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
-					'  else\n'+
-					'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+
-					'}';		
+			runTest(iframe, testCode);
+		});
+	}	
 
-				var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
+	function runTest(iframe, input) {
+		var code = Blockly.JavaScript.workspaceToCode(workspace);
+		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
+		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
+		code = 'var variable_data_test_index = -1;\n' + code;
+		
+		if (!scratchStyle) {
+			code += ''+
+			'function variable_input_test (input, msg, type){\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
+			'  variable_data_test_index++;\n'+
+			'  var arr = input.split(";");\n'+
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+			'  input = arr[variable_data_test_index];\n'+
+			'  if (type=="NUMBER")\n'+
+			'  	input = Number(input);\n'+
+			'  else\n'+
+			'    input = input;\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+			'  return input;\n'+
+			'}';
+			
+		} else {
+			code += ''+
+			'function variable_input_test (input, msg){\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
+			'  variable_data_test_index++;\n'+
+			'  var arr = input.split(";");\n'+
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+			'  input = arr[variable_data_test_index];\n'+	
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+			'  return input;\n'+
+			'}';
+		}
 
-				iframe_code += getScript(0);
+		code += ''+
+			'function data_output_test (input, msg, text) {\n'+
+			'  if (input === null) {'+
+			'      input = "";'+
+			'  }'+			
+			'  var arr = input.split(";");\n'+			
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
+			'  if (text==arr[arr.length-1])\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
+			'  else\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+
+			'}';		
 
-				iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
+		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-				output_result = "";
+		iframe_code += getScript(0);
 
-				try {
-					var iframe = document.getElementById("iframe_output");
-					iframe.contentWindow.document.open();
-					iframe.contentWindow.document.write(iframe_code);
-					iframe.contentWindow.document.close();
-					iframe.focus();
-				} catch (e) {
-					alert(e);
-				}
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 
-		  }
-	  }
+		output_result = "";
+
+		try {
+			iframe.contentWindow.document.open();
+			iframe.contentWindow.document.write(iframe_code);
+			iframe.contentWindow.document.close();
+			iframe.focus();					
+		} catch (e) {
+			console.log(e);
+		}
 	}	
 	
 	//停止程式

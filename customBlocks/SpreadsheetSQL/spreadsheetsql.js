@@ -126,8 +126,6 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
   function spreadsheetsql_getQuestionsList(div_id, task_id, input_column) {
 	var div = document.getElementById(div_id);
 	div.innerHTML = "";
-		console.log(spreadsheetsql_head_response[task_id]);
-		console.log(spreadsheetsql_response[task_id]);
 	if (spreadsheetsql_response[task_id].length>0) {
 		var innerData = "<table id='importQuestionTable'>";
 	  
