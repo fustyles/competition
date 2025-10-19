@@ -153,7 +153,8 @@ math_arithmetic$$module$build$src$generators$javascript$math=function(a,b){
 		const d=c[0];c=c[1];
 		const e=b.valueToCode(a,"A",c)||"0";
 		a=b.valueToCode(a,"B",c)||"0";
-		return d?["Number("+e+")"+d+"Number("+a+")",c]:["Math.pow("+"Number("+e+")"+", "+"Number("+a+")"+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]
+		//return d?["Number("+e+")"+d+"Number("+a+")",c]:["Math.pow("+"Number("+e+")"+", "+"Number("+a+")"+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]
+		return d?[e+d+a,c]:["Math.pow("+e+", "+a+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]
 },
 math_single$$module$build$src$generators$javascript$math=function(a,b){const c=a.getFieldValue("OP");let d;if("NEG"===c)return a=b.valueToCode(a,"NUM",Order$$module$build$src$generators$javascript$javascript_generator.UNARY_NEGATION)||"0","-"===a[0]&&(a=" "+a),["-"+a,Order$$module$build$src$generators$javascript$javascript_generator.UNARY_NEGATION];
 a="SIN"===c||"COS"===c||"TAN"===c?b.valueToCode(a,"NUM",Order$$module$build$src$generators$javascript$javascript_generator.DIVISION)||"0":b.valueToCode(a,"NUM",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"0";switch(c){case "ABS":d="Math.abs("+a+")";break;case "ROOT":d="Math.sqrt("+a+")";break;case "LN":d="Math.log("+a+")";break;case "EXP":d="Math.exp("+a+")";break;case "POW10":d="Math.pow(10,"+a+")";break;case "ROUND":d="Math.round("+a+")";break;case "ROUNDUP":d="Math.ceil("+

@@ -1,12 +1,12 @@
 Blockly.JavaScript['javascript_data_input'] = function(block) {	
 	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg, type) {\n'+
 	'  var input;\n'+
-	'  if (input === null) {'+
-	'      input = "";'+
-	'  }'+
-	'  if (type=="NUMBER")\n'+
-	'  	input = Number(prompt(msg));\n'+
-	'  else\n'+
+	'  if (input === null) {\n'+
+	'      input = "";\n'+
+	'  }\n'+
+	'  //if (type=="NUMBER")\n'+
+	'  //input = Number(prompt(msg));\n'+
+	'  //else\n'+
 	'  	input = prompt(msg);\n'+
 	'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+	
 	'  return input;\n'+

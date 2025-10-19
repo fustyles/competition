@@ -57,6 +57,7 @@ Blockly.Msg["BUTTON_RESIZE"] = "重设视窗";
 Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
 Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与目前工作区积木程式的讨论。";
+Blockly.Msg["BUTTON_QUEST"] = "汇入题目";
 
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自定义积木";
