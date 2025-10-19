@@ -62,5 +62,5 @@ var msg = [
 ["button_showhide", "title", Blockly.Msg["BUTTON_SHOWHIDE"]],
 ["question_input", "placeholder", Blockly.Msg["QUESTION_INPUT"]],
 ["query_input", "placeholder", Blockly.Msg["QUERY_INPUT"]],
-["button_quest", "title", Blockly.Msg["BUTTON_QUEST"]]
+["button_question", "title", Blockly.Msg["BUTTON_QUEST"]]
 ];

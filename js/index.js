@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			btn.setAttribute("callbackKey","CREATE_MYFUNCTION");
 			
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
-				toggleForm(1);
+				toggleCreateFunctionForm(1);
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos'
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}	
 
-	function toggleForm(show) {
+	function toggleCreateFunctionForm(show) {
 		const formDiv = document.getElementById('createFunction');
 		if (show) {
 			formDiv.style.display = 'flex'; 			
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			return;
 		}		
 		
-        toggleForm(false);
+        toggleCreateFunctionForm(false);
 		
 		var xml = '<xml xmlns="https://developers.google.com/blockly/xml">\n'+
 				  '<variables>\n';
@@ -576,9 +576,26 @@ document.addEventListener('DOMContentLoaded', function() {
 		workspace.refreshToolboxSelection();
 		workspace.render();
     });
+	
+	function toggleImportQuestionForm(show) {
+		const formDiv = document.getElementById('importQuestion');
+		if (show) {
+			formDiv.style.display = 'flex'; 			
+		} else {
+			formDiv.style.display = 'none';
+		}
+	}		
+	
+    document.getElementById('button_question').addEventListener('click', () => {
+        toggleImportQuestionForm(true);
+    });
+
+    document.getElementById('importCancelButton').addEventListener('click', () => {
+        toggleImportQuestionForm(false);
+    });	
 
     document.getElementById('cancelButton').addEventListener('click', () => {
-        toggleForm(false);
+        toggleCreateFunctionForm(false);
     });	
 
 	function promptAndAddParam(type) {
@@ -884,7 +901,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		createFunctionBlock();
 	}
 
-
 	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
         createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
 		createFunctionBlock();
@@ -901,7 +917,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('createFunction_add_l').addEventListener('click', () => {
         promptAndAddParam('label');
     });
-	
 		
 	setTimeout(function(){
 		loadToolbox('geras', catSystem, 1.0);
