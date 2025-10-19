@@ -39,7 +39,6 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<script src="js/index.js"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>	
-	<script src="customBlocks/gemini/gemini.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>	
 	<script>
 		var lang = location.search.toLowerCase();
@@ -56,9 +55,12 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/jquery.ui.touch-punch.min.js"></script>
 	<script src="js/toolbox.js"></script>	
-    <script src="js/beautify.js"></script>	
+    <script src="js/beautify.js"></script>
+	<script src="customBlocks/gemini/gemini.js"></script>
+	<script src="customBlocks/SpreadsheetSQL/spreadsheetsql.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>	
 	<script>
-	var block_script = ["competition","gemini"];
+	var block_script = ["competition","gemini","SpreadsheetSQL"];
 	for (var i=0;i<block_script.length;i++) {
 	  document.write("\<script src='customBlocks/"+block_script[i]+"/blocks.js'\>\<\/script>");
 	  document.write("\<script src='customBlocks/"+block_script[i]+"/javascript.js'\>\<\/script>");
@@ -147,6 +149,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 			</div>		
 
             <div id="createFunctionDiv" style="width:600px;height:150px;"></div>
+			<img id="variableTrash" src="media/trash.png" style="width:22px;height:28px;display:none;position:absolute;"></img>
 
             <div class="button-group-param">
                 <button id="createFunction_add_ns" class="param-button_ns">添加輸入方塊<br>數字或文字</button>
@@ -166,16 +169,17 @@ Copyright 2025 Taiwan (ChungYi Fu)
             <div id="importQuestion_header" class="header">匯入題目與評測資料</div>
 
             <div class="form-group">
-                <label id="importQuestion_sheet_url_title" for="sheetUrl">試算表網址</label>
-                <input id="importQuestion_sheet_url" type="text" id="sheetUrl" value="">
+                <label id="importQuestion_sheet_id_title" for="sheetUrl">試算表ID</label>
+                <input id="importQuestion_sheet_id" type="text" id="sheetUrl" value="1lZCaN6pHd_R8Vy4xLRTbPeDimwkuOzC2T8Zt4Rwtzc4">
             </div>
             <div class="form-group">
-                <label id="importQuestion_sheet_name_title" for="sheetName">工作表名稱</label>
-                <input id="importQuestion_sheet_name" type="text" id="sheetName" value="">
+                <label id="importQuestion_sheet_name_title" for="importQuestion_sheet_name">工作表名稱</label>
+                <input id="importQuestion_sheet_name" type="text" id="sheetName" value="題庫">
             </div>			
-				
-            <div id="importQuestion" style="width:800px;height:300px;"></div>
-
+            <div class="form-group">
+                <label id="importQuestionsList_title" for="importQuestionsList">題目</label>
+                <div id="importQuestionsList" style="overflow: auto;"></div>
+            </div>
             <div class="button-group-footer">
                 <button id="importCancelButton" class="action-button">取消</button>
                 <button id="importQuestionsButton" class="action-button">載入題庫</button>

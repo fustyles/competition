@@ -584,7 +584,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else {
 			formDiv.style.display = 'none';
 		}
-	}		
+	}
+	window.toggleImportQuestionForm	 = toggleImportQuestionForm;
 	
     document.getElementById('button_question').addEventListener('click', () => {
         toggleImportQuestionForm(true);
@@ -593,7 +594,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('importCancelButton').addEventListener('click', () => {
         toggleImportQuestionForm(false);
     });	
+	
+    document.getElementById('importQuestionsButton').addEventListener('click', () => {
+		var sheetID = document.getElementById('importQuestion_sheet_id').value;
+		var sheetName = document.getElementById('importQuestion_sheet_name').value;
+		
+		function spreadsheetsql_QueryResponse_question(res) {
+			spreadsheetsql_QueryResponse(res, "question");
+		}
+		window.spreadsheetsql_QueryResponse_question = spreadsheetsql_QueryResponse_question;
 
+		async function spreadsheetsql_getDataFinish_question(head_response, response) {
+			spreadsheetsql_getQuestionsList('importQuestionsList', "question", true);
+
+		};
+		window.spreadsheetsql_getDataFinish_question = spreadsheetsql_getDataFinish_question;
+
+
+		spreadsheetsql_settings(sheetID, sheetName, "question");
+		spreadsheetsql_executeSql('select *', "question");
+    });
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
     });	
@@ -1141,78 +1161,92 @@ document.addEventListener('DOMContentLoaded', function() {
 		return;
 	  }
 	  
-	  var input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"]);
-	  if (input) {
-		var code = Blockly.JavaScript.workspaceToCode(workspace);
-		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
-		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
-		code = 'var variable_data_test_index = -1;\n' + code;
-		
-		if (!scratchStyle) {
-			code += ''+
-			'function variable_input_test (input, msg, type){\n'+
-			'  if (input === null) {'+
-			'      input = "";'+
-			'  }'+			
-			'  variable_data_test_index++;\n'+
-			'  var arr = input.split(";");\n'+
-			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  input = arr[variable_data_test_index];\n'+
-			'  //if (type=="NUMBER")\n'+
-			'  //	input = Number(input);\n'+
-			'  //else\n'+
-			'  //input = input;\n'+
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-			'  return input;\n'+
-			'}';
-			
-		} else {
-			code += ''+
-			'function variable_input_test (input, msg){\n'+
-			'  if (input === null) {'+
-			'      input = "";'+
-			'  }'+			
-			'  variable_data_test_index++;\n'+
-			'  var arr = input.split(";");\n'+
-			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  input = arr[variable_data_test_index];\n'+	
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-			'  return input;\n'+
-			'}';
-		}
-
-		code += ''+
-		    'function data_output_test (input, msg, text) {\n'+
-			'  if (input === null) {'+
-			'      input = "";'+
-			'  }'+			
-			'  var arr = input.split(";");\n'+			
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
-			'  if (text==arr[arr.length-1])\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
-			'  else\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+
-			'}';		
-
-		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
-
-		iframe_code += getScript(0);
-
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
-
-		output_result = "";
-
-		try {
-			var iframe = document.getElementById("iframe_output");
-			iframe.contentWindow.document.open();
-			iframe.contentWindow.document.write(iframe_code);
-			iframe.contentWindow.document.close();
-			iframe.focus();
-		} catch (e) {
-			alert(e);
-		}
-
+	  var question_input = document.getElementById("question_input").value;
+	  const jsonRegex = /\{[\s\S]*?\}/;
+	  const match = question_input.match(jsonRegex);
+	  var inputArray = [];
+	  if (match) {
+        var jsonObject = JSON.parse(match[0]);
+		inputArray = jsonObject.data;
+	  } else {
+        inputArray.push(prompt(Blockly.Msg["TEST_CODE_MESSAGE"]));
+	  }	  
 	  
+console.log(inputArray);
+	  if (inputArray.length>0) {
+		  for (var i=0;i<inputArray.length;i++) {
+				
+				var input = inputArray[i];
+				var code = Blockly.JavaScript.workspaceToCode(workspace);
+				code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
+				code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
+				code = 'var variable_data_test_index = -1;\n' + code;
+				
+				if (!scratchStyle) {
+					code += ''+
+					'function variable_input_test (input, msg, type){\n'+
+					'  if (input === null) {'+
+					'      input = "";'+
+					'  }'+			
+					'  variable_data_test_index++;\n'+
+					'  var arr = input.split(";");\n'+
+					'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+					'  input = arr[variable_data_test_index];\n'+
+					'  //if (type=="NUMBER")\n'+
+					'  //	input = Number(input);\n'+
+					'  //else\n'+
+					'  //input = input;\n'+
+					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+					'  return input;\n'+
+					'}';
+					
+				} else {
+					code += ''+
+					'function variable_input_test (input, msg){\n'+
+					'  if (input === null) {'+
+					'      input = "";'+
+					'  }'+			
+					'  variable_data_test_index++;\n'+
+					'  var arr = input.split(";");\n'+
+					'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+					'  input = arr[variable_data_test_index];\n'+	
+					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+					'  return input;\n'+
+					'}';
+				}
+
+				code += ''+
+					'function data_output_test (input, msg, text) {\n'+
+					'  if (input === null) {'+
+					'      input = "";'+
+					'  }'+			
+					'  var arr = input.split(";");\n'+			
+					'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
+					'  if (text==arr[arr.length-1])\n'+
+					'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
+					'  else\n'+
+					'    document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+
+					'}';		
+
+				var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
+
+				iframe_code += getScript(0);
+
+				iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
+
+				output_result = "";
+
+				try {
+					var iframe = document.getElementById("iframe_output");
+					iframe.contentWindow.document.open();
+					iframe.contentWindow.document.write(iframe_code);
+					iframe.contentWindow.document.close();
+					iframe.focus();
+				} catch (e) {
+					alert(e);
+				}
+
+		  }
 	  }
 	}	
 	

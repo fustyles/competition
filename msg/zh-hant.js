@@ -49,6 +49,7 @@ Blockly.Msg["GEMINI_PROMPT"] = "妳是一位在台灣的高雄市就讀國中三
 Blockly.Msg["NOCODE"] = "使用者尚未作答，沒有產生程式碼！";
 
 Blockly.Msg["TEST_CODE"] = "評測程式";
+Blockly.Msg["TEST_DATA"] = "評測資料";
 Blockly.Msg["TEST_CODE_CORRECT"] = "正確答案：%1 ( 輸出正確 )";
 Blockly.Msg["TEST_CODE_ERROR"] = "正確答案：%1 ( 輸出錯誤 )";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入測試資料，以分號 ; 分隔要輸入的數個測試值與答案。";

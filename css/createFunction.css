@@ -50,7 +50,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 600px;
+    max-width: 600px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -241,4 +241,40 @@
     cursor: grab;
     /* 為了配合拖曳邏輯中的位置計算，建議設置為 relative */
     position: relative;
+}
+
+
+/* 1. 設定表格本身的樣式 */
+#importQuestionTable {
+    /* 讓相鄰單元格的邊框合併成一條單線，這是製作細實線框的關鍵 */
+    border-collapse: collapse; 
+    
+    /* 為表格外部添加 1px 黑色實線 */
+    border: 1px solid black;
+    
+    /* 可選：讓表格寬度適應父容器 */
+    width: 1500px;
+}
+
+/* 2. 設定表格單元格 (td) 的樣式 */
+/* 由於 table 和 td 的邊框會合併，通常只需要明確設定 td/th 的邊框即可 */
+#importQuestionTable td {
+    /* 為每個單元格添加 1px 黑色實線 */
+    border: 1px solid black;
+    
+    /* 可選：增加單元格內容與邊框的空間 */
+    padding: 8px; 
+    
+    /* 可選：文字對齊 */
+    text-align: left; 
+}
+
+/* 3. 處理 tr 的邊框 (通常不需要，因為 td 的邊框會覆蓋 tr 的邊框) */
+/* 如果您仍想顯式為 tr 設定邊框，請注意：在 border-collapse: collapse; 模式下，
+   tr 的垂直邊框通常會被 td 的邊框取代或忽略。
+   但為確保完整性，可以添加以下：
+*/
+#importQuestionTable tr {
+    /* 這裡的邊框效果可能不明顯或被 td 覆蓋，但您可以設置 */
+    border: 1px solid black; 
 }
