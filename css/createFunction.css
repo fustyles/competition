@@ -56,6 +56,18 @@
     gap: 15px;
 }
 
+#importQuestion_content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 /* 標題樣式 */
 .header {
     background-color: #e0e0e0;
@@ -91,7 +103,7 @@
 	border: none;
 	min-height: auto;
 	padding: 0;
-	
+	justify-content: center;
 	display: flex; 
 	flex-wrap: wrap; 
 	/* 移除 gap: 12px; */
