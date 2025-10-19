@@ -84,6 +84,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 					<!-- https://fonts.google.com/icons -->
 					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons md-dark">play_arrow</i></a>
 					<a href="#" id="button_test" title="Verification Program"><i class="material-icons md-dark">done</i></a>
+					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">file_download</i></a>
 					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons md-dark">create</i></a>
 					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons md-dark">folder_open</i></a>
 					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
@@ -159,6 +160,28 @@ Copyright 2025 Taiwan (ChungYi Fu)
             </div>
         </div>
     </div>
+	
+    <div id="importQuestion" class="modal-container">
+        <div id="importQuestion_content">
+            <div id="importQuestion_header" class="header">匯入題目與評測資料</div>
+
+            <div class="form-group">
+                <label id="importQuestion_sheet_url_title" for="sheetUrl">試算表網址</label>
+                <input id="importQuestion_sheet_url" type="text" id="sheetUrl" value="">
+            </div>
+            <div class="form-group">
+                <label id="importQuestion_sheet_name_title" for="sheetName">工作表名稱</label>
+                <input id="importQuestion_sheet_name" type="text" id="sheetName" value="">
+            </div>			
+				
+            <div id="importQuestion" style="width:800px;height:300px;"></div>
+
+            <div class="button-group-footer">
+                <button id="importCancelButton" class="action-button">取消</button>
+                <button id="importQuestionsButton" class="action-button">載入題庫</button>
+            </div>
+        </div>
+    </div>	
 </div>
 </main>
 
