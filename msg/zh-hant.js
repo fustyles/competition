@@ -62,6 +62,14 @@ Blockly.Msg["QUESTION_INPUT"] = "輸入積木程式試題";
 Blockly.Msg["QUERY_INPUT"] = "輸入與AI對話內容，可關於試題內容與目前工作區積木程式的討論。";
 Blockly.Msg["BUTTON_QUEST"] = "匯入題目";
 
+Blockly.Msg["IMPORTQUESTION_HEADER"] = "匯入題目與評測資料";
+Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "試算表ID";
+Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "工作表名稱";
+Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "題目";
+Blockly.Msg["IMPORTCANCELBUTTON"] = "取消";
+Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "載入題庫";
+Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "關鍵字";
+
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常數";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自訂積木";
 Blockly.Msg["CUSTOMBLOCKS_TITLE"] = "請輸入自訂積木連結網址。\n目錄中包含檔案 blocks.js, javascript.js, toolbox.xml, en.js, zh-hant.js\n\n若要永久加入自訂積木連結，可開啟檔案\\package.nw\\customBlocks\\customblocks.js將連結手動加入清單";

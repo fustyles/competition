@@ -62,6 +62,14 @@ Blockly.Msg["QUESTION_INPUT"] = "Input Blockly programming question";
 Blockly.Msg["QUERY_INPUT"] = "Enter the content of the dialogue with the AI ​​to discuss the programming content.";
 Blockly.Msg["BUTTON_QUEST"] = "Import question";
 
+Blockly.Msg["IMPORTQUESTION_HEADER"] = "Import questions and assessment data";
+Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "Spreadsheet ID";
+Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "Sheet Name";
+Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "Questions";
+Blockly.Msg["IMPORTCANCELBUTTON"] = "Cancel";
+Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "Load question bank";
+Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "Keyword";
+
 Blockly.Msg["VARIABLES_DEFINE"] = "Define";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "Add Custom Blocks";
 Blockly.Msg["CUSTOMBLOCKS_TITLE"] = "Please input remote custom blocks url.\nIncluding files: blocks.js, javascript.js, toolbox.xml, en.js, zh-hant.js\n\nAnother way, You can add the url to \\package.nw\\customBlocks\\customblocks.js";

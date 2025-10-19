@@ -61,6 +61,14 @@ Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与目前工作区积木程式的讨论。";
 Blockly.Msg["BUTTON_QUEST"] = "汇入题目";
 
+Blockly.Msg["IMPORTQUESTION_HEADER"] = "汇入题目与评测资料";
+Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "试算表ID";
+Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "工作表名称";
+Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "题目";
+Blockly.Msg["IMPORTCANCELBUTTON"] = "取消";
+Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "载入题库";
+Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "关键字";
+
 Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
 Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自定义积木";
 Blockly.Msg["CUSTOMBLOCKS_TITLE"] = "请输入自定义积木连结网址。\n目录中包含档案 blocks.js, javascript.js, toolbox.xml, en.js, zh-hant.js\n\n若要永久加入自定义积木连结，可开启档案\\package.nw\\customBlocks\\customblocks.js将链接手动加入清单";

@@ -96,7 +96,38 @@
     box-sizing: border-box;
 }
 
+/* 輸入框組樣式 (保留 Flexbox 佈局) */
+.form-group-row {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: nowrap;
+    /* 移除或註解 gap: 10px; */
+    align-items: center;
+    /* 新增一個負值的外邊距，用於抵消最後一個元素多餘的 margin-right，
+       確保整體不會溢出或出現不必要的滾動條。
+       這個值應等於您設定的 margin-right 值，例如 20px。 */
+    margin-right: -20px; 
+}
 
+/* 為所有直接子元素 (label 和 input) 設定間距 */
+.form-group-row > * {
+    margin-right: 20px; /* 您想要的間隙大小，例如 20 像素 */
+}
+
+/* 移除最後一個元素的右邊距，避免溢出 */
+.form-group-row > *:last-child {
+    margin-right: 0;
+}
+
+/* 輸入框樣式 (使用新的選擇器，並確保寬度是固定的或受控的) */
+.form-group-row input, .form-group-row textarea { 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 300px; /* 建議使用固定寬度，防止佔用過多空間 */
+    box-sizing: border-box;
+}
 
 /* 參數列表容器 - 移除 gap，將間隙交給 margin-right 處理 */
 #paramListContainer {

@@ -598,6 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('importQuestionsButton').addEventListener('click', () => {
 		var sheetID = document.getElementById('importQuestion_sheet_id').value;
 		var sheetName = document.getElementById('importQuestion_sheet_name').value;
+		var keyword = document.getElementById('importQuestion_sheet_keyword').value;
 		
 		function spreadsheetsql_QueryResponse_question(res) {
 			spreadsheetsql_QueryResponse(res, "question");
@@ -612,7 +613,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 		spreadsheetsql_settings(sheetID, sheetName, "question");
-		spreadsheetsql_executeSql('select *', "question");
+		if (!keyword)
+			spreadsheetsql_executeSql('select *', "question");
+		else
+			spreadsheetsql_executeSql("select * where B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
