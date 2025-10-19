@@ -50,7 +50,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 600px;	
+    max-width: 1000px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -62,8 +62,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 800px;
-    max-height: 600px;	
+    max-width: 800px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -72,7 +71,7 @@
 #importQuestionsList {
 	overflow: auto; /* 核心屬性：內容溢出時自動顯示捲軸 */
 	border: 1px solid #ccc; /* 方便觀察容器邊界 */
-	height: 350px; /* 關鍵：設定固定的高度 */
+	height: 300px; /* 關鍵：設定固定的高度 */
 	width: 778px; /* 設定寬度，捲軸會影響內容寬度 */
 	padding: 10px;
 }
