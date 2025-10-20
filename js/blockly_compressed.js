@@ -2447,7 +2447,17 @@ class FieldZelosInputBackground extends Blockly.FieldTextInput {
 		this.textElement_.setAttribute('y', paddingTop);
         
         this.applyColour();
-    }   
+    } 
+
+	showEditor_() {
+		super.showEditor_(); 
+		showTrashCanIcon(this); 
+	}
+
+	onFinishEditing_(newValue) {
+		hideTrashCanIcon(this);
+		super.onFinishEditing_(newValue);
+	}	
 }
 
 Blockly.FieldZelosInputBackground = FieldZelosInputBackground;

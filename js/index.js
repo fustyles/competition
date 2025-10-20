@@ -685,7 +685,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			return (item[2] === varid);
 		});		
 		createFunctionVariable[1].splice(index, 1);
-        createFunctionBlock();		
+		updateParamContainer();
+		createFunctionBlock();		
 	}
 
 	function updateParamContainer() {
@@ -705,6 +706,97 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		createFunctionVariable[1] = createFunctionVariableTemp;
 	}
+	
+	function showTrashCanIcon(field) {
+		var subworkspace = field.sourceBlock_.workspace;
+		const fieldCoords = getFieldWorkspaceCoordinates(subworkspace, field);		
+		const fieldPageCoords = toPageCoordinates(subworkspace, fieldCoords);
+		
+		const TRASH_ICON_WIDTH = 22; 
+		const TRASH_ICON_HEIGHT = 28;
+
+		const fieldRect = field.getSvgRoot().getBoundingClientRect();
+		const fieldWidth = fieldRect.width;
+		
+		const X_CENTERING_ADJUSTMENT = -2;
+		const Y_SPACING_OFFSET = -20;		
+
+		const finalX = fieldPageCoords.x + (fieldWidth / 2) - (TRASH_ICON_WIDTH / 2) + X_CENTERING_ADJUSTMENT;
+		const finalY = fieldPageCoords.y - TRASH_ICON_HEIGHT + Y_SPACING_OFFSET;
+
+		const trashIconElement = document.createElement("img");
+		trashIconElement.id = "trashIconElement";
+		trashIconElement.src = './media/trash.png';
+		trashIconElement.width = TRASH_ICON_WIDTH;
+		trashIconElement.height = TRASH_ICON_HEIGHT;
+		trashIconElement.style.position = 'absolute';
+		trashIconElement.style.left = `${finalX}px`;
+		trashIconElement.style.top = `${finalY}px`;
+		trashIconElement.style.display = 'block';
+		const createFunctionDiv = document.getElementById("createFunctionDiv");
+		createFunctionDiv.appendChild(trashIconElement);
+				
+		const clickHandler = (event) => {
+			event.stopPropagation();
+			event.preventDefault();			
+			trashClickHandle(field); 
+		};
+		trashIconElement.addEventListener('click', clickHandler);
+		console.log(trashIconElement);
+	}
+	window.showTrashCanIcon = showTrashCanIcon;
+	
+	function trashClickHandle(field) {
+		var fieldName = field.value_;
+		var fieldTpye = "";
+		if (field.backgroundStyle_==1)
+			fieldTpye = "other";
+		else if (field.backgroundStyle_==2)
+			fieldTpye = "Boolean";
+		else if (field.backgroundStyle_==0)
+			fieldTpye = "label";
+		const index = createFunctionVariable[1].findIndex(item => {
+			return (item[0] === fieldName&&item[1] === fieldTpye);
+		});
+		if (index!=-1) {
+			createFunctionVariableDelete(createFunctionVariable[1][index][2]);
+			hideTrashCanIcon(field);
+		}
+	}
+	
+	function hideTrashCanIcon(field) {
+		var trashIconElement = document.getElementById("trashIconElement");
+		if (trashIconElement)
+			trashIconElement.parentNode.removeChild(trashIconElement);
+	}
+	window.hideTrashCanIcon = hideTrashCanIcon;
+	
+	function getFieldWorkspaceCoordinates(subworkspace, field) {
+		const fieldSvgElement = field.getSvgRoot();
+		const workspaceCoords = subworkspace.getSvgXY(fieldSvgElement);
+		
+		if (workspaceCoords && typeof workspaceCoords.x === 'number') {
+			return {
+				x: workspaceCoords.x,
+				y: workspaceCoords.y
+			};
+		}
+	}
+	
+	function toPageCoordinates(subworkspace, workCoords) {
+		const scale = subworkspace.getScale();
+		
+		const rootElement = subworkspace.getInjectionDiv();
+		const svgRect = rootElement.getBoundingClientRect();
+		
+		const pageX_scaled = workCoords.x;
+		const pageY_scaled = workCoords.y;
+
+		const pageX = pageX_scaled + svgRect.left;
+		const pageY = pageY_scaled + svgRect.top;
+
+		return { x: pageX, y: pageY };
+	}	
 	
     function getBlockToMouseXY(block) {
         var mouseClient = new Blockly.utils.Coordinate(mouse_cursor.pageX - window.scrollX, mouse_cursor.pageY - window.scrollY);
