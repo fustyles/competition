@@ -16,6 +16,7 @@ var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
 var createFunctionVariable = ["", []];
+var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -1133,8 +1134,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	var output_result = "";
 	
-	var GeminiKey = Blockly.Msg["GEMINI_KEY"];
-	gemini_chat_initial((CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8)), "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
+	gemini_chat_initial(CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8), "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 
 	async function gemini_chat_response(gemini_chat_data) {
 		var iframeElement = document.getElementById('iframe_output');
@@ -1144,6 +1144,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		//iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
 	}
 	window.gemini_chat_response = gemini_chat_response;
+	
+	document.getElementById('button_key').onclick = async function () {
+		var key = prompt();
+		if (key) {
+			gemini_chat_initial(key, "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
+			
+			var iframeElement = document.getElementById('iframe_output');
+			iframeElement.contentWindow.document.open();
+			iframeElement.contentWindow.document.write("");
+			iframeElement.contentWindow.document.close();
+			iframeElement.focus();			
+			await gemini_chat_run("OK");
+		}
+	}
 	
 	document.getElementById('gemini_ask').onclick = async function () {
 		//if (!document.getElementById("question_input").value.trim()) return;
@@ -1255,8 +1269,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		const match = question_input.match(jsonRegex);
 		var inputArray = [];
 		if (match) {
-		var jsonObject = JSON.parse(match[0]);
-			inputArray = jsonObject.data;
+			try {
+				var jsonObject = JSON.parse(match[0]);
+				inputArray = jsonObject.data;
+			} catch (e) {
+				console.error("JSON Parsing Error:", e);
+				alert(Blockly.Msg["TEST_DATA_JSON_ERROR"]);
+				return;
+			}
 		} else {
 			inputArray.push(prompt(Blockly.Msg["TEST_CODE_MESSAGE"]));
 		}	  
@@ -1385,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		} catch (e) {
 			console.log(e);
 		}
-	}	
+	}
 	
 	//停止程式
 	function stopCode() {

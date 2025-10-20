@@ -69,5 +69,6 @@ var msg = [
 ["importQuestionsList_title", "innerHTML", Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"]],
 ["importCancelButton", "innerHTML", Blockly.Msg["IMPORTCANCELBUTTON"]],
 ["importQuestionsButton", "innerHTML", Blockly.Msg["IMPORTQUESTIONSBUTTON"]],
-["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]]
+["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]],
+["button_key", "title", Blockly.Msg["BUTTON_GEMINI_API_KEY"]],
 ];
