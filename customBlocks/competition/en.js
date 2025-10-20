@@ -14,7 +14,7 @@ Blockly.Msg["CATSCRATCH6_HUE"] = "290";
 
 Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "Input data";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "Output data";
-Blockly.Msg["CATIO"] = "I/O";
+Blockly.Msg["CATEVENT"] = "EVENT";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "When";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "Clicked";
