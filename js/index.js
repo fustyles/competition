@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos'
 						,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
-						,zoom:{wheel: true, startScale: 0.9, maxScale: 1.8, minScale: 0.3, scaleSpeed: 1.2}
+						,zoom:{wheel: true, startScale: 1, maxScale: 1.8, minScale: 0.6, scaleSpeed: 1.2}
 						,move:{
 							scrollbars: {
 							  horizontal: false,
@@ -618,6 +618,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		else
 			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
+	
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
     });	
@@ -985,7 +986,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	function updateVariablesList() {
-		// 1. 取得容器元素
 		const container = document.getElementById('paramListContainer');
 		
 		if (!container) {
@@ -993,18 +993,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			return [];
 		}
 
-		// 2. 選擇器：選取容器內所有 div 元素
-		// 注意：如果您確定 div 都有特定的 class (例如 'param-tag')，
-		// 使用更精確的選擇器會更好，例如：container.querySelectorAll('div.param-tag')
 		const divElements = container.querySelectorAll('div');
 		
-		// 3. 遍歷元素並提取 data-name
 		var createFunctionVariable1 = ["", []];
 		Array.from(divElements).map(div => {
-			// 使用 dataset 屬性是獲取 data-* 屬性的現代且推薦的方式
-			// dataset.name 對應於 data-name
 			createFunctionVariable1[0] = createFunctionVariable[0];
-			
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
 				if (createFunctionVariable[1][i][0]==div.getAttribute('data-name')&&createFunctionVariable[1][i][1]==div.getAttribute('data-type')) {
 					createFunctionVariable1[1].push([createFunctionVariable[1][i][0],createFunctionVariable[1][i][1],createFunctionVariable[1][i][2]]);
@@ -1280,17 +1273,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		let completedCount = 0;
 		const totalTests = inputArray.length;
 
-		// 獲取或創建一個專門放置 iframe 的容器
 		let container = document.getElementById(containerId);
 		if (!container) {
 			container = document.createElement('div');
 			container.id = containerId;
-			document.body.appendChild(container); // 將容器添加到文檔中
+			document.body.appendChild(container);
 		}
 
-		// 使用 forEach (或 let i=0...for loop) 確保閉包正確
 		inputArray.forEach((testCode, index) => {
-			// 🚨 關鍵修正：使用 const 或 let 確保每個迴圈都有獨立的 iframe 副本
 			const iframe = document.createElement("iframe");
 			iframe.id = "iframe_" + index;
 			iframe.style.width = "0";

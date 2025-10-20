@@ -62,7 +62,7 @@ Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与
 Blockly.Msg["BUTTON_QUEST"] = "汇入题目";
 
 Blockly.Msg["IMPORTQUESTION_HEADER"] = "汇入题目与评测资料";
-Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "试算表ID";
+Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "试算表代码";
 Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "工作表名称";
 Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "题目";
 Blockly.Msg["IMPORTCANCELBUTTON"] = "取消";
