@@ -197,7 +197,38 @@ Blockly.JavaScript['list_itemnumoflist_scratch'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_defnoreturn'];
+//Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_defnoreturn'];
+
+Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = function(block, generator) {
+    const functionName = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('NAME'), "PROCEDURE");
+
+    const varNames = [];
+    const variables = block.getVars();
+    for (let i = 0; i < variables.length; i++) {
+        varNames.push(generator.nameDB_.getName(variables[i], "VARIABLE"));
+    }
+    const parameterString = varNames.join(', ');
+
+	const nextBlock = block.getNextBlock();
+	if (nextBlock)
+		var statements = Blockly.JavaScript.blockToCode(nextBlock);
+	else
+		var statements = "";
+
+    let functionCode = `function ${functionName}(${parameterString}) {\n${statements}}`;
+
+    if (functionCode.includes("await ")) {
+        functionCode = `async ${functionCode}`;
+    }
+    
+    const finalCode = generator.scrub_(block, functionCode);
+
+    generator.definitions_["%" + functionName] = finalCode;
+
+    return null;
+};
+
+
 Blockly.JavaScript['javascript_procedures_callnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_callnoreturn'];
 
 /*

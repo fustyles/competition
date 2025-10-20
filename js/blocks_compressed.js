@@ -295,7 +295,8 @@ domToMutation:function(a){
 			null!==b?this.argumentVarModels_.push(b):console.log(`Failed to create a variable named "${e}", ignoring.`)
 		}
 	this.updateParams_();$.mutateCallers$$module$build$src$core$procedures(this);
-	this.setStatements_("false"!==a.getAttribute("statements"))
+	if (this.setStatements_)
+		this.setStatements_("false"!==a.getAttribute("statements"))
 },
 saveExtraState:function(){if(!this.argumentVarModels_.length&&this.hasStatements_)return null;const a=Object.create(null);if(this.argumentVarModels_.length){a.params=[];for(let b=0;b<this.argumentVarModels_.length;b++)a.params.push({name:this.argumentVarModels_[b].name,
 id:this.argumentVarModels_[b].getId()})}this.hasStatements_||(a.hasStatements=!1);return a},loadExtraState:function(a){this.arguments_=[];this.argumentVarModels_=[];if(a.params)for(let c=0;c<a.params.length;c++){var b=a.params[c];b=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,b.id,b.name,"");this.arguments_.push(b.name);this.argumentVarModels_.push(b)}this.updateParams_();$.mutateCallers$$module$build$src$core$procedures(this);this.setStatements_(!1===a.hasStatements?

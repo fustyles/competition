@@ -258,7 +258,10 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(a, b) {
   return Math.floor(Math.random() * (b - a + 1) + a);
 }
 `)+"("+c+", "+a+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]},math_random_float$$module$build$src$generators$javascript$math=function(a,b){return["Math.random()",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]},math_atan2$$module$build$src$generators$javascript$math=function(a,b){const c=b.valueToCode(a,"X",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"0";return["Math.atan2("+(b.valueToCode(a,"Y",
-Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"0")+", "+c+") / Math.PI * 180",Order$$module$build$src$generators$javascript$javascript_generator.DIVISION]},procedures_defreturn$$module$build$src$generators$javascript$procedures=function(a,b){
+Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"0")+", "+c+") / Math.PI * 180",Order$$module$build$src$generators$javascript$javascript_generator.DIVISION]},
+
+
+procedures_defreturn$$module$build$src$generators$javascript$procedures=function(a,b){
 	const c=b.nameDB_.getName(a.getFieldValue("NAME"),$.NameType$$module$build$src$core$names.PROCEDURE);
 	var d="";
 	b.STATEMENT_PREFIX&&(d+=b.injectId(b.STATEMENT_PREFIX,a));
@@ -278,6 +281,8 @@ Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"0")+"
 	b.definitions_["%"+c]=d;
 	return null
 }
+
+
 ,procedures_callreturn$$module$build$src$generators$javascript$procedures=function(a,b){const c=b.nameDB_.getName(a.getFieldValue("NAME"),$.NameType$$module$build$src$core$names.PROCEDURE),d=[],e=a.getVars();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"null";return[c+"("+d.join(", ")+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]},
 procedures_callnoreturn$$module$build$src$generators$javascript$procedures=function(a,b){return b.forBlock.procedures_callreturn(a,b)[0]+";\n"},procedures_ifreturn$$module$build$src$generators$javascript$procedures=function(a,b){let c="if ("+(b.valueToCode(a,"CONDITION",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"false")+") {\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||
 "null",c+=b.INDENT+"return "+a+";\n"):c+=b.INDENT+"return;\n";return c+"}\n"},text$$module$build$src$generators$javascript$text=function(a,b){return[b.quote_(a.getFieldValue("TEXT")),Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]},
@@ -399,9 +404,35 @@ finish(a){
 	this.nameDB_.reset();
 	return b.join("\n\n")+"\n\n\n"+a+"\n"+f.join("\n\n")
 }
-scrubNakedValue(a){return a+";\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(" + '\\n' +\n")}scrub_(a,b,c){let d=
-"";if(!a.outputConnection||!a.outputConnection.targetConnection){var e=a.getCommentText();e&&(e=$.wrap$$module$build$src$core$utils$string(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e+"\n","// "));for(let f=0;f<a.inputList.length;f++)a.inputList[f].type===$.inputTypes$$module$build$src$core$inputs$input_types.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&(d+=this.prefixLines(e,"// "))}a=a.nextConnection&&a.nextConnection.targetBlock();c=c?"":this.blockToCode(a);
-return d+b+c}getAdjusted(a,b,c,d,e){c=c||0;e=e||this.ORDER_NONE;a.workspace.options.oneBasedIndex&&c--;const f=a.workspace.options.oneBasedIndex?"1":"0";let g,h=e;0<c?g=h=this.ORDER_ADDITION:0>c?g=h=this.ORDER_SUBTRACTION:d&&(g=h=this.ORDER_UNARY_NEGATION);a=this.valueToCode(a,b,h)||f;$.isNumber$$module$build$src$core$utils$string(a)?(a=Number(a)+c,d&&(a=-a)):(0<c?a=a+" + "+c:0>c&&(a=a+" - "+-c),d&&(a=c?"-("+a+")":"-"+a),g=Math.floor(g),e=Math.floor(e),g&&e>=g&&(a="("+a+")"));return a}},module$build$src$generators$javascript$javascript_generator={};module$build$src$generators$javascript$javascript_generator.JavascriptGenerator=JavascriptGenerator$$module$build$src$generators$javascript$javascript_generator;module$build$src$generators$javascript$javascript_generator.Order=Order$$module$build$src$generators$javascript$javascript_generator;var module$build$src$generators$javascript$colour={};module$build$src$generators$javascript$colour.colour_blend=colour_blend$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_picker=colour_picker$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_random=colour_random$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_rgb=colour_rgb$$module$build$src$generators$javascript$colour;var getSubstringIndex$$module$build$src$generators$javascript$lists=function(a,b,c){return"FIRST"===b?"0":"FROM_END"===b?a+".length - 1 - "+c:"LAST"===b?a+".length - 1":c},module$build$src$generators$javascript$lists={};module$build$src$generators$javascript$lists.lists_create_empty=lists_create_empty$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_create_with=lists_create_with$$module$build$src$generators$javascript$lists;
+scrubNakedValue(a){return a+";\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/'/g,"\\'");return"'"+a+"'"}multiline_quote_(a){return a.split(/\n/g).map(this.quote_).join(" + '\\n' +\n")}
+
+
+scrub_(a,b,c){
+	if (a.type=="javascript_procedures_defnoreturn_scratch")
+		return b;
+
+	let d="";
+	if(!a.outputConnection||!a.outputConnection.targetConnection){
+		var e=a.getCommentText();
+		e&&(e=$.wrap$$module$build$src$core$utils$string(e,this.COMMENT_WRAP-3),d+=this.prefixLines(e+"\n","// "));
+		for(let f=0;f<a.inputList.length;f++)
+			a.inputList[f].type===$.inputTypes$$module$build$src$core$inputs$input_types.VALUE&&(e=a.inputList[f].connection.targetBlock())&&(e=this.allNestedComments(e))&&(d+=this.prefixLines(e,"// "))
+	}
+
+	let currentBlock = a;
+    let topBlock = currentBlock;
+    while (currentBlock) {
+        topBlock = currentBlock;
+        currentBlock = currentBlock.getParent(); 
+    }
+	a=a.nextConnection&&a.nextConnection.targetBlock();
+	c=c?"":this.blockToCode(a);
+	return d+b+c
+}
+
+
+
+getAdjusted(a,b,c,d,e){c=c||0;e=e||this.ORDER_NONE;a.workspace.options.oneBasedIndex&&c--;const f=a.workspace.options.oneBasedIndex?"1":"0";let g,h=e;0<c?g=h=this.ORDER_ADDITION:0>c?g=h=this.ORDER_SUBTRACTION:d&&(g=h=this.ORDER_UNARY_NEGATION);a=this.valueToCode(a,b,h)||f;$.isNumber$$module$build$src$core$utils$string(a)?(a=Number(a)+c,d&&(a=-a)):(0<c?a=a+" + "+c:0>c&&(a=a+" - "+-c),d&&(a=c?"-("+a+")":"-"+a),g=Math.floor(g),e=Math.floor(e),g&&e>=g&&(a="("+a+")"));return a}},module$build$src$generators$javascript$javascript_generator={};module$build$src$generators$javascript$javascript_generator.JavascriptGenerator=JavascriptGenerator$$module$build$src$generators$javascript$javascript_generator;module$build$src$generators$javascript$javascript_generator.Order=Order$$module$build$src$generators$javascript$javascript_generator;var module$build$src$generators$javascript$colour={};module$build$src$generators$javascript$colour.colour_blend=colour_blend$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_picker=colour_picker$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_random=colour_random$$module$build$src$generators$javascript$colour;module$build$src$generators$javascript$colour.colour_rgb=colour_rgb$$module$build$src$generators$javascript$colour;var getSubstringIndex$$module$build$src$generators$javascript$lists=function(a,b,c){return"FIRST"===b?"0":"FROM_END"===b?a+".length - 1 - "+c:"LAST"===b?a+".length - 1":c},module$build$src$generators$javascript$lists={};module$build$src$generators$javascript$lists.lists_create_empty=lists_create_empty$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_create_with=lists_create_with$$module$build$src$generators$javascript$lists;
 module$build$src$generators$javascript$lists.lists_getIndex=lists_getIndex$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_getSublist=lists_getSublist$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_indexOf=lists_indexOf$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_isEmpty=lists_isEmpty$$module$build$src$generators$javascript$lists;
 module$build$src$generators$javascript$lists.lists_length=lists_length$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_repeat=lists_repeat$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_reverse=lists_reverse$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_setIndex=lists_setIndex$$module$build$src$generators$javascript$lists;
 module$build$src$generators$javascript$lists.lists_sort=lists_sort$$module$build$src$generators$javascript$lists;module$build$src$generators$javascript$lists.lists_split=lists_split$$module$build$src$generators$javascript$lists;var controls_ifelse$$module$build$src$generators$javascript$logic=controls_if$$module$build$src$generators$javascript$logic,module$build$src$generators$javascript$logic={};

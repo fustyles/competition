@@ -733,17 +733,19 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
             this.setCommentText(Blockly.Msg["PROCEDURES_DEFNORETURN_COMMENT"]);
         }
 
-        this.setStyle("procedure_blocks");
+		this.setStyle('myblocks_blocks');
         this.setTooltip(Blockly.Msg["PROCEDURES_DEFNORETURN_TOOLTIP"]);
         this.setHelpUrl(Blockly.Msg["PROCEDURES_DEFNORETURN_HELPURL"]);
 
         this.arguments_ = [];
         this.argumentVarModels_ = [];
 		this.setInputsInline(true);	
-		this.setStatements_(true);
+		//this.setStatements_(true);
+		this.setPreviousStatement(0);
+		this.setNextStatement(1);		
 		this.statementConnection_ = null;
     },
-    setStatements_: Blockly.Blocks['procedures_defnoreturn'].setStatements_,
+    //setStatements_: Blockly.Blocks['procedures_defnoreturn'].setStatements_,
     mutationToDom: Blockly.Blocks['procedures_defnoreturn'].mutationToDom,
     domToMutation: Blockly.Blocks['procedures_defnoreturn'].domToMutation,
     decompose: Blockly.Blocks['procedures_defnoreturn'].decompose,
@@ -798,7 +800,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
         this.appendDummyInput("TOPROW").appendField("", "NAME");
         this.setPreviousStatement(!0);
         this.setNextStatement(!0);
-        this.setStyle("procedure_blocks");
+        this.setStyle("myblocks_blocks");
         this.setHelpUrl(Blockly.Msg["PROCEDURES_CALLNORETURN_HELPURL"]);
         this.arguments_ = [];
         this.argumentVarModels_ = [];
