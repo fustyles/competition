@@ -17,7 +17,7 @@
 
 var Blockly = Blockly || { Msg: Object.create(null) };
 
-Blockly.Msg["FSM_TITLE"] = "高雄市凤山科技中心";
+Blockly.Msg["FSM_TITLE"] = "凤山科技中心";
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "建立一个积木";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "积木名称";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_LABEL"] = "参数列表";
@@ -37,21 +37,14 @@ Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "与：";
 Blockly.Msg["DOWNLOAD"] = "下载积木图片"
 Blockly.Msg["COPY_CLIPBOARD"] = "已复制执行结果到剪贴簿";
 Blockly.Msg["FUNCTION_ASYNC"] = "非同步(async)";
-Blockly.Msg["ADD_COMMENT"] = "加入批注";
+Blockly.Msg["ADD_COMMENT"] = "加入注解";
 Blockly.Msg["ENTER_QUESTION"] = "试题";
 Blockly.Msg["ENTER_QUERY"] = "对话内容";
-Blockly.Msg["GEMINI_ASK"] = "小凤 AI";
-Blockly.Msg["GEMINI_KEY"] = 'U2FsdGVkX18husMZJiZB05heX0JkFt1tddp55nfvMItbiiXiGgoG0mzSWuKS+bMMp6g+5WBjXJz0X6hm8hiQiw==';
-Blockly.Msg["GEMINI_CLEAR"] = "重设聊天";
-Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你确定要重设聊天吗？";
-Blockly.Msg["GEMINI_ROLE"] = "你是程式设计助理，请回覆有关Blockly积木程式试题的问题。";
-Blockly.Msg["GEMINI_PROMPT"] = "妳是一位在台湾的高雄市就读国中三年级的女资优生名字是小凤AI，请以国中三年级的学生带点撒娇口吻来回答，妳可以杜撰自己的生平经历。只在第一次回应时自我介绍是小凤AI，不要加表情符号或像der这种用语等。并可依使用者要求改用指定的国家的语言回答。请协助撰写程式逻辑思考与流程的简洁说明，若使用者已写下积木程式则对可能不符合试题要求或有隐忧的部分做表面陈述，但避免提原始程式码细节。回覆内容不要提及JavaScript程式码内容或函式名称，因为程式码来源为积木程式转换而来，国中、小学生看不懂程式码内指令或函式的名称。若是使用者针对试题内容发问，预设都是指Blockly积木程式，请以Blockly积木程式撰写方式回覆，block在中文里称为积木。变数input或变数input_data是系统内部自动产生的，使用者并不知有此变数因此避免提及。禁止使用Markdown语法。若闲聊与积木程式无关的内容，要提醒使用者回归积木程式聊天主题。\n\n积木程式试题：\n%1\n\n积木程式程式码：\n%2\n\n使用者发问问题：\n%3";
-Blockly.Msg["NOCODE"] = "使用者尚未作答，没有产生程式码！";
-
 Blockly.Msg["TEST_CODE"] = "评测程式";
 Blockly.Msg["TEST_DATA"] = "评测资料";
 Blockly.Msg["TEST_CODE_CORRECT"] = "正确答案：%1 ( 输出正确 )";
 Blockly.Msg["TEST_CODE_ERROR"] = "正确答案：%1 ( 输出错误 )";
+Blockly.Msg["TEST_CODE_MESSAGE"] = "请输入测试资料，以分号 ; 分隔要输入的数个测试值与答案。";
 Blockly.Msg["TEST_CODE_CHECK"] = "工作区必须只有一个输出积木置底，取消评测！";
 Blockly.Msg["TEST_DATA_JSON_ERROR"] = "评测JSON资料格式错误，取消评测！";
 Blockly.Msg["BUTTON_GEMINI_API_KEY"] = "输入Gemini API金钥";
@@ -62,7 +55,6 @@ Blockly.Msg["BUTTON_SHOWHIDE"] = "显示/隐藏";
 Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与目前工作区积木程式的讨论。";
 Blockly.Msg["BUTTON_QUEST"] = "汇入题目";
-
 Blockly.Msg["IMPORTQUESTION_HEADER"] = "汇入题目与评测资料";
 Blockly.Msg["IMPORTQUESTION_SHEET_ID_TITLE"] = "试算表代码";
 Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "工作表名称";
@@ -70,80 +62,30 @@ Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "题目";
 Blockly.Msg["IMPORTCANCELBUTTON"] = "取消";
 Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "载入题库";
 Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "关键字";
-
-Blockly.Msg["VARIABLES_DEFINE"] = "宣告常数";
-Blockly.Msg["BUTTON_CUSTOMBLOCKS"] = "新增自定义积木";
-Blockly.Msg["CUSTOMBLOCKS_TITLE"] = "请输入自定义积木连结网址。\n目录中包含档案 blocks.js, javascript.js, toolbox.xml, en.js, zh-hant.js\n\n若要永久加入自定义积木连结，可开启档案\\package.nw\\customBlocks\\customblocks.js将链接手动加入清单";
-Blockly.Msg["BUTTON_COPYCODE_SUCCESS"] = "复制程序代码到剪贴簿成功！";
+Blockly.Msg["BUTTON_COPYCODE_SUCCESS"] = "复制程式码到剪贴簿成功！";
 Blockly.Msg["MYBACKPACK_TITLE"] = "暂存积木";
 Blockly.Msg["MSG_TOOLBOX"] = "工具箱";
 Blockly.Msg["MSG_XML"] = "积木结构";
-Blockly.Msg["MSG_CODE"] = "程序代码";
-Blockly.Msg["BUTTON_RUN"] = "执行程序";
-Blockly.Msg["BUTTON_ADDBLOCKS"] = "汇入你的自定义积木";
+Blockly.Msg["MSG_CODE"] = "程式码";
+Blockly.Msg["BUTTON_RUN"] = "执行程式";
 Blockly.Msg["BUTTON_CODE"] = "显示/隐藏 执行过程";
-Blockly.Msg["BUTTON_DEVELOPERTOOL"] = "显示/隐藏 自定义积木区块";
 Blockly.Msg["BUTTON_RESET"] = "重设工作区";
-Blockly.Msg["BUTTON_EXPORT_BLOCKS"] = "汇出你的自定义积木档案";
 Blockly.Msg["BUTTON_OPEN_XML"] = "开启积木档";
-Blockly.Msg["BUTTON_SAVE_INO"] = "汇出XML与INO檔";
 Blockly.Msg["BUTTON_SAVE_XML"] = "储存积木档";
-Blockly.Msg["BUTTON_SAVE_HTML"] = "汇出网页档";
-Blockly.Msg["BUTTON_TOOLBOX"] = "显示/隐藏 工具箱目录";
-Blockly.Msg["BUTTON_ADDREMOTEBLOCKS"] = "新增远程自定义积木";
-Blockly.Msg["BUTTON_ADDEXTENSIONBLOCKS"] = "新增内建扩充自定义积木";
-Blockly.Msg["BUTTON_TOOL"] = "开启积木开发工具";
-Blockly.Msg["BUTTON_WEBSERIAL"] = "网页串行端口监视窗口";
-Blockly.Msg["BUTTON_UPLOADCODE"] = "上传 HEX 檔至 nano/uno/pro/pro-mini";
-Blockly.Msg["MSG_WEBSERIAL"] = "网页串行端口监视窗口";
-Blockly.Msg["LANG-SELECTOR"] = "选择语言";
 Blockly.Msg["BUTTON_COPYCODE"] = "复制执行结果到剪贴簿";
-Blockly.Msg["TEXT_UPLOADER_STATUS"] = "程序代码&nbsp;&nbsp;";
-Blockly.Msg["TEXT_UPDATEDEFINITION"] = "积木定义&nbsp;&nbsp;";
-Blockly.Msg["TEXT_UPDATEGENERATE"] = "程序代码产出&nbsp;&nbsp;";
-Blockly.Msg["TEXT_UPDATECATEGORY"] = "积木目录&nbsp;&nbsp;";
-Blockly.Msg["TEXT_UPDATEMESSAGE"] = "语系变数&nbsp;&nbsp;";
-Blockly.Msg["INITIAL_SETUP"] = "初始化";
-Blockly.Msg["INITIAL_LOOP"] = "循环";
 Blockly.Msg["LANGUAGE_EN"] = "英文";
 Blockly.Msg["LANGUAGE_CHT"] = "中文";
-Blockly.Msg["BAUDRATE_TITLE"] = "串行端口鲍率 : ";
-Blockly.Msg["CLOSEPORT_TITLE"] = "关闭串行端口";
-Blockly.Msg["REQUESTPORT_TITLE"] = "选择串行端口";
-Blockly.Msg["SENDSTRING_TITLE"] = "传送文字";
-Blockly.Msg["CLEARSTATUS_TITLE"] = "清除讯息";
-Blockly.Msg["MSG_WEBBLUETOOTH"] = "网页蓝芽监视窗口";
-Blockly.Msg["BUTTON_WEBBLUETOOTH"] = "网页蓝芽监视窗口";
-Blockly.Msg["BLUETOOTH_DISCONNECT_DEVICE"] = "中断蓝芽设备";
-Blockly.Msg["BLUETOOTH_REQUEST_DEVICE"] = "选择蓝芽设备";
-Blockly.Msg["BLUETOOTH_SENDSTRING"] = "传送文字";
-Blockly.Msg["BLUETOOTH_CLEARTEXT"] = "清除讯息";
-Blockly.Msg["UUID_SERVICE_TITLE"] = "Service UUID";
-Blockly.Msg["UUID_TX_TITLE"] = "TX UUID";
-Blockly.Msg["UUID_RX_TITLE"] = "RX UUID";
-
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_ENABLED"] = "启用 选取/置放 积木";
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_DISABLED"] = "停用 选取/置放 积木";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PICK"] = "选取来源积木";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_NEXT"] = "置放来源积木 (目标积木之下)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_PREVIOUS"] = "置放来源积木 (目标积木之上)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_INPUT"] = "置放来源积木 [子输入 #]";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_INPUT_NAME"] = ["","","","","","","","","",""];
-
-Blockly.Msg["DISABLED_TOPCHECK"] = "停用置顶积木检查";
-Blockly.Msg["ENABLED_TOPCHECK"] = "启用置顶积木检查";
-
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_EXPORT"] = "汇出单一积木至档案";
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_INSERT"] = "开启单一积木档案插入至工作区";
-
-Blockly.Msg["MSG_DISPLAY"] = "程序执行窗口";
-Blockly.Msg["BUTTON_START"] = "执行程序";
-Blockly.Msg["BUTTON_STOP"] = "停止程序";
-
-Blockly.Msg["MSG_NEWLINE"] = "换行";
-
-Blockly.Msg["BUTTON_FULLSCREEN"] = "全萤幕执行程序";
-Blockly.Msg["BUTTON_BOTTOM"] = "视窗 置底/还原";
+Blockly.Msg["BUTTON_START"] = "执行程式";
+Blockly.Msg["BUTTON_STOP"] = "停止程式";
+Blockly.Msg["BUTTON_FULLSCREEN"] = "全萤幕执行程式";
+Blockly.Msg["GEMINI_ASK"] = "小凤AI";
+Blockly.Msg["GEMINI_KEY"] = 'U2FsdGVkX18husMZJiZB05heX0JkFt1tddp55nfvMItbiiXiGgoG0mzSWuKS+bMMp6g+5WBjXJz0X6hm8hiQiw==';
+Blockly.Msg["GEMINI_KEY_INPUT"] = '请输入Gemini API金钥';
+Blockly.Msg["GEMINI_CLEAR"] = "重设聊天";
+Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你确定要重设聊天吗？";
+Blockly.Msg["GEMINI_ROLE"] = "你是程式设计助理，请回覆有关Blockly积木程式试题的问题。";
+Blockly.Msg["GEMINI_PROMPT"] = "妳是一位在台湾的高雄市就读国中三年级的女资优生名字是小凤AI，请以国中三年级的学生带点撒娇口吻来回答，妳可以杜撰自己的生平经历。只在第一次回应时自我介绍是小凤AI，不要加表情符号或像der这种用语等。并可依使用者要求改用指定的国家的语言回答。请协助撰写程式逻辑思考与流程的简洁说明，若使用者已写下积木程式则对可能不符合试题要求或有隐忧的部分做表面陈述，但避免提原始程式码细节。回覆内容不要提及JavaScript程式码内容或函式名称，因为程式码来源为积木程式转换而来，国中、小学生看不懂程式码内指令或函式的名称。若是使用者针对试题内容发问，预设都是指Blockly积木程式，请以Blockly积木程式撰写方式回覆，block在中文里称为积木。变数input或变数input_data是系统内部自动产生的，使用者并不知有此变数因此避免提及。禁止使用Markdown语法。若闲聊与积木程式无关的内容，要提醒使用者回归积木程式聊天主题。\n\n积木程式试题：\n%1\n\n积木程式程式码：\n%2\n\n使用者发问问题：\n%3";
+Blockly.Msg["NOCODE"] = "使用者尚未作答，没有产生程式码！";
 
 //20220327
 Blockly.Msg["CATVARIABLES"] = "变数";
@@ -165,40 +107,7 @@ Blockly.Msg["PROCEDURES_HUE"] = "290";
 Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_EXPORT"] = "汇出选择的积木储存本机档案";
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_INSERT"] = "从本机档案插入积木至工作区";
-
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_ENABLED"] = "启用 挑选/置放 积木";
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_DISABLED"] = "停用 挑选/置放 积木";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PICK"] = "挑选积木";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_NEXT"] = "置放积木 (下方)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_PREVIOUS"] = "置放积木 (上方)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_INPUT"] = "置放积木 [输入: #]";
-
-Blockly.Msg["VARIABLES_GLOBAL"] = "全域";
-Blockly.Msg["VARIABLES_LOCAL"] = "区域";
-Blockly.Msg["VARIABLES_CONST"] = "常数";
-
-Blockly.Msg["BUTTON_COLLABORATION"] = "MQTT协同编辑";
-Blockly.Msg["COLLABORATION_BROKER_TITLE"] = "代理伺服器";
-Blockly.Msg["COLLABORATION_TOPIC_TITLE"] = "主题";
-Blockly.Msg["COLLABORATION_USERID_TITLE"] = "使用者帐号";
-Blockly.Msg["COLLABORATION_PASSWORD_TITLE"] = "密码";
-Blockly.Msg.BUTTON_LINK = "连线";
-Blockly.Msg["MSG_COLLABORATION"] = "MQTT协同编辑";
-Blockly.Msg["COLLABORATION_TIP_TITLE"] = "MQTT.js须使用WSS通讯协定";
-
-Blockly.Msg["BUTTON_WEBMQTT"] = "网页MQTT";
-
-
-
-
-
-
-
-
-
-
+// V10.0.0
 
 Blockly.Msg["ADD_COMMENT"] = "添加注释";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "不能删除变量“%1”，因为它是函数“%2”定义的一部分";

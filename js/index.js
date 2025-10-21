@@ -1136,7 +1136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.gemini_chat_response = gemini_chat_response;
 	
 	document.getElementById('button_key').onclick = async function () {
-		var key = prompt();
+		var key = prompt(Blockly.Msg["GEMINI_KEY_INPUT"]);
 		if (key) {
 			gemini_chat_initial(key, "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
