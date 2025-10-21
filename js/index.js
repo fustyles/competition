@@ -20,21 +20,7 @@ var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
 document.addEventListener('DOMContentLoaded', function() {
 	
-	initialMoveDiv();
-	
-	function getScript(output) {
-		if (output)
-			var jsPath = mainPath;
-		else
-			var jsPath = '';
-		
-		var script = "<link rel='stylesheet' href='"+jsPath+"css/icon_custom.css' />";
-		
-		var xml = Blockly.Xml.workspaceToDom(workspace, true);
-		xml = Blockly.Xml.domToPrettyText(xml);
-		
-		return script;
-	}	
+	initialMoveDiv();	
 
 	function loadToolbox(renderer, categorySystem, scale) {
 		//載入積木目錄
@@ -1079,13 +1065,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		resetOutput();
 	}
 	
+	function iframeWrite(iframe_id, iframe_code) {
+		var iframe = document.getElementById(iframe_id);
+		iframe.contentWindow.document.open();
+		iframe.contentWindow.document.write(iframe_code);
+		iframe.contentWindow.document.close();
+		iframe.focus();
+	}
+	
 	function resetOutput() {
 		try {
-			var iframe = document.getElementById("iframe_output");
-			iframe.contentWindow.document.open();
-			iframe.contentWindow.document.write("");
-			iframe.contentWindow.document.close();
-			document.getElementById("iframe_output").focus();
+			iframeWrite("iframe_output", "");
 		} catch (e) {
 			//alert(e);
 		}
@@ -1150,24 +1140,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (key) {
 			gemini_chat_initial(key, "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
-			var iframeElement = document.getElementById('iframe_output');
-			iframeElement.contentWindow.document.open();
-			iframeElement.contentWindow.document.write("");
-			iframeElement.contentWindow.document.close();
-			iframeElement.focus();			
+			iframeWrite("iframe_output", "");			
 			await gemini_chat_run("OK");
 		}
 	}
 	
 	document.getElementById('gemini_ask').onclick = async function () {
 		//if (!document.getElementById("question_input").value.trim()) return;
+		iframeWrite("iframe_output", "");
+		
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
-		
-		iframeElement.contentWindow.document.open();
-		iframeElement.contentWindow.document.write("");
-		iframeElement.contentWindow.document.close();
-		iframeElement.focus();
 		iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
 		
 		var code = Blockly.Msg["NOCODE"];
@@ -1193,11 +1176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var query = confirm(Blockly.Msg["GEMINI_CLEAR_QUERY"]);
 		if (query) {
 			gemini_chat_clear();
-			var iframe = document.getElementById("iframe_output");
-			iframe.contentWindow.document.open();
-			iframe.contentWindow.document.write("");
-			iframe.contentWindow.document.close();
-			iframe.focus();
+			iframeWrite("iframe_output", "");
 		}
 	}
 	
@@ -1227,18 +1206,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
-	  iframe_code += getScript(0);
-		
 	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 	  
 	  output_result = "";
 	  
 	  try {
-		var iframe = document.getElementById("iframe_output");
-		iframe.contentWindow.document.open();
-		iframe.contentWindow.document.write(iframe_code);
-		iframe.contentWindow.document.close();
-		iframe.focus();
+		iframeWrite("iframe_output", iframe_code);
 	  } catch (e) {
 		alert(e);
 	  }
@@ -1321,11 +1294,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				completedCount++;
 				if (completedCount === totalTests) {
-					var iframe_output = document.getElementById("iframe_output");
-					iframe_output.contentWindow.document.open();
-					iframe_output.contentWindow.document.write(outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>"));
-					iframe_output.contentWindow.document.close();
-					iframe_output.focus();		
+					var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+					iframeWrite("iframe_output", output);	
 					
 					if (container.parentNode) {
 						container.parentNode.removeChild(container);
@@ -1391,17 +1361,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += getScript(0);
-
 		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 
 		try {
-			iframe.contentWindow.document.open();
-			iframe.contentWindow.document.write(iframe_code);
-			iframe.contentWindow.document.close();
-			iframe.focus();					
+			iframeWrite(iframe.id, iframe_code);				
 		} catch (e) {
 			console.log(e);
 		}
