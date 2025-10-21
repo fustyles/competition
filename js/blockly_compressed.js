@@ -2222,7 +2222,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		Blockly.Events.disable();
 		try {		
 				var domBlock = Blockly.utils.xml.textToDom(xml);
-				var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);		
+				var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
+								
 				var block = workspace.getBlockById(topBlocks[0]);
 				
 				const blockBounds = block.getBoundingRectangle();
@@ -2234,7 +2235,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				block.moveBy(blockToMouseXY.x - blockWidth/2 - 28 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000), blockToMouseXY.y - blockHeight/2 - 9 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000));
 				
 		} catch (e) {
-			console.error("在創建或定位積木時發生錯誤:", e);
+			console.error(e);
 		} finally {
 			Blockly.Events.enable(); 
 		}		

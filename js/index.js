@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		);
 		
+		var workspaceChangeTimer;
 		function onWorkspaceChange(event) {
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
 				handleBlockDelete(event);
@@ -71,15 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				Blockly.Events.BLOCK_CHANGE
 			];
 
-			if (allowedTypes.includes(event.type)) {
-				if (scratchStyle) {
-					xmlScratch = Blockly.Xml.workspaceToDom(targetWorkspace);
-					xmlScratch = Blockly.Xml.domToText(xmlScratch);
-				} else {	
-					xmlBlockly = Blockly.Xml.workspaceToDom(targetWorkspace);
-					xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
+			clearTimeout(workspaceChangeTimer);
+			workspaceChangeTimer = setTimeout(function(){
+				if (allowedTypes.includes(event.type)) {
+					if (scratchStyle) {
+						xmlScratch = Blockly.Xml.workspaceToDom(targetWorkspace);
+						xmlScratch = Blockly.Xml.domToText(xmlScratch);
+					} else {	
+						xmlBlockly = Blockly.Xml.workspaceToDom(targetWorkspace);
+						xmlBlockly = Blockly.Xml.domToText(xmlBlockly);
+					}
 				}
-			}
+			}, 250);
 		}
 		workspace.addChangeListener(onWorkspaceChange);
 		
@@ -992,7 +996,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		const container = document.getElementById('paramListContainer');
 		
 		if (!container) {
-			console.error("找不到 ID 為 'paramListContainer' 的容器元素！");
 			return [];
 		}
 
@@ -1079,6 +1082,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		xmlScratch = "";
 		
 		resetOutput();
+		
+		//Blockly.getMainWorkspace().clearUndo();
 	}
 	
 	function iframeWrite(iframe_id, iframe_code) {
