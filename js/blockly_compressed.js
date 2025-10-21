@@ -2185,7 +2185,6 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         );
 		
 		if (this.textElement_) {
-            this.textElement_.addEventListener('click', this.onClickHandler_);
 
             this.boundEvents_ = [];
             
@@ -2288,6 +2287,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     }
 
     handleMouseUp(event) {
+        event.stopPropagation();
+        event.preventDefault();
+		
         if (!this.newBlock_) return;
 		
 		if (this.mouseXY) {
@@ -2299,11 +2301,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			  }
 			}	
 		}
-		
-        event.stopPropagation();
-        event.preventDefault();
-	
-        
+
         for (let i = 0; i < 2; i++) {
             if (this.boundEvents_.length > 0) {
                 Blockly.browserEvents.unbind(this.boundEvents_.pop());
@@ -2409,9 +2407,6 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
             }
         }
         
-        if (this.textElement_ && this.onClickHandler_) {
-            this.textElement_.removeEventListener('click', this.onClickHandler_);
-        }
         super.dispose();
     }	
 }
