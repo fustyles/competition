@@ -2159,6 +2159,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.textColor_ = opt_config.textColor || '#FFFFFF';
 		this.backgroundColor_ = opt_config.backgroundColor || '#FD6723';
 		this.backgroundStyle_ = opt_config.shapeType || 0;
+		
+		this.onDoubleClickHandler_ = this.handleDoubleClick.bind(this);
     } 
 
     initView() {
@@ -2177,11 +2179,66 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
             },
             this.fieldGroup_
         );
+		
+		if (this.textElement_) {
+            this.textElement_.addEventListener('dblclick', this.onDoubleClickHandler_);
+            this.textElement_.style.cursor = 'pointer';
+        }		
         
         this.fieldGroup_.insertBefore(this.fieldBorderRect_, this.textElement_);
         this.textElement_.style.fill = this.textColor_; 
         this.applyColour(); 
     }
+	
+	handleDoubleClick(event) {
+        event.stopPropagation();
+        event.preventDefault();
+		let blockType = "variables_get_other";
+		let gapValue = 0;
+		
+        let fieldName = this.getText();
+		let fieldTpye = "";
+		if (this.backgroundStyle_==1) {
+			fieldTpye = "other";
+			blockType = "variables_get_other";
+			gapValue = 8;
+		} else if (this.backgroundStyle_==2) {
+			fieldTpye = "Boolean";
+			blockType = "variables_get_boolean";
+			gapValue = 24;
+		} else if (this.backgroundStyle_==0) {
+			return;
+		}
+		
+		var xml = 
+        `<xml xmlns="https://developers.google.com/blockly/xml">` +
+            `<block type="${blockType}" gap="${gapValue}">` +
+                `<field name="VAR" variabletype="${fieldTpye}">${fieldName}</field>` +
+            `</block>` +
+        `</xml>`;
+		
+		var sourceWorkspace = this.sourceBlock_.workspace;
+		
+		Blockly.Events.disable();
+		try {		
+				var domBlock = Blockly.utils.xml.textToDom(xml);
+				var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);		
+				var block = workspace.getBlockById(topBlocks[0]);
+				
+				const blockBounds = block.getBoundingRectangle();
+				const blockWidth = blockBounds.right - blockBounds.left;
+				const blockHeight = blockBounds.bottom - blockBounds.top;
+			
+				var blockToMouseXY = getBlockToMouseXY(block);
+				
+				block.moveBy(blockToMouseXY.x - blockWidth/2 - 28 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000), blockToMouseXY.y - blockHeight/2 - 9 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000));
+				
+		} catch (e) {
+			console.error("在創建或定位積木時發生錯誤:", e);
+		} finally {
+			Blockly.Events.enable(); 
+		}		
+    }	
 
     applyColour() {
         if (!this.fieldBorderRect_) {
@@ -2265,6 +2322,13 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         this.applyColour();
 		
     } 
+	
+	dispose() {
+        if (this.textElement_ && this.onClickHandler_) {
+            this.textElement_.removeEventListener('click', this.onDoubleClickHandler_);
+        }
+        super.dispose();
+    }	
 }
 
 Blockly.FieldZelosLabelBackground = FieldZelosLabelBackground;

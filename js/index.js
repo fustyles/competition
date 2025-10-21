@@ -730,7 +730,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			trashClickHandle(field); 
 		};
 		trashIconElement.addEventListener('click', clickHandler);
-		console.log(trashIconElement);
 	}
 	window.showTrashCanIcon = showTrashCanIcon;
 	
@@ -786,6 +785,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		return { x: pageX, y: pageY };
 	}	
 	
+    var mouse_cursor = {};
+
+    function getMousePosition(e) {
+        e = e || window.event;
+        mouse_cursor.pageX = e.pageX;
+        mouse_cursor.pageY = e.pageY;
+        mouse_cursor.offsetX = e.offsetX;
+        mouse_cursor.offsetY = e.offsetY;
+        mouse_cursor.clientX = e.clientX;
+        mouse_cursor.clientY = e.clientY;
+        mouse_cursor.screenX = e.screenX;
+        mouse_cursor.screenY = e.screenY;
+    }
+    document.body.addEventListener('mousemove', getMousePosition, false);
+	
     function getBlockToMouseXY(block) {
         var mouseClient = new Blockly.utils.Coordinate(mouse_cursor.pageX - window.scrollX, mouse_cursor.pageY - window.scrollY);
         var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(workspace, mouseClient);
@@ -795,6 +809,7 @@ document.addEventListener('DOMContentLoaded', function() {
         blockToMouseXY.y = mousePos.y - blockPos.y;
         return blockToMouseXY;
     }
+	window.getBlockToMouseXY = getBlockToMouseXY;
 
     function getBlockToCenterXY(block) {
         var position = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
@@ -809,6 +824,7 @@ document.addEventListener('DOMContentLoaded', function() {
         blockToCenterXY.y = wsHeight / 2 - block.height / 2 - scrollY - y;
         return blockToCenterXY;
     }
+	window.getBlockToCenterXY = getBlockToCenterXY;
 
 	function initialMoveDiv() {
 		const container = document.getElementById('paramListContainer');
