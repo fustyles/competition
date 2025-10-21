@@ -706,7 +706,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		const fieldRect = field.getSvgRoot().getBoundingClientRect();
 		const fieldWidth = fieldRect.width;
 		
-		const X_CENTERING_ADJUSTMENT = -2;
+		const X_CENTERING_ADJUSTMENT = 0;
 		const Y_SPACING_OFFSET = -20;		
 
 		const finalX = fieldPageCoords.x + (fieldWidth / 2) - (TRASH_ICON_WIDTH / 2) + X_CENTERING_ADJUSTMENT;
@@ -714,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		const trashIconElement = document.createElement("img");
 		trashIconElement.id = "trashIconElement";
-		trashIconElement.src = './media/trash.png';
+		trashIconElement.src = Blockly.Msg["ICON_TRASH"];
 		trashIconElement.width = TRASH_ICON_WIDTH;
 		trashIconElement.height = TRASH_ICON_HEIGHT;
 		trashIconElement.style.position = 'absolute';
@@ -1141,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			gemini_chat_initial(key, "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
 			iframeWrite("iframe_output", "");			
-			await gemini_chat_run("OK");
+			await gemini_chat_run("?");
 		}
 	}
 	

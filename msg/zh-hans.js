@@ -63,7 +63,6 @@ Blockly.Msg["IMPORTCANCELBUTTON"] = "取消";
 Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "载入题库";
 Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "关键字";
 Blockly.Msg["BUTTON_COPYCODE_SUCCESS"] = "复制程式码到剪贴簿成功！";
-Blockly.Msg["MYBACKPACK_TITLE"] = "暂存积木";
 Blockly.Msg["MSG_TOOLBOX"] = "工具箱";
 Blockly.Msg["MSG_XML"] = "积木结构";
 Blockly.Msg["MSG_CODE"] = "程式码";
@@ -86,6 +85,7 @@ Blockly.Msg["GEMINI_CLEAR_QUERY"] = "你确定要重设聊天吗？";
 Blockly.Msg["GEMINI_ROLE"] = "你是程式设计助理，请回覆有关Blockly积木程式试题的问题。";
 Blockly.Msg["GEMINI_PROMPT"] = "妳是一位在台湾的高雄市就读国中三年级的女资优生名字是小凤AI，请以国中三年级的学生带点撒娇口吻来回答，妳可以杜撰自己的生平经历。只在第一次回应时自我介绍是小凤AI，不要加表情符号或像der这种用语等。并可依使用者要求改用指定的国家的语言回答。请协助撰写程式逻辑思考与流程的简洁说明，若使用者已写下积木程式则对可能不符合试题要求或有隐忧的部分做表面陈述，但避免提原始程式码细节。回覆内容不要提及JavaScript程式码内容或函式名称，因为程式码来源为积木程式转换而来，国中、小学生看不懂程式码内指令或函式的名称。若是使用者针对试题内容发问，预设都是指Blockly积木程式，请以Blockly积木程式撰写方式回覆，block在中文里称为积木。变数input或变数input_data是系统内部自动产生的，使用者并不知有此变数因此避免提及。禁止使用Markdown语法。若闲聊与积木程式无关的内容，要提醒使用者回归积木程式聊天主题。\n\n积木程式试题：\n%1\n\n积木程式程式码：\n%2\n\n使用者发问问题：\n%3";
 Blockly.Msg["NOCODE"] = "使用者尚未作答，没有产生程式码！";
+Blockly.Msg["ICON_TRASH"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAA3CAYAAAB6i9geAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAGHaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49J++7vycgaWQ9J1c1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCc/Pg0KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyI+PHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj48cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0idXVpZDpmYWY1YmRkNS1iYTNkLTExZGEtYWQzMS1kMzNkNzUxODJmMWIiIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIj48dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPjwvcmRmOkRlc2NyaXB0aW9uPjwvcmRmOlJERj48L3g6eG1wbWV0YT4NCjw/eHBhY2tldCBlbmQ9J3cnPz4slJgLAAACl0lEQVRoQ+2avY7TQBDHZ+YuxAWyICKEBlzkeAIKaKIUKC9AlAfgLdxChfMcsSjSg0R3Ec1J9IA4oVBwR5MoX4qAO89QxIb1XD7uFITXIr9uZlfxX/O1G9kAOQG1YxOTyaTc6XRejsfjAxHZIyJkZgQAICIBAGBmSfYTkTCzIGKEiGeu635uNptPK5XKN/N3N3ElodPp9HYYhq9Go9EDvXYVXNc9arVaT8rl8oleWwVpxypms9mdMAzfbCsSFll52O12Xw8Gg7t6bRUYBMH7KIpuGT4GADbSiABAiHgNEW8Y+7aGmadENNd+iJ8bl80PIvqK7XZ7yMw39UbLOCZmjrTXNuKmXaTYZhARKa5J2znHIAjeiUhSoyQiK0eWiGAyN4kI4U+zXYpkpgIAI6Ig4u9sJs9NngHxPCainyJyav7Ojv+KVH0FQXDEzBVE3GfmvWUnlzoIUr5l6HPf8Cf3A13zERGdAcCJ7/uPkv1a6CcROTB9GXLs+/79xEhFTET2TTtjUtq00IJpZwkzp4KmhV56Jv4DVkc0KWgb0FpSQs0OzRp94l0YP7awNqI2X1B0jVqTek0+a9S8dtlGPoXajD6ZdhHdlnzWqE3jSZPP1NuEPiV1jebjrLcZfSmx5uKs0V2fD6E2RVSPSmsjurbrbYqoRne9tjNjbeqX2NagazQfQpfY1rBrpr+NrlFrIrp2jtrEpvFkzTWPiFJadDNZ87pR/yNOCRWRc9O2iZRQx3Fmpp0lhULhu2mnhHqe99a0s6RarR6adkporVZ77jjOR9OXBcVi8UOj0Xhm+i7MzeFweK/X6/n9fv/xfD6/rucZLEZHKX4BO4rXadMMNj+SMXwSfy/ARCSO48w8zzus1+svSqXSF3PvL216M6Jp6lgAAAAAAElFTkSuQmCC";
 
 //20220327
 Blockly.Msg["CATVARIABLES"] = "变数";
