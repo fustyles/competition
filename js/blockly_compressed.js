@@ -490,7 +490,7 @@ const c=[];if(Blocks$$module$build$src$core$blocks.procedures_defnoreturn){var d
 if (Blocks$$module$build$src$core$blocks.procedures_defreturn) {
     var listAddXml = '<block type="procedures_defreturn" gap="16"><field name="NAME">' + 
                      $.Msg$$module$build$src$core$msg.PROCEDURES_DEFRETURN_PROCEDURE + 
-                     '</field><value name="RETURN"><Shadow type="text"><field name="TEXT"></field></Shadow></value></block>';
+                     '</field><value name="RETURN"></value></block>';
     
     c.push(Blockly.utils.xml.textToDom(listAddXml));
 }
@@ -499,7 +499,7 @@ Blocks$$module$build$src$core$blocks.procedures_return&&
 (d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","procedures_return"),d.setAttribute("gap","16"),c.push(d));
 */
 if (Blocks$$module$build$src$core$blocks.procedures_ifreturn) {
-    var listAddXml = '<block type="procedures_ifreturn" gap="16"><value name="VALUE"><Shadow type="text"><field name="TEXT"></field></Shadow></value></block>';
+    var listAddXml = '<block type="procedures_ifreturn" gap="16"><value name="VALUE"></value></block>';
     c.push(Blockly.utils.xml.textToDom(listAddXml));
 }
 
