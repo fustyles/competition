@@ -2232,7 +2232,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			
 				var blockToMouseXY = getBlockToMouseXY(block);
 				
-				block.moveBy(blockToMouseXY.x - blockWidth/2 - 28 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000), blockToMouseXY.y - blockHeight/2 - 9 / (sourceWorkspace.scale>=1?sourceWorkspace.scale:10000000));
+				block.moveBy(blockToMouseXY.x - blockWidth/2, blockToMouseXY.y - blockHeight/2);
 				
 		} catch (e) {
 			console.error(e);
