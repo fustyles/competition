@@ -1095,11 +1095,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function resetOutput() {
-		try {
-			iframeWrite("iframe_output", "");
-		} catch (e) {
-			//alert(e);
-		}
+		iframeWrite("iframe_output", "");
 	}
 	
 	//程式碼區塊顯示
@@ -1122,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	//匯出工作區積木與原始檔
+	//匯出工作區積木檔
 	document.getElementById('button_save_xml').onclick = function () {
 		try {
 			var xml = Blockly.Xml.workspaceToDom(workspace);
