@@ -1208,12 +1208,36 @@ document.addEventListener('DOMContentLoaded', function() {
 	  
 	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
 	  
-	  output_result = "";
-	  
 	  try {
-		iframeWrite("iframe_output", iframe_code);
+			let container = document.getElementById('iframeContainer');
+			if (!container) {
+				container = document.createElement('div');
+				container.id = 'iframeContainer';
+				document.body.appendChild(container);
+			}
+		
+			const iframe = document.createElement("iframe");
+			iframe.id = "iframe_0";
+			iframe.style.width = "0";
+			iframe.style.height = "0";
+			iframe.style.border = "none";
+			
+			container.appendChild(iframe);
+			iframeWrite(iframe.id, iframe_code);
+
+			iframe.onload = function() {
+				iframe.onload = null; 
+				
+				const outputResult = iframe.contentWindow.document.body.innerText;
+				if (container.parentNode) {
+					container.parentNode.removeChild(container);
+				}				
+				
+				var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+				iframeWrite("iframe_output", output);
+			};		
 	  } catch (e) {
-		alert(e);
+		console.log(e);
 	  }
 	}
 	
@@ -1286,11 +1310,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				iframe.onload = null; 
 				
 				const bodyContent = iframe.contentWindow.document.body.innerText;
-				outputResult += "[ "+Blockly.Msg["TEST_DATA"] + "："+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
-				
-				if (iframe.parentNode) {
-					iframe.parentNode.removeChild(iframe);
-				}
+				outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
 				
 				completedCount++;
 				if (completedCount === totalTests) {
