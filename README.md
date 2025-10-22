@@ -1,1 +1,1 @@
-https://fustyles.github.io/competition/
+https://fustyles.github.io/competition/?lang=en
