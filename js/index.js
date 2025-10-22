@@ -1263,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	/*
 		Program Validation Function Description:
 
-		Problem: Input the dividend and the divisor, output the quotient.
+		Question: Input the dividend and the divisor, output the quotient.
 
 		Test Data Format: 1st input value; 2nd input value; Correct validation value
 		(Semicolon ";" separates numbers or strings, followed by the correct value for validation)
