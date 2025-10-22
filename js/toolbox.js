@@ -263,7 +263,7 @@ var catSystem = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    <block type="lists_reverse">'+
-'    <value name="VALUE">'+
+'    <value name="LIST">'+
 '    </value>'+
 '    </block>'+
 '    </category>'+
