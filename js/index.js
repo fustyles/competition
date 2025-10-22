@@ -1227,11 +1227,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	  
 	  try {
 			let container = document.getElementById('iframeContainer');
-			if (!container) {
-				container = document.createElement('div');
-				container.id = 'iframeContainer';
-				document.body.appendChild(container);
+			if (container) {
+				container.parentNode.removeChild(container);
 			}
+			container = document.createElement('div');
+			container.id = 'iframeContainer';
+			document.body.appendChild(container);			
 		
 			const iframe = document.createElement("iframe");
 			iframe.id = "iframe_0";
@@ -1246,7 +1247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				iframe.onload = null; 
 				
 				const outputResult = iframe.contentWindow.document.body.innerText;
-				if (container.parentNode) {
+				if (container) {
 					container.parentNode.removeChild(container);
 				}				
 				
@@ -1308,11 +1309,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		const totalTests = inputArray.length;
 
 		let container = document.getElementById(containerId);
-		if (!container) {
-			container = document.createElement('div');
-			container.id = containerId;
-			document.body.appendChild(container);
+		if (container) {
+			container.parentNode.removeChild(container);
 		}
+		container = document.createElement('div');
+		container.id = containerId;
+		document.body.appendChild(container);		
 
 		inputArray.forEach((testCode, index) => {
 			const iframe = document.createElement("iframe");
@@ -1334,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 					iframeWrite("iframe_output", output);	
 					
-					if (container.parentNode) {
+					if (container) {
 						container.parentNode.removeChild(container);
 					}					
 				}
