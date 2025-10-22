@@ -2325,8 +2325,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     } 
 	
 	dispose() {
-        if (this.textElement_ && this.onClickHandler_) {
-            this.textElement_.removeEventListener('click', this.onDoubleClickHandler_);
+        if (this.textElement_ && this.onDoubleClickHandler_) {
+            this.textElement_.removeEventListener('dblclick', this.onDoubleClickHandler_);
         }
         super.dispose();
     }	

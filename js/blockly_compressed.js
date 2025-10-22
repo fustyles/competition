@@ -2165,6 +2165,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.newBlockHeight_ = null;
 		this.mouseXY = null;		
         this.boundEvents_ = [];
+		
+		this.onClickHandler_ = this.handleClick.bind(this);
+		this.onDoubleClickHandler_ = this.handleDoubleClick.bind(this);
     } 
 
     initView() {
@@ -2186,15 +2189,16 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		
 		if (this.textElement_) {
 
+            this.textElement_.addEventListener('click', this.onClickHandler_);
+			this.textElement_.addEventListener('dblclick', this.onDoubleClickHandler_);
+			
             this.boundEvents_ = [];
-            
             const binding = Blockly.browserEvents.bind(
                 this.textElement_,
                 'mousedown',      
                 this,             
                 this.handleMouseDown
             );
-
             this.boundEvents_.push(binding);
 			
             this.textElement_.style.cursor = 'pointer';
@@ -2204,6 +2208,12 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         this.textElement_.style.fill = this.textColor_; 
         this.applyColour(); 
     }
+	
+	handleClick(event) {
+	}	
+
+	handleDoubleClick(event) {
+	}	
 	
 	handleMouseDown(event) {
         event.stopPropagation();
@@ -2405,6 +2415,11 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     } 
 	
 	dispose() {
+        if (this.textElement_) {
+            this.textElement_.removeEventListener('click', this.onClickHandler_);			
+            this.textElement_.removeEventListener('dblclick', this.onDoubleClickHandler_);
+        }
+		
         if (this.boundEvents_) {
             for (let i = 0; i < this.boundEvents_.length; i++) {
                 Blockly.browserEvents.unbind(this.boundEvents_[i]);
