@@ -87,7 +87,15 @@ injectDependencies$$module$build$src$core$utils$xml=function(a){({document:docum
 new XMLSerializer$$module$build$src$core$utils$xml};$.createElement$$module$build$src$core$utils$xml=function(a){return document$$module$build$src$core$utils$xml.createElementNS(NAME_SPACE$$module$build$src$core$utils$xml,a)};$.createTextNode$$module$build$src$core$utils$xml=function(a){return document$$module$build$src$core$utils$xml.createTextNode(a)};
 $.textToDom$$module$build$src$core$utils$xml=function(a){let b=domParser$$module$build$src$core$utils$xml.parseFromString(a,"text/xml");if(b&&b.documentElement&&!b.getElementsByTagName("parsererror").length)return b.documentElement;if((b=domParser$$module$build$src$core$utils$xml.parseFromString(a,"text/html"))&&b.body.firstChild&&"xml"===b.body.firstChild.nodeName.toLowerCase())return b.body.firstChild;throw Error(`DOMParser was unable to parse: ${a}`);};
 domToText$$module$build$src$core$utils$xml=function(a){return sanitizeText$$module$build$src$core$utils$xml(xmlSerializer$$module$build$src$core$utils$xml.serializeToString(a))};sanitizeText$$module$build$src$core$utils$xml=function(a){return a.replace(INVALID_CONTROL_CHARS$$module$build$src$core$utils$xml,b=>`&#${b.charCodeAt(0)};`)};warn$$module$build$src$core$utils$deprecation=function(a,b,c,d){a=a+" was deprecated in "+b+" and will be deleted in "+c+".";d&&(a+="\nUse "+d+" instead.");console.warn(a)};
-createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);for(const d in b)a.setAttribute(d,`${b[d]}`);c&&c.appendChild(a);return a};addClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>a.classList.contains(c)))return!1;a.classList.add(...b);return!0};removeClasses$$module$build$src$core$utils$dom=function(a,b){a.classList.remove(...b.split(" "))};
+createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){
+	a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);
+	for(const d in b) {	
+		a.setAttribute(d,`${b[d]}`);
+	}
+	c&&c.appendChild(a);
+	return a
+};
+addClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>a.classList.contains(c)))return!1;a.classList.add(...b);return!0};removeClasses$$module$build$src$core$utils$dom=function(a,b){a.classList.remove(...b.split(" "))};
 removeClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>!a.classList.contains(c)))return!1;a.classList.remove(...b);return!0};hasClass$$module$build$src$core$utils$dom=function(a,b){return a.classList.contains(b)};removeNode$$module$build$src$core$utils$dom=function(a){return a&&a.parentNode?a.parentNode.removeChild(a):null};
 insertAfter$$module$build$src$core$utils$dom=function(a,b){const c=b.nextSibling;b=b.parentNode;if(!b)throw Error("Reference node has no parent.");c?b.insertBefore(a,c):b.appendChild(a)};containsNode$$module$build$src$core$utils$dom=function(a,b){warn$$module$build$src$core$utils$deprecation("Blockly.utils.dom.containsNode","version 10","version 11",'Use native "contains" DOM method');return a.contains(b)};
 setCssTransform$$module$build$src$core$utils$dom=function(a,b){a.style.transform=b;a.style["-webkit-transform"]=b};startTextWidthCache$$module$build$src$core$utils$dom=function(){cacheReference$$module$build$src$core$utils$dom++;cacheWidths$$module$build$src$core$utils$dom||(cacheWidths$$module$build$src$core$utils$dom=Object.create(null))};
@@ -1046,9 +1054,32 @@ RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_
 if(!b.isInFlyout){var c=!1;if(!b.isMovable()){b=a.getSourceBlock().getRootBlock();if(!b.isMovable())return;a=this;c=!0}var d=getSelected$$module$build$src$core$common()==b;d||b.addSelect();var e=a.x+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x,f=a.y+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.y;c&&(f=-f);b.RTL&&
 (e=a.x-$.config$$module$build$src$core$config.snapRadius-Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x);b.moveBy(e,f,["bump"]);d||b.removeSelect()}}}moveTo(a,b){let c=!1;this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK?(this.db.addConnection(this,b),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED,c=!0):this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&
 (this.db.removeConnection(this,this.y),this.db.addConnection(this,b),c=!0);this.x=a;this.y=b;return c}moveBy(a,b){return this.moveTo(this.x+a,this.y+b)}moveToOffset(a){return this.moveTo(a.x+this.offsetInBlock.x,a.y+this.offsetInBlock.y)}setOffsetInBlock(a,b){this.offsetInBlock.x=a;this.offsetInBlock.y=b}getOffsetInBlock(){return this.offsetInBlock}tighten(){const a=this.targetConnection.x-this.x,b=this.targetConnection.y-this.y;if(0!==a||0!==b){const d=this.targetBlock();var c=d.getSvgRoot();if(!c)throw Error("block is not rendered.");
-c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}highlight(){if(!this.highlightPath){var a=this.sourceBlock_.workspace.getRenderer().getConstants();var b=a.shapeFor(this);this.type===
-ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+
-b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));a=this.offsetInBlock;this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATH,{"class":"blocklyHighlightedConnectionPath",d:b,transform:`translate(${a.x}, ${a.y})`+(this.sourceBlock_.RTL?" scale(-1 1)":"")},this.sourceBlock_.getSvgRoot())}}unhighlight(){this.highlightPath&&(removeNode$$module$build$src$core$utils$dom(this.highlightPath),this.highlightPath=null)}setTracking(a){a&&
+c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}highlight()
+
+{if(!this.highlightPath){
+	var a=this.sourceBlock_.workspace.getRenderer().getConstants();
+	var b=a.shapeFor(this);
+	this.type===
+ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));
+	a=this.offsetInBlock;
+	this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(
+		Svg$$module$build$src$core$utils$svg.PATH,
+		{
+		"class":"blocklyHighlightedConnectionPath",
+		d:b,
+		transform:`translate(${a.x}, ${a.y})`+(this.sourceBlock_.RTL?" scale(-1 1)":"")
+		},
+		this.sourceBlock_.getSvgRoot()
+	)
+}}
+
+unhighlight(){
+	this.highlightPath&&(removeNode$$module$build$src$core$utils$dom(this.highlightPath),
+	this.highlightPath=null)
+}
+
+
+setTracking(a){a&&
 this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED||!a&&this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.UNTRACKED||this.sourceBlock_.isInFlyout||(a?(this.db.addConnection(this,this.y),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED):(this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&this.db.removeConnection(this,
 this.y),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.UNTRACKED))}stopTrackingAll(){this.setTracking(!1);if(this.targetConnection){const a=this.targetBlock().getDescendants(!1);for(let b=0;b<a.length;b++){const c=a[b],d=c.getConnections_(!0);for(let e=0;e<d.length;e++)d[e].setTracking(!1);for(const e of c.getIcons())hasBubble$$module$build$src$core$interfaces$i_has_bubble(e)&&e.setBubbleVisible(!1)}}}startTrackingAll(){this.setTracking(!0);let a=[];if(this.type!==
 ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE&&this.type!==ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT)return a;const b=this.targetBlock();if(b){let c;b.isCollapsed()?(c=[],b.outputConnection&&c.push(b.outputConnection),b.nextConnection&&c.push(b.nextConnection),b.previousConnection&&c.push(b.previousConnection)):c=b.getConnections_(!0);for(let d=0;d<c.length;d++)a.push(...c[d].startTrackingAll());a.length||(a=[b])}return a}onFailedConnect(a){const b=this.getSourceBlock();
@@ -2265,9 +2296,12 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			this.mouseXY = {};
 			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
 			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
-			
+
 			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
 			this.newBlock_.select();
+			
+			Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
+			Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));			
 			
 			this.boundEvents_.push(
 				Blockly.browserEvents.bind(document, 'mousemove', this, this.handleMouseMove),
@@ -2291,10 +2325,24 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			var blockToMouseXY = {};
 			blockToMouseXY.x = mousePos.x - blockPos.x;
 			blockToMouseXY.y = mousePos.y - blockPos.y;
+			
 			this.mouseXY = {};
 			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
 			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
-			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);			
+			
+			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
+/*
+			if (this.mouseXY) {
+				const connections = this.newBlock_.getConnections_(true);
+				for (const conn of connections) {
+				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
+				  if (closest)
+					  conn.highlight();
+				  else
+					  conn.unhighlight();
+				}		
+			}	
+*/			
 		} catch (e) {
 			console.error(e);
 		}			
@@ -2310,10 +2358,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			const connections = this.newBlock_.getConnections_(true);
 			for (const conn of connections) {
 			  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
-			  if (closest) {
-				conn.connect(closest.connection);
-			  }
-			}	
+			  if (closest)
+				  conn.connect(closest.connection);
+			}		
 		}
 
         for (let i = 0; i < 2; i++) {
@@ -2321,9 +2368,6 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
                 Blockly.browserEvents.unbind(this.boundEvents_.pop());
             }
         }
-
-        Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
-        Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));
 
         this.newBlock_ = null;
 		this.newBlockWidth_ = null;
