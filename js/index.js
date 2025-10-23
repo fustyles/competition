@@ -579,12 +579,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.toggleImportQuestionForm	 = toggleImportQuestionForm;
 	
     document.getElementById('button_question').addEventListener('click', () => {
-		var title = document.getElementById('importQuestion_sheet_id').value;
-		if (title=="")
+		var id = document.getElementById('importQuestion_sheet_id').value;
+		if (id=="") {
 			document.getElementById('importQuestion_sheet_id').value = Blockly.Msg["IMPORTQUESTION_SHEET_ID"];
-		var name = document.getElementById('importQuestion_sheet_name').value;
-		if (name=="")
-			document.getElementById('importQuestion_sheet_name').value = Blockly.Msg["IMPORTQUESTION_SHEET_NAME"];		
+			document.getElementById('importQuestion_sheet_name').value = Blockly.Msg["IMPORTQUESTION_SHEET_NAME"];
+		}		
 			
         toggleImportQuestionForm(true);
     });
