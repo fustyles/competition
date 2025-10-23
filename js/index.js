@@ -1241,11 +1241,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframe.style.border = "none";
 			
 			container.appendChild(iframe);
-			console.log(container);		
 
 			iframe.onload = function() {
 				iframe.onload = null; 
-				console.log(iframe);
 				
 				const outputResult = iframe.contentWindow.document.body.innerText;
 				if (iframe) {
@@ -1254,11 +1252,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (container) {
 					container.parentNode.removeChild(container);
 				}	
-			
 				
 				var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 				iframeWrite("iframe_output", output);
-				console.log(output);	
 			};	
 
 			
