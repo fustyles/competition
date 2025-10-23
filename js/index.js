@@ -1241,19 +1241,32 @@ document.addEventListener('DOMContentLoaded', function() {
 			iframe.style.border = "none";
 			
 			container.appendChild(iframe);
-			iframeWrite(iframe.id, iframe_code);
+			console.log(container);		
 
 			iframe.onload = function() {
 				iframe.onload = null; 
+				console.log(iframe);
 				
 				const outputResult = iframe.contentWindow.document.body.innerText;
+				if (iframe) {
+					iframe.parentNode.removeChild(iframe);
+				}				
 				if (container) {
 					container.parentNode.removeChild(container);
-				}				
+				}	
+			
 				
 				var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 				iframeWrite("iframe_output", output);
-			};		
+				console.log(output);	
+			};	
+
+			
+			try {
+				iframeWrite(iframe.id, iframe_code);				
+			} catch (e) {
+				console.log(e);
+			}				
 	  } catch (e) {
 		console.log(e);
 	  }
