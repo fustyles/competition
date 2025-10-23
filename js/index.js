@@ -579,6 +579,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.toggleImportQuestionForm	 = toggleImportQuestionForm;
 	
     document.getElementById('button_question').addEventListener('click', () => {
+		var title = document.getElementById('importQuestion_sheet_id').value;
+		if (title=="")
+			document.getElementById('importQuestion_sheet_id').value = Blockly.Msg["IMPORTQUESTION_SHEET_ID"];
+		var name = document.getElementById('importQuestion_sheet_name').value;
+		if (name=="")
+			document.getElementById('importQuestion_sheet_name').value = Blockly.Msg["IMPORTQUESTION_SHEET_NAME"];		
+			
         toggleImportQuestionForm(true);
     });
 
@@ -587,10 +594,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
 	
     document.getElementById('importQuestionsButton').addEventListener('click', () => {
+		document.getElementById('importQuestionsList').innerHTML = "";
+		
 		var sheetID = document.getElementById('importQuestion_sheet_id').value;
 		var sheetName = document.getElementById('importQuestion_sheet_name').value;
 		var keyword = document.getElementById('importQuestion_sheet_keyword').value;
+		console.log(sheetID.indexOf("https"));
 		
+		if (sheetID.indexOf("https")>=0) {
+			sheetID = sheetID.match(/\/d\/([a-zA-Z0-9_-]+)/)[0];
+			sheetID = sheetID.replace("/d/", "");
+		}
+			
 		function spreadsheetsql_QueryResponse_question(res) {
 			spreadsheetsql_QueryResponse(res, "question");
 		}
@@ -602,8 +617,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		};
 		window.spreadsheetsql_getDataFinish_question = spreadsheetsql_getDataFinish_question;
 
-
 		spreadsheetsql_settings(sheetID, sheetName, "question");
+	
 		if (!keyword)
 			spreadsheetsql_executeSql('select *', "question");
 		else
