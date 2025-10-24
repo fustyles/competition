@@ -1294,7 +1294,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		Window input: 12;4;3 → Automatically input 12 and 4, compare whether the output value equals the validation value 3
 	*/
 	document.getElementById('button_test').onclick = function () {
-		
+	    if (scratchStyle) {
+		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
+		  if (topBlocks.length!=1) {
+			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+			if (topBlocks.length==0) {
+				var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_start_scratch" x="10" y="10"></block></xml>';
+				var startBlocks = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
+				var block = workspace.getBlockById(startBlocks[0]);
+				var blockToCenterXY = getBlockToCenterXY(block);
+                block.moveBy(blockToCenterXY.x, blockToCenterXY.y);				
+			}
+			return;
+		  }
+	    }
+	  
 		var blocks = workspace.getBlocksByType("javascript_data_output");
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
 		if (blocks.length!=1&&blocks_scratch.length!=1) {
