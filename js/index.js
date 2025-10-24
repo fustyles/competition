@@ -99,21 +99,21 @@ document.addEventListener('DOMContentLoaded', function() {
 				const nameField = deletedXml.querySelector('field[name="NAME"]');
 				if (!nameField) return; 
 
-				const procedureName = nameField.textContent;
-				const allVariables = workspace.getAllVariables();
-				allVariables.forEach(function(variableModel) {
-					const mutation = deletedXml.querySelector('mutation');
-					if (mutation) {
-						mutation.querySelectorAll('arg').forEach(function(arg) {
-							const varId = arg.getAttribute('varid');
-							const varName = arg.getAttribute('name');
-							const variableToDelete = workspace.getVariableById(varId);
-							if (variableToDelete) {
+				const mutation = deletedXml.querySelector('mutation');
+				if (mutation) {
+					mutation.querySelectorAll('arg').forEach(function(arg) {
+						const varId = arg.getAttribute('varid');
+						const variableModel = workspace.getVariableById(varId);
+						if (variableModel) {
+							if (Blockly.Variables && Blockly.Variables.deleteVariable) {
+								Blockly.Variables.deleteVariable(workspace, variableModel);
+							} else {
 								workspace.deleteVariableById(varId);
 							}
-						});
-					}
-				});
+						}
+					});
+				}
+			
 			}
 		}
 		
