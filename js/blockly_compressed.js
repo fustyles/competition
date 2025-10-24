@@ -89,7 +89,8 @@ $.textToDom$$module$build$src$core$utils$xml=function(a){let b=domParser$$module
 domToText$$module$build$src$core$utils$xml=function(a){return sanitizeText$$module$build$src$core$utils$xml(xmlSerializer$$module$build$src$core$utils$xml.serializeToString(a))};sanitizeText$$module$build$src$core$utils$xml=function(a){return a.replace(INVALID_CONTROL_CHARS$$module$build$src$core$utils$xml,b=>`&#${b.charCodeAt(0)};`)};warn$$module$build$src$core$utils$deprecation=function(a,b,c,d){a=a+" was deprecated in "+b+" and will be deleted in "+c+".";d&&(a+="\nUse "+d+" instead.");console.warn(a)};
 createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){
 	a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);
-	for(const d in b) {	
+	for(const d in b) {
+		//console.log(b[d]);		
 		a.setAttribute(d,`${b[d]}`);
 	}
 	c&&c.appendChild(a);
@@ -133,12 +134,18 @@ if(Blocks$$module$build$src$core$blocks.variables_set_local){
 	var d=$.createElement$$module$build$src$core$utils$xml("block");d.setAttribute("type","variables_set_local");d.setAttribute("gap",Blocks$$module$build$src$core$blocks.math_change?"8":"24");d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c));b.push(d)
 }
 
-Blocks$$module$build$src$core$blocks.math_change&&
-(d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","math_change"),d.setAttribute("gap",Blocks$$module$build$src$core$blocks.variables_get?"20":"8"),d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c)),c=$.textToDom$$module$build$src$core$utils$xml('<value name="DELTA"><shadow type="math_number"><field name="NUM">1</field></shadow></value>'),d.appendChild(c),b.push(d));
-if(Blocks$$module$build$src$core$blocks.variables_get){a.sort(VariableModel$$module$build$src$core$variable_model.compareByName);
-for(let e=0,f;f=a[e];e++)c=$.createElement$$module$build$src$core$utils$xml("block"),c.setAttribute("type","variables_get"),c.setAttribute("gap","8"),c.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(f)),b.push(c)}}return b};
+Blocks$$module$build$src$core$blocks.math_change&&(d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","math_change"),d.setAttribute("gap",Blocks$$module$build$src$core$blocks.variables_get?"20":"8"),d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c)),c=$.textToDom$$module$build$src$core$utils$xml('<value name="DELTA"><shadow type="math_number"><field name="NUM">1</field></shadow></value>'),d.appendChild(c),b.push(d));
+if(Blocks$$module$build$src$core$blocks.variables_get){
+	a.sort(VariableModel$$module$build$src$core$variable_model.compareByName);
+	for(let e=0,f;f=a[e];e++)
+		c=$.createElement$$module$build$src$core$utils$xml("block"),
+		c.setAttribute("type","variables_get"),
+		c.setAttribute("gap","8"),
+		c.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(f)),
+		b.push(c)
+}
 
-
+}return b};
 generateUniqueName$$module$build$src$core$variables=function(a){return TEST_ONLY$$module$build$src$core$variables.generateUniqueNameInternal(a)};
 generateUniqueNameInternal$$module$build$src$core$variables=function(a){return generateUniqueNameFromOptions$$module$build$src$core$variables(VAR_LETTER_OPTIONS$$module$build$src$core$variables.charAt(0),a.getAllVariableNames())};
 generateUniqueNameFromOptions$$module$build$src$core$variables=function(a,b){if(!b.length)return a;const c=VAR_LETTER_OPTIONS$$module$build$src$core$variables;let d="",e=c.indexOf(a);for(;;){let f=!1;for(let g=0;g<b.length;g++)if(b[g].toLowerCase()===a){f=!0;break}if(!f)break;e++;e===c.length&&(e=0,d=`${Number(d)+1}`);a=c.charAt(e)+d}return a};
@@ -456,8 +463,27 @@ registerDisable$$module$build$src$core$contextmenu_items=function(){
 	})
 };
 
-registerDelete$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(a){var b=a.block;a=b.getDescendants(!1).length;(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)},preconditionFn(a){return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"},callback(a){a.block&&
-a.block.checkAndDelete()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6})};
+registerDelete$$module$build$src$core$contextmenu_items=function(){
+	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
+		{
+			displayText(a){
+				var b=a.block
+				a=b.getDescendants(!1).length;
+				(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);
+				return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)
+			},
+			preconditionFn(a){
+				return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"
+			},
+			callback(a){
+				a.block&&a.block.checkAndDelete();
+			},
+			scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6
+		}
+)
+};
+
+
 registerHelp$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(){return $.Msg$$module$build$src$core$msg.HELP},preconditionFn(a){a=a.block;return("function"===typeof a.helpUrl?a.helpUrl():a.helpUrl)?"enabled":"hidden"},callback(a){a.block.showHelp()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockHelp",weight:7})};
 registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){registerDuplicate$$module$build$src$core$contextmenu_items();registerComment$$module$build$src$core$contextmenu_items();registerInline$$module$build$src$core$contextmenu_items();registerCollapseExpandBlock$$module$build$src$core$contextmenu_items();registerDisable$$module$build$src$core$contextmenu_items();
 
@@ -1107,7 +1133,16 @@ c)):(this.updateDisabled(),this.removeInput(b))}tab(a,b){const c=new TabNavigate
 b,this.RTL),setCurrentBlock$$module$build$src$core$contextmenu(this))}moveConnections(a,b){if(this.rendered){var c=this.getConnections_(!1);for(var d=0;d<c.length;d++)c[d].moveBy(a,b);c=this.getIcons();d=this.getRelativeToSurfaceXY();for(var e of c)e.onLocationChange(d);for(e=0;e<this.childBlocks_.length;e++)this.childBlocks_[e].moveConnections(a,b)}}setDragging(a){a?(this.translation="",draggingConnections$$module$build$src$core$common.push(...this.getConnections_(!0)),addClass$$module$build$src$core$utils$dom(this.svgGroup_,
 "blocklyDragging")):(draggingConnections$$module$build$src$core$common.length=0,removeClass$$module$build$src$core$utils$dom(this.svgGroup_,"blocklyDragging"));for(let b=0;b<this.childBlocks_.length;b++)this.childBlocks_[b].setDragging(a)}setMovable(a){super.setMovable(a);this.pathObject.updateMovable(a)}setEditable(a){super.setEditable(a);a=this.getIcons();for(let b=0;b<a.length;b++)a[b].updateEditable()}setShadow(a){super.setShadow(a);this.applyColour()}setInsertionMarker(a){this.isInsertionMarker_!==
 a&&(this.isInsertionMarker_=a)&&(this.setColour(this.workspace.getRenderer().getConstants().INSERTION_MARKER_COLOUR),this.pathObject.updateInsertionMarker(!0))}getSvgRoot(){return this.svgGroup_}dispose(a,b){this.isDeadOrDying()||(dispose$$module$build$src$core$tooltip(),hide$$module$build$src$core$contextmenu(),b&&this.rendered&&(this.unplug(a),disposeUiEffect$$module$build$src$core$block_animations(this)),super.dispose(!!a),removeNode$$module$build$src$core$utils$dom(this.svgGroup_))}disposeInternal(){this.isDeadOrDying()||
-(super.disposeInternal(),this.rendered=!1,getSelected$$module$build$src$core$common()===this&&(this.unselect(),this.workspace.cancelCurrentGesture()),[...this.warningTextDb.values()].forEach(a=>clearTimeout(a)),this.warningTextDb.clear(),this.getIcons().forEach(a=>a.dispose()))}checkAndDelete(){this.workspace.isFlyout||($.setGroup$$module$build$src$core$events$utils(!0),this.workspace.hideChaff(),this.outputConnection?this.dispose(!1,!0):this.dispose(!0,!0),$.setGroup$$module$build$src$core$events$utils(!1))}toCopyData(){return this.isInsertionMarker_?
+(super.disposeInternal(),this.rendered=!1,getSelected$$module$build$src$core$common()===this&&(this.unselect(),this.workspace.cancelCurrentGesture()),[...this.warningTextDb.values()].forEach(a=>clearTimeout(a)),this.warningTextDb.clear(),this.getIcons().forEach(a=>a.dispose()))}
+
+checkAndDelete(){
+	this.workspace.isFlyout||($.setGroup$$module$build$src$core$events$utils(!0),
+	this.workspace.hideChaff(),
+	this.outputConnection?this.dispose(!1,!0):this.dispose(!0,!0),
+	$.setGroup$$module$build$src$core$events$utils(!1))
+}
+
+toCopyData(){return this.isInsertionMarker_?
 null:{saveInfo:save$$module$build$src$core$serialization$blocks(this,{addCoordinates:!0,addNextBlocks:!1}),source:this.workspace,typeCounts:getBlockTypeCounts$$module$build$src$core$common(this,!0)}}applyColour(){this.pathObject.applyColour(this);const a=this.getIcons();for(let b=0;b<a.length;b++)a[b].applyColour();for(let b=0,c;c=this.inputList[b];b++)for(let d=0,e;e=c.fieldRow[d];d++)e.applyColour()}updateDisabled(){const a=!this.isEnabled()||this.getInheritedDisabled();if(this.visuallyDisabled===
 a){let b;null==(b=this.getNextBlock())||b.updateDisabled()}else{this.applyColour();this.visuallyDisabled=a;for(const b of this.getChildren(!1))b.updateDisabled()}}getCommentIcon(){warn$$module$build$src$core$utils$deprecation("getCommentIcon","v10","v11","getIcon");let a;return null!=(a=this.getIcon(CommentIcon$$module$build$src$core$icons$comment_icon.TYPE))?a:null}setWarningText(a,b){const c=b||"";if(c)this.warningTextDb.has(c)&&(clearTimeout(this.warningTextDb.get(c)),this.warningTextDb.delete(c));
 else{for(var d of this.warningTextDb.values())clearTimeout(d);this.warningTextDb.clear()}if(this.workspace.isDragging())this.warningTextDb.set(c,setTimeout(()=>{this.isDeadOrDying()||(this.warningTextDb.delete(c),this.setWarningText(a,c))},100));else if(this.isInFlyout&&(a=null),b=this.getIcon(WarningIcon$$module$build$src$core$icons$warning_icon.TYPE),"string"===typeof a){d=this.getSurroundParent();let e=null;for(;d;)d.isCollapsed()&&(e=d),d=d.getSurroundParent();e&&e.setWarningText($.Msg$$module$build$src$core$msg.COLLAPSED_WARNINGS_WARNING,
@@ -1233,12 +1268,68 @@ this.GRID_UNIT;this.STATEMENT_INPUT_PADDING_LEFT=4*this.GRID_UNIT;this.EMPTY_INL
 8*this.GRID_UNIT;this.FIELD_DROPDOWN_BORDER_RECT_HEIGHT=8*this.GRID_UNIT;this.FIELD_DROPDOWN_SVG_ARROW_PADDING=this.FIELD_BORDER_RECT_X_PADDING;this.FIELD_COLOUR_DEFAULT_WIDTH=2*this.GRID_UNIT;this.FIELD_COLOUR_DEFAULT_HEIGHT=4*this.GRID_UNIT;this.FIELD_CHECKBOX_X_OFFSET=1*this.GRID_UNIT;this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH=12*this.GRID_UNIT}setFontConstants_(a){super.setFontConstants_(a);this.FIELD_DROPDOWN_BORDER_RECT_HEIGHT=this.FIELD_BORDER_RECT_HEIGHT=this.FIELD_TEXT_HEIGHT+2*this.FIELD_BORDER_RECT_Y_PADDING}init(){super.init();
 this.HEXAGONAL=this.makeHexagonal();this.ROUNDED=this.makeRounded();this.SQUARED=this.makeSquared();this.STATEMENT_INPUT_NOTCH_OFFSET=this.NOTCH_OFFSET_LEFT+this.INSIDE_CORNERS.rightWidth}setDynamicProperties_(a){super.setDynamicProperties_(a);this.SELECTED_GLOW_COLOUR=a.getComponentStyle("selectedGlowColour")||this.SELECTED_GLOW_COLOUR;const b=Number(a.getComponentStyle("selectedGlowSize"));this.SELECTED_GLOW_SIZE=b&&!isNaN(b)?b:this.SELECTED_GLOW_SIZE;this.REPLACEMENT_GLOW_COLOUR=a.getComponentStyle("replacementGlowColour")||
 this.REPLACEMENT_GLOW_COLOUR;this.REPLACEMENT_GLOW_SIZE=(a=Number(a.getComponentStyle("replacementGlowSize")))&&!isNaN(a)?a:this.REPLACEMENT_GLOW_SIZE}dispose(){super.dispose();this.selectedGlowFilter&&removeNode$$module$build$src$core$utils$dom(this.selectedGlowFilter);this.replacementGlowFilter&&removeNode$$module$build$src$core$utils$dom(this.replacementGlowFilter)}makeStartHat(){const a=this.START_HAT_HEIGHT,b=this.START_HAT_WIDTH,c=curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(25,
--a),point$$module$build$src$core$utils$svg_paths(71,-a),point$$module$build$src$core$utils$svg_paths(b,0)]);return{height:a,width:b,path:c}}makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;return lineTo$$module$build$src$core$utils$svg_paths(-e*f,c)+lineTo$$module$build$src$core$utils$svg_paths(e*f,c)}const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;return{type:this.SHAPES.HEXAGONAL,isDynamic:!0,width(c){c/=2;return c>b?b:c},height(c){return c},connectionOffsetY(c){return c/
-2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,!1,!0)}}}makeRounded(){function a(d,e,f){const g=d>c?d-c:0;d=(d>c?c:d)/2;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?
-1:-1)*d,(e?-1:1)*d))}const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b;return{type:this.SHAPES.ROUND,isDynamic:!0,width(d){d/=2;return d>b?b:d},height(d){return d},connectionOffsetY(d){return d/2},connectionOffsetX(d){return-d},pathDown(d){return a(d,!1,!1)},pathUp(d){return a(d,!0,!1)},pathRightDown(d){return a(d,!1,!0)},pathRightUp(d){return a(d,!1,!0)}}}makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
+-a),point$$module$build$src$core$utils$svg_paths(71,-a),point$$module$build$src$core$utils$svg_paths(b,0)]);return{height:a,width:b,path:c}}
+
+makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;return lineTo$$module$build$src$core$utils$svg_paths(-e*f,c)+lineTo$$module$build$src$core$utils$svg_paths(e*f,c)}
+	
+	const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;return{type:this.SHAPES.HEXAGONAL,isDynamic:!0,width(c){c/=2;return c>b?b:c},height(c){return c},connectionOffsetY(c){return c/
+2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,!1,!0)}}
+}
+
+makeRounded(){
+	function a(d,e,f){
+		const g=d>c?d-c:0;d=(d>c?c:d)/2;
+		return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?1:-1)*d,(e?-1:1)*d))}
+		const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b;
+		return{
+			type:this.SHAPES.ROUND,
+			isDynamic:!0,
+			width(d){d/=2;return d>b?b:d},
+			height(d){return d},connectionOffsetY(d){return d/2},
+			connectionOffsetX(d){return-d},
+			pathDown(d){return a(d,!1,!1)},
+			pathUp(d){return a(d,!0,!1)},
+			pathRightDown(d){return a(d,!1,!0)},
+			pathRightUp(d){return a(d,!1,!0)}
+		}
+}
+
+
+makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
 -1:1)*b,(d?-1:1)*b))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(e?1:-1)*c)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?1:-1)*b,(d?-1:1)*b))}const b=this.CORNER_RADIUS;return{type:this.SHAPES.SQUARE,isDynamic:!0,width(c){return b},height(c){return c},connectionOffsetY(c){return c/2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,
-!1,!0)}}}shapeFor(a){let b=a.getCheck();!b&&a.targetConnection&&(b=a.targetConnection.getCheck());switch(a.type){case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:a=a.getSourceBlock().getOutputShape();if(null!==a)switch(a){case this.SHAPES.HEXAGONAL:return this.HEXAGONAL;case this.SHAPES.ROUND:return this.ROUNDED;case this.SHAPES.SQUARE:return this.SQUARED}if(b&&-1!==b.indexOf("Boolean"))return this.HEXAGONAL;
-if(b&&-1!==b.indexOf("Number"))return this.ROUNDED;b&&b.indexOf("String");return this.ROUNDED;case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:return this.NOTCH;default:throw Error("Unknown type");}}makeNotch(){function a(l){return curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*e*3/4,g/2),point$$module$build$src$core$utils$svg_paths(l*
+!1,!0)}}}
+
+shapeFor(a){
+	let b=a.getCheck();
+	!b&&a.targetConnection&&(b=a.targetConnection.getCheck());
+	switch(a.type){
+		case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:
+		case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:
+			a=a.getSourceBlock().getOutputShape();
+			if(null!==a)
+				switch(a){
+					case this.SHAPES.HEXAGONAL:
+						return this.HEXAGONAL;
+					case this.SHAPES.ROUND:
+						return this.ROUNDED;
+					case this.SHAPES.SQUARE:
+						return this.SQUARED
+				}
+			if(b&&-1!==b.indexOf("Boolean"))
+				return this.HEXAGONAL;
+			if(b&&-1!==b.indexOf("Number"))
+				return this.ROUNDED;
+			b&&b.indexOf("String");
+				return this.ROUNDED;
+		case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:
+		case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:
+			return this.NOTCH;
+		default:
+			throw Error("Unknown type");
+	}
+}
+
+makeNotch(){function a(l){return curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*e*3/4,g/2),point$$module$build$src$core$utils$svg_paths(l*
 e,g)])+line$$module$build$src$core$utils$svg_paths([point$$module$build$src$core$utils$svg_paths(l*e,f)])+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/4,g/2),point$$module$build$src$core$utils$svg_paths(l*e/2,g),point$$module$build$src$core$utils$svg_paths(l*e,g)])+lineOnAxis$$module$build$src$core$utils$svg_paths("h",l*d)+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*
 e*3/4,-(g/2)),point$$module$build$src$core$utils$svg_paths(l*e,-g)])+line$$module$build$src$core$utils$svg_paths([point$$module$build$src$core$utils$svg_paths(l*e,-f)])+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/4,-(g/2)),point$$module$build$src$core$utils$svg_paths(l*e/2,-g),point$$module$build$src$core$utils$svg_paths(l*e,-g)])}const b=this.NOTCH_WIDTH,c=this.NOTCH_HEIGHT,d=b/3,e=d/3,f=c/2,g=f/2,h=a(1),k=a(-1);return{type:this.SHAPES.NOTCH,
 width:b,height:c,pathLeft:h,pathRight:k}}makeInsideCorners(){const a=this.CORNER_RADIUS,b=arc$$module$build$src$core$utils$svg_paths("a","0 0,0",a,point$$module$build$src$core$utils$svg_paths(-a,a)),c=arc$$module$build$src$core$utils$svg_paths("a","0 0,1",a,point$$module$build$src$core$utils$svg_paths(-a,a)),d=arc$$module$build$src$core$utils$svg_paths("a","0 0,0",a,point$$module$build$src$core$utils$svg_paths(a,a)),e=arc$$module$build$src$core$utils$svg_paths("a","0 0,1",a,point$$module$build$src$core$utils$svg_paths(a,
@@ -2197,6 +2288,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.mouseXY = null;		
         this.boundEvents_ = [];
 		
+		this.closest = [];
+		
 		this.onClickHandler_ = this.handleClick.bind(this);
 		this.onDoubleClickHandler_ = this.handleDoubleClick.bind(this);
     } 
@@ -2331,18 +2424,27 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
 			
 			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
-/*
+			
+			if (this.closest.length>0) {
+				for (var i=0;i<this.closest.length;i++) 
+					this.closest[i].connection.targetConnection.unhighlight();
+				this.closest = [];
+			}
+
 			if (this.mouseXY) {
 				const connections = this.newBlock_.getConnections_(true);
 				for (const conn of connections) {
 				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
-				  if (closest)
-					  conn.highlight();
-				  else
-					  conn.unhighlight();
+				  if (closest&&closest.connection) {
+						if (closest.connection.targetConnection) {
+							this.closest.push(closest);
+							closest.connection.targetConnection.highlight();
+						}
+						break;
+				  }
 				}		
 			}	
-*/			
+			
 		} catch (e) {
 			console.error(e);
 		}			
@@ -2358,8 +2460,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			const connections = this.newBlock_.getConnections_(true);
 			for (const conn of connections) {
 			  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
-			  if (closest)
+			  if (closest) {
 				  conn.connect(closest.connection);
+			  }
 			}		
 		}
 
@@ -2373,6 +2476,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.newBlockWidth_ = null;
 		this.newBlockHeight_ = null;
 		this.mouseXY = null;
+		this.closest = [];
     }	
 
     applyColour() {
