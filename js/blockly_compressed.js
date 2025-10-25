@@ -1089,6 +1089,8 @@ highlight() {if(!this.highlightPath){
 	this.type===
 ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));
 
+	a=this.offsetInBlock;
+	
 	if(this.type===
 	ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
 	  
@@ -1112,11 +1114,10 @@ ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===C
 		`a ${corner},${corner} 0 0 1 ${corner},${-corner}`,  // 左上角圓角
 		'Z'                                                  // 關閉路徑
 	  ].join(' ');
+	  a={x:0, y:0};
 	}
 
 
-	//a=this.offsetInBlock;
-	a={x:0, y:0};
 	this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(
 		Svg$$module$build$src$core$utils$svg.PATH,
 		{
