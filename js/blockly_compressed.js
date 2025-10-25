@@ -89,8 +89,7 @@ $.textToDom$$module$build$src$core$utils$xml=function(a){let b=domParser$$module
 domToText$$module$build$src$core$utils$xml=function(a){return sanitizeText$$module$build$src$core$utils$xml(xmlSerializer$$module$build$src$core$utils$xml.serializeToString(a))};sanitizeText$$module$build$src$core$utils$xml=function(a){return a.replace(INVALID_CONTROL_CHARS$$module$build$src$core$utils$xml,b=>`&#${b.charCodeAt(0)};`)};warn$$module$build$src$core$utils$deprecation=function(a,b,c,d){a=a+" was deprecated in "+b+" and will be deleted in "+c+".";d&&(a+="\nUse "+d+" instead.");console.warn(a)};
 createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){
 	a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);
-	for(const d in b) {
-		//console.log(b[d]);		
+	for(const d in b) {		
 		a.setAttribute(d,`${b[d]}`);
 	}
 	c&&c.appendChild(a);
@@ -1080,14 +1079,44 @@ RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_
 if(!b.isInFlyout){var c=!1;if(!b.isMovable()){b=a.getSourceBlock().getRootBlock();if(!b.isMovable())return;a=this;c=!0}var d=getSelected$$module$build$src$core$common()==b;d||b.addSelect();var e=a.x+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x,f=a.y+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.y;c&&(f=-f);b.RTL&&
 (e=a.x-$.config$$module$build$src$core$config.snapRadius-Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x);b.moveBy(e,f,["bump"]);d||b.removeSelect()}}}moveTo(a,b){let c=!1;this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK?(this.db.addConnection(this,b),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED,c=!0):this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&
 (this.db.removeConnection(this,this.y),this.db.addConnection(this,b),c=!0);this.x=a;this.y=b;return c}moveBy(a,b){return this.moveTo(this.x+a,this.y+b)}moveToOffset(a){return this.moveTo(a.x+this.offsetInBlock.x,a.y+this.offsetInBlock.y)}setOffsetInBlock(a,b){this.offsetInBlock.x=a;this.offsetInBlock.y=b}getOffsetInBlock(){return this.offsetInBlock}tighten(){const a=this.targetConnection.x-this.x,b=this.targetConnection.y-this.y;if(0!==a||0!==b){const d=this.targetBlock();var c=d.getSvgRoot();if(!c)throw Error("block is not rendered.");
-c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}highlight()
+c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}
 
-{if(!this.highlightPath){
+highlight() {if(!this.highlightPath){
 	var a=this.sourceBlock_.workspace.getRenderer().getConstants();
 	var b=a.shapeFor(this);
+	var c = this.sourceBlock_.getHeightWidth();
+	
 	this.type===
 ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));
-	a=this.offsetInBlock;
+
+	if(this.type===
+	ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
+	  
+
+	  // ✅ 使用 block 尺寸作為外框大小
+	  const blockSize = this.sourceBlock_.getHeightWidth();
+	  const width = blockSize.width;
+	  const height = blockSize.height;
+	  const corner = blockSize.height / 2;
+
+	  // ✅ 生成圓角矩形路徑
+	  b = [
+		`M ${corner},0`,                                     // 起點：上邊左側圓角起點
+		`h ${width - 2 * corner}`,                           // 上邊線
+		`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   // 右上角圓角
+		`v ${height - 2 * corner}`,                          // 右邊線
+		`a ${corner},${corner} 0 0 1 ${-corner},${corner}`,  // 右下角圓角
+		`h ${-width + 2 * corner}`,                          // 下邊線
+		`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, // 左下角圓角
+		`v ${-height + 2 * corner}`,                         // 左邊線
+		`a ${corner},${corner} 0 0 1 ${corner},${-corner}`,  // 左上角圓角
+		'Z'                                                  // 關閉路徑
+	  ].join(' ');
+	}
+
+
+	//a=this.offsetInBlock;
+	a={x:0, y:0};
 	this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(
 		Svg$$module$build$src$core$utils$svg.PATH,
 		{
@@ -1175,8 +1204,26 @@ Connection$$module$build$src$core$connection.CAN_CONNECT}doTypeChecks(a,b){a=a.g
 break;default:return!1}return-1!==draggingConnections$$module$build$src$core$common.indexOf(b)?!1:!0}canConnectToPrevious_(a,b){if(a.targetConnection||-1!==draggingConnections$$module$build$src$core$common.indexOf(b))return!1;if(!b.targetConnection)return!0;a=b.targetBlock();return a.isInsertionMarker()?!a.getPreviousBlock():!1}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CONNECTION_CHECKER,DEFAULT$$module$build$src$core$registry,ConnectionChecker$$module$build$src$core$connection_checker);
 var module$build$src$core$connection_checker={};module$build$src$core$connection_checker.ConnectionChecker=ConnectionChecker$$module$build$src$core$connection_checker;var ConnectionDB$$module$build$src$core$connection_db=class{constructor(a){this.connectionChecker=a;this.connections=[]}addConnection(a,b){b=this.calculateIndexForYPos(b);this.connections.splice(b,0,a)}findIndexOfConnection(a,b){if(!this.connections.length)return-1;const c=this.calculateIndexForYPos(b);if(c>=this.connections.length)return-1;b=a.y;let d=c;for(;0<=d&&this.connections[d].y===b;){if(this.connections[d]===a)return d;d--}for(d=c;d<this.connections.length&&this.connections[d].y===b;){if(this.connections[d]===
 a)return d;d++}return-1}calculateIndexForYPos(a){if(!this.connections.length)return 0;let b=0,c=this.connections.length;for(;b<c;){const d=Math.floor((b+c)/2);if(this.connections[d].y<a)b=d+1;else if(this.connections[d].y>a)c=d;else{b=d;break}}return b}removeConnection(a,b){a=this.findIndexOfConnection(a,b);if(-1===a)throw Error("Unable to find connection in connectionDB.");this.connections.splice(a,1)}getNeighbours(a,b){function c(l){const n=e-d[l].x,m=f-d[l].y;Math.sqrt(n*n+m*m)<=b&&k.push(d[l]);
-return m<b}const d=this.connections,e=a.x,f=a.y;a=0;let g=d.length-2,h=g;for(;a<h;)d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);const k=[];g=a=h;if(d.length){for(;0<=a&&c(a);)a--;do g++;while(g<d.length&&c(g))}return k}isInYRange(a,b,c){return Math.abs(this.connections[a].y-b)<=c}searchForClosest(a,b,c){if(!this.connections.length)return{connection:null,radius:b};const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;var f=this.calculateIndexForYPos(a.y);c=null;let g=b,h,k=f-1;for(;0<=k&&this.isInYRange(k,a.y,b);)h=this.connections[k],
-this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;a.y=d;return{connection:c,radius:g}}static init(a){const b=[];b[ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);
+return m<b}const d=this.connections,e=a.x,f=a.y;a=0;let g=d.length-2,h=g;for(;a<h;)d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);const k=[];g=a=h;if(d.length){for(;0<=a&&c(a);)a--;do g++;while(g<d.length&&c(g))}return k}isInYRange(a,b,c){return Math.abs(this.connections[a].y-b)<=c}
+
+
+searchForClosest(a,b,c){
+	if(!this.connections.length)
+		return{connection:null,radius:b};
+	const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;
+	var f=this.calculateIndexForYPos(a.y);
+	c=null;
+	let g=b,h,k=f-1;
+	for(;0<=k&&this.isInYRange(k,a.y,b);)
+		h=this.connections[k],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;
+	for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)
+		h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;
+	a.y=d;
+	return{connection:c,radius:g}
+}
+
+
+static init(a){const b=[];b[ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);
 b[ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT]=new ConnectionDB$$module$build$src$core$connection_db(a);return b}},module$build$src$core$connection_db={};module$build$src$core$connection_db.ConnectionDB=ConnectionDB$$module$build$src$core$connection_db;var BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change=class extends BlockBase$$module$build$src$core$events$events_block_base{constructor(a,b,c,d){super(a);this.type=BLOCK_FIELD_INTERMEDIATE_CHANGE$$module$build$src$core$events$utils;this.recordUndo=!1;a&&(this.name=b,this.oldValue=c,this.newValue=d)}toJson(){const a=super.toJson();if(!this.name)throw Error("The changed field name is undefined. Either pass a name to the constructor, or call fromJson.");
 a.name=this.name;a.oldValue=this.oldValue;a.newValue=this.newValue;return a}static fromJson(a,b,c){b=super.fromJson(a,b,null!=c?c:new BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change);b.name=a.name;b.oldValue=a.oldValue;b.newValue=a.newValue;return b}isNull(){return this.oldValue===this.newValue}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.EVENT,BLOCK_FIELD_INTERMEDIATE_CHANGE$$module$build$src$core$events$utils,BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change);
 var module$build$src$core$events$events_block_field_intermediate_change={};module$build$src$core$events$events_block_field_intermediate_change.BlockFieldIntermediateChange=BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change;var BlockMove$$module$build$src$core$events$events_block_move=class extends BlockBase$$module$build$src$core$events$events_block_base{constructor(a){super(a);this.type=$.MOVE$$module$build$src$core$events$utils;a&&(a.isShadow()&&(this.recordUndo=!1),a=this.currentLocation_(),this.oldParentId=a.parentId,this.oldInputName=a.inputName,this.oldCoordinate=a.coordinate)}toJson(){const a=super.toJson();a.oldParentId=this.oldParentId;a.oldInputName=this.oldInputName;this.oldCoordinate&&(a.oldCoordinate=`${Math.round(this.oldCoordinate.x)}, `+
@@ -1257,10 +1304,34 @@ a));return{width:a,height:a,pathTop:b,pathBottom:c}}makeOutsideCorners(){const a
 {"in":"SourceGraphic",in2:"specOut",operator:"arithmetic",k1:0,k2:1,k3:1,k4:0},a);this.embossFilterId=a.id;this.embossFilter=a;a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATTERN,{id:"blocklyDisabledPattern"+this.randomIdentifier,patternUnits:"userSpaceOnUse",width:10,height:10},this.defs);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.RECT,{width:10,height:10,fill:"#aaa"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATH,
 {d:"M 0 0 L 10 10 M 10 0 L 0 10",stroke:"#cc0"},a);this.disabledPatternId=a.id;this.disabledPattern=a;this.createDebugFilter()}createDebugFilter(){if(!this.debugFilter){const a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FILTER,{id:"blocklyDebugFilter"+this.randomIdentifier,height:"160%",width:"180%",y:"-30%",x:"-40%"},this.defs),b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPONENTTRANSFER,{result:"outBlur"},
 a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFUNCA,{type:"table",tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":"#ff0000","flood-opacity":.5,result:"outColor"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},a);this.debugFilterId=
-a.id;this.debugFilter=a}}injectCSS_(a,b){b=this.getCSS_(b);a="blockly-renderer-style-"+a;this.cssNode=document.getElementById(a);const c=b.join("\n");this.cssNode?this.cssNode.firstChild.textContent=c:(b=document.createElement("style"),b.id=a,a=document.createTextNode(c),b.appendChild(a),document.head.insertBefore(b,document.head.firstChild),this.cssNode=b)}getCSS_(a){return[`${a} .blocklyText, `,`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} `+`${this.FIELD_TEXT_FONTSIZE}pt ${this.FIELD_TEXT_FONTFAMILY};`,
-"}",`${a} .blocklyText {`,"fill: #fff;","}",`${a} .blocklyNonEditableText>rect,`,`${a} .blocklyEditableText>rect {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"fill-opacity: .6;","stroke: none;","}",`${a} .blocklyNonEditableText>text,`,`${a} .blocklyEditableText>text {`,"fill: #000;","}",`${a} .blocklyFlyoutLabelText {`,"fill: #000;","}",`${a} .blocklyText.blocklyBubbleText {`,"fill: #000;","}",`${a} .blocklyEditableText:not(.editing):hover>rect {`,"stroke: #fff;","stroke-width: 2;","}",`${a} .blocklyHtmlInput {`,
-`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"}",`${a} .blocklySelected>.blocklyPath {`,"stroke: #fc3;","stroke-width: 3px;","}",`${a} .blocklyHighlightedConnectionPath {`,"stroke: #fc3;","}",`${a} .blocklyReplaceable .blocklyPath {`,"fill-opacity: .5;","}",`${a} .blocklyReplaceable .blocklyPathLight,`,`${a} .blocklyReplaceable .blocklyPathDark {`,"display: none;","}",`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,
-"stroke: none;","}"]}},module$build$src$core$renderers$common$constants={};module$build$src$core$renderers$common$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$common$constants;module$build$src$core$renderers$common$constants.isDynamicShape=isDynamicShape$$module$build$src$core$renderers$common$constants;var ConstantProvider$$module$build$src$core$renderers$zelos$constants=class extends ConstantProvider$$module$build$src$core$renderers$common$constants{constructor(){super();this.GRID_UNIT=4;this.CURSOR_COLOUR="#ffa200";this.CURSOR_RADIUS=5;this.JAGGED_TEETH_WIDTH=this.JAGGED_TEETH_HEIGHT=0;this.START_HAT_HEIGHT=22;this.START_HAT_WIDTH=96;this.SHAPES={HEXAGONAL:1,ROUND:2,SQUARE:3,PUZZLE:4,NOTCH:5};this.SHAPE_IN_SHAPE_PADDING={1:{0:5*this.GRID_UNIT,1:2*this.GRID_UNIT,2:5*this.GRID_UNIT,3:5*this.GRID_UNIT},
+a.id;this.debugFilter=a}}injectCSS_(a,b){b=this.getCSS_(b);a="blockly-renderer-style-"+a;this.cssNode=document.getElementById(a);const c=b.join("\n");this.cssNode?this.cssNode.firstChild.textContent=c:(b=document.createElement("style"),b.id=a,a=document.createTextNode(c),b.appendChild(a),document.head.insertBefore(b,document.head.firstChild),this.cssNode=b)}
+
+
+getCSS_(a){
+	return[
+		`${a} .blocklyText, `,
+		`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} `+`${this.FIELD_TEXT_FONTSIZE}pt ${this.FIELD_TEXT_FONTFAMILY};`,
+		"}",
+		`${a} .blocklyText {`,"fill: #fff;","}",
+		`${a} .blocklyNonEditableText>rect,`,
+		`${a} .blocklyEditableText>rect {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"fill-opacity: .6;","stroke: none;","}",
+		`${a} .blocklyNonEditableText>text,`,
+		`${a} .blocklyEditableText>text {`,"fill: #000;","}",
+		`${a} .blocklyFlyoutLabelText {`,"fill: #000;","}",
+		`${a} .blocklyText.blocklyBubbleText {`,"fill: #000;","}",
+		`${a} .blocklyEditableText:not(.editing):hover>rect {`,"stroke: #fff;","stroke-width: 2;","}",
+		`${a} .blocklyHtmlInput {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"}",
+		`${a} .blocklySelected>.blocklyPath {`,"stroke: #fc3;","stroke-width: 3px;","}",
+		`${a} .blocklyHighlightedConnectionPath {`,"stroke: #fc3;","}",
+		`${a} .blocklyReplaceable .blocklyPath {`,"fill-opacity: .5;","}",
+		`${a} .blocklyReplaceable .blocklyPathLight,`,
+		`${a} .blocklyReplaceable .blocklyPathDark {`,"display: none;","}",
+		`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,
+"stroke: none;","}"]
+}
+
+
+},module$build$src$core$renderers$common$constants={};module$build$src$core$renderers$common$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$common$constants;module$build$src$core$renderers$common$constants.isDynamicShape=isDynamicShape$$module$build$src$core$renderers$common$constants;var ConstantProvider$$module$build$src$core$renderers$zelos$constants=class extends ConstantProvider$$module$build$src$core$renderers$common$constants{constructor(){super();this.GRID_UNIT=4;this.CURSOR_COLOUR="#ffa200";this.CURSOR_RADIUS=5;this.JAGGED_TEETH_WIDTH=this.JAGGED_TEETH_HEIGHT=0;this.START_HAT_HEIGHT=22;this.START_HAT_WIDTH=96;this.SHAPES={HEXAGONAL:1,ROUND:2,SQUARE:3,PUZZLE:4,NOTCH:5};this.SHAPE_IN_SHAPE_PADDING={1:{0:5*this.GRID_UNIT,1:2*this.GRID_UNIT,2:5*this.GRID_UNIT,3:5*this.GRID_UNIT},
 2:{0:3*this.GRID_UNIT,1:3*this.GRID_UNIT,2:1*this.GRID_UNIT,3:2*this.GRID_UNIT},3:{0:2*this.GRID_UNIT,1:2*this.GRID_UNIT,2:2*this.GRID_UNIT,3:2*this.GRID_UNIT}};this.FULL_BLOCK_FIELDS=!0;this.FIELD_TEXT_FONTWEIGHT="bold";this.FIELD_TEXT_FONTFAMILY='"Helvetica Neue", "Segoe UI", Helvetica, sans-serif';this.FIELD_COLOUR_FULL_BLOCK=this.FIELD_TEXTINPUT_BOX_SHADOW=this.FIELD_DROPDOWN_SVG_ARROW=this.FIELD_DROPDOWN_COLOURED_DIV=this.FIELD_DROPDOWN_NO_BORDER_RECT_SHADOW=!0;this.SELECTED_GLOW_COLOUR="#fff200";
 this.SELECTED_GLOW_SIZE=.5;this.REPLACEMENT_GLOW_COLOUR="#fff200";this.REPLACEMENT_GLOW_SIZE=2;this.selectedGlowFilterId="";this.selectedGlowFilter=null;this.replacementGlowFilterId="";this.SQUARED=this.ROUNDED=this.HEXAGONAL=this.replacementGlowFilter=null;this.SMALL_PADDING=this.GRID_UNIT;this.MEDIUM_PADDING=2*this.GRID_UNIT;this.MEDIUM_LARGE_PADDING=3*this.GRID_UNIT;this.LARGE_PADDING=4*this.GRID_UNIT;this.CORNER_RADIUS=1*this.GRID_UNIT;this.NOTCH_WIDTH=9*this.GRID_UNIT;this.NOTCH_HEIGHT=2*this.GRID_UNIT;
 this.STATEMENT_INPUT_NOTCH_OFFSET=this.NOTCH_OFFSET_LEFT=3*this.GRID_UNIT;this.MIN_BLOCK_WIDTH=2*this.GRID_UNIT;this.MIN_BLOCK_HEIGHT=12*this.GRID_UNIT;this.EMPTY_STATEMENT_INPUT_HEIGHT=6*this.GRID_UNIT;this.TOP_ROW_MIN_HEIGHT=this.CORNER_RADIUS;this.TOP_ROW_PRECEDES_STATEMENT_MIN_HEIGHT=this.LARGE_PADDING;this.BOTTOM_ROW_MIN_HEIGHT=this.CORNER_RADIUS;this.BOTTOM_ROW_AFTER_STATEMENT_MIN_HEIGHT=6*this.GRID_UNIT;this.STATEMENT_BOTTOM_SPACER=-this.NOTCH_HEIGHT;this.STATEMENT_INPUT_SPACER_MIN_WIDTH=40*
@@ -1278,22 +1349,38 @@ makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;re
 
 makeRounded(){
 	function a(d,e,f){
-		const g=d>c?d-c:0;d=(d>c?c:d)/2;
-		return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?1:-1)*d,(e?-1:1)*d))}
-		const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b;
-		return{
-			type:this.SHAPES.ROUND,
-			isDynamic:!0,
-			width(d){d/=2;return d>b?b:d},
-			height(d){return d},connectionOffsetY(d){return d/2},
-			connectionOffsetX(d){return-d},
-			pathDown(d){return a(d,!1,!1)},
-			pathUp(d){return a(d,!0,!1)},
-			pathRightDown(d){return a(d,!1,!0)},
-			pathRightUp(d){return a(d,!1,!0)}
-		}
-}
+		const g = d > c ? d - c : 0;
+		d = (d > c ? c : d) / 2;
 
+		return arc$$module$build$src$core$utils$svg_paths(
+					"a","0 0,1",d,
+					point$$module$build$src$core$utils$svg_paths((e ? -1 : 1) * d, (e ? -1 : 1) * d)
+				)
+			+ lineOnAxis$$module$build$src$core$utils$svg_paths(
+					"v", (f ? 1 : -1) * g
+				)
+			+ arc$$module$build$src$core$utils$svg_paths(
+					"a","0 0,1",d,
+					point$$module$build$src$core$utils$svg_paths((e ? 1 : -1) * d, (e ? -1 : 1) * d)
+				);
+	}
+
+	const b = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,
+		  c = 2 * b;
+
+	return {
+		type: this.SHAPES.ROUND,
+		isDynamic: !0,
+		width(d){ d /= 2; return d > b ? b : d; },
+		height(d){ return d; },
+		connectionOffsetY(d){ return d / 2; },
+		connectionOffsetX(d){ return -d; },
+		pathDown(d){ return a(d, !1, !1); },
+		pathUp(d){ return a(d, !0, !1); },
+		pathRightDown(d){ return a(d, !1, !0); },
+		pathRightUp(d){ return a(d, !0, !0); } // ✅ 修正
+	};
+}
 
 makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
 -1:1)*b,(d?-1:1)*b))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(e?1:-1)*c)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?1:-1)*b,(d?-1:1)*b))}const b=this.CORNER_RADIUS;return{type:this.SHAPES.SQUARE,isDynamic:!0,width(c){return b},height(c){return c},connectionOffsetY(c){return c/2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,
@@ -1338,10 +1425,35 @@ a));return{width:a,height:a,pathTop:b,pathBottom:d,rightWidth:a,rightHeight:a,pa
 tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},c);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":this.SELECTED_GLOW_COLOUR,"flood-opacity":1,result:"outColor"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},b);this.selectedGlowFilterId=b.id;this.selectedGlowFilter=b;a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FILTER,
 {id:"blocklyReplacementGlowFilter"+this.randomIdentifier,height:"160%",width:"180%",y:"-30%",x:"-40%"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEGAUSSIANBLUR,{"in":"SourceGraphic",stdDeviation:this.REPLACEMENT_GLOW_SIZE},a);b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPONENTTRANSFER,{result:"outBlur"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFUNCA,{type:"table",
 tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":this.REPLACEMENT_GLOW_COLOUR,"flood-opacity":1,result:"outColor"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"SourceGraphic",
-in2:"outGlow",operator:"over"},a);this.replacementGlowFilterId=a.id;this.replacementGlowFilter=a}getCSS_(a){return[`${a} .blocklyText,`,`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} ${this.FIELD_TEXT_FONTSIZE}`+`pt ${this.FIELD_TEXT_FONTFAMILY};`,"}",`${a} .blocklyText {`,"fill: #fff;","}",`${a} .blocklyNonEditableText>rect:not(.blocklyDropdownRect),`,`${a} .blocklyEditableText>rect:not(.blocklyDropdownRect) {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"}",`${a} .blocklyNonEditableText>text,`,
-`${a} .blocklyEditableText>text,`,`${a} .blocklyNonEditableText>g>text,`,`${a} .blocklyEditableText>g>text {`,"fill: #575E75;","}",`${a} .blocklyFlyoutLabelText {`,"fill: #575E75;","}",`${a} .blocklyText.blocklyBubbleText {`,"fill: #575E75;","}",`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>rect,",`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>.blocklyPath {","stroke: #fff;","stroke-width: 2;","}",`${a} .blocklyHtmlInput {`,
-`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"color: #575E75;","}",`${a} .blocklyDropdownText {`,"fill: #fff !important;","}",`${a}.blocklyWidgetDiv .goog-menuitem,`,`${a}.blocklyDropDownDiv .goog-menuitem {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,"}",`${a}.blocklyDropDownDiv .goog-menuitem-content {`,"color: #fff;","}",`${a} .blocklyHighlightedConnectionPath {`,`stroke: ${this.SELECTED_GLOW_COLOUR};`,"}",`${a} .blocklyDisabled > .blocklyOutlinePath {`,
-`fill: url(#blocklyDisabledPattern${this.randomIdentifier})`,"}",`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,"stroke: none;","}"]}},module$build$src$core$renderers$zelos$constants={};module$build$src$core$renderers$zelos$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$zelos$constants;var TypesContainer$$module$build$src$core$renderers$measurables$types=class{constructor(){this.NONE=0;this.FIELD=1;this.HAT=2;this.ICON=4;this.SPACER=8;this.BETWEEN_ROW_SPACER=16;this.IN_ROW_SPACER=32;this.EXTERNAL_VALUE_INPUT=64;this.INPUT=128;this.INLINE_INPUT=256;this.STATEMENT_INPUT=512;this.CONNECTION=1024;this.PREVIOUS_CONNECTION=2048;this.NEXT_CONNECTION=4096;this.OUTPUT_CONNECTION=8192;this.CORNER=16384;this.LEFT_SQUARE_CORNER=32768;this.LEFT_ROUND_CORNER=65536;this.RIGHT_SQUARE_CORNER=131072;
+in2:"outGlow",operator:"over"},a);this.replacementGlowFilterId=a.id;this.replacementGlowFilter=a}
+
+getCSS_(a){
+	return[
+	`${a} .blocklyText,`,
+	`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} ${this.FIELD_TEXT_FONTSIZE}`+`pt ${this.FIELD_TEXT_FONTFAMILY};`,"}",
+	`${a} .blocklyText {`,"fill: #fff;","}",
+	`${a} .blocklyNonEditableText>rect:not(.blocklyDropdownRect),`,
+	`${a} .blocklyEditableText>rect:not(.blocklyDropdownRect) {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"}",
+	`${a} .blocklyNonEditableText>text,`,
+	`${a} .blocklyEditableText>text,`,
+	`${a} .blocklyNonEditableText>g>text,`,
+	`${a} .blocklyEditableText>g>text {`,"fill: #575E75;","}",
+	`${a} .blocklyFlyoutLabelText {`,"fill: #575E75;","}",
+	`${a} .blocklyText.blocklyBubbleText {`,"fill: #575E75;","}",
+	`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>rect,",
+	`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>.blocklyPath {","stroke: #fff;","stroke-width: 2;","}",
+	`${a} .blocklyHtmlInput {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"color: #575E75;","}",
+	`${a} .blocklyDropdownText {`,"fill: #fff !important;","}",
+	`${a}.blocklyWidgetDiv .goog-menuitem
+	a}.blocklyDropDownDiv .goog-menuitem {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,"}",
+	`${a}.blocklyDropDownDiv .goog-menuitem-content {`,"color: #fff;","}",
+	`${a} .blocklyHighlightedConnectionPath {`,`stroke: ${this.SELECTED_GLOW_COLOUR};`,"}",
+	`${a} .blocklyDisabled > .blocklyOutlinePath {`,`fill: url(#blocklyDisabledPattern${this.randomIdentifier})`,"}",
+	`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,"stroke: none;","}"]
+}
+
+
+},module$build$src$core$renderers$zelos$constants={};module$build$src$core$renderers$zelos$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$zelos$constants;var TypesContainer$$module$build$src$core$renderers$measurables$types=class{constructor(){this.NONE=0;this.FIELD=1;this.HAT=2;this.ICON=4;this.SPACER=8;this.BETWEEN_ROW_SPACER=16;this.IN_ROW_SPACER=32;this.EXTERNAL_VALUE_INPUT=64;this.INPUT=128;this.INLINE_INPUT=256;this.STATEMENT_INPUT=512;this.CONNECTION=1024;this.PREVIOUS_CONNECTION=2048;this.NEXT_CONNECTION=4096;this.OUTPUT_CONNECTION=8192;this.CORNER=16384;this.LEFT_SQUARE_CORNER=32768;this.LEFT_ROUND_CORNER=65536;this.RIGHT_SQUARE_CORNER=131072;
 this.RIGHT_ROUND_CORNER=262144;this.JAGGED_EDGE=524288;this.ROW=1048576;this.TOP_ROW=2097152;this.BOTTOM_ROW=4194304;this.INPUT_ROW=8388608;this.LEFT_CORNER=this.LEFT_SQUARE_CORNER|this.LEFT_ROUND_CORNER;this.RIGHT_CORNER=this.RIGHT_SQUARE_CORNER|this.RIGHT_ROUND_CORNER;this.nextTypeValue_=16777216}getType(a){Object.prototype.hasOwnProperty.call(this,a)||(this[a]=this.nextTypeValue_,this.nextTypeValue_<<=1);return this[a]}isField(a){return a.type&this.FIELD}isHat(a){return a.type&this.HAT}isIcon(a){return a.type&
 this.ICON}isSpacer(a){return a.type&this.SPACER}isInRowSpacer(a){return a.type&this.IN_ROW_SPACER}isInput(a){return a.type&this.INPUT}isExternalInput(a){return a.type&this.EXTERNAL_VALUE_INPUT}isInlineInput(a){return a.type&this.INLINE_INPUT}isStatementInput(a){return a.type&this.STATEMENT_INPUT}isPreviousConnection(a){return a.type&this.PREVIOUS_CONNECTION}isNextConnection(a){return a.type&this.NEXT_CONNECTION}isPreviousOrNextConnection(a){return a.type&(this.PREVIOUS_CONNECTION|this.NEXT_CONNECTION)}isLeftRoundedCorner(a){return a.type&
 this.LEFT_ROUND_CORNER}isRightRoundedCorner(a){return a.type&this.RIGHT_ROUND_CORNER}isLeftSquareCorner(a){return a.type&this.LEFT_SQUARE_CORNER}isRightSquareCorner(a){return a.type&this.RIGHT_SQUARE_CORNER}isCorner(a){return a.type&this.CORNER}isJaggedEdge(a){return a.type&this.JAGGED_EDGE}isRow(a){return a.type&this.ROW}isBetweenRowSpacer(a){return a.type&this.BETWEEN_ROW_SPACER}isTopRow(a){return a.type&this.TOP_ROW}isBottomRow(a){return a.type&this.BOTTOM_ROW}isTopOrBottomRow(a){return a.type&
@@ -2410,7 +2522,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 	handleMouseMove(event) {
         if (!this.newBlock_) return;
 		
-		try {		
+		//try {		
 			const sourceWorkspace = this.newBlock_.workspace;
 			var mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
 			var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
@@ -2427,11 +2539,13 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			
 			if (this.closest.length>0) {
 				for (var i=0;i<this.closest.length;i++) 
-					this.closest[i].connection.targetConnection.unhighlight();
+					if (this.closest[i].connection.targetConnection)
+						this.closest[i].connection.targetConnection.unhighlight();
 				this.closest = [];
 			}
 
 			if (this.mouseXY) {
+				console.log(Blockly.config.snapRadius);
 				const connections = this.newBlock_.getConnections_(true);
 				for (const conn of connections) {
 				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
@@ -2445,9 +2559,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				}		
 			}	
 			
-		} catch (e) {
-			console.error(e);
-		}			
+		//} catch (e) {
+		//	console.error(e);
+		//}			
     }
 
     handleMouseUp(event) {
