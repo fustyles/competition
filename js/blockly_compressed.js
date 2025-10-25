@@ -1346,40 +1346,7 @@ makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;re
 2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,!1,!0)}}
 }
 
-makeRounded(){
-	function a(d,e,f){
-		const g = d > c ? d - c : 0;
-		d = (d > c ? c : d) / 2;
-
-		return arc$$module$build$src$core$utils$svg_paths(
-					"a","0 0,1",d,
-					point$$module$build$src$core$utils$svg_paths((e ? -1 : 1) * d, (e ? -1 : 1) * d)
-				)
-			+ lineOnAxis$$module$build$src$core$utils$svg_paths(
-					"v", (f ? 1 : -1) * g
-				)
-			+ arc$$module$build$src$core$utils$svg_paths(
-					"a","0 0,1",d,
-					point$$module$build$src$core$utils$svg_paths((e ? 1 : -1) * d, (e ? -1 : 1) * d)
-				);
-	}
-
-	const b = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,
-		  c = 2 * b;
-
-	return {
-		type: this.SHAPES.ROUND,
-		isDynamic: !0,
-		width(d){ d /= 2; return d > b ? b : d; },
-		height(d){ return d; },
-		connectionOffsetY(d){ return d / 2; },
-		connectionOffsetX(d){ return -d; },
-		pathDown(d){ return a(d, !1, !1); },
-		pathUp(d){ return a(d, !0, !1); },
-		pathRightDown(d){ return a(d, !1, !0); },
-		pathRightUp(d){ return a(d, !0, !0); } // ✅ 修正
-	};
-}
+makeRounded(){ function a(d,e,f){ const g=d>c?d-c:0;d=(d>c?c:d)/2; return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?1:-1)*d,(e?-1:1)*d)) } const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b; return{ type:this.SHAPES.ROUND, isDynamic:!0, width(d){d/=2;return d>b?b:d}, height(d){return d},connectionOffsetY(d){return d/2}, connectionOffsetX(d){return-d}, pathDown(d){return a(d,!1,!1)}, pathUp(d){return a(d,!0,!1)}, pathRightDown(d){return a(d,!1,!0)}, pathRightUp(d){return a(d,!1,!0)} } }
 
 makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
 -1:1)*b,(d?-1:1)*b))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(e?1:-1)*c)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?1:-1)*b,(d?-1:1)*b))}const b=this.CORNER_RADIUS;return{type:this.SHAPES.SQUARE,isDynamic:!0,width(c){return b},height(c){return c},connectionOffsetY(c){return c/2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,
