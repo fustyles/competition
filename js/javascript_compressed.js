@@ -132,14 +132,60 @@ function(a,b){
 ,logic_compare$$module$build$src$generators$javascript$logic=function(a,b){const c={EQ:"==",NEQ:"!=",LT:"<",LTE:"<=",GT:">",GTE:">="}[a.getFieldValue("OP")],d="=="===c||"!="===c?Order$$module$build$src$generators$javascript$javascript_generator.EQUALITY:Order$$module$build$src$generators$javascript$javascript_generator.RELATIONAL,e=b.valueToCode(a,"A",d)||"0";a=b.valueToCode(a,"B",d)||"0";return[e+" "+c+" "+a,d]},logic_operation$$module$build$src$generators$javascript$logic=
 function(a,b){const c="AND"===a.getFieldValue("OP")?"&&":"||",d="&&"===c?Order$$module$build$src$generators$javascript$javascript_generator.LOGICAL_AND:Order$$module$build$src$generators$javascript$javascript_generator.LOGICAL_OR;let e=b.valueToCode(a,"A",d);a=b.valueToCode(a,"B",d);e||a?(b="&&"===c?"true":"false",e||(e=b),a||(a=b)):a=e="false";return[e+" "+c+" "+a,d]},logic_negate$$module$build$src$generators$javascript$logic=function(a,b){const c=Order$$module$build$src$generators$javascript$javascript_generator.LOGICAL_NOT;
 return["!"+(b.valueToCode(a,"BOOL",c)||"true"),c]},logic_boolean$$module$build$src$generators$javascript$logic=function(a,b){return["TRUE"===a.getFieldValue("BOOL")?"true":"false",Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]},logic_null$$module$build$src$generators$javascript$logic=function(a,b){return["null",Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]},logic_ternary$$module$build$src$generators$javascript$logic=function(a,b){const c=b.valueToCode(a,
-"IF",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"false",d=b.valueToCode(a,"THEN",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"null";a=b.valueToCode(a,"ELSE",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"null";return[c+" ? "+d+" : "+a,Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL]},controls_repeat_ext$$module$build$src$generators$javascript$loops=function(a,
-b){let c;c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0";let d=b.statementToCode(a,"DO");d=b.addLoopTrap(d,a);a="";const e=b.nameDB_.getDistinctName("count",$.NameType$$module$build$src$core$names.VARIABLE);let f=c;c.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(c)||(f=b.nameDB_.getDistinctName("repeat_end",$.NameType$$module$build$src$core$names.VARIABLE),a+=
-"var "+f+" = "+c+";\n");return a+("for (var "+e+" = 0; "+e+" < "+f+"; "+e+"++) {\n"+d+"}\n")},controls_whileUntil$$module$build$src$generators$javascript$loops=function(a,b){const c="UNTIL"===a.getFieldValue("MODE");let d=b.valueToCode(a,"BOOL",c?Order$$module$build$src$generators$javascript$javascript_generator.LOGICAL_NOT:Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"false",e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);c&&(d="!"+d);return"while ("+d+") {\n"+e+"}\n"},
-controls_for$$module$build$src$generators$javascript$loops=function(a,b){var c=b.nameDB_.getName(a.getFieldValue("VAR"),$.NameType$$module$build$src$core$names.VARIABLE),d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0",e=b.valueToCode(a,"TO",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0";const f=b.valueToCode(a,"BY",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"1";let g=
-b.statementToCode(a,"DO");g=b.addLoopTrap(g,a);if($.isNumber$$module$build$src$core$utils$string(d)&&$.isNumber$$module$build$src$core$utils$string(e)&&$.isNumber$$module$build$src$core$utils$string(f))b=Number(d)<=Number(e),a="for ("+c+" = "+d+"; "+c+(b?" <= ":" >= ")+e+"; "+c,c=Math.abs(Number(f)),a=1===c?a+(b?"++":"--"):a+((b?" += ":" -= ")+c),a+=") {\n"+g+"}\n";else{a="";let h=d;d.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(d)||(h=b.nameDB_.getDistinctName(c+"_start",$.NameType$$module$build$src$core$names.VARIABLE),
-a+="var "+h+" = "+d+";\n");d=e;e.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(e)||(d=b.nameDB_.getDistinctName(c+"_end",$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+d+" = "+e+";\n");e=b.nameDB_.getDistinctName(c+"_inc",$.NameType$$module$build$src$core$names.VARIABLE);a+="var "+e+" = ";a=$.isNumber$$module$build$src$core$utils$string(f)?a+(Math.abs(f)+";\n"):a+("Math.abs("+f+");\n");a+="if ("+h+" > "+d+") {\n";a+=b.INDENT+e+" = -"+e+";\n";a=a+"}\nfor ("+(c+" = "+h+
-"; "+e+" >= 0 ? "+c+" <= "+d+" : "+c+" >= "+d+"; "+c+" += "+e+") {\n"+g+"}\n")}return a},controls_forEach$$module$build$src$generators$javascript$loops=function(a,b){const c=b.nameDB_.getName(a.getFieldValue("VAR"),$.NameType$$module$build$src$core$names.VARIABLE);var d=b.valueToCode(a,"LIST",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"[]";let e=b.statementToCode(a,"DO");e=b.addLoopTrap(e,a);a="";let f=d;d.match(/^\w+$/)||(f=b.nameDB_.getDistinctName(c+"_list",
-$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+f+" = "+d+";\n");d=b.nameDB_.getDistinctName(c+"_index",$.NameType$$module$build$src$core$names.VARIABLE);e=b.INDENT+c+" = "+f+"["+d+"];\n"+e;return a+("for (var "+d+" in "+f+") {\n"+e+"}\n")},controls_flow_statements$$module$build$src$generators$javascript$loops=function(a,b){let c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){const d=a.getSurroundLoop();
+"IF",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"false",d=b.valueToCode(a,"THEN",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"null";a=b.valueToCode(a,"ELSE",Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL)||"null";return[c+" ? "+d+" : "+a,Order$$module$build$src$generators$javascript$javascript_generator.CONDITIONAL]},
+
+controls_repeat_ext$$module$build$src$generators$javascript$loops=function(a,b){
+	let c;
+	c=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):b.valueToCode(a,"TIMES",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0";
+	let d=b.statementToCode(a,"DO");
+	d=b.addLoopTrap(d,a);
+	a="";
+	const e=b.nameDB_.getDistinctName("count",$.NameType$$module$build$src$core$names.VARIABLE);
+	let f=c;c.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(c)||(f=b.nameDB_.getDistinctName("repeat_end",$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+f+" = "+c+";\n");
+	return a+("for (var "+e+" = 0; "+e+" < "+f+"; "+e+"++) {\n"+d+"await delay(0.01);\n}\n")
+},
+
+controls_whileUntil$$module$build$src$generators$javascript$loops=function(a,b){
+	const c="UNTIL"===a.getFieldValue("MODE");
+	let d=b.valueToCode(a,"BOOL",c?Order$$module$build$src$generators$javascript$javascript_generator.LOGICAL_NOT:Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"false",e=b.statementToCode(a,"DO");
+	e=b.addLoopTrap(e,a);
+	c&&(d="!"+d);
+	return"while ("+d+") {\n"+e+"await delay(0.01);\n}\n"
+},
+
+
+controls_for$$module$build$src$generators$javascript$loops=function(a,b){
+	var c=b.nameDB_.getName(a.getFieldValue("VAR"),$.NameType$$module$build$src$core$names.VARIABLE),d=b.valueToCode(a,"FROM",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0",e=b.valueToCode(a,"TO",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"0";
+	const f=b.valueToCode(a,"BY",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"1";
+	let g=b.statementToCode(a,"DO");
+	g=b.addLoopTrap(g,a);
+	if($.isNumber$$module$build$src$core$utils$string(d)&&$.isNumber$$module$build$src$core$utils$string(e)&&$.isNumber$$module$build$src$core$utils$string(f))
+		b=Number(d)<=Number(e),a="for ("+c+" = "+d+"; "+c+(b?" <= ":" >= ")+e+"; "+c,c=Math.abs(Number(f)),a=1===c?a+(b?"++":"--"):a+((b?" += ":" -= ")+c),a+=") {\n"+g+"await delay(0.01);\n}\n";
+	else{
+		a="";let h=d;d.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(d)||(h=b.nameDB_.getDistinctName(c+"_start",$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+h+" = "+d+";\n");
+		d=e;
+		e.match(/^\w+$/)||$.isNumber$$module$build$src$core$utils$string(e)||(d=b.nameDB_.getDistinctName(c+"_end",$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+d+" = "+e+";\n");e=b.nameDB_.getDistinctName(c+"_inc",$.NameType$$module$build$src$core$names.VARIABLE);
+		a+="var "+e+" = ";a=$.isNumber$$module$build$src$core$utils$string(f)?a+(Math.abs(f)+";\n"):a+("Math.abs("+f+");\n");
+		a+="if ("+h+" > "+d+") {\n";
+		a+=b.INDENT+e+" = -"+e+";\n";
+		a=a+"}\nfor ("+(c+" = "+h+"; "+e+" >= 0 ? "+c+" <= "+d+" : "+c+" >= "+d+"; "+c+" += "+e+") {\n"+g+"await delay(0.01);\n}\n")
+	}
+	return a
+},
+
+controls_forEach$$module$build$src$generators$javascript$loops=function(a,b){
+	const c=b.nameDB_.getName(a.getFieldValue("VAR"),$.NameType$$module$build$src$core$names.VARIABLE);
+	var d=b.valueToCode(a,"LIST",Order$$module$build$src$generators$javascript$javascript_generator.ASSIGNMENT)||"[]";
+	let e=b.statementToCode(a,"DO");
+	e=b.addLoopTrap(e,a);
+	a="";
+	let f=d;d.match(/^\w+$/)||(f=b.nameDB_.getDistinctName(c+"_list",$.NameType$$module$build$src$core$names.VARIABLE),a+="var "+f+" = "+d+";\n");
+	d=b.nameDB_.getDistinctName(c+"_index",$.NameType$$module$build$src$core$names.VARIABLE);
+	e=b.INDENT+c+" = "+f+"["+d+"];\n"+e;
+	return a+("for (var "+d+" in "+f+") {\n"+e+"await delay(0.01);\n}\n")
+},
+
+controls_flow_statements$$module$build$src$generators$javascript$loops=function(a,b){let c="";b.STATEMENT_PREFIX&&(c+=b.injectId(b.STATEMENT_PREFIX,a));b.STATEMENT_SUFFIX&&(c+=b.injectId(b.STATEMENT_SUFFIX,a));if(b.STATEMENT_PREFIX){const d=a.getSurroundLoop();
 d&&!d.suppressPrefixSuffix&&(c+=b.injectId(b.STATEMENT_PREFIX,d))}switch(a.getFieldValue("FLOW")){case "BREAK":return c+"break;\n";case "CONTINUE":return c+"continue;\n"}throw Error("Unknown flow statement.");},math_number$$module$build$src$generators$javascript$math=function(a,b){a=Number(a.getFieldValue("NUM"));return[a,0<=a?Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC:Order$$module$build$src$generators$javascript$javascript_generator.UNARY_NEGATION]},
 math_arithmetic$$module$build$src$generators$javascript$math=function(a,b){
 	var c={

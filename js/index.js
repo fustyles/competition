@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		//初始化工作區	
 		workspace = Blockly.inject('root',{
 				renderer: renderer
+				,theme: 'classic'
 				,media: 'media/'
 				,toolbox: xmlToolbox
 				,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
@@ -1237,7 +1238,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
-	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
+	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+	  
+	  console.log(iframe_code);
 	  
 	  try {
 			let container = document.getElementById('iframeContainer');
@@ -1256,19 +1259,25 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			container.appendChild(iframe);
 
-			iframe.onload = function() {
-				iframe.onload = null; 
-				
-				const outputResult = iframe.contentWindow.document.body.innerText;
-				if (iframe) {
-					iframe.parentNode.removeChild(iframe);
-				}				
-				if (container) {
-					container.parentNode.removeChild(container);
-				}	
-				
-				var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
-				iframeWrite("iframe_output", output);
+			iframe.onload = async function() {
+			  iframe.onload = null;
+			  
+			  const checkFinish = async () => {
+				const body = iframe.contentWindow.document.body;
+				if (!body) return;
+
+				if (iframe.title=="ok") {
+				  const bodyContent = body.innerText;
+				  var outputResult = "[ 1 ]\n\n"+bodyContent + "\n\n";
+				  var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+				  iframeWrite("iframe_output", output);
+				  if (container) container.remove();
+				} else {
+				  setTimeout(checkFinish, 100);
+				}
+			  };
+
+			  checkFinish();
 			};	
 
 			
@@ -1362,21 +1371,28 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			container.appendChild(iframe);
 
-			iframe.onload = function() {
-				iframe.onload = null; 
-				
-				const bodyContent = iframe.contentWindow.document.body.innerText;
-				outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
-				
-				completedCount++;
-				if (completedCount === totalTests) {
+			iframe.onload = async function() {
+			  iframe.onload = null;
+			  
+			  const checkFinish = async () => {
+				const body = iframe.contentWindow.document.body;
+				if (!body) return;
+
+				if (iframe.title=="ok") {
+				  const bodyContent = body.innerText;
+				  outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
+				  completedCount++;
+				  if (completedCount === totalTests) {
 					var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
-					iframeWrite("iframe_output", output);	
-					
-					if (container) {
-						container.parentNode.removeChild(container);
-					}					
+					iframeWrite("iframe_output", output);
+					if (container) container.remove();
+				  }
+				} else {
+				  setTimeout(checkFinish, 100);
 				}
+			  };
+
+			  checkFinish();
 			};
 
 			runTest(iframe, testCode);
@@ -1417,7 +1433,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 			'  input = arr[variable_data_test_index];\n'+	
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}';
 		}
@@ -1432,12 +1448,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  if (text==arr[arr.length-1])\n'+
 			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
 			'  else\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+			
 			'}';		
 
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify(code)+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 
@@ -1602,7 +1618,7 @@ function displayTab(id) {
 //JavaScript原始碼顯示
 function javascriptCode() {
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
-	code = js_beautify(code);
+	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"}main();");
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
 
