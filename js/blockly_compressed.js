@@ -1097,20 +1097,34 @@ ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===C
 		  const blockSize = this.sourceBlock_.getHeightWidth();
 		  const width = blockSize.width;
 		  const height = blockSize.height;
-		  const corner = blockSize.height / 2;
+		  
+		  if (this.check[0] == "Boolean") {
+			  const slant = height / 2;
 
-		  b = [
-			`M ${corner},0`,                                    
-			`h ${width - 2 * corner}`,                          
-			`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   
-			`v ${height - 2 * corner}`,                         
-			`a ${corner},${corner} 0 0 1 ${-corner},${corner}`, 
-			`h ${-width + 2 * corner}`,                          
-			`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, 
-			`v ${-height + 2 * corner}`,                        
-			`a ${corner},${corner} 0 0 1 ${corner},${-corner}`, 
-			'Z'                                                
-		  ].join(' ');
+			  b = [
+					`M ${x + slant},${y}`,
+					`l ${width},0`,
+					`l ${slant},${height / 2}`,
+					`l -${slant},${height / 2}`,
+					`l -${width},0`,
+					`l -${slant},-${height / 2}`,
+				];
+		  } else {
+			  const corner = height / 2;
+
+			  b = [
+				`M ${corner},0`,                                    
+				`h ${width - 2 * corner}`,                          
+				`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   
+				`v ${height - 2 * corner}`,                         
+				`a ${corner},${corner} 0 0 1 ${-corner},${corner}`, 
+				`h ${-width + 2 * corner}`,                          
+				`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, 
+				`v ${-height + 2 * corner}`,                        
+				`a ${corner},${corner} 0 0 1 ${corner},${-corner}`, 
+				'Z'                                                
+			  ].join(' ');
+		  }
 		  a={x:0, y:0};
 		}
 	}
