@@ -1094,25 +1094,22 @@ ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===C
 	if(this.type===
 	ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
 	  
-
-	  // ✅ 使用 block 尺寸作為外框大小
 	  const blockSize = this.sourceBlock_.getHeightWidth();
 	  const width = blockSize.width;
 	  const height = blockSize.height;
 	  const corner = blockSize.height / 2;
 
-	  // ✅ 生成圓角矩形路徑
 	  b = [
-		`M ${corner},0`,                                     // 起點：上邊左側圓角起點
-		`h ${width - 2 * corner}`,                           // 上邊線
-		`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   // 右上角圓角
-		`v ${height - 2 * corner}`,                          // 右邊線
-		`a ${corner},${corner} 0 0 1 ${-corner},${corner}`,  // 右下角圓角
-		`h ${-width + 2 * corner}`,                          // 下邊線
-		`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, // 左下角圓角
-		`v ${-height + 2 * corner}`,                         // 左邊線
-		`a ${corner},${corner} 0 0 1 ${corner},${-corner}`,  // 左上角圓角
-		'Z'                                                  // 關閉路徑
+		`M ${corner},0`,                                    
+		`h ${width - 2 * corner}`,                          
+		`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   
+		`v ${height - 2 * corner}`,                         
+		`a ${corner},${corner} 0 0 1 ${-corner},${corner}`, 
+		`h ${-width + 2 * corner}`,                          
+		`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, 
+		`v ${-height + 2 * corner}`,                        
+		`a ${corner},${corner} 0 0 1 ${corner},${-corner}`, 
+		'Z'                                                
 	  ].join(' ');
 	  a={x:0, y:0};
 	}
