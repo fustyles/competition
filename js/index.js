@@ -1239,7 +1239,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
 	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
-	  	  
+	  
+	  
 	  try {
 			let container = document.getElementById('iframeContainer');
 			if (container) {
@@ -1266,8 +1267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				if (iframe.title=="ok") {
 				  const bodyContent = body.innerText;
-				  var outputResult = "[ 1 ]\n\n"+bodyContent + "\n\n";
-				  var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+				  var output = bodyContent.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 				  iframeWrite("iframe_output", output);
 				  if (container) container.remove();
 				} else {

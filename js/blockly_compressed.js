@@ -2529,6 +2529,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				for (const conn of connections) {
 				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
 				  if (closest&&closest.connection) {
+						//console.log(closest.connection);
 						if (closest.connection.targetConnection) {
 							this.closest.push(closest);
 							closest.connection.targetConnection.highlight();
