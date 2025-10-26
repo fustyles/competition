@@ -1978,7 +1978,7 @@ zoomShowCategory(a){
 	this.workspace.resize();
 };
 zoomFit(){this.workspace.zoomToFit();};
-zoomCleanup(){this.workspace.cleanUp();};
+zoomCleanup(){this.workspace.cleanUp();this.workspace.scrollCenter();};
 zoomChangeToolbox(a){
 	scratchStyle = !scratchStyle;	
 	if (scratchStyle) {
