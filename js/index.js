@@ -70,7 +70,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			const targetWorkspace = Blockly.getMainWorkspace();
 			
 			const allowedTypes = [
-				Blockly.Events.BLOCK_CHANGE
+				Blockly.Events.BLOCK_CREATE,
+				Blockly.Events.BLOCK_DELETE,
+				Blockly.Events.BLOCK_MOVE,
+				Blockly.Events.BLOCK_CHANGE,
+				Blockly.Events.VAR_CREATE,
+				Blockly.Events.VAR_DELETE,
+				Blockly.Events.VAR_RENAME,
+				Blockly.Events.FINISHED_LOADING
 			];
 
 			clearTimeout(workspaceChangeTimer);
@@ -101,20 +108,25 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (!nameField) return; 
 
 				const mutation = deletedXml.querySelector('mutation');
-				if (mutation) {
-					mutation.querySelectorAll('arg').forEach(function(arg) {
-						const varId = arg.getAttribute('varid');
-						const variableModel = workspace.getVariableById(varId);
-						if (variableModel) {
-							if (Blockly.Variables && Blockly.Variables.deleteVariable) {
-								Blockly.Variables.deleteVariable(workspace, variableModel);
-							} else {
-								workspace.deleteVariableById(varId);
+				
+				Blockly.Events.disable();
+				try {
+					if (mutation) {
+						mutation.querySelectorAll('arg').forEach(function(arg) {
+							const varId = arg.getAttribute('varid');
+							const variableModel = workspace.getVariableById(varId);
+							if (variableModel) {
+								if (Blockly.Variables && Blockly.Variables.deleteVariable) {
+									Blockly.Variables.deleteVariable(workspace, variableModel);
+								} else {
+									workspace.deleteVariableById(varId);
+								}
 							}
-						}
-					});
+						});
+					}
+				} finally {
+					Blockly.Events.enable();
 				}
-			
 			}
 		}
 		
@@ -1532,6 +1544,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (file) {
 					var fr = new FileReader();           
 					fr.onload = function (event) {
+						workspace.clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
 						
 						var platformValue = blocks.getAttribute('platform');
@@ -1542,8 +1555,9 @@ document.addEventListener('DOMContentLoaded', function() {
 							scratchStyle = false;
 							changeToolboxStyle(false);
 						}
-						workspace.clear();
+						
 						Blockly.Xml.domToWorkspace(blocks, workspace);
+						workspace.scrollCenter();
 						javascriptCode();
 						resetOutput();
 					};
