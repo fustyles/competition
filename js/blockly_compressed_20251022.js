@@ -87,15 +87,7 @@ injectDependencies$$module$build$src$core$utils$xml=function(a){({document:docum
 new XMLSerializer$$module$build$src$core$utils$xml};$.createElement$$module$build$src$core$utils$xml=function(a){return document$$module$build$src$core$utils$xml.createElementNS(NAME_SPACE$$module$build$src$core$utils$xml,a)};$.createTextNode$$module$build$src$core$utils$xml=function(a){return document$$module$build$src$core$utils$xml.createTextNode(a)};
 $.textToDom$$module$build$src$core$utils$xml=function(a){let b=domParser$$module$build$src$core$utils$xml.parseFromString(a,"text/xml");if(b&&b.documentElement&&!b.getElementsByTagName("parsererror").length)return b.documentElement;if((b=domParser$$module$build$src$core$utils$xml.parseFromString(a,"text/html"))&&b.body.firstChild&&"xml"===b.body.firstChild.nodeName.toLowerCase())return b.body.firstChild;throw Error(`DOMParser was unable to parse: ${a}`);};
 domToText$$module$build$src$core$utils$xml=function(a){return sanitizeText$$module$build$src$core$utils$xml(xmlSerializer$$module$build$src$core$utils$xml.serializeToString(a))};sanitizeText$$module$build$src$core$utils$xml=function(a){return a.replace(INVALID_CONTROL_CHARS$$module$build$src$core$utils$xml,b=>`&#${b.charCodeAt(0)};`)};warn$$module$build$src$core$utils$deprecation=function(a,b,c,d){a=a+" was deprecated in "+b+" and will be deleted in "+c+".";d&&(a+="\nUse "+d+" instead.");console.warn(a)};
-createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){
-	a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);
-	for(const d in b) {		
-		a.setAttribute(d,`${b[d]}`);
-	}
-	c&&c.appendChild(a);
-	return a
-};
-addClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>a.classList.contains(c)))return!1;a.classList.add(...b);return!0};removeClasses$$module$build$src$core$utils$dom=function(a,b){a.classList.remove(...b.split(" "))};
+createSvgElement$$module$build$src$core$utils$dom=function(a,b,c){a=document.createElementNS(SVG_NS$$module$build$src$core$utils$dom,`${a}`);for(const d in b)a.setAttribute(d,`${b[d]}`);c&&c.appendChild(a);return a};addClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>a.classList.contains(c)))return!1;a.classList.add(...b);return!0};removeClasses$$module$build$src$core$utils$dom=function(a,b){a.classList.remove(...b.split(" "))};
 removeClass$$module$build$src$core$utils$dom=function(a,b){b=b.split(" ");if(b.every(c=>!a.classList.contains(c)))return!1;a.classList.remove(...b);return!0};hasClass$$module$build$src$core$utils$dom=function(a,b){return a.classList.contains(b)};removeNode$$module$build$src$core$utils$dom=function(a){return a&&a.parentNode?a.parentNode.removeChild(a):null};
 insertAfter$$module$build$src$core$utils$dom=function(a,b){const c=b.nextSibling;b=b.parentNode;if(!b)throw Error("Reference node has no parent.");c?b.insertBefore(a,c):b.appendChild(a)};containsNode$$module$build$src$core$utils$dom=function(a,b){warn$$module$build$src$core$utils$deprecation("Blockly.utils.dom.containsNode","version 10","version 11",'Use native "contains" DOM method');return a.contains(b)};
 setCssTransform$$module$build$src$core$utils$dom=function(a,b){a.style.transform=b;a.style["-webkit-transform"]=b};startTextWidthCache$$module$build$src$core$utils$dom=function(){cacheReference$$module$build$src$core$utils$dom++;cacheWidths$$module$build$src$core$utils$dom||(cacheWidths$$module$build$src$core$utils$dom=Object.create(null))};
@@ -133,18 +125,12 @@ if(Blocks$$module$build$src$core$blocks.variables_set_local){
 	var d=$.createElement$$module$build$src$core$utils$xml("block");d.setAttribute("type","variables_set_local");d.setAttribute("gap",Blocks$$module$build$src$core$blocks.math_change?"8":"24");d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c));b.push(d)
 }
 
-Blocks$$module$build$src$core$blocks.math_change&&(d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","math_change"),d.setAttribute("gap",Blocks$$module$build$src$core$blocks.variables_get?"20":"8"),d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c)),c=$.textToDom$$module$build$src$core$utils$xml('<value name="DELTA"><shadow type="math_number"><field name="NUM">1</field></shadow></value>'),d.appendChild(c),b.push(d));
-if(Blocks$$module$build$src$core$blocks.variables_get){
-	a.sort(VariableModel$$module$build$src$core$variable_model.compareByName);
-	for(let e=0,f;f=a[e];e++)
-		c=$.createElement$$module$build$src$core$utils$xml("block"),
-		c.setAttribute("type","variables_get"),
-		c.setAttribute("gap","8"),
-		c.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(f)),
-		b.push(c)
-}
+Blocks$$module$build$src$core$blocks.math_change&&
+(d=$.createElement$$module$build$src$core$utils$xml("block"),d.setAttribute("type","math_change"),d.setAttribute("gap",Blocks$$module$build$src$core$blocks.variables_get?"20":"8"),d.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(c)),c=$.textToDom$$module$build$src$core$utils$xml('<value name="DELTA"><shadow type="math_number"><field name="NUM">1</field></shadow></value>'),d.appendChild(c),b.push(d));
+if(Blocks$$module$build$src$core$blocks.variables_get){a.sort(VariableModel$$module$build$src$core$variable_model.compareByName);
+for(let e=0,f;f=a[e];e++)c=$.createElement$$module$build$src$core$utils$xml("block"),c.setAttribute("type","variables_get"),c.setAttribute("gap","8"),c.appendChild($.generateVariableFieldDom$$module$build$src$core$variables(f)),b.push(c)}}return b};
 
-}return b};
+
 generateUniqueName$$module$build$src$core$variables=function(a){return TEST_ONLY$$module$build$src$core$variables.generateUniqueNameInternal(a)};
 generateUniqueNameInternal$$module$build$src$core$variables=function(a){return generateUniqueNameFromOptions$$module$build$src$core$variables(VAR_LETTER_OPTIONS$$module$build$src$core$variables.charAt(0),a.getAllVariableNames())};
 generateUniqueNameFromOptions$$module$build$src$core$variables=function(a,b){if(!b.length)return a;const c=VAR_LETTER_OPTIONS$$module$build$src$core$variables;let d="",e=c.indexOf(a);for(;;){let f=!1;for(let g=0;g<b.length;g++)if(b[g].toLowerCase()===a){f=!0;break}if(!f)break;e++;e===c.length&&(e=0,d=`${Number(d)+1}`);a=c.charAt(e)+d}return a};
@@ -462,27 +448,8 @@ registerDisable$$module$build$src$core$contextmenu_items=function(){
 	})
 };
 
-registerDelete$$module$build$src$core$contextmenu_items=function(){
-	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
-		{
-			displayText(a){
-				var b=a.block
-				a=b.getDescendants(!1).length;
-				(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);
-				return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)
-			},
-			preconditionFn(a){
-				return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"
-			},
-			callback(a){
-				a.block&&a.block.checkAndDelete();
-			},
-			scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6
-		}
-)
-};
-
-
+registerDelete$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(a){var b=a.block;a=b.getDescendants(!1).length;(b=b.getNextBlock())&&(a-=b.getDescendants(!1).length);return 1===a?$.Msg$$module$build$src$core$msg.DELETE_BLOCK:$.Msg$$module$build$src$core$msg.DELETE_X_BLOCKS.replace("%1",`${a}`)},preconditionFn(a){return!a.block.isInFlyout&&a.block.isDeletable()?"enabled":"hidden"},callback(a){a.block&&
+a.block.checkAndDelete()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockDelete",weight:6})};
 registerHelp$$module$build$src$core$contextmenu_items=function(){ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register({displayText(){return $.Msg$$module$build$src$core$msg.HELP},preconditionFn(a){a=a.block;return("function"===typeof a.helpUrl?a.helpUrl():a.helpUrl)?"enabled":"hidden"},callback(a){a.block.showHelp()},scopeType:ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.BLOCK,id:"blockHelp",weight:7})};
 registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){registerDuplicate$$module$build$src$core$contextmenu_items();registerComment$$module$build$src$core$contextmenu_items();registerInline$$module$build$src$core$contextmenu_items();registerCollapseExpandBlock$$module$build$src$core$contextmenu_items();registerDisable$$module$build$src$core$contextmenu_items();
 
@@ -1074,86 +1041,14 @@ ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.PREVIOUS||a.getType()
 return a}out(){var a=this.getCurNode();if(!a)return null;(a=a.out())&&a.getType()===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.BLOCK&&(a=a.prev()||a);a&&this.setCurNode(a);return a}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CURSOR,DEFAULT$$module$build$src$core$registry,Cursor$$module$build$src$core$keyboard_nav$cursor);var module$build$src$core$keyboard_nav$cursor={};module$build$src$core$keyboard_nav$cursor.Cursor=Cursor$$module$build$src$core$keyboard_nav$cursor;var BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor=class extends Cursor$$module$build$src$core$keyboard_nav$cursor{constructor(){super()}next(){var a=this.getCurNode();if(!a)return null;(a=this.getNextNode_(a,this.validNode_))&&this.setCurNode(a);return a}in(){return this.next()}prev(){var a=this.getCurNode();if(!a)return null;(a=this.getPreviousNode_(a,this.validNode_))&&this.setCurNode(a);return a}out(){return this.prev()}getNextNode_(a,b){if(!a)return null;const c=a.in()||a.next();
 if(b(c))return c;if(c)return this.getNextNode_(c,b);a=this.findSiblingOrParent(a.out());return b(a)?a:a?this.getNextNode_(a,b):null}getPreviousNode_(a,b){if(!a)return null;let c=a.prev();c=c?this.getRightMostChild(c):a.out();return b(c)?c:c?this.getPreviousNode_(c,b):null}validNode_(a){let b=!1;a=a&&a.getType();if(a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.OUTPUT||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.INPUT||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.FIELD||
 a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.NEXT||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.PREVIOUS||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.WORKSPACE)b=!0;return b}findSiblingOrParent(a){if(!a)return null;const b=a.next();return b?b:this.findSiblingOrParent(a.out())}getRightMostChild(a){if(!a.in())return a;for(a=a.in();a&&a.next();)a=a.next();return this.getRightMostChild(a)}};
-BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName="basicCursor";register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CURSOR,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor);var module$build$src$core$keyboard_nav$basic_cursor={};module$build$src$core$keyboard_nav$basic_cursor.BasicCursor=BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor;var TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor=class extends BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor{validNode_(a){let b=!1;const c=a&&a.getType();a&&(a=a.getLocation(),c===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.FIELD&&a&&a.isTabNavigable()&&a.isClickable()&&(b=!0));return b}},module$build$src$core$keyboard_nav$tab_navigate_cursor={};module$build$src$core$keyboard_nav$tab_navigate_cursor.TabNavigateCursor=TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor;var BUMP_RANDOMNESS$$module$build$src$core$rendered_connection=10,
-
-RenderedConnection$$module$build$src$core$rendered_connection=class extends Connection$$module$build$src$core$connection{constructor(a,b){super(a,b);this.targetConnection=this.highlightPath=null;
-this.db=a.workspace.connectionDBList[b];
-this.dbOpposite=a.workspace.connectionDBList[OPPOSITE_TYPE$$module$build$src$core$internal_constants[b]];
-this.offsetInBlock=new Coordinate$$module$build$src$core$utils$coordinate(0,0);this.trackedState=
+BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName="basicCursor";register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CURSOR,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor);var module$build$src$core$keyboard_nav$basic_cursor={};module$build$src$core$keyboard_nav$basic_cursor.BasicCursor=BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor;var TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor=class extends BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor{validNode_(a){let b=!1;const c=a&&a.getType();a&&(a=a.getLocation(),c===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.FIELD&&a&&a.isTabNavigable()&&a.isClickable()&&(b=!0));return b}},module$build$src$core$keyboard_nav$tab_navigate_cursor={};module$build$src$core$keyboard_nav$tab_navigate_cursor.TabNavigateCursor=TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor;var BUMP_RANDOMNESS$$module$build$src$core$rendered_connection=10,RenderedConnection$$module$build$src$core$rendered_connection=class extends Connection$$module$build$src$core$connection{constructor(a,b){super(a,b);this.targetConnection=this.highlightPath=null;this.db=a.workspace.connectionDBList[b];this.dbOpposite=a.workspace.connectionDBList[OPPOSITE_TYPE$$module$build$src$core$internal_constants[b]];this.offsetInBlock=new Coordinate$$module$build$src$core$utils$coordinate(0,0);this.trackedState=
 RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK}dispose(){super.dispose();this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&this.db.removeConnection(this,this.y)}getSourceBlock(){return super.getSourceBlock()}targetBlock(){return super.targetBlock()}distanceFrom(a){const b=this.x-a.x;a=this.y-a.y;return Math.sqrt(b*b+a*a)}bumpAwayFrom(a){if(!this.sourceBlock_.workspace.isDragging()){var b=this.sourceBlock_.getRootBlock();
 if(!b.isInFlyout){var c=!1;if(!b.isMovable()){b=a.getSourceBlock().getRootBlock();if(!b.isMovable())return;a=this;c=!0}var d=getSelected$$module$build$src$core$common()==b;d||b.addSelect();var e=a.x+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x,f=a.y+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.y;c&&(f=-f);b.RTL&&
 (e=a.x-$.config$$module$build$src$core$config.snapRadius-Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x);b.moveBy(e,f,["bump"]);d||b.removeSelect()}}}moveTo(a,b){let c=!1;this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK?(this.db.addConnection(this,b),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED,c=!0):this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&
 (this.db.removeConnection(this,this.y),this.db.addConnection(this,b),c=!0);this.x=a;this.y=b;return c}moveBy(a,b){return this.moveTo(this.x+a,this.y+b)}moveToOffset(a){return this.moveTo(a.x+this.offsetInBlock.x,a.y+this.offsetInBlock.y)}setOffsetInBlock(a,b){this.offsetInBlock.x=a;this.offsetInBlock.y=b}getOffsetInBlock(){return this.offsetInBlock}tighten(){const a=this.targetConnection.x-this.x,b=this.targetConnection.y-this.y;if(0!==a||0!==b){const d=this.targetBlock();var c=d.getSvgRoot();if(!c)throw Error("block is not rendered.");
-c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}
-
-highlight() {if(!this.highlightPath){
-	var a=this.sourceBlock_.workspace.getRenderer().getConstants();
-	var b=a.shapeFor(this);
-	var c = this.sourceBlock_.getHeightWidth();
-	
-	this.type===
-ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));
-
-	a=this.offsetInBlock;
-	
-	if (this.sourceBlock_.workspace.getRenderer().name=="zelos") {
-		if(this.type===ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
-
-		  const blockSize = this.sourceBlock_.getHeightWidth();
-		  const width = blockSize.width;
-		  const height = blockSize.height;
-		  
-		  if (this.check[0] == "Boolean") {
-			  const slant = height / 2 + 3;
-
-			  b = [
-					`M ${slant},0`,
-					`l ${width / 2},0`,
-					`l ${slant},${height / 2}`,
-					`l -${slant},${height / 2}`,
-					`l -${width / 2},0`,
-					`l -${slant},-${height / 2}`, 
-					'Z'
-				];
-		  } else {
-			  const corner = height / 2;
-
-			  b = [
-				`M ${corner},0`,                                    
-				`h ${width - 2 * corner}`,                          
-				`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   
-				`v ${height - 2 * corner}`,                         
-				`a ${corner},${corner} 0 0 1 ${-corner},${corner}`, 
-				`h ${-width + 2 * corner}`,                          
-				`a ${corner},${corner} 0 0 1 ${-corner},${-corner}`, 
-				`v ${-height + 2 * corner}`,                        
-				`a ${corner},${corner} 0 0 1 ${corner},${-corner}`, 
-				'Z'                                                
-			  ].join(' ');
-		  }
-		  a={x:0, y:0};
-		}
-	}
-
-
-	this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(
-		Svg$$module$build$src$core$utils$svg.PATH,
-		{
-		"class":"blocklyHighlightedConnectionPath",
-		d:b,
-		transform:`translate(${a.x}, ${a.y})`+(this.sourceBlock_.RTL?" scale(-1 1)":"")
-		},
-		this.sourceBlock_.getSvgRoot()
-	)
-}}
-
-unhighlight(){
-	this.highlightPath&&(removeNode$$module$build$src$core$utils$dom(this.highlightPath),
-	this.highlightPath=null)
-}
-
-
-setTracking(a){a&&
+c=getRelativeXY$$module$build$src$core$utils$svg_math(c);d.translate(c.x-a,c.y-b);d.moveConnections(-a,-b)}}tightenEfficiently(){var a=this.targetConnection;const b=this.targetBlock();a&&b&&(a=Coordinate$$module$build$src$core$utils$coordinate.difference(this.offsetInBlock,a.offsetInBlock),b.translate(a.x,a.y))}closest(a,b){return this.dbOpposite.searchForClosest(this,a,b)}highlight(){if(!this.highlightPath){var a=this.sourceBlock_.workspace.getRenderer().getConstants();var b=a.shapeFor(this);this.type===
+ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE?(a=a.TAB_OFFSET_FROM_TOP,b=moveBy$$module$build$src$core$utils$svg_paths(0,-a)+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)+b.pathDown+lineOnAxis$$module$build$src$core$utils$svg_paths("v",a)):(a=a.NOTCH_OFFSET_LEFT-a.CORNER_RADIUS,b=moveBy$$module$build$src$core$utils$svg_paths(-a,0)+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a)+
+b.pathLeft+lineOnAxis$$module$build$src$core$utils$svg_paths("h",a));a=this.offsetInBlock;this.highlightPath=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATH,{"class":"blocklyHighlightedConnectionPath",d:b,transform:`translate(${a.x}, ${a.y})`+(this.sourceBlock_.RTL?" scale(-1 1)":"")},this.sourceBlock_.getSvgRoot())}}unhighlight(){this.highlightPath&&(removeNode$$module$build$src$core$utils$dom(this.highlightPath),this.highlightPath=null)}setTracking(a){a&&
 this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED||!a&&this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.UNTRACKED||this.sourceBlock_.isInFlyout||(a?(this.db.addConnection(this,this.y),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED):(this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&this.db.removeConnection(this,
 this.y),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.UNTRACKED))}stopTrackingAll(){this.setTracking(!1);if(this.targetConnection){const a=this.targetBlock().getDescendants(!1);for(let b=0;b<a.length;b++){const c=a[b],d=c.getConnections_(!0);for(let e=0;e<d.length;e++)d[e].setTracking(!1);for(const e of c.getIcons())hasBubble$$module$build$src$core$interfaces$i_has_bubble(e)&&e.setBubbleVisible(!1)}}}startTrackingAll(){this.setTracking(!0);let a=[];if(this.type!==
 ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE&&this.type!==ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT)return a;const b=this.targetBlock();if(b){let c;b.isCollapsed()?(c=[],b.outputConnection&&c.push(b.outputConnection),b.nextConnection&&c.push(b.nextConnection),b.previousConnection&&c.push(b.previousConnection)):c=b.getConnections_(!0);for(let d=0;d<c.length;d++)a.push(...c[d].startTrackingAll());a.length||(a=[b])}return a}onFailedConnect(a){const b=this.getSourceBlock();
@@ -1181,16 +1076,7 @@ c)):(this.updateDisabled(),this.removeInput(b))}tab(a,b){const c=new TabNavigate
 b,this.RTL),setCurrentBlock$$module$build$src$core$contextmenu(this))}moveConnections(a,b){if(this.rendered){var c=this.getConnections_(!1);for(var d=0;d<c.length;d++)c[d].moveBy(a,b);c=this.getIcons();d=this.getRelativeToSurfaceXY();for(var e of c)e.onLocationChange(d);for(e=0;e<this.childBlocks_.length;e++)this.childBlocks_[e].moveConnections(a,b)}}setDragging(a){a?(this.translation="",draggingConnections$$module$build$src$core$common.push(...this.getConnections_(!0)),addClass$$module$build$src$core$utils$dom(this.svgGroup_,
 "blocklyDragging")):(draggingConnections$$module$build$src$core$common.length=0,removeClass$$module$build$src$core$utils$dom(this.svgGroup_,"blocklyDragging"));for(let b=0;b<this.childBlocks_.length;b++)this.childBlocks_[b].setDragging(a)}setMovable(a){super.setMovable(a);this.pathObject.updateMovable(a)}setEditable(a){super.setEditable(a);a=this.getIcons();for(let b=0;b<a.length;b++)a[b].updateEditable()}setShadow(a){super.setShadow(a);this.applyColour()}setInsertionMarker(a){this.isInsertionMarker_!==
 a&&(this.isInsertionMarker_=a)&&(this.setColour(this.workspace.getRenderer().getConstants().INSERTION_MARKER_COLOUR),this.pathObject.updateInsertionMarker(!0))}getSvgRoot(){return this.svgGroup_}dispose(a,b){this.isDeadOrDying()||(dispose$$module$build$src$core$tooltip(),hide$$module$build$src$core$contextmenu(),b&&this.rendered&&(this.unplug(a),disposeUiEffect$$module$build$src$core$block_animations(this)),super.dispose(!!a),removeNode$$module$build$src$core$utils$dom(this.svgGroup_))}disposeInternal(){this.isDeadOrDying()||
-(super.disposeInternal(),this.rendered=!1,getSelected$$module$build$src$core$common()===this&&(this.unselect(),this.workspace.cancelCurrentGesture()),[...this.warningTextDb.values()].forEach(a=>clearTimeout(a)),this.warningTextDb.clear(),this.getIcons().forEach(a=>a.dispose()))}
-
-checkAndDelete(){
-	this.workspace.isFlyout||($.setGroup$$module$build$src$core$events$utils(!0),
-	this.workspace.hideChaff(),
-	this.outputConnection?this.dispose(!1,!0):this.dispose(!0,!0),
-	$.setGroup$$module$build$src$core$events$utils(!1))
-}
-
-toCopyData(){return this.isInsertionMarker_?
+(super.disposeInternal(),this.rendered=!1,getSelected$$module$build$src$core$common()===this&&(this.unselect(),this.workspace.cancelCurrentGesture()),[...this.warningTextDb.values()].forEach(a=>clearTimeout(a)),this.warningTextDb.clear(),this.getIcons().forEach(a=>a.dispose()))}checkAndDelete(){this.workspace.isFlyout||($.setGroup$$module$build$src$core$events$utils(!0),this.workspace.hideChaff(),this.outputConnection?this.dispose(!1,!0):this.dispose(!0,!0),$.setGroup$$module$build$src$core$events$utils(!1))}toCopyData(){return this.isInsertionMarker_?
 null:{saveInfo:save$$module$build$src$core$serialization$blocks(this,{addCoordinates:!0,addNextBlocks:!1}),source:this.workspace,typeCounts:getBlockTypeCounts$$module$build$src$core$common(this,!0)}}applyColour(){this.pathObject.applyColour(this);const a=this.getIcons();for(let b=0;b<a.length;b++)a[b].applyColour();for(let b=0,c;c=this.inputList[b];b++)for(let d=0,e;e=c.fieldRow[d];d++)e.applyColour()}updateDisabled(){const a=!this.isEnabled()||this.getInheritedDisabled();if(this.visuallyDisabled===
 a){let b;null==(b=this.getNextBlock())||b.updateDisabled()}else{this.applyColour();this.visuallyDisabled=a;for(const b of this.getChildren(!1))b.updateDisabled()}}getCommentIcon(){warn$$module$build$src$core$utils$deprecation("getCommentIcon","v10","v11","getIcon");let a;return null!=(a=this.getIcon(CommentIcon$$module$build$src$core$icons$comment_icon.TYPE))?a:null}setWarningText(a,b){const c=b||"";if(c)this.warningTextDb.has(c)&&(clearTimeout(this.warningTextDb.get(c)),this.warningTextDb.delete(c));
 else{for(var d of this.warningTextDb.values())clearTimeout(d);this.warningTextDb.clear()}if(this.workspace.isDragging())this.warningTextDb.set(c,setTimeout(()=>{this.isDeadOrDying()||(this.warningTextDb.delete(c),this.setWarningText(a,c))},100));else if(this.isInFlyout&&(a=null),b=this.getIcon(WarningIcon$$module$build$src$core$icons$warning_icon.TYPE),"string"===typeof a){d=this.getSurroundParent();let e=null;for(;d;)d.isCollapsed()&&(e=d),d=d.getSurroundParent();e&&e.setWarningText($.Msg$$module$build$src$core$msg.COLLAPSED_WARNINGS_WARNING,
@@ -1221,96 +1107,10 @@ c.workspace!==d.workspace?Connection$$module$build$src$core$connection.REASON_DI
 Connection$$module$build$src$core$connection.CAN_CONNECT}doTypeChecks(a,b){a=a.getCheck();b=b.getCheck();if(!a||!b)return!0;for(let c=0;c<a.length;c++)if(-1!==b.indexOf(a[c]))return!0;return!1}doDragChecks(a,b,c){if(a.distanceFrom(b)>c||b.getSourceBlock().isInsertionMarker())return!1;switch(b.type){case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:return this.canConnectToPrevious_(a,b);case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:if(b.isConnected()&&
 !b.targetBlock().isInsertionMarker()||a.isConnected())return!1;break;case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:if(b.isConnected()&&!b.targetBlock().isMovable()&&!b.targetBlock().isShadow())return!1;break;case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:if(b.isConnected()&&!a.getSourceBlock().nextConnection&&!b.targetBlock().isShadow()&&b.targetBlock().nextConnection||b.targetBlock()&&!b.targetBlock().isMovable()&&!b.targetBlock().isShadow())return!1;
 break;default:return!1}return-1!==draggingConnections$$module$build$src$core$common.indexOf(b)?!1:!0}canConnectToPrevious_(a,b){if(a.targetConnection||-1!==draggingConnections$$module$build$src$core$common.indexOf(b))return!1;if(!b.targetConnection)return!0;a=b.targetBlock();return a.isInsertionMarker()?!a.getPreviousBlock():!1}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CONNECTION_CHECKER,DEFAULT$$module$build$src$core$registry,ConnectionChecker$$module$build$src$core$connection_checker);
-var module$build$src$core$connection_checker={};module$build$src$core$connection_checker.ConnectionChecker=ConnectionChecker$$module$build$src$core$connection_checker;
-
-var ConnectionDB$$module$build$src$core$connection_db=class{
-	constructor(a){
-		this.connectionChecker=a;
-		this.connections=[]
-	}
-	addConnection(a,b){
-		b=this.calculateIndexForYPos(b);
-		this.connections.splice(b,0,a)
-	}
-	findIndexOfConnection(a,b){
-		if(!this.connections.length)
-			return-1;
-		const c=this.calculateIndexForYPos(b);
-		if(c>=this.connections.length)
-			return-1;b=a.y;
-		let d=c;
-		for(;0<=d&&this.connections[d].y===b;){
-			if(this.connections[d]===a)
-				return d;d--
-		}
-		for(d=c;d<this.connections.length&&this.connections[d].y===b;){
-			if(this.connections[d]===a)
-				return d;d++
-		}
-		return-1
-	}
-	calculateIndexForYPos(a){
-		if(!this.connections.length)
-			return 0;
-		let b=0,c=this.connections.length;
-		for(;b<c;){
-			const d=Math.floor((b+c)/2);
-			if(this.connections[d].y<a)
-				b=d+1;
-			else if(this.connections[d].y>a)
-				c=d;
-			else{
-				b=d;break
-			}
-		}
-		return b
-	}
-	removeConnection(a,b){
-		a=this.findIndexOfConnection(a,b);
-		if(-1===a)
-			throw Error("Unable to find connection in connectionDB.");
-		this.connections.splice(a,1)
-	}
-	getNeighbours(a,b){
-		function c(l){
-			const n=e-d[l].x,m=f-d[l].y;
-			Math.sqrt(n*n+m*m)<=b&&k.push(d[l]);
-			return m<b
-		}
-		const d=this.connections,e=a.x,f=a.y;
-		a=0;
-		let g=d.length-2,h=g;
-		for(;a<h;)
-			d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);
-		const k=[];
-		g=a=h;
-		if(d.length){
-			for(;0<=a&&c(a);)a--;
-			do g++;
-			while(g<d.length&&c(g))
-		}
-		return k
-	}
-	isInYRange(a,b,c){
-		return Math.abs(this.connections[a].y-b)<=c
-	}
-	searchForClosest(a,b,c){
-		if(!this.connections.length)
-			return{connection:null,radius:b};
-		const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;
-		var f=this.calculateIndexForYPos(a.y);
-		c=null;
-		let g=b,h,k=f-1;
-		for(;0<=k&&this.isInYRange(k,a.y,b);)
-			h=this.connections[k],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;
-		for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)
-			h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;
-		a.y=d;
-		return{connection:c,radius:g}
-	}
-
-
-static init(a){const b=[];b[ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);
+var module$build$src$core$connection_checker={};module$build$src$core$connection_checker.ConnectionChecker=ConnectionChecker$$module$build$src$core$connection_checker;var ConnectionDB$$module$build$src$core$connection_db=class{constructor(a){this.connectionChecker=a;this.connections=[]}addConnection(a,b){b=this.calculateIndexForYPos(b);this.connections.splice(b,0,a)}findIndexOfConnection(a,b){if(!this.connections.length)return-1;const c=this.calculateIndexForYPos(b);if(c>=this.connections.length)return-1;b=a.y;let d=c;for(;0<=d&&this.connections[d].y===b;){if(this.connections[d]===a)return d;d--}for(d=c;d<this.connections.length&&this.connections[d].y===b;){if(this.connections[d]===
+a)return d;d++}return-1}calculateIndexForYPos(a){if(!this.connections.length)return 0;let b=0,c=this.connections.length;for(;b<c;){const d=Math.floor((b+c)/2);if(this.connections[d].y<a)b=d+1;else if(this.connections[d].y>a)c=d;else{b=d;break}}return b}removeConnection(a,b){a=this.findIndexOfConnection(a,b);if(-1===a)throw Error("Unable to find connection in connectionDB.");this.connections.splice(a,1)}getNeighbours(a,b){function c(l){const n=e-d[l].x,m=f-d[l].y;Math.sqrt(n*n+m*m)<=b&&k.push(d[l]);
+return m<b}const d=this.connections,e=a.x,f=a.y;a=0;let g=d.length-2,h=g;for(;a<h;)d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);const k=[];g=a=h;if(d.length){for(;0<=a&&c(a);)a--;do g++;while(g<d.length&&c(g))}return k}isInYRange(a,b,c){return Math.abs(this.connections[a].y-b)<=c}searchForClosest(a,b,c){if(!this.connections.length)return{connection:null,radius:b};const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;var f=this.calculateIndexForYPos(a.y);c=null;let g=b,h,k=f-1;for(;0<=k&&this.isInYRange(k,a.y,b);)h=this.connections[k],
+this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;a.y=d;return{connection:c,radius:g}}static init(a){const b=[];b[ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);
 b[ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT]=new ConnectionDB$$module$build$src$core$connection_db(a);return b}},module$build$src$core$connection_db={};module$build$src$core$connection_db.ConnectionDB=ConnectionDB$$module$build$src$core$connection_db;var BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change=class extends BlockBase$$module$build$src$core$events$events_block_base{constructor(a,b,c,d){super(a);this.type=BLOCK_FIELD_INTERMEDIATE_CHANGE$$module$build$src$core$events$utils;this.recordUndo=!1;a&&(this.name=b,this.oldValue=c,this.newValue=d)}toJson(){const a=super.toJson();if(!this.name)throw Error("The changed field name is undefined. Either pass a name to the constructor, or call fromJson.");
 a.name=this.name;a.oldValue=this.oldValue;a.newValue=this.newValue;return a}static fromJson(a,b,c){b=super.fromJson(a,b,null!=c?c:new BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change);b.name=a.name;b.oldValue=a.oldValue;b.newValue=a.newValue;return b}isNull(){return this.oldValue===this.newValue}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.EVENT,BLOCK_FIELD_INTERMEDIATE_CHANGE$$module$build$src$core$events$utils,BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change);
 var module$build$src$core$events$events_block_field_intermediate_change={};module$build$src$core$events$events_block_field_intermediate_change.BlockFieldIntermediateChange=BlockFieldIntermediateChange$$module$build$src$core$events$events_block_field_intermediate_change;var BlockMove$$module$build$src$core$events$events_block_move=class extends BlockBase$$module$build$src$core$events$events_block_base{constructor(a){super(a);this.type=$.MOVE$$module$build$src$core$events$utils;a&&(a.isShadow()&&(this.recordUndo=!1),a=this.currentLocation_(),this.oldParentId=a.parentId,this.oldInputName=a.inputName,this.oldCoordinate=a.coordinate)}toJson(){const a=super.toJson();a.oldParentId=this.oldParentId;a.oldInputName=this.oldInputName;this.oldCoordinate&&(a.oldCoordinate=`${Math.round(this.oldCoordinate.x)}, `+
@@ -1391,34 +1191,10 @@ a));return{width:a,height:a,pathTop:b,pathBottom:c}}makeOutsideCorners(){const a
 {"in":"SourceGraphic",in2:"specOut",operator:"arithmetic",k1:0,k2:1,k3:1,k4:0},a);this.embossFilterId=a.id;this.embossFilter=a;a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATTERN,{id:"blocklyDisabledPattern"+this.randomIdentifier,patternUnits:"userSpaceOnUse",width:10,height:10},this.defs);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.RECT,{width:10,height:10,fill:"#aaa"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.PATH,
 {d:"M 0 0 L 10 10 M 10 0 L 0 10",stroke:"#cc0"},a);this.disabledPatternId=a.id;this.disabledPattern=a;this.createDebugFilter()}createDebugFilter(){if(!this.debugFilter){const a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FILTER,{id:"blocklyDebugFilter"+this.randomIdentifier,height:"160%",width:"180%",y:"-30%",x:"-40%"},this.defs),b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPONENTTRANSFER,{result:"outBlur"},
 a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFUNCA,{type:"table",tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":"#ff0000","flood-opacity":.5,result:"outColor"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},a);this.debugFilterId=
-a.id;this.debugFilter=a}}injectCSS_(a,b){b=this.getCSS_(b);a="blockly-renderer-style-"+a;this.cssNode=document.getElementById(a);const c=b.join("\n");this.cssNode?this.cssNode.firstChild.textContent=c:(b=document.createElement("style"),b.id=a,a=document.createTextNode(c),b.appendChild(a),document.head.insertBefore(b,document.head.firstChild),this.cssNode=b)}
-
-
-getCSS_(a){
-	return[
-		`${a} .blocklyText, `,
-		`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} `+`${this.FIELD_TEXT_FONTSIZE}pt ${this.FIELD_TEXT_FONTFAMILY};`,
-		"}",
-		`${a} .blocklyText {`,"fill: #fff;","}",
-		`${a} .blocklyNonEditableText>rect,`,
-		`${a} .blocklyEditableText>rect {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"fill-opacity: .6;","stroke: none;","}",
-		`${a} .blocklyNonEditableText>text,`,
-		`${a} .blocklyEditableText>text {`,"fill: #000;","}",
-		`${a} .blocklyFlyoutLabelText {`,"fill: #000;","}",
-		`${a} .blocklyText.blocklyBubbleText {`,"fill: #000;","}",
-		`${a} .blocklyEditableText:not(.editing):hover>rect {`,"stroke: #fff;","stroke-width: 2;","}",
-		`${a} .blocklyHtmlInput {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"}",
-		`${a} .blocklySelected>.blocklyPath {`,"stroke: #fc3;","stroke-width: 3px;","}",
-		`${a} .blocklyHighlightedConnectionPath {`,"stroke: #fc3;","}",
-		`${a} .blocklyReplaceable .blocklyPath {`,"fill-opacity: .5;","}",
-		`${a} .blocklyReplaceable .blocklyPathLight,`,
-		`${a} .blocklyReplaceable .blocklyPathDark {`,"display: none;","}",
-		`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,
-"stroke: none;","}"]
-}
-
-
-},module$build$src$core$renderers$common$constants={};module$build$src$core$renderers$common$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$common$constants;module$build$src$core$renderers$common$constants.isDynamicShape=isDynamicShape$$module$build$src$core$renderers$common$constants;var ConstantProvider$$module$build$src$core$renderers$zelos$constants=class extends ConstantProvider$$module$build$src$core$renderers$common$constants{constructor(){super();this.GRID_UNIT=4;this.CURSOR_COLOUR="#ffa200";this.CURSOR_RADIUS=5;this.JAGGED_TEETH_WIDTH=this.JAGGED_TEETH_HEIGHT=0;this.START_HAT_HEIGHT=22;this.START_HAT_WIDTH=96;this.SHAPES={HEXAGONAL:1,ROUND:2,SQUARE:3,PUZZLE:4,NOTCH:5};this.SHAPE_IN_SHAPE_PADDING={1:{0:5*this.GRID_UNIT,1:2*this.GRID_UNIT,2:5*this.GRID_UNIT,3:5*this.GRID_UNIT},
+a.id;this.debugFilter=a}}injectCSS_(a,b){b=this.getCSS_(b);a="blockly-renderer-style-"+a;this.cssNode=document.getElementById(a);const c=b.join("\n");this.cssNode?this.cssNode.firstChild.textContent=c:(b=document.createElement("style"),b.id=a,a=document.createTextNode(c),b.appendChild(a),document.head.insertBefore(b,document.head.firstChild),this.cssNode=b)}getCSS_(a){return[`${a} .blocklyText, `,`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} `+`${this.FIELD_TEXT_FONTSIZE}pt ${this.FIELD_TEXT_FONTFAMILY};`,
+"}",`${a} .blocklyText {`,"fill: #fff;","}",`${a} .blocklyNonEditableText>rect,`,`${a} .blocklyEditableText>rect {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"fill-opacity: .6;","stroke: none;","}",`${a} .blocklyNonEditableText>text,`,`${a} .blocklyEditableText>text {`,"fill: #000;","}",`${a} .blocklyFlyoutLabelText {`,"fill: #000;","}",`${a} .blocklyText.blocklyBubbleText {`,"fill: #000;","}",`${a} .blocklyEditableText:not(.editing):hover>rect {`,"stroke: #fff;","stroke-width: 2;","}",`${a} .blocklyHtmlInput {`,
+`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"}",`${a} .blocklySelected>.blocklyPath {`,"stroke: #fc3;","stroke-width: 3px;","}",`${a} .blocklyHighlightedConnectionPath {`,"stroke: #fc3;","}",`${a} .blocklyReplaceable .blocklyPath {`,"fill-opacity: .5;","}",`${a} .blocklyReplaceable .blocklyPathLight,`,`${a} .blocklyReplaceable .blocklyPathDark {`,"display: none;","}",`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,
+"stroke: none;","}"]}},module$build$src$core$renderers$common$constants={};module$build$src$core$renderers$common$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$common$constants;module$build$src$core$renderers$common$constants.isDynamicShape=isDynamicShape$$module$build$src$core$renderers$common$constants;var ConstantProvider$$module$build$src$core$renderers$zelos$constants=class extends ConstantProvider$$module$build$src$core$renderers$common$constants{constructor(){super();this.GRID_UNIT=4;this.CURSOR_COLOUR="#ffa200";this.CURSOR_RADIUS=5;this.JAGGED_TEETH_WIDTH=this.JAGGED_TEETH_HEIGHT=0;this.START_HAT_HEIGHT=22;this.START_HAT_WIDTH=96;this.SHAPES={HEXAGONAL:1,ROUND:2,SQUARE:3,PUZZLE:4,NOTCH:5};this.SHAPE_IN_SHAPE_PADDING={1:{0:5*this.GRID_UNIT,1:2*this.GRID_UNIT,2:5*this.GRID_UNIT,3:5*this.GRID_UNIT},
 2:{0:3*this.GRID_UNIT,1:3*this.GRID_UNIT,2:1*this.GRID_UNIT,3:2*this.GRID_UNIT},3:{0:2*this.GRID_UNIT,1:2*this.GRID_UNIT,2:2*this.GRID_UNIT,3:2*this.GRID_UNIT}};this.FULL_BLOCK_FIELDS=!0;this.FIELD_TEXT_FONTWEIGHT="bold";this.FIELD_TEXT_FONTFAMILY='"Helvetica Neue", "Segoe UI", Helvetica, sans-serif';this.FIELD_COLOUR_FULL_BLOCK=this.FIELD_TEXTINPUT_BOX_SHADOW=this.FIELD_DROPDOWN_SVG_ARROW=this.FIELD_DROPDOWN_COLOURED_DIV=this.FIELD_DROPDOWN_NO_BORDER_RECT_SHADOW=!0;this.SELECTED_GLOW_COLOUR="#fff200";
 this.SELECTED_GLOW_SIZE=.5;this.REPLACEMENT_GLOW_COLOUR="#fff200";this.REPLACEMENT_GLOW_SIZE=2;this.selectedGlowFilterId="";this.selectedGlowFilter=null;this.replacementGlowFilterId="";this.SQUARED=this.ROUNDED=this.HEXAGONAL=this.replacementGlowFilter=null;this.SMALL_PADDING=this.GRID_UNIT;this.MEDIUM_PADDING=2*this.GRID_UNIT;this.MEDIUM_LARGE_PADDING=3*this.GRID_UNIT;this.LARGE_PADDING=4*this.GRID_UNIT;this.CORNER_RADIUS=1*this.GRID_UNIT;this.NOTCH_WIDTH=9*this.GRID_UNIT;this.NOTCH_HEIGHT=2*this.GRID_UNIT;
 this.STATEMENT_INPUT_NOTCH_OFFSET=this.NOTCH_OFFSET_LEFT=3*this.GRID_UNIT;this.MIN_BLOCK_WIDTH=2*this.GRID_UNIT;this.MIN_BLOCK_HEIGHT=12*this.GRID_UNIT;this.EMPTY_STATEMENT_INPUT_HEIGHT=6*this.GRID_UNIT;this.TOP_ROW_MIN_HEIGHT=this.CORNER_RADIUS;this.TOP_ROW_PRECEDES_STATEMENT_MIN_HEIGHT=this.LARGE_PADDING;this.BOTTOM_ROW_MIN_HEIGHT=this.CORNER_RADIUS;this.BOTTOM_ROW_AFTER_STATEMENT_MIN_HEIGHT=6*this.GRID_UNIT;this.STATEMENT_BOTTOM_SPACER=-this.NOTCH_HEIGHT;this.STATEMENT_INPUT_SPACER_MIN_WIDTH=40*
@@ -1426,51 +1202,12 @@ this.GRID_UNIT;this.STATEMENT_INPUT_PADDING_LEFT=4*this.GRID_UNIT;this.EMPTY_INL
 8*this.GRID_UNIT;this.FIELD_DROPDOWN_BORDER_RECT_HEIGHT=8*this.GRID_UNIT;this.FIELD_DROPDOWN_SVG_ARROW_PADDING=this.FIELD_BORDER_RECT_X_PADDING;this.FIELD_COLOUR_DEFAULT_WIDTH=2*this.GRID_UNIT;this.FIELD_COLOUR_DEFAULT_HEIGHT=4*this.GRID_UNIT;this.FIELD_CHECKBOX_X_OFFSET=1*this.GRID_UNIT;this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH=12*this.GRID_UNIT}setFontConstants_(a){super.setFontConstants_(a);this.FIELD_DROPDOWN_BORDER_RECT_HEIGHT=this.FIELD_BORDER_RECT_HEIGHT=this.FIELD_TEXT_HEIGHT+2*this.FIELD_BORDER_RECT_Y_PADDING}init(){super.init();
 this.HEXAGONAL=this.makeHexagonal();this.ROUNDED=this.makeRounded();this.SQUARED=this.makeSquared();this.STATEMENT_INPUT_NOTCH_OFFSET=this.NOTCH_OFFSET_LEFT+this.INSIDE_CORNERS.rightWidth}setDynamicProperties_(a){super.setDynamicProperties_(a);this.SELECTED_GLOW_COLOUR=a.getComponentStyle("selectedGlowColour")||this.SELECTED_GLOW_COLOUR;const b=Number(a.getComponentStyle("selectedGlowSize"));this.SELECTED_GLOW_SIZE=b&&!isNaN(b)?b:this.SELECTED_GLOW_SIZE;this.REPLACEMENT_GLOW_COLOUR=a.getComponentStyle("replacementGlowColour")||
 this.REPLACEMENT_GLOW_COLOUR;this.REPLACEMENT_GLOW_SIZE=(a=Number(a.getComponentStyle("replacementGlowSize")))&&!isNaN(a)?a:this.REPLACEMENT_GLOW_SIZE}dispose(){super.dispose();this.selectedGlowFilter&&removeNode$$module$build$src$core$utils$dom(this.selectedGlowFilter);this.replacementGlowFilter&&removeNode$$module$build$src$core$utils$dom(this.replacementGlowFilter)}makeStartHat(){const a=this.START_HAT_HEIGHT,b=this.START_HAT_WIDTH,c=curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(25,
--a),point$$module$build$src$core$utils$svg_paths(71,-a),point$$module$build$src$core$utils$svg_paths(b,0)]);return{height:a,width:b,path:c}}
-
-makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;return lineTo$$module$build$src$core$utils$svg_paths(-e*f,c)+lineTo$$module$build$src$core$utils$svg_paths(e*f,c)}
-	
-	const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;return{type:this.SHAPES.HEXAGONAL,isDynamic:!0,width(c){c/=2;return c>b?b:c},height(c){return c},connectionOffsetY(c){return c/
-2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,!1,!0)}}
-}
-
-makeRounded(){ function a(d,e,f){ const g=d>c?d-c:0;d=(d>c?c:d)/2; return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?1:-1)*d,(e?-1:1)*d)) } const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b; return{ type:this.SHAPES.ROUND, isDynamic:!0, width(d){d/=2;return d>b?b:d}, height(d){return d},connectionOffsetY(d){return d/2}, connectionOffsetX(d){return-d}, pathDown(d){return a(d,!1,!1)}, pathUp(d){return a(d,!0,!1)}, pathRightDown(d){return a(d,!1,!0)}, pathRightUp(d){return a(d,!1,!0)} } }
-
-makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
+-a),point$$module$build$src$core$utils$svg_paths(71,-a),point$$module$build$src$core$utils$svg_paths(b,0)]);return{height:a,width:b,path:c}}makeHexagonal(){function a(c,d,e){var f=c/2;f=f>b?b:f;e=e?-1:1;c=(d?-1:1)*c/2;return lineTo$$module$build$src$core$utils$svg_paths(-e*f,c)+lineTo$$module$build$src$core$utils$svg_paths(e*f,c)}const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;return{type:this.SHAPES.HEXAGONAL,isDynamic:!0,width(c){c/=2;return c>b?b:c},height(c){return c},connectionOffsetY(c){return c/
+2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,!1,!0)}}}makeRounded(){function a(d,e,f){const g=d>c?d-c:0;d=(d>c?c:d)/2;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?-1:1)*d,(e?-1:1)*d))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(f?1:-1)*g)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",d,point$$module$build$src$core$utils$svg_paths((e?
+1:-1)*d,(e?-1:1)*d))}const b=this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH,c=2*b;return{type:this.SHAPES.ROUND,isDynamic:!0,width(d){d/=2;return d>b?b:d},height(d){return d},connectionOffsetY(d){return d/2},connectionOffsetX(d){return-d},pathDown(d){return a(d,!1,!1)},pathUp(d){return a(d,!0,!1)},pathRightDown(d){return a(d,!1,!0)},pathRightUp(d){return a(d,!1,!0)}}}makeSquared(){function a(c,d,e){c-=2*b;return arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?
 -1:1)*b,(d?-1:1)*b))+lineOnAxis$$module$build$src$core$utils$svg_paths("v",(e?1:-1)*c)+arc$$module$build$src$core$utils$svg_paths("a","0 0,1",b,point$$module$build$src$core$utils$svg_paths((d?1:-1)*b,(d?-1:1)*b))}const b=this.CORNER_RADIUS;return{type:this.SHAPES.SQUARE,isDynamic:!0,width(c){return b},height(c){return c},connectionOffsetY(c){return c/2},connectionOffsetX(c){return-c},pathDown(c){return a(c,!1,!1)},pathUp(c){return a(c,!0,!1)},pathRightDown(c){return a(c,!1,!0)},pathRightUp(c){return a(c,
-!1,!0)}}}
-
-shapeFor(a){
-	let b=a.getCheck();
-	!b&&a.targetConnection&&(b=a.targetConnection.getCheck());
-	switch(a.type){
-		case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:
-		case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:
-			a=a.getSourceBlock().getOutputShape();
-			if(null!==a)
-				switch(a){
-					case this.SHAPES.HEXAGONAL:
-						return this.HEXAGONAL;
-					case this.SHAPES.ROUND:
-						return this.ROUNDED;
-					case this.SHAPES.SQUARE:
-						return this.SQUARED
-				}
-			if(b&&-1!==b.indexOf("Boolean"))
-				return this.HEXAGONAL;
-			if(b&&-1!==b.indexOf("Number"))
-				return this.ROUNDED;
-			b&&b.indexOf("String");
-				return this.ROUNDED;
-		case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:
-		case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:
-			return this.NOTCH;
-		default:
-			throw Error("Unknown type");
-	}
-}
-
-makeNotch(){function a(l){return curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*e*3/4,g/2),point$$module$build$src$core$utils$svg_paths(l*
+!1,!0)}}}shapeFor(a){let b=a.getCheck();!b&&a.targetConnection&&(b=a.targetConnection.getCheck());switch(a.type){case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:a=a.getSourceBlock().getOutputShape();if(null!==a)switch(a){case this.SHAPES.HEXAGONAL:return this.HEXAGONAL;case this.SHAPES.ROUND:return this.ROUNDED;case this.SHAPES.SQUARE:return this.SQUARED}if(b&&-1!==b.indexOf("Boolean"))return this.HEXAGONAL;
+if(b&&-1!==b.indexOf("Number"))return this.ROUNDED;b&&b.indexOf("String");return this.ROUNDED;case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:return this.NOTCH;default:throw Error("Unknown type");}}makeNotch(){function a(l){return curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*e*3/4,g/2),point$$module$build$src$core$utils$svg_paths(l*
 e,g)])+line$$module$build$src$core$utils$svg_paths([point$$module$build$src$core$utils$svg_paths(l*e,f)])+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/4,g/2),point$$module$build$src$core$utils$svg_paths(l*e/2,g),point$$module$build$src$core$utils$svg_paths(l*e,g)])+lineOnAxis$$module$build$src$core$utils$svg_paths("h",l*d)+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/2,0),point$$module$build$src$core$utils$svg_paths(l*
 e*3/4,-(g/2)),point$$module$build$src$core$utils$svg_paths(l*e,-g)])+line$$module$build$src$core$utils$svg_paths([point$$module$build$src$core$utils$svg_paths(l*e,-f)])+curve$$module$build$src$core$utils$svg_paths("c",[point$$module$build$src$core$utils$svg_paths(l*e/4,-(g/2)),point$$module$build$src$core$utils$svg_paths(l*e/2,-g),point$$module$build$src$core$utils$svg_paths(l*e,-g)])}const b=this.NOTCH_WIDTH,c=this.NOTCH_HEIGHT,d=b/3,e=d/3,f=c/2,g=f/2,h=a(1),k=a(-1);return{type:this.SHAPES.NOTCH,
 width:b,height:c,pathLeft:h,pathRight:k}}makeInsideCorners(){const a=this.CORNER_RADIUS,b=arc$$module$build$src$core$utils$svg_paths("a","0 0,0",a,point$$module$build$src$core$utils$svg_paths(-a,a)),c=arc$$module$build$src$core$utils$svg_paths("a","0 0,1",a,point$$module$build$src$core$utils$svg_paths(-a,a)),d=arc$$module$build$src$core$utils$svg_paths("a","0 0,0",a,point$$module$build$src$core$utils$svg_paths(a,a)),e=arc$$module$build$src$core$utils$svg_paths("a","0 0,1",a,point$$module$build$src$core$utils$svg_paths(a,
@@ -1479,35 +1216,10 @@ a));return{width:a,height:a,pathTop:b,pathBottom:d,rightWidth:a,rightHeight:a,pa
 tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},c);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":this.SELECTED_GLOW_COLOUR,"flood-opacity":1,result:"outColor"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},b);this.selectedGlowFilterId=b.id;this.selectedGlowFilter=b;a=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FILTER,
 {id:"blocklyReplacementGlowFilter"+this.randomIdentifier,height:"160%",width:"180%",y:"-30%",x:"-40%"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEGAUSSIANBLUR,{"in":"SourceGraphic",stdDeviation:this.REPLACEMENT_GLOW_SIZE},a);b=createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPONENTTRANSFER,{result:"outBlur"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFUNCA,{type:"table",
 tableValues:"0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"},b);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FEFLOOD,{"flood-color":this.REPLACEMENT_GLOW_COLOUR,"flood-opacity":1,result:"outColor"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"outColor",in2:"outBlur",operator:"in",result:"outGlow"},a);createSvgElement$$module$build$src$core$utils$dom(Svg$$module$build$src$core$utils$svg.FECOMPOSITE,{"in":"SourceGraphic",
-in2:"outGlow",operator:"over"},a);this.replacementGlowFilterId=a.id;this.replacementGlowFilter=a}
-
-getCSS_(a){
-	return[
-	`${a} .blocklyText,`,
-	`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} ${this.FIELD_TEXT_FONTSIZE}`+`pt ${this.FIELD_TEXT_FONTFAMILY};`,"}",
-	`${a} .blocklyText {`,"fill: #fff;","}",
-	`${a} .blocklyNonEditableText>rect:not(.blocklyDropdownRect),`,
-	`${a} .blocklyEditableText>rect:not(.blocklyDropdownRect) {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"}",
-	`${a} .blocklyNonEditableText>text,`,
-	`${a} .blocklyEditableText>text,`,
-	`${a} .blocklyNonEditableText>g>text,`,
-	`${a} .blocklyEditableText>g>text {`,"fill: #575E75;","}",
-	`${a} .blocklyFlyoutLabelText {`,"fill: #575E75;","}",
-	`${a} .blocklyText.blocklyBubbleText {`,"fill: #575E75;","}",
-	`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>rect,",
-	`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>.blocklyPath {","stroke: #fff;","stroke-width: 2;","}",
-	`${a} .blocklyHtmlInput {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"color: #575E75;","}",
-	`${a} .blocklyDropdownText {`,"fill: #fff !important;","}",
-	`${a}.blocklyWidgetDiv .goog-menuitem
-	a}.blocklyDropDownDiv .goog-menuitem {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,"}",
-	`${a}.blocklyDropDownDiv .goog-menuitem-content {`,"color: #fff;","}",
-	`${a} .blocklyHighlightedConnectionPath {`,`stroke: ${this.SELECTED_GLOW_COLOUR};`,"}",
-	`${a} .blocklyDisabled > .blocklyOutlinePath {`,`fill: url(#blocklyDisabledPattern${this.randomIdentifier})`,"}",
-	`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,"stroke: none;","}"]
-}
-
-
-},module$build$src$core$renderers$zelos$constants={};module$build$src$core$renderers$zelos$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$zelos$constants;var TypesContainer$$module$build$src$core$renderers$measurables$types=class{constructor(){this.NONE=0;this.FIELD=1;this.HAT=2;this.ICON=4;this.SPACER=8;this.BETWEEN_ROW_SPACER=16;this.IN_ROW_SPACER=32;this.EXTERNAL_VALUE_INPUT=64;this.INPUT=128;this.INLINE_INPUT=256;this.STATEMENT_INPUT=512;this.CONNECTION=1024;this.PREVIOUS_CONNECTION=2048;this.NEXT_CONNECTION=4096;this.OUTPUT_CONNECTION=8192;this.CORNER=16384;this.LEFT_SQUARE_CORNER=32768;this.LEFT_ROUND_CORNER=65536;this.RIGHT_SQUARE_CORNER=131072;
+in2:"outGlow",operator:"over"},a);this.replacementGlowFilterId=a.id;this.replacementGlowFilter=a}getCSS_(a){return[`${a} .blocklyText,`,`${a} .blocklyFlyoutLabelText {`,`font: ${this.FIELD_TEXT_FONTWEIGHT} ${this.FIELD_TEXT_FONTSIZE}`+`pt ${this.FIELD_TEXT_FONTFAMILY};`,"}",`${a} .blocklyText {`,"fill: #fff;","}",`${a} .blocklyNonEditableText>rect:not(.blocklyDropdownRect),`,`${a} .blocklyEditableText>rect:not(.blocklyDropdownRect) {`,`fill: ${this.FIELD_BORDER_RECT_COLOUR};`,"}",`${a} .blocklyNonEditableText>text,`,
+`${a} .blocklyEditableText>text,`,`${a} .blocklyNonEditableText>g>text,`,`${a} .blocklyEditableText>g>text {`,"fill: #575E75;","}",`${a} .blocklyFlyoutLabelText {`,"fill: #575E75;","}",`${a} .blocklyText.blocklyBubbleText {`,"fill: #575E75;","}",`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>rect,",`${a} .blocklyDraggable:not(.blocklyDisabled)`," .blocklyEditableText:not(.editing):hover>.blocklyPath {","stroke: #fff;","stroke-width: 2;","}",`${a} .blocklyHtmlInput {`,
+`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,`font-weight: ${this.FIELD_TEXT_FONTWEIGHT};`,"color: #575E75;","}",`${a} .blocklyDropdownText {`,"fill: #fff !important;","}",`${a}.blocklyWidgetDiv .goog-menuitem,`,`${a}.blocklyDropDownDiv .goog-menuitem {`,`font-family: ${this.FIELD_TEXT_FONTFAMILY};`,"}",`${a}.blocklyDropDownDiv .goog-menuitem-content {`,"color: #fff;","}",`${a} .blocklyHighlightedConnectionPath {`,`stroke: ${this.SELECTED_GLOW_COLOUR};`,"}",`${a} .blocklyDisabled > .blocklyOutlinePath {`,
+`fill: url(#blocklyDisabledPattern${this.randomIdentifier})`,"}",`${a} .blocklyInsertionMarker>.blocklyPath {`,`fill-opacity: ${this.INSERTION_MARKER_OPACITY};`,"stroke: none;","}"]}},module$build$src$core$renderers$zelos$constants={};module$build$src$core$renderers$zelos$constants.ConstantProvider=ConstantProvider$$module$build$src$core$renderers$zelos$constants;var TypesContainer$$module$build$src$core$renderers$measurables$types=class{constructor(){this.NONE=0;this.FIELD=1;this.HAT=2;this.ICON=4;this.SPACER=8;this.BETWEEN_ROW_SPACER=16;this.IN_ROW_SPACER=32;this.EXTERNAL_VALUE_INPUT=64;this.INPUT=128;this.INLINE_INPUT=256;this.STATEMENT_INPUT=512;this.CONNECTION=1024;this.PREVIOUS_CONNECTION=2048;this.NEXT_CONNECTION=4096;this.OUTPUT_CONNECTION=8192;this.CORNER=16384;this.LEFT_SQUARE_CORNER=32768;this.LEFT_ROUND_CORNER=65536;this.RIGHT_SQUARE_CORNER=131072;
 this.RIGHT_ROUND_CORNER=262144;this.JAGGED_EDGE=524288;this.ROW=1048576;this.TOP_ROW=2097152;this.BOTTOM_ROW=4194304;this.INPUT_ROW=8388608;this.LEFT_CORNER=this.LEFT_SQUARE_CORNER|this.LEFT_ROUND_CORNER;this.RIGHT_CORNER=this.RIGHT_SQUARE_CORNER|this.RIGHT_ROUND_CORNER;this.nextTypeValue_=16777216}getType(a){Object.prototype.hasOwnProperty.call(this,a)||(this[a]=this.nextTypeValue_,this.nextTypeValue_<<=1);return this[a]}isField(a){return a.type&this.FIELD}isHat(a){return a.type&this.HAT}isIcon(a){return a.type&
 this.ICON}isSpacer(a){return a.type&this.SPACER}isInRowSpacer(a){return a.type&this.IN_ROW_SPACER}isInput(a){return a.type&this.INPUT}isExternalInput(a){return a.type&this.EXTERNAL_VALUE_INPUT}isInlineInput(a){return a.type&this.INLINE_INPUT}isStatementInput(a){return a.type&this.STATEMENT_INPUT}isPreviousConnection(a){return a.type&this.PREVIOUS_CONNECTION}isNextConnection(a){return a.type&this.NEXT_CONNECTION}isPreviousOrNextConnection(a){return a.type&(this.PREVIOUS_CONNECTION|this.NEXT_CONNECTION)}isLeftRoundedCorner(a){return a.type&
 this.LEFT_ROUND_CORNER}isRightRoundedCorner(a){return a.type&this.RIGHT_ROUND_CORNER}isLeftSquareCorner(a){return a.type&this.LEFT_SQUARE_CORNER}isRightSquareCorner(a){return a.type&this.RIGHT_SQUARE_CORNER}isCorner(a){return a.type&this.CORNER}isJaggedEdge(a){return a.type&this.JAGGED_EDGE}isRow(a){return a.type&this.ROW}isBetweenRowSpacer(a){return a.type&this.BETWEEN_ROW_SPACER}isTopRow(a){return a.type&this.TOP_ROW}isBottomRow(a){return a.type&this.BOTTOM_ROW}isTopOrBottomRow(a){return a.type&
@@ -2124,10 +1836,6 @@ workspaceToCode(a){
 	this.init(a);
 	a=a.getTopBlocks(!0);
 	for(let c=0,d;d=a[c];c++){
-		
-		if (scratchStyle&&(d.type!="javascript_procedures_defnoreturn_scratch"&&d.type!="javascript_start_scratch"))
-			continue;
-		
 		let e=this.blockToCode(d);
 		Array.isArray(e)&&(e=e[0]);
 		if (e) {
@@ -2452,15 +2160,6 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.backgroundColor_ = opt_config.backgroundColor || '#FD6723';
 		this.backgroundStyle_ = opt_config.shapeType || 0;
 		
-		this.newBlock_ = null;
-		this.newBlockWidth_ = null;
-		this.newBlockHeight_ = null;
-		this.mouseXY = null;		
-        this.boundEvents_ = [];
-		
-		this.closest = [];
-		
-		this.onClickHandler_ = this.handleClick.bind(this);
 		this.onDoubleClickHandler_ = this.handleDoubleClick.bind(this);
     } 
 
@@ -2482,19 +2181,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         );
 		
 		if (this.textElement_) {
-
-            this.textElement_.addEventListener('click', this.onClickHandler_);
-			this.textElement_.addEventListener('dblclick', this.onDoubleClickHandler_);
-			
-            this.boundEvents_ = [];
-            const binding = Blockly.browserEvents.bind(
-                this.textElement_,
-                'mousedown',      
-                this,             
-                this.handleMouseDown
-            );
-            this.boundEvents_.push(binding);
-			
+            this.textElement_.addEventListener('dblclick', this.onDoubleClickHandler_);
             this.textElement_.style.cursor = 'pointer';
         }		
         
@@ -2503,16 +2190,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         this.applyColour(); 
     }
 	
-	handleClick(event) {
-	}	
-
 	handleDoubleClick(event) {
-	}	
-	
-	handleMouseDown(event) {
         event.stopPropagation();
         event.preventDefault();
-		
 		let blockType = "variables_get_other";
 		let gapValue = 0;
 		
@@ -2541,163 +2221,24 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		
 		Blockly.Events.disable();
 		try {		
-			var domBlock = Blockly.utils.xml.textToDom(xml);
-			var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
-							
-			var block = sourceWorkspace.getBlockById(topBlocks[0]);
+				var domBlock = Blockly.utils.xml.textToDom(xml);
+				var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
+								
+				var block = workspace.getBlockById(topBlocks[0]);
+				
+				const blockBounds = block.getBoundingRectangle();
+				const blockWidth = blockBounds.right - blockBounds.left;
+				const blockHeight = blockBounds.bottom - blockBounds.top;
 			
-			const blockBounds = block.getBoundingRectangle();
-			const blockWidth = blockBounds.right - blockBounds.left;
-			const blockHeight = blockBounds.bottom - blockBounds.top;
-		
-			this.newBlock_ = block;
-			this.newBlockWidth_ = blockWidth;
-			this.newBlockHeight_ = blockHeight;
-			
-			var blockToMouseXY = getBlockToMouseXY(this.newBlock_);
-			
-			this.mouseXY = {};
-			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
-			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
-
-			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
-			this.newBlock_.select();
-			
-			Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
-			Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));			
-			
-			this.boundEvents_.push(
-				Blockly.browserEvents.bind(document, 'mousemove', this, this.handleMouseMove),
-				Blockly.browserEvents.bind(document, 'mouseup', this, this.handleMouseUp)
-			);
+				var blockToMouseXY = getBlockToMouseXY(block);
+				
+				block.moveBy(blockToMouseXY.x - blockWidth/2, blockToMouseXY.y - blockHeight/2);
+				
 		} catch (e) {
 			console.error(e);
 		} finally {
 			Blockly.Events.enable(); 
-		}			
-    }
-	
-	handleMouseMove(event) {
-        if (!this.newBlock_) return;
-		
-		try {		
-			const sourceWorkspace = this.newBlock_.workspace;
-			var mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
-			var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
-			var blockPos = Blockly.utils.svgMath.getRelativeXY(this.newBlock_.getSvgRoot());
-			var blockToMouseXY = {};
-			blockToMouseXY.x = mousePos.x - blockPos.x;
-			blockToMouseXY.y = mousePos.y - blockPos.y;
-			
-			this.mouseXY = {};
-			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
-			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
-			
-			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
-			
-			if (this.closest.length>0) {
-				for (var i=0;i<this.closest.length;i++) 
-					if (this.closest[i].connection.targetConnection)
-						this.closest[i].connection.targetConnection.unhighlight();
-					else {
-						this.closest[i].connection.unhighlight();
-					}
-				this.closest = [];
-			}
-
-			if (this.mouseXY) {
-				const connections = this.newBlock_.getConnections_(true);
-				for (const conn of connections) {
-				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
-				  if (closest&&closest.connection) {
-						if (closest.connection.targetConnection) {
-							this.closest.push(closest);
-							closest.connection.targetConnection.highlight();
-						}
-						else {
-							var a = {x:0, y:0};
-							const connections = closest.connection.db.connections;
-							for (var i=0;i<connections.length;i++) {
-								if (closest.connection.x==connections[i].x&&closest.connection.y==connections[i].y) {
-									a.x = connections[i].offsetInBlock.x;
-									a.y = connections[i].offsetInBlock.y - 17;
-									break;
-								}	
-							}
-							
-							const width = 34;
-							const height = 34;
-							const slant = 15;
-							var b = [
-								`M ${slant},0`,
-								`l ${width/2},0`,
-								`l ${slant},${height / 2}`,
-								`l -${slant},${height / 2}`,
-								`l -${width/2},0`,
-								`l -${slant},-${height / 2}`, 
-								'Z'
-							];
-							
-							closest.connection.highlightPath=Blockly.utils.dom.createSvgElement(
-								Blockly.utils.Svg.PATH,
-								{
-								"class":"blocklyHighlightedConnectionPath",
-								d:b,
-								transform:`translate(${a.x}, ${a.y})`+(closest.connection.sourceBlock_.RTL?" scale(-1 1)":"")
-								},
-								closest.connection.sourceBlock_.getSvgRoot()
-							)
-							this.closest.push(closest);
-							closest.connection.highlight();	
-						}
-						
-						break;
-				  }
-				}		
-			}	
-			
-		} catch (e) {
-			console.error(e);
-		}			
-    }
-
-    handleMouseUp(event) {
-        event.stopPropagation();
-        event.preventDefault();
-		
-        if (!this.newBlock_) return;
-		
-		if (this.closest.length>0) {
-			for (var i=0;i<this.closest.length;i++) 
-				if (this.closest[i].connection.targetConnection)
-					this.closest[i].connection.targetConnection.unhighlight();
-				else {
-					this.closest[i].connection.unhighlight();
-				}
-			this.closest = [];
 		}		
-		
-		if (this.mouseXY) {
-			const connections = this.newBlock_.getConnections_(true);
-			for (const conn of connections) {
-			  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
-			  if (closest) {
-				  conn.connect(closest.connection);  
-			  }
-			}		
-		}		
-
-        for (let i = 0; i < 2; i++) {
-            if (this.boundEvents_.length > 0) {
-                Blockly.browserEvents.unbind(this.boundEvents_.pop());
-            }
-        }
-
-        this.newBlock_ = null;
-		this.newBlockWidth_ = null;
-		this.newBlockHeight_ = null;
-		this.mouseXY = null;
-		this.closest = [];
     }	
 
     applyColour() {
@@ -2784,17 +2325,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     } 
 	
 	dispose() {
-        if (this.textElement_) {
-            this.textElement_.removeEventListener('click', this.onClickHandler_);			
+        if (this.textElement_ && this.onDoubleClickHandler_) {
             this.textElement_.removeEventListener('dblclick', this.onDoubleClickHandler_);
         }
-		
-        if (this.boundEvents_) {
-            for (let i = 0; i < this.boundEvents_.length; i++) {
-                Blockly.browserEvents.unbind(this.boundEvents_[i]);
-            }
-        }
-        
         super.dispose();
     }	
 }
