@@ -2599,8 +2599,9 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				for (var i=0;i<this.closest.length;i++) 
 					if (this.closest[i].connection.targetConnection)
 						this.closest[i].connection.targetConnection.unhighlight();
-					else
+					else {
 						this.closest[i].connection.unhighlight();
+					}
 				this.closest = [];
 			}
 
@@ -2666,15 +2667,25 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		
         if (!this.newBlock_) return;
 		
+		if (this.closest.length>0) {
+			for (var i=0;i<this.closest.length;i++) 
+				if (this.closest[i].connection.targetConnection)
+					this.closest[i].connection.targetConnection.unhighlight();
+				else {
+					this.closest[i].connection.unhighlight();
+				}
+			this.closest = [];
+		}		
+		
 		if (this.mouseXY) {
 			const connections = this.newBlock_.getConnections_(true);
 			for (const conn of connections) {
 			  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
 			  if (closest) {
-				  conn.connect(closest.connection);
+				  conn.connect(closest.connection);  
 			  }
 			}		
-		}
+		}		
 
         for (let i = 0; i < 2; i++) {
             if (this.boundEvents_.length > 0) {
