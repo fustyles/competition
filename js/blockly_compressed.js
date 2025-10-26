@@ -2052,11 +2052,10 @@ workspaceToCode(a){
 	this.init(a);
 	a=a.getTopBlocks(!0);
 	for(let c=0,d;d=a[c];c++){
-		console.log(d.type);
-		console.log(scratchStyle);
+		
 		if (scratchStyle&&(d.type!="javascript_procedures_defnoreturn_scratch"&&d.type!="javascript_start_scratch"))
 			continue;
-		console.log("ok");
+		
 		let e=this.blockToCode(d);
 		Array.isArray(e)&&(e=e[0]);
 		if (e) {
@@ -2536,7 +2535,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				for (const conn of connections) {
 				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
 				  if (closest&&closest.connection) {
-						console.log(closest.connection);
+						//console.log(closest.connection);
 						if (closest.connection.targetConnection) {
 							this.closest.push(closest);
 							closest.connection.targetConnection.highlight();
