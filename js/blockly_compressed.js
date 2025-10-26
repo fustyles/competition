@@ -1093,9 +1093,9 @@ ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===C
 
 	a=this.offsetInBlock;
 	
-	if(this.type===
-	ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
-		if (this.sourceBlock_.workspace.getRenderer().name=="zelos") {
+	if (this.sourceBlock_.workspace.getRenderer().name=="zelos") {
+		if(this.type===ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
+		
 		  const blockSize = this.sourceBlock_.getHeightWidth();
 		  const width = blockSize.width;
 		  const height = blockSize.height;
