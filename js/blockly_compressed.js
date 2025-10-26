@@ -1076,7 +1076,10 @@ if(b(c))return c;if(c)return this.getNextNode_(c,b);a=this.findSiblingOrParent(a
 a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.NEXT||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.PREVIOUS||a===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.WORKSPACE)b=!0;return b}findSiblingOrParent(a){if(!a)return null;const b=a.next();return b?b:this.findSiblingOrParent(a.out())}getRightMostChild(a){if(!a.in())return a;for(a=a.in();a&&a.next();)a=a.next();return this.getRightMostChild(a)}};
 BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName="basicCursor";register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CURSOR,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor.registrationName,BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor);var module$build$src$core$keyboard_nav$basic_cursor={};module$build$src$core$keyboard_nav$basic_cursor.BasicCursor=BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor;var TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor=class extends BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor{validNode_(a){let b=!1;const c=a&&a.getType();a&&(a=a.getLocation(),c===ASTNode$$module$build$src$core$keyboard_nav$ast_node.types.FIELD&&a&&a.isTabNavigable()&&a.isClickable()&&(b=!0));return b}},module$build$src$core$keyboard_nav$tab_navigate_cursor={};module$build$src$core$keyboard_nav$tab_navigate_cursor.TabNavigateCursor=TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor;var BUMP_RANDOMNESS$$module$build$src$core$rendered_connection=10,
 
-RenderedConnection$$module$build$src$core$rendered_connection=class extends Connection$$module$build$src$core$connection{constructor(a,b){super(a,b);this.targetConnection=this.highlightPath=null;this.db=a.workspace.connectionDBList[b];this.dbOpposite=a.workspace.connectionDBList[OPPOSITE_TYPE$$module$build$src$core$internal_constants[b]];this.offsetInBlock=new Coordinate$$module$build$src$core$utils$coordinate(0,0);this.trackedState=
+RenderedConnection$$module$build$src$core$rendered_connection=class extends Connection$$module$build$src$core$connection{constructor(a,b){super(a,b);this.targetConnection=this.highlightPath=null;
+this.db=a.workspace.connectionDBList[b];
+this.dbOpposite=a.workspace.connectionDBList[OPPOSITE_TYPE$$module$build$src$core$internal_constants[b]];
+this.offsetInBlock=new Coordinate$$module$build$src$core$utils$coordinate(0,0);this.trackedState=
 RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK}dispose(){super.dispose();this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&this.db.removeConnection(this,this.y)}getSourceBlock(){return super.getSourceBlock()}targetBlock(){return super.targetBlock()}distanceFrom(a){const b=this.x-a.x;a=this.y-a.y;return Math.sqrt(b*b+a*a)}bumpAwayFrom(a){if(!this.sourceBlock_.workspace.isDragging()){var b=this.sourceBlock_.getRootBlock();
 if(!b.isInFlyout){var c=!1;if(!b.isMovable()){b=a.getSourceBlock().getRootBlock();if(!b.isMovable())return;a=this;c=!0}var d=getSelected$$module$build$src$core$common()==b;d||b.addSelect();var e=a.x+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x,f=a.y+$.config$$module$build$src$core$config.snapRadius+Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.y;c&&(f=-f);b.RTL&&
 (e=a.x-$.config$$module$build$src$core$config.snapRadius-Math.floor(Math.random()*BUMP_RANDOMNESS$$module$build$src$core$rendered_connection)-this.x);b.moveBy(e,f,["bump"]);d||b.removeSelect()}}}moveTo(a,b){let c=!1;this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.WILL_TRACK?(this.db.addConnection(this,b),this.trackedState=RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED,c=!0):this.trackedState===RenderedConnection$$module$build$src$core$rendered_connection.TrackedState.TRACKED&&
@@ -2577,7 +2580,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 	handleMouseMove(event) {
         if (!this.newBlock_) return;
 		
-		try {		
+		//try {		
 			const sourceWorkspace = this.newBlock_.workspace;
 			var mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
 			var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
@@ -2596,6 +2599,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				for (var i=0;i<this.closest.length;i++) 
 					if (this.closest[i].connection.targetConnection)
 						this.closest[i].connection.targetConnection.unhighlight();
+					else
+						this.closest[i].connection.unhighlight();
 				this.closest = [];
 			}
 
@@ -2604,19 +2609,55 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				for (const conn of connections) {
 				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
 				  if (closest&&closest.connection) {
-						//console.log(closest.connection);
 						if (closest.connection.targetConnection) {
 							this.closest.push(closest);
 							closest.connection.targetConnection.highlight();
 						}
+						else {
+							var a = {x:0, y:0};
+							const connections = closest.connection.db.connections;
+							for (var i=0;i<connections.length;i++) {
+								if (closest.connection.x==connections[i].x&&closest.connection.y==connections[i].y) {
+									a.x = connections[i].offsetInBlock.x;
+									a.y = connections[i].offsetInBlock.y - 17;
+									break;
+								}	
+							}
+							
+							const width = 34;
+							const height = 34;
+							const slant = 15;
+							var b = [
+								`M ${slant},0`,
+								`l ${width/2},0`,
+								`l ${slant},${height / 2}`,
+								`l -${slant},${height / 2}`,
+								`l -${width/2},0`,
+								`l -${slant},-${height / 2}`, 
+								'Z'
+							];
+							
+							closest.connection.highlightPath=Blockly.utils.dom.createSvgElement(
+								Blockly.utils.Svg.PATH,
+								{
+								"class":"blocklyHighlightedConnectionPath",
+								d:b,
+								transform:`translate(${a.x}, ${a.y})`+(closest.connection.sourceBlock_.RTL?" scale(-1 1)":"")
+								},
+								closest.connection.sourceBlock_.getSvgRoot()
+							)
+							this.closest.push(closest);
+							closest.connection.highlight();	
+						}
+						
 						break;
 				  }
 				}		
 			}	
 			
-		} catch (e) {
-			console.error(e);
-		}			
+		//} catch (e) {
+		//	console.error(e);
+		//}			
     }
 
     handleMouseUp(event) {
