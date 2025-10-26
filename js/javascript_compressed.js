@@ -454,7 +454,7 @@ scrubNakedValue(a){return a+";\n"}quote_(a){a=a.replace(/\\/g,"\\\\").replace(/\
 
 
 scrub_(a,b,c){
-	if (a.type=="javascript_procedures_defnoreturn_scratch")
+	if (a.type=="javascript_procedures_defnoreturn_scratch"||a.type=="javascript_start_scratch")
 		return b;
 
 	let d="";

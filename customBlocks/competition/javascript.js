@@ -29,7 +29,13 @@ Blockly.JavaScript['javascript_data_output'] = function(block) {
 Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript['javascript_data_output'];
 
 Blockly.JavaScript['javascript_start_scratch'] = function(block) {
-	return '';
+	const nextBlock = block.getNextBlock();
+	if (nextBlock)
+		var code = Blockly.JavaScript.blockToCode(nextBlock);
+	else
+		var code = "";
+	
+	return code;
 };
 
 Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {		
