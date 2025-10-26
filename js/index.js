@@ -1101,9 +1101,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	//新增初始化積木
 	function newFile() {
-		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
 		workspace.clear();
+		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
 		Blockly.Xml.domToWorkspace(xmlDoc, workspace);
+		workspace.scrollCenter();
 		
 		xmlBlockly = "";	
 		xmlScratch = "";
@@ -1141,7 +1142,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		var result = confirm(Blockly.Msg.BUTTON_RESET);
 		if (result) {
 			newFile();
-			resetOutput();
 		}
 	}
 
