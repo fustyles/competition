@@ -1968,9 +1968,9 @@ resetZoom(a){this.workspace.markFocused();const b=Math.log(this.workspace.option
 
 zoom(a,b){this.workspace.markFocused();this.workspace.zoomCenter(a);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();b.stopPropagation();b.preventDefault()}
 
-zoomPrevious(a){this.workspace.undo(false);};
-zoomNext(a){this.workspace.undo(true);};
-zoomShowCategory(a){
+zoomPrevious(){this.workspace.undo(false);};
+zoomNext(){this.workspace.undo(true);};
+zoomShowCategory(){
 	if (this.workspace.getToolbox().isVisible_)
 		this.workspace.getToolbox().setVisible(false);
 	else
@@ -1979,7 +1979,7 @@ zoomShowCategory(a){
 };
 zoomFit(){this.workspace.zoomToFit();};
 zoomCleanup(){this.workspace.cleanUp();this.workspace.scrollCenter();};
-zoomChangeToolbox(a){
+zoomChangeToolbox(){
 	scratchStyle = !scratchStyle;	
 	if (scratchStyle) {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = "";
@@ -2455,11 +2455,11 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.newBlock_ = null;
 		this.newBlockWidth_ = null;
 		this.newBlockHeight_ = null;
-		this.mouseXY = null;		
-        this.boundEvents_ = [];
+		this.newBlockXY = null;		
 		
 		this.closest = [];
 		
+        this.boundEvents_ = [];
 		this.onClickHandler_ = this.handleClick.bind(this);
 		this.onDoubleClickHandler_ = this.handleDoubleClick.bind(this);
     } 
@@ -2530,37 +2530,35 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			return;
 		}
 		
-		var xml = 
+		let blockXml = 
         `<xml xmlns="https://developers.google.com/blockly/xml">` +
             `<block type="${blockType}" gap="${gapValue}">` +
                 `<field name="VAR" variabletype="${fieldTpye}">${fieldName}</field>` +
             `</block>` +
         `</xml>`;
 		
-		var sourceWorkspace = this.sourceBlock_.workspace;
+		let sourceWorkspace = this.sourceBlock_.workspace;
 		
 		Blockly.Events.disable();
 		try {		
-			var domBlock = Blockly.utils.xml.textToDom(xml);
-			var topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
-							
-			var block = sourceWorkspace.getBlockById(topBlocks[0]);
-			
-			const blockBounds = block.getBoundingRectangle();
-			const blockWidth = blockBounds.right - blockBounds.left;
-			const blockHeight = blockBounds.bottom - blockBounds.top;
+			let domBlock = Blockly.utils.xml.textToDom(blockXml);
+			let topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
+			let block = sourceWorkspace.getBlockById(topBlocks[0]);
+			const blockSize = block.getHeightWidth();
+			const blockWidth = blockSize.width;
+			const blockHeight = blockSize.height;
 		
 			this.newBlock_ = block;
 			this.newBlockWidth_ = blockWidth;
 			this.newBlockHeight_ = blockHeight;
 			
-			var blockToMouseXY = getBlockToMouseXY(this.newBlock_);
+			let blockToMouseXY = getBlockToMouseXY(this.newBlock_);
 			
-			this.mouseXY = {};
-			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
-			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
+			this.newBlockXY = {};
+			this.newBlockXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
+			this.newBlockXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
 
-			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
+			this.newBlock_.moveBy(this.newBlockXY.x, this.newBlockXY.y);
 			this.newBlock_.select();
 			
 			Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
@@ -2582,21 +2580,22 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		
 		try {		
 			const sourceWorkspace = this.newBlock_.workspace;
-			var mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
-			var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
-			var blockPos = Blockly.utils.svgMath.getRelativeXY(this.newBlock_.getSvgRoot());
-			var blockToMouseXY = {};
+			let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
+			let mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
+			let blockPos = Blockly.utils.svgMath.getRelativeXY(this.newBlock_.getSvgRoot());
+			
+			let blockToMouseXY = {};
 			blockToMouseXY.x = mousePos.x - blockPos.x;
 			blockToMouseXY.y = mousePos.y - blockPos.y;
 			
-			this.mouseXY = {};
-			this.mouseXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
-			this.mouseXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
+			this.newBlockXY = {};
+			this.newBlockXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
+			this.newBlockXY.y = blockToMouseXY.y - this.newBlockHeight_/2;
 			
-			this.newBlock_.moveBy(this.mouseXY.x, this.mouseXY.y);
+			this.newBlock_.moveBy(this.newBlockXY.x, this.newBlockXY.y);
 			
 			if (this.closest.length>0) {
-				for (var i=0;i<this.closest.length;i++) 
+				for (let i=0;i<this.closest.length;i++) 
 					if (this.closest[i].connection.targetConnection)
 						this.closest[i].connection.targetConnection.unhighlight();
 					else {
@@ -2605,19 +2604,18 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				this.closest = [];
 			}
 
-			if (this.mouseXY) {
+			if (this.newBlockXY) {
 				const connections = this.newBlock_.getConnections_(true);
 				for (const conn of connections) {
-				  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
+				  const closest = conn.closest(Blockly.config.snapRadius, this.newBlockXY);
 				  if (closest&&closest.connection) {
 						if (closest.connection.targetConnection) {
 							this.closest.push(closest);
 							closest.connection.targetConnection.highlight();
-						}
-						else {
-							var a = {x:0, y:0};
+						} else {
+							let a = {x:0, y:0};
 							const connections = closest.connection.db.connections;
-							for (var i=0;i<connections.length;i++) {
+							for (let i=0;i<connections.length;i++) {
 								if (closest.connection.x==connections[i].x&&closest.connection.y==connections[i].y) {
 									a.x = connections[i].offsetInBlock.x;
 									a.y = connections[i].offsetInBlock.y;
@@ -2625,13 +2623,15 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 								}	
 							}
 							
+							let rectPathData = null;
+							
 							if (this.backgroundStyle_==1) {
 								a.y -= 18;
 								const width = 48;
 								const height = 34;
 								const corner = height / 2;
 
-								b = [
+								rectPathData = [
 									`M ${corner},0`,                                    
 									`h ${width - 2 * corner}`,                          
 									`a ${corner},${corner} 0 0 1 ${corner},${corner}`,   
@@ -2648,7 +2648,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 								const width = 34;
 								const height = 34;
 								const slant = 15;
-								var b = [
+								
+								rectPathData = [
 									`M ${slant},0`,
 									`l ${width/2},0`,
 									`l ${slant},${height / 2}`,
@@ -2659,12 +2660,11 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 								].join(' ');
 							}
 
-							
 							closest.connection.highlightPath=Blockly.utils.dom.createSvgElement(
 								Blockly.utils.Svg.PATH,
 								{
 								"class":"blocklyHighlightedConnectionPath",
-								d:b,
+								d:rectPathData,
 								transform:`translate(${a.x}, ${a.y})`+(closest.connection.sourceBlock_.RTL?" scale(-1 1)":"")
 								},
 								closest.connection.sourceBlock_.getSvgRoot()
@@ -2690,7 +2690,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         if (!this.newBlock_) return;
 		
 		if (this.closest.length>0) {
-			for (var i=0;i<this.closest.length;i++) 
+			for (let i=0;i<this.closest.length;i++) 
 				if (this.closest[i].connection.targetConnection)
 					this.closest[i].connection.targetConnection.unhighlight();
 				else {
@@ -2699,10 +2699,10 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			this.closest = [];
 		}		
 		
-		if (this.mouseXY) {
+		if (this.newBlockXY) {
 			const connections = this.newBlock_.getConnections_(true);
 			for (const conn of connections) {
-			  const closest = conn.closest(Blockly.config.snapRadius, this.mouseXY);
+			  const closest = conn.closest(Blockly.config.snapRadius, this.newBlockXY);
 			  if (closest) {
 				  conn.connect(closest.connection);  
 			  }
@@ -2718,7 +2718,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         this.newBlock_ = null;
 		this.newBlockWidth_ = null;
 		this.newBlockHeight_ = null;
-		this.mouseXY = null;
+		this.newBlockXY = null;
 		this.closest = [];
     }	
 

@@ -1544,9 +1544,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (file) {
 					var fr = new FileReader();           
 					fr.onload = function (event) {
-						workspace.clear();
 						var blocks = Blockly.utils.xml.textToDom(event.target.result);
-						
 						var platformValue = blocks.getAttribute('platform');
 						if (platformValue == 'scratch'){
 							scratchStyle = true;
@@ -1556,8 +1554,13 @@ document.addEventListener('DOMContentLoaded', function() {
 							changeToolboxStyle(false);
 						}
 						
+						workspace.clear();
 						Blockly.Xml.domToWorkspace(blocks, workspace);
+						
+						const b=Math.log(workspace.options.zoomOptions.startScale/workspace.scale)/Math.log(workspace.options.zoomOptions.scaleSpeed);
+						workspace.zoomCenter(b);
 						workspace.scrollCenter();
+						
 						javascriptCode();
 						resetOutput();
 					};
