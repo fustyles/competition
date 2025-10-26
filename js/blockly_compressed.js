@@ -1095,21 +1095,22 @@ ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===C
 	
 	if (this.sourceBlock_.workspace.getRenderer().name=="zelos") {
 		if(this.type===ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE||this.type===ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE) {
-		
+
 		  const blockSize = this.sourceBlock_.getHeightWidth();
 		  const width = blockSize.width;
 		  const height = blockSize.height;
 		  
 		  if (this.check[0] == "Boolean") {
-			  const slant = height / 2;
+			  const slant = height / 2 + 3;
 
 			  b = [
-					`M ${x + slant},${y}`,
-					`l ${width},0`,
+					`M ${slant},0`,
+					`l ${width / 2},0`,
 					`l ${slant},${height / 2}`,
 					`l -${slant},${height / 2}`,
-					`l -${width},0`,
-					`l -${slant},-${height / 2}`,
+					`l -${width / 2},0`,
+					`l -${slant},-${height / 2}`, 
+					'Z'
 				];
 		  } else {
 			  const corner = height / 2;
@@ -1217,25 +1218,93 @@ c.workspace!==d.workspace?Connection$$module$build$src$core$connection.REASON_DI
 Connection$$module$build$src$core$connection.CAN_CONNECT}doTypeChecks(a,b){a=a.getCheck();b=b.getCheck();if(!a||!b)return!0;for(let c=0;c<a.length;c++)if(-1!==b.indexOf(a[c]))return!0;return!1}doDragChecks(a,b,c){if(a.distanceFrom(b)>c||b.getSourceBlock().isInsertionMarker())return!1;switch(b.type){case ConnectionType$$module$build$src$core$connection_type.PREVIOUS_STATEMENT:return this.canConnectToPrevious_(a,b);case ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE:if(b.isConnected()&&
 !b.targetBlock().isInsertionMarker()||a.isConnected())return!1;break;case ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE:if(b.isConnected()&&!b.targetBlock().isMovable()&&!b.targetBlock().isShadow())return!1;break;case ConnectionType$$module$build$src$core$connection_type.NEXT_STATEMENT:if(b.isConnected()&&!a.getSourceBlock().nextConnection&&!b.targetBlock().isShadow()&&b.targetBlock().nextConnection||b.targetBlock()&&!b.targetBlock().isMovable()&&!b.targetBlock().isShadow())return!1;
 break;default:return!1}return-1!==draggingConnections$$module$build$src$core$common.indexOf(b)?!1:!0}canConnectToPrevious_(a,b){if(a.targetConnection||-1!==draggingConnections$$module$build$src$core$common.indexOf(b))return!1;if(!b.targetConnection)return!0;a=b.targetBlock();return a.isInsertionMarker()?!a.getPreviousBlock():!1}};register$$module$build$src$core$registry(Type$$module$build$src$core$registry.CONNECTION_CHECKER,DEFAULT$$module$build$src$core$registry,ConnectionChecker$$module$build$src$core$connection_checker);
-var module$build$src$core$connection_checker={};module$build$src$core$connection_checker.ConnectionChecker=ConnectionChecker$$module$build$src$core$connection_checker;var ConnectionDB$$module$build$src$core$connection_db=class{constructor(a){this.connectionChecker=a;this.connections=[]}addConnection(a,b){b=this.calculateIndexForYPos(b);this.connections.splice(b,0,a)}findIndexOfConnection(a,b){if(!this.connections.length)return-1;const c=this.calculateIndexForYPos(b);if(c>=this.connections.length)return-1;b=a.y;let d=c;for(;0<=d&&this.connections[d].y===b;){if(this.connections[d]===a)return d;d--}for(d=c;d<this.connections.length&&this.connections[d].y===b;){if(this.connections[d]===
-a)return d;d++}return-1}calculateIndexForYPos(a){if(!this.connections.length)return 0;let b=0,c=this.connections.length;for(;b<c;){const d=Math.floor((b+c)/2);if(this.connections[d].y<a)b=d+1;else if(this.connections[d].y>a)c=d;else{b=d;break}}return b}removeConnection(a,b){a=this.findIndexOfConnection(a,b);if(-1===a)throw Error("Unable to find connection in connectionDB.");this.connections.splice(a,1)}getNeighbours(a,b){function c(l){const n=e-d[l].x,m=f-d[l].y;Math.sqrt(n*n+m*m)<=b&&k.push(d[l]);
-return m<b}const d=this.connections,e=a.x,f=a.y;a=0;let g=d.length-2,h=g;for(;a<h;)d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);const k=[];g=a=h;if(d.length){for(;0<=a&&c(a);)a--;do g++;while(g<d.length&&c(g))}return k}isInYRange(a,b,c){return Math.abs(this.connections[a].y-b)<=c}
+var module$build$src$core$connection_checker={};module$build$src$core$connection_checker.ConnectionChecker=ConnectionChecker$$module$build$src$core$connection_checker;
 
-
-searchForClosest(a,b,c){
-	if(!this.connections.length)
-		return{connection:null,radius:b};
-	const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;
-	var f=this.calculateIndexForYPos(a.y);
-	c=null;
-	let g=b,h,k=f-1;
-	for(;0<=k&&this.isInYRange(k,a.y,b);)
-		h=this.connections[k],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;
-	for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)
-		h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;
-	a.y=d;
-	return{connection:c,radius:g}
-}
+var ConnectionDB$$module$build$src$core$connection_db=class{
+	constructor(a){
+		this.connectionChecker=a;
+		this.connections=[]
+	}
+	addConnection(a,b){
+		b=this.calculateIndexForYPos(b);
+		this.connections.splice(b,0,a)
+	}
+	findIndexOfConnection(a,b){
+		if(!this.connections.length)
+			return-1;
+		const c=this.calculateIndexForYPos(b);
+		if(c>=this.connections.length)
+			return-1;b=a.y;
+		let d=c;
+		for(;0<=d&&this.connections[d].y===b;){
+			if(this.connections[d]===a)
+				return d;d--
+		}
+		for(d=c;d<this.connections.length&&this.connections[d].y===b;){
+			if(this.connections[d]===a)
+				return d;d++
+		}
+		return-1
+	}
+	calculateIndexForYPos(a){
+		if(!this.connections.length)
+			return 0;
+		let b=0,c=this.connections.length;
+		for(;b<c;){
+			const d=Math.floor((b+c)/2);
+			if(this.connections[d].y<a)
+				b=d+1;
+			else if(this.connections[d].y>a)
+				c=d;
+			else{
+				b=d;break
+			}
+		}
+		return b
+	}
+	removeConnection(a,b){
+		a=this.findIndexOfConnection(a,b);
+		if(-1===a)
+			throw Error("Unable to find connection in connectionDB.");
+		this.connections.splice(a,1)
+	}
+	getNeighbours(a,b){
+		function c(l){
+			const n=e-d[l].x,m=f-d[l].y;
+			Math.sqrt(n*n+m*m)<=b&&k.push(d[l]);
+			return m<b
+		}
+		const d=this.connections,e=a.x,f=a.y;
+		a=0;
+		let g=d.length-2,h=g;
+		for(;a<h;)
+			d[h].y<f?a=h:g=h,h=Math.floor((a+g)/2);
+		const k=[];
+		g=a=h;
+		if(d.length){
+			for(;0<=a&&c(a);)a--;
+			do g++;
+			while(g<d.length&&c(g))
+		}
+		return k
+	}
+	isInYRange(a,b,c){
+		return Math.abs(this.connections[a].y-b)<=c
+	}
+	searchForClosest(a,b,c){
+		if(!this.connections.length)
+			return{connection:null,radius:b};
+		const d=a.y,e=a.x;a.x=e+c.x;a.y=d+c.y;
+		var f=this.calculateIndexForYPos(a.y);
+		c=null;
+		let g=b,h,k=f-1;
+		for(;0<=k&&this.isInYRange(k,a.y,b);)
+			h=this.connections[k],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),k--;
+		for(;f<this.connections.length&&this.isInYRange(f,a.y,b);)
+			h=this.connections[f],this.connectionChecker.canConnect(a,h,!0,g)&&(c=h,g=h.distanceFrom(a)),f++;a.x=e;
+		a.y=d;
+		return{connection:c,radius:g}
+	}
 
 
 static init(a){const b=[];b[ConnectionType$$module$build$src$core$connection_type.INPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);b[ConnectionType$$module$build$src$core$connection_type.OUTPUT_VALUE]=new ConnectionDB$$module$build$src$core$connection_db(a);
