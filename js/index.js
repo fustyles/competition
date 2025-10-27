@@ -1557,8 +1557,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.clear();
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						
-						const b=Math.log(workspace.options.zoomOptions.startScale/workspace.scale)/Math.log(workspace.options.zoomOptions.scaleSpeed);
-						workspace.zoomCenter(b);
+						document.getElementById('javascript_content').style.display = "none";
 						workspace.scrollCenter();
 						
 						javascriptCode();
