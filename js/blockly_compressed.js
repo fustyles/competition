@@ -2613,24 +2613,23 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 							this.closest.push(closest);
 							closest.connection.targetConnection.highlight();
 						} else {
-							let connectionHighlightOffset = {x:0, y:0};
+							let translateX = {x:0, y:0};
 							const connections = closest.connection.db.connections;
 							for (let i=0;i<connections.length;i++) {
 								if (closest.connection.x==connections[i].x&&closest.connection.y==connections[i].y) {
-									connectionHighlightOffset.x = connections[i].offsetInBlock.x;
-									connectionHighlightOffset.y = connections[i].offsetInBlock.y;
+									translateX.x = connections[i].offsetInBlock.x;
+									translateX.y = connections[i].offsetInBlock.y;
 									break;
 								}	
 							}
 							
-							const renderer = this.sourceBlock_.workspace.getRenderer();
-							const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
-							console.log(constants);
+							//const renderer = this.sourceBlock_.workspace.getRenderer();
+							//const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
 							
 							let rectPathData = null;
 							
 							if (this.backgroundStyle_==1) {
-								connectionHighlightOffset.y -= 18;
+								translateX.y -= 18;
 								const width = 48;
 								const height = 35;
 								const corner = height / 2;
@@ -2648,7 +2647,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 									'Z'                                                
 								].join(' ');
 							} else if (this.backgroundStyle_==2) {
-								connectionHighlightOffset.y -= 17;
+								translateX.y -= 17;
 								const width = 35;
 								const height = 35;
 								const slant = 15;
@@ -2669,7 +2668,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 								{
 								"class":"blocklyHighlightedConnectionPath",
 								d:rectPathData,
-								transform:`translate(${connectionHighlightOffset.x}, ${connectionHighlightOffset.y})`+(closest.connection.sourceBlock_.RTL?" scale(-1 1)":"")
+								transform:`translate(${translateX.x}, ${translateX.y})`+(closest.connection.sourceBlock_.RTL?" scale(-1 1)":"")
 								},
 								closest.connection.sourceBlock_.getSvgRoot()
 							)
