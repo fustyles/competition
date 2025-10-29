@@ -2513,27 +2513,25 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         event.stopPropagation();
         event.preventDefault();
 		
-		let blockType = "variables_get_other";
+		let blockType = "javascript_variable_ns_scratch";
 		let gapValue = 0;
 		
         let fieldName = this.getText();
 		let fieldTpye = "";
 		if (this.backgroundStyle_==1) {
 			fieldTpye = "other";
-			blockType = "variables_get_other";
-			gapValue = 8;
+			blockType = "javascript_variable_ns_scratch";
 		} else if (this.backgroundStyle_==2) {
 			fieldTpye = "Boolean";
-			blockType = "variables_get_boolean";
-			gapValue = 24;
-		} else if (this.backgroundStyle_==0) {
+			blockType = "javascript_variable_boolean_scratch";
+		} else {
 			return;
 		}
 		
 		let blockXml = 
         `<xml xmlns="https://developers.google.com/blockly/xml">` +
-            `<block type="${blockType}" gap="${gapValue}">` +
-                `<field name="VAR" variabletype="${fieldTpye}">${fieldName}</field>` +
+            `<block type="${blockType}">` +
+                `<field name="variableName">${fieldName}</field>` +
             `</block>` +
         `</xml>`;
 		
@@ -2753,7 +2751,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         //const constants = renderer.getConstants ? renderer.getConstants() : renderer.constants_;
 
 		const textWidth = this.textElement_.getComputedTextLength();
-		let fieldHeight = 30;
+		let fieldHeight = 40;
 		let cornerRadius = 0;
 		let finalWidth = textWidth;
 		let finalHeight = fieldHeight
@@ -2769,21 +2767,21 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				finalHeight, 
 				cornerRadius 
 			);
-			paddingLeft = 5;
+			paddingLeft = 10;
 		} else if (this.backgroundStyle_==1) { // Oval
 			cornerRadius = finalHeight / 2;
-			finalWidth = textWidth + cornerRadius*2;
+			finalWidth = textWidth + cornerRadius*1.5;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
 				finalWidth, 
 				finalHeight, 
 				cornerRadius 
 			);
-			paddingLeft = 14;
+			paddingLeft = 15;
 		} else if (this.backgroundStyle_==2) { // Hexagon
 			finalWidth = textWidth + finalHeight;
 			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, finalHeight);
-			paddingLeft = 14;
+			paddingLeft = 20;
 		} else if (this.backgroundStyle_==3) { // Diamond
             finalWidth = textWidth * 2;
             gRectPath = FieldZelosLabelBackground.getDiamondPath(
@@ -2798,7 +2796,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		this.size_.width = finalWidth;		
         
         const translateX = 0;
-        const translateY = -4; 
+        const translateY = -9; 
         
         this.fieldBorderRect_.setAttribute('transform', `translate(${translateX}, ${translateY})`);
 

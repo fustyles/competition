@@ -909,3 +909,37 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
         }
     }
 };
+
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_variable_ns_scratch",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_label_serializable", 
+        "name": "variableName",
+        "text": "", 
+      }
+    ],
+    "output": ["Number", "String"],
+    "inputsInline": true,
+    "style": "variables_blocks" 
+  }
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+  {
+    "type": "javascript_variable_boolean_scratch",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_label_serializable", 
+        "name": "variableName",
+        "text": "", 
+      }
+    ],
+    "output": ["Boolean"],
+    "inputsInline": true,
+    "style": "logic_blocks" 
+  }
+]);

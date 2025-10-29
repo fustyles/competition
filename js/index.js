@@ -388,23 +388,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 				varModels.forEach(function(variable) {
 					if (variable.type=="other") {
-						if (Blockly.Blocks['variables_get_other']) {
-							const getBlock = Blockly.utils.xml.createElement('block');
-							getBlock.setAttribute('type', 'variables_get_other');
-							getBlock.setAttribute('gap', '24');
-							
-							getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
-							blocks.push(getBlock);
+						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
+							const listAddXml = '<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>';
+					
+							blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 						}
-
 					} else if (variable.type=="Boolean") {
-						if (Blockly.Blocks['variables_get_boolean']) {
-							const getBlock = Blockly.utils.xml.createElement('block');
-							getBlock.setAttribute('type', 'variables_get_boolean');
-							getBlock.setAttribute('gap', '24');
-							
-							getBlock.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
-							blocks.push(getBlock);
+						if (Blockly.Blocks['javascript_variable_boolean_scratch']) {
+							const listAddXml = '<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>';
+					
+							blocks.push(Blockly.utils.xml.textToDom(listAddXml));
 						}
 					}
 				});
