@@ -766,7 +766,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
                     if (typeof FieldZelosLabelBackground !== 'undefined') {
 						const allVariables = workspace.getAllVariables();
 						allVariables.find(variableModel => {
-							if (variableModel.name === this.arguments_[i]&&variableModel.type=="other") {
+							if (variableModel.name === this.arguments_[i]&&variableModel.type=="NS") {
 								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i], null, {
 									textColor: '#FFFFFF',
 									backgroundColor: '#FD6723',
@@ -838,7 +838,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 					
 				const allVariables = workspace.getAllVariables();
 				allVariables.find(variableModel => {
-					if (variableModel.name === b.value_&&variableModel.type=="other") {
+					if (variableModel.name === b.value_&&variableModel.type=="NS") {
 						this.appendValueInput("ARG" + a)
 							.setAlign(Blockly.Align_RIGHT)
 							.setCheck(["String","Number"])

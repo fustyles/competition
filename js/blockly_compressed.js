@@ -157,7 +157,9 @@ nameUsedWithAnyType$$module$build$src$core$variables=function(a,b){b=b.getVariab
 checkForConflictingParamWithProcedureModels$$module$build$src$core$variables=function(a,b,c){a=a.toLowerCase();b=b.toLowerCase();c=c.getProcedureMap().getProcedures();for(const e of c){var d=e.getParameters().filter(isVariableBackedParameterModel$$module$build$src$core$interfaces$i_variable_backed_parameter_model).map(f=>f.getVariableModel().name);if(d&&(c=d.some(f=>f.toLowerCase()===a),d=d.some(f=>f.toLowerCase()===b),c&&d))return e.getName()}return null};
 checkForConflictingParamWithLegacyProcedures$$module$build$src$core$variables=function(a,b,c){a=a.toLowerCase();b=b.toLowerCase();c=c.getAllBlocks(!1);for(const e of c){if(!isLegacyProcedureDefBlock$$module$build$src$core$interfaces$i_legacy_procedure_blocks(e))continue;c=e.getProcedureDef();var d=c[1];const f=d.some(g=>g.toLowerCase()===a);d=d.some(g=>g.toLowerCase()===b);if(f&&d)return c[0]}return null};
 $.generateVariableFieldDom$$module$build$src$core$variables=function(a){const b=$.createElement$$module$build$src$core$utils$xml("field");b.setAttribute("name","VAR");b.setAttribute("id",a.getId());b.setAttribute("variabletype",a.type);a=$.createTextNode$$module$build$src$core$utils$xml(a.name);b.appendChild(a);return b};
-$.getOrCreateVariablePackage$$module$build$src$core$variables=function(a,b,c,d){let e=$.getVariable$$module$build$src$core$variables(a,b,c,d);e||(e=createVariable$$module$build$src$core$variables(a,b,c,d));return e};
+$.getOrCreateVariablePackage$$module$build$src$core$variables=function(a,b,c,d){	
+	let e=$.getVariable$$module$build$src$core$variables(a,b,c,d);e||(e=createVariable$$module$build$src$core$variables(a,b,c,d));return e
+};
 $.getVariable$$module$build$src$core$variables=function(a,b,c,d){const e=a.getPotentialVariableMap();let f=null;if(b&&(f=a.getVariableById(b),!f&&e&&(f=e.getVariableById(b)),f))return f;if(c){if(void 0===d)throw Error("Tried to look up a variable by name without a type");f=a.getVariable(c,d);!f&&e&&(f=e.getVariable(c,d))}return f};
 createVariable$$module$build$src$core$variables=function(a,b,c,d){const e=a.getPotentialVariableMap();c||(c=generateUniqueName$$module$build$src$core$variables(a.isFlyout?a.targetWorkspace:a));return e?e.createVariable(c,d,b):a.createVariable(c,d,b)};getAddedVariables$$module$build$src$core$variables=function(a,b){a=a.getAllVariables();const c=[];if(b.length!==a.length)for(let d=0;d<a.length;d++){const e=a[d];-1===b.indexOf(e)&&c.push(e)}return c};
 longStart$$module$build$src$core$touch=function(a,b){longStop$$module$build$src$core$touch();longPid_$$module$build$src$core$touch=setTimeout(function(){b&&b.handleRightClick(a)},LONGPRESS$$module$build$src$core$touch)};longStop$$module$build$src$core$touch=function(){longPid_$$module$build$src$core$touch&&(clearTimeout(longPid_$$module$build$src$core$touch),longPid_$$module$build$src$core$touch=0)};
@@ -2519,7 +2521,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         let fieldName = this.getText();
 		let fieldTpye = "";
 		if (this.backgroundStyle_==1) {
-			fieldTpye = "other";
+			fieldTpye = "NS";
 			blockType = "javascript_variable_ns_scratch";
 		} else if (this.backgroundStyle_==2) {
 			fieldTpye = "Boolean";

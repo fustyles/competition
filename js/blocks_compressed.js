@@ -381,11 +381,56 @@ validator_:function(a){
 	return a
 }
 ,deleteIntermediateVars_:function(a){const b=this.getSourceBlock().workspace.getRootWorkspace();if(b)for(let c=0;c<this.createdVariables_.length;c++){const d=this.createdVariables_[c];
-d.name!==a&&b.deleteVariableById(d.getId())}}};blocks$$module$build$src$blocks$procedures.procedures_mutatorarg=PROCEDURES_MUTATORARGUMENT$$module$build$src$blocks$procedures;
-var PROCEDURE_CALL_COMMON$$module$build$src$blocks$procedures={getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){$.Names$$module$build$src$core$names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?$.Msg$$module$build$src$core$msg.PROCEDURES_CALLRETURN_TOOLTIP:$.Msg$$module$build$src$core$msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters_:function(a,b){var c=$.getDefinition$$module$build$src$core$procedures(this.getProcedureCall(),
-this.workspace);(c=(c=c&&c.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE))&&c.bubbleIsVisible())?this.setCollapsed(!1):(this.quarkConnections_={},this.quarkIds_=null);if(a.join("\n")===this.arguments_.join("\n"))this.quarkIds_=b;else{if(b.length!==a.length)throw RangeError("paramNames and paramIds must be the same length.");this.quarkIds_||(this.quarkConnections_={},this.quarkIds_=[]);for(let e=0;e<this.arguments_.length;e++){var d=this.getInput("ARG"+e);d&&(d=d.connection.targetConnection,
-this.quarkConnections_[this.quarkIds_[e]]=d,c&&d&&-1===b.indexOf(this.quarkIds_[e])&&(d.disconnect(),d.getSourceBlock().bumpNeighbours()))}this.arguments_=[].concat(a);this.argumentVarModels_=[];for(a=0;a<this.arguments_.length;a++)c=$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,null,this.arguments_[a],""),this.argumentVarModels_.push(c);this.updateShape_();if(this.quarkIds_=b)for(b=0;b<this.arguments_.length;b++)if(a=this.quarkIds_[b],a in this.quarkConnections_){let e;
-(null==(e=this.quarkConnections_[a])?0:e.reconnect(this,"ARG"+b))||delete this.quarkConnections_[a]}}},
+d.name!==a&&b.deleteVariableById(d.getId())}}
+};
+blocks$$module$build$src$blocks$procedures.procedures_mutatorarg=PROCEDURES_MUTATORARGUMENT$$module$build$src$blocks$procedures;
+var PROCEDURE_CALL_COMMON$$module$build$src$blocks$procedures={getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){$.Names$$module$build$src$core$names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?$.Msg$$module$build$src$core$msg.PROCEDURES_CALLRETURN_TOOLTIP:$.Msg$$module$build$src$core$msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters_: function(a, b) {
+    var c = $.getDefinition$$module$build$src$core$procedures(this.getProcedureCall(), this.workspace);
+    
+    (c = (c = c && c.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE)) && c.bubbleIsVisible()) ?
+        this.setCollapsed(!1) :
+        (this.quarkConnections_ = {}, this.quarkIds_ = null);
+        
+    if (a.join("\n") === this.arguments_.join("\n")) {
+        this.quarkIds_ = b;
+    } else {
+        if (b.length !== a.length) {
+            throw RangeError("paramNames and paramIds must be the same length.");
+        }
+        
+        this.quarkIds_ || (this.quarkConnections_ = {}, this.quarkIds_ = []);
+        
+        for (let e = 0; e < this.arguments_.length; e++) {
+            var d = this.getInput("ARG" + e);
+            if (d) {
+                (d = d.connection.targetConnection,
+                this.quarkConnections_[this.quarkIds_[e]] = d,
+                c && d && -1 === b.indexOf(this.quarkIds_[e]) && (d.disconnect(), d.getSourceBlock().bumpNeighbours()))
+            }
+        }
+        
+        this.arguments_ = [].concat(a);
+        this.argumentVarModels_ = [];
+        
+        for (a = 0; a < this.arguments_.length; a++) {
+			if (!scratchStyle) {
+				c = $.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace, null, this.arguments_[a], ""),
+				this.argumentVarModels_.push(c);
+			}
+        }
+        
+        this.updateShape_();
+        
+        if (this.quarkIds_ = b) {
+            for (b = 0; b < this.arguments_.length; b++) {
+                if (a = this.quarkIds_[b], a in this.quarkConnections_) {
+                    let e;
+                    (null == (e = this.quarkConnections_[a]) ? 0 : e.reconnect(this, "ARG" + b)) || delete this.quarkConnections_[a];
+                }
+            }
+        }
+    }
+},
 
 updateShape_: function() {
     for (var a = 0; a < this.arguments_.length; a++) {
@@ -478,7 +523,7 @@ updateShape_: function() {
 		"arg"===e.nodeName.toLowerCase()&&(b.push(e.getAttribute("name")),c.push(e.getAttribute("paramId")));
 		const f=e.getAttribute("name");
 		const g=e.getAttribute("type");
-		const h=e.getAttribute("varId");
+		const h=e.getAttribute("varid");
 		this.arguments_.push(e);
 		if (!this.workspace.getVariableById(h))
 			$.getOrCreateVariablePackage$$module$build$src$core$variables(this.workspace,h,f,g);	

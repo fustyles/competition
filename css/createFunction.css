@@ -164,7 +164,7 @@
 }
 
 /* 1. 橢圓形 (數字或文字) */
-.param-tag.other {
+.param-tag.NS {
 	border-radius: 9999px;
 	color: #FFFFFF; 
 	background-color: #FD6723;

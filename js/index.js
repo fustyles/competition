@@ -160,18 +160,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 			blocks.push(btn);
 			
-			
-			
-			const a = workspace.getAllVariables;
-			console.log(a);
-			
-			
-		
-	
 			const variables = workspace.getVariablesOfType("other");
 			if (variables.length > 0) {
 				const latestVariable = variables[variables.length - 1];
-				
+
 				if (Blockly.Blocks['variables_get_other']) {
 					variables.sort(Blockly.VariableModel.compareByName);
 
@@ -394,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 			
 				varModels.forEach(function(variable) {
-					if (variable.type=="other") {
+					if (variable.type=="NS") {
 						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
 							const listAddXml = '<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>';
 					
@@ -445,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	function addBlockToInput(block, inputName, fieldValue) {
 		let customField;
-		if (fieldValue[1]=="other") {
+		if (fieldValue[1]=="NS") {
 			customField = new FieldZelosInputBackground(fieldValue[0], null, {
 				textColor: '#FFFFFF',
 				backgroundColor: '#FD6723',
@@ -472,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			customField.setValidator(function(newValue) {
 				var fieldTpye = "";
 				if (this.backgroundStyle_==1)
-					fieldTpye = "other";
+					fieldTpye = "NS";
 				else if (this.backgroundStyle_==2)
 					fieldTpye = "Boolean";
 				else if (this.backgroundStyle_==0)
@@ -770,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var fieldName = field.value_;
 		var fieldTpye = "";
 		if (field.backgroundStyle_==1)
-			fieldTpye = "other";
+			fieldTpye = "NS";
 		else if (field.backgroundStyle_==2)
 			fieldTpye = "Boolean";
 		else if (field.backgroundStyle_==0)
@@ -1051,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });	
 	
     document.getElementById('createFunction_add_ns').addEventListener('click', () => {
-        promptAndAddParam('other');
+        promptAndAddParam('NS');
     });
 	
 	document.getElementById('createFunction_add_b').addEventListener('click', () => {
