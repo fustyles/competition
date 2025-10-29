@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		);
 		
+		workspace.scrollCenter();
+		
 		var workspaceChangeTimer;
 		function onWorkspaceChange(event) {
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
