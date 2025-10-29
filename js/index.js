@@ -159,6 +159,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				currentWorkspace.refreshToolboxSelection();			
 			});
 			blocks.push(btn);
+			
+			
+			
+			const a = workspace.getAllVariables;
+			console.log(a);
+			
+			
 		
 	
 			const variables = workspace.getVariablesOfType("other");
@@ -1552,7 +1559,10 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.clear();
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						
-						document.getElementById('javascript_content').style.display = "none";
+						const div_content = document.getElementById("javascript_content");
+						div_content.style.height = "41px";
+						contentZoom('javascript');
+						
 						workspace.scrollCenter();
 						
 						javascriptCode();
