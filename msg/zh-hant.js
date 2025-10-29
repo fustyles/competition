@@ -32,6 +32,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "請輸入參數名稱
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "參數名稱重複";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"] = "參數名稱不可為空值";
 Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "工作區必須有一個啟動程式積木，執行取消！";
+Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"] = "此積木只能連接到函式類型的積木串中。";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["DOWNLOAD"] = "下載積木圖片"

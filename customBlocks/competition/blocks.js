@@ -927,6 +927,23 @@ Blockly.common.defineBlocksWithJsonArray([
   }
 ]);
 
+Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
+	if (event.blockId === this.id && (event.type === Blockly.Events.CHANGE || event.type === Blockly.Events.MOVE || event.type === Blockly.Events.CREATE))
+	{
+	  const topBlock = this.getRootBlock(true);
+	  if (topBlock && topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
+		const outputConn = this.outputConnection;
+		if (outputConn && outputConn.targetConnection) {
+		  const parentConn = outputConn.targetConnection;
+		  parentConn.disconnect();
+		  this.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
+		}
+	  } else {
+		this.setWarningText(null); 
+	  }
+	}
+}
+
 Blockly.common.defineBlocksWithJsonArray([
   {
     "type": "javascript_variable_boolean_scratch",
@@ -943,3 +960,5 @@ Blockly.common.defineBlocksWithJsonArray([
     "style": "logic_blocks" 
   }
 ]);
+
+Blockly.Blocks['javascript_variable_boolean_scratch'].onchange = Blockly.Blocks['javascript_variable_ns_scratch'].onchange;

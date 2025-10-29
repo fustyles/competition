@@ -32,6 +32,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_TITLE_SCRATCH"] = "Please enter the para
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"] = "Parameter name is duplicated";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"] = "Parameter name cannot be empty";
 Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "The workspace must have a startup script block, execution canceled!";
+Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"] = "This block can only be connected to a block string of function type.";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["DOWNLOAD"] = "Download PNG"

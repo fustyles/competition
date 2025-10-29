@@ -1549,7 +1549,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						}
 						
 						workspace.clear();
-						Blockly.Xml.domToWorkspace(blocks, workspace);						
+						Blockly.Xml.domToWorkspace(blocks, workspace);
 						workspace.scrollCenter();
 						
 						javascriptCode();
