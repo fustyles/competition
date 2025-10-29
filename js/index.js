@@ -1549,12 +1549,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						}
 						
 						workspace.clear();
-						Blockly.Xml.domToWorkspace(blocks, workspace);
-						
-						const div_content = document.getElementById("javascript_content");
-						div_content.style.height = "41px";
-						contentZoom('javascript');
-						
+						Blockly.Xml.domToWorkspace(blocks, workspace);						
 						workspace.scrollCenter();
 						
 						javascriptCode();
