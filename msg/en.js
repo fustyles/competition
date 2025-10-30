@@ -110,39 +110,7 @@ Blockly.Msg["PROCEDURES_HUE"] = "290";
 Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_EXPORT"] = "Export selected blocks to a local file";
-Blockly.Msg["INSERTBLOCKS_WORKSPACE_BLOCK_INSERT"] = "Import blocks to workspacee from a local file";
-
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_ENABLED"] = "Enabled Pick/Place blocks";
-Blockly.Msg["MYPICKPLACEBLOCK_PICKPLACE_DISABLED"] = "Disabled Pick/Place blocks";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PICK"] = "Pick blocks";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_NEXT"] = "Place blocks (bottom)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_PREVIOUS"] = "Place blocks (above)";
-Blockly.Msg["MYPICKPLACEBLOCK_CLICK_TO_PLACE_INPUT"] = "Place blocks [input: #]";
-
-Blockly.Msg["VARIABLES_GLOBAL"] = "Global";
-Blockly.Msg["VARIABLES_LOCAL"] = "Local";
-Blockly.Msg["VARIABLES_CONST"] = "Const";
-
-Blockly.Msg["BUTTON_COLLABORATION"] = "MQTT Collaboration";
-Blockly.Msg["COLLABORATION_BROKER_TITLE"] = "BROKER";
-Blockly.Msg["COLLABORATION_TOPIC_TITLE"] = "TOPIC";
-Blockly.Msg["COLLABORATION_USERID_TITLE"] = "USER ID";
-Blockly.Msg["COLLABORATION_PASSWORD_TITLE"] = "PASSWORD";
-Blockly.Msg.BUTTON_LINK = "LINK";
-Blockly.Msg["MSG_COLLABORATION"] = "MQTT COLLABORATION";
-Blockly.Msg["COLLABORATION_TIP_TITLE"] = "You need to use wss protocol.";
-
-Blockly.Msg["BUTTON_WEBMQTT"] = "Web MQTT Monitor";
-
-
-
-
-
-
-
-
-
+// V10.0.0
 
 Blockly.Msg["ADD_COMMENT"] = "Add Comment";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable '%1' because it's part of the definition of the function '%2'";
