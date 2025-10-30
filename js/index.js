@@ -605,7 +605,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		var sheetID = document.getElementById('importQuestion_sheet_id').value;
 		var sheetName = document.getElementById('importQuestion_sheet_name').value;
 		var keyword = document.getElementById('importQuestion_sheet_keyword').value;
-		console.log(sheetID.indexOf("https"));
 		
 		if (sheetID.indexOf("https")>=0) {
 			sheetID = sheetID.match(/\/d\/([a-zA-Z0-9_-]+)/)[0];
