@@ -1994,6 +1994,7 @@ zoomChangeToolbox(){
 		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
+		workspace.scrollCenter();
 	}
 	else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
@@ -2006,6 +2007,7 @@ zoomChangeToolbox(){
 		var workspace = window.loadToolbox('geras', catSystem, 1.0);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
+		workspace.scrollCenter();
 	}
 };
 

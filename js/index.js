@@ -1225,6 +1225,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	//執行程式
 	function runCode() {
+	  document.getElementById('javascript_content').style.display = "block";
+		
 	  if (scratchStyle) {
 		const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
 		if (topBlocks.length!=1) {
@@ -1307,6 +1309,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		Window input: 12;4;3 → Automatically input 12 and 4, compare whether the output value equals the validation value 3
 	*/
 	document.getElementById('button_test').onclick = function () {
+		document.getElementById('javascript_content').style.display = "block";
+		
 	    if (scratchStyle) {
 		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
 		  if (topBlocks.length!=1) {
@@ -1552,6 +1556,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						workspace.scrollCenter();
 						
+						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();
 						resetOutput();
 					};
