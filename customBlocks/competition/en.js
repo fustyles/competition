@@ -1,9 +1,9 @@
-Blockly.Msg["CATSCRATCH1"] = "EVENT";
-Blockly.Msg["CATSCRATCH2"] = "CONTROL";
-Blockly.Msg["CATSCRATCH3"] = "CALCULATION";
-Blockly.Msg["CATSCRATCH4"] = "VARIABLES";
-Blockly.Msg["CATSCRATCH5"] = "LISTS";
-Blockly.Msg["CATSCRATCH6"] = "MY BLOCKS";
+Blockly.Msg["CATSCRATCH1"] = "Events";
+Blockly.Msg["CATSCRATCH2"] = "Control";
+Blockly.Msg["CATSCRATCH3"] = "Operators";
+Blockly.Msg["CATSCRATCH4"] = "Variables";
+Blockly.Msg["CATSCRATCH5"] = "Lists";
+Blockly.Msg["CATSCRATCH6"] = "My Blocks";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
@@ -48,3 +48,4 @@ Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
