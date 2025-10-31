@@ -30,12 +30,11 @@ Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "字串 %1 的第 %2 字";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "字串 %1 包含 %2";
 Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "%1 的长度";
 
-Blockly.Msg["NEW_LIST"] = "建立新清单";
-
 Blockly.Msg["NEW_VARIABLE_OTHER"] = "建立变数";
 Blockly.Msg["VARIABLES_SET_OTHER"] = "变数 %1 设为 %2";
 Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "变数 %1 改变 %2";
 
+Blockly.Msg["NEW_LIST"] = "建立清单";
 Blockly.Msg["LIST_ADDTOLIST"] = "添加 %1 到 %2";
 Blockly.Msg["LIST_ITEMOFLIST"] = "%1 的第 %2 项";
 Blockly.Msg["LIST_DELETEALLOFLIST"] = "删除 %1 的所有项目";
