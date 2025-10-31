@@ -44,10 +44,11 @@ Blockly.Msg["LIST_INSERTATLIST"] = "insert %1 at %3 of %2";
 Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "replace item %2 of %1 with %3";
 Blockly.Msg["LIST_DELETEOFLIST"] = "delete %2 of %1";
 Blockly.Msg["LIST_LISTCONTAINSITEM"] = "%1 contains %2 ?";
-Blockly.Msg["LIST_ITEMNUMOFLIST"] = "item # of %2 in %1";
+Blockly.Msg["LIST_ITEMNUMOFLIST"] = "item # of %1 in %2";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
 
 
 
