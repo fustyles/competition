@@ -1167,11 +1167,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		iframeDocument.body.insertAdjacentHTML("beforeend", "<br>"+gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
+		if (gemini_chat_data.toLowerCase().indexOf("quota exceeded")!=-1)
+			document.getElementById('button_key').click();
 		//iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
 		//iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
 	}
 	window.gemini_chat_response = gemini_chat_response;
-	
+		
 	document.getElementById('button_key').onclick = async function () {
 		var key = prompt(Blockly.Msg["GEMINI_KEY_INPUT"]);
 		if (key) {
