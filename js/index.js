@@ -1008,7 +1008,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		};
 
-		// 在容器上註冊滑鼠按下事件，利用事件委派
 		container.addEventListener('mousedown', handleMouseDown);
 	}
 
@@ -1059,7 +1058,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		updateMsg();
 		newFile();
 		
-		//Double Click關閉彈出積木選單
 		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
 		for (var f=0;f<blocklyWorkspace.length;f++) {
 			blocklyWorkspace[f].addEventListener('dblclick', function(){ 
@@ -1068,7 +1066,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}, 1000);
 
-	//新增自訂積木js檔
 	function addScript(url) {
 		var s = document.createElement("script");
 		s.type = "text/javascript";
@@ -1076,15 +1073,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		$("body").append(s);
 	}
 
-	//檢查目錄是否已存在工具箱
 	function checkCategoryExist(child) {
 		for (var i=1;i<customCategory.length;i++) {
 			if (child==customCategory[i][2])
 				customCategory.splice(i, 1);
 		}
 	}	
-	
-	//程式碼區塊拖曳與調整大小功能	
+		
 	$(function() {
 		$( "#javascript_content" ).draggable();
 		$( "#javascript_content" ).resizable();
@@ -1092,7 +1087,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		$( "#run_content" ).resizable();		
 	});	
 	
-	//新增初始化積木
 	function newFile() {
 		workspace.clear();
 		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
@@ -1119,7 +1113,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		iframeWrite("iframe_output", "");
 	}
 	
-	//程式碼區塊顯示
 	document.getElementById('button_code').onclick = function () {
 		var div = document.getElementById('javascript_content');
 		if (div.style.display == "none") {
@@ -1130,7 +1123,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
-	//重設工作區
 	document.getElementById('button_reset').onclick = function () {
 		var result = confirm(Blockly.Msg.BUTTON_RESET);
 		if (result) {
@@ -1138,7 +1130,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	//匯出工作區積木檔
 	document.getElementById('button_save_xml').onclick = function () {
 		try {
 			var xml = Blockly.Xml.workspaceToDom(workspace);
@@ -1168,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
 		iframeDocument.body.insertAdjacentHTML("beforeend", "<br>"+gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
-		if (gemini_chat_data.toLowerCase().indexOf("quota exceeded")!=-1) {
+		if (GeminiKey==Blockly.Msg["GEMINI_KEY"]&&gemini_chat_data.toLowerCase().indexOf("quota")!=-1&&gemini_chat_data.toLowerCase().indexOf("exceeded")!=-1) {
 			document.getElementById('button_key').click();
 		}
 		//iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
@@ -1300,7 +1291,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	  }
 	}
 	
-	//測試程式
 	/*
 		Program Validation Function Description:
 
@@ -1475,12 +1465,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
-	//停止程式
 	function stopCode() {
 	  document.getElementById("iframe_output").src = "about:blank";
 	}		
 	
-	//開啟程式碼執行視窗
 	document.getElementById('button_run').onclick = function () {
 		document.getElementById('iframe_output').innerHTML = "";
 		stopCode();
@@ -1489,7 +1477,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}, 100);	
 	}	
 	
-	//更新首頁語系文字
 	function updateMsg() {
 		if (typeof msg != "undefined") {
 			for (var i=0;i<msg.length;i++) {
@@ -1516,7 +1503,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}		
 	
-	//複製程式碼到剪貼簿
 	document.getElementById('button_copycode').onclick = function () {
 		var iframeElement = document.getElementById('iframe_output');
 		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
@@ -1527,7 +1513,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 	
-	//匯入備份積木檔
 	document.getElementById('button_open_xml').onclick = function () {
 		var e = document.getElementById("importBlocks");
 		if (e) {
@@ -1609,7 +1594,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 });	
 
-//切換頁籤
 var tabs = ['code_content','xml_content','category_content'];
 function displayTab(id) {
 	var div = document.getElementById('javascript_content');
@@ -1629,21 +1613,18 @@ function displayTab(id) {
 	}
 }
 
-//JavaScript原始碼顯示
 function javascriptCode() {
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
 	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"}main();");
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
 
-//XML原始碼顯示
 function xmlCode() {
 	var xml = Blockly.Xml.workspaceToDom(workspace, true);
 	var code = Blockly.Xml.domToPrettyText(xml);
 	document.getElementById('xml_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
 
-//視窗最上層顯示
 var contents = ['javascript_content'];
 function textareaFocus(id) {
 	for (var i in contents) {
@@ -1652,7 +1633,6 @@ function textareaFocus(id) {
 	}
 }
 
-//縮放視窗
 function contentZoom(content) {
 	const div_title = document.getElementById(content+"_title");
 	const div_content = document.getElementById(content+"_content");
@@ -1684,7 +1664,6 @@ function contentZoom(content) {
 	}
 }
 
-//重設視窗
 function reloadZoom(content) {
     const div_content = document.getElementById(content + "_content");
 
