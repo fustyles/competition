@@ -1170,6 +1170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('button_key').onclick = async function () {
 		var key = prompt(Blockly.Msg["GEMINI_KEY_INPUT"]);
 		if (key) {
+			GeminiKey = key;
 			gemini_chat_initial(key, gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
 			iframeWrite("iframe_output", "");			
