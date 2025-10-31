@@ -16,14 +16,14 @@ Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "Input data";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "Output data";
 Blockly.Msg["CATEVENT"] = "EVENT";
 
-Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "When";
-Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "Clicked";
-Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "Speak %1";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "Ask %1 And wait";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "Answer to the question";
+Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "when";
+Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "clicked";
+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "say %1";
+Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "ask %1 And wait";
+Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "answer";
 
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "If %1 Then";
-Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "Otherwise";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "if %1 then";
+Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "else";
 
 Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
 Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
@@ -48,4 +48,5 @@ Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
 
