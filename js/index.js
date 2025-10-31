@@ -1160,8 +1160,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	var output_result = "";
+	var gemini_model = "gemini-2.5-flash-lite";
 	
-	gemini_chat_initial(CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8), "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
+	gemini_chat_initial(CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8), gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 
 	async function gemini_chat_response(gemini_chat_data) {
 		var iframeElement = document.getElementById('iframe_output');
@@ -1178,7 +1179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('button_key').onclick = async function () {
 		var key = prompt(Blockly.Msg["GEMINI_KEY_INPUT"]);
 		if (key) {
-			gemini_chat_initial(key, "gemini-2.5-flash", 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
+			gemini_chat_initial(key, gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
 			iframeWrite("iframe_output", "");			
 			await gemini_chat_run("?");
