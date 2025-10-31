@@ -1,9 +1,9 @@
 Blockly.Msg["CATSCRATCH1"] = "EVENT";
 Blockly.Msg["CATSCRATCH2"] = "CONTROL";
 Blockly.Msg["CATSCRATCH3"] = "CALCULATION";
-Blockly.Msg["CATSCRATCH4"] = "VARIABLE";
-Blockly.Msg["CATSCRATCH5"] = "LIST";
-Blockly.Msg["CATSCRATCH6"] = "FUNCTION";
+Blockly.Msg["CATSCRATCH4"] = "VARIABLES";
+Blockly.Msg["CATSCRATCH5"] = "LISTS";
+Blockly.Msg["CATSCRATCH6"] = "MY BLOCKS";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
@@ -30,9 +30,9 @@ Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
 Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "The string %1 contains %2";
 Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "Length of %1";
 
-Blockly.Msg["NEW_LIST"] = "Create new list";
+Blockly.Msg["NEW_LIST"] = "Make a List";
 
-Blockly.Msg["NEW_VARIABLE_OTHER"] = "Create variables";
+Blockly.Msg["NEW_VARIABLE_OTHER"] = "Make a Variable";
 Blockly.Msg["VARIABLES_SET_OTHER"] = "Variable %1 is set to %2";
 Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "Variable %1 changed to %2";
 
@@ -46,4 +46,5 @@ Blockly.Msg["LIST_DELETEOFLIST"] = "Delete item %2 of %1";
 Blockly.Msg["LIST_LISTCONTAINSITEM"] = "List %1 contains %2?";
 Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 
-Blockly.Msg["NEW_FUNCTION"] = "Create function";
+
+Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
