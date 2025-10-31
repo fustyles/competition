@@ -19,7 +19,7 @@ Blockly.Msg["CATEVENT"] = "EVENT";
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "when";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "clicked";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "say %1";
-Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "ask %1 And wait";
+Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "ask %1 and wait";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "answer";
 
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "if %1 then";
@@ -48,6 +48,7 @@ Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
 
 
 
