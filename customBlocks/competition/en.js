@@ -48,10 +48,3 @@ Blockly.Msg["LIST_ITEMNUMOFLIST"] = "item # of %1 in %2";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
-
-
-
-
-
-
-
