@@ -25,10 +25,10 @@ Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "answer";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "if %1 then";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "else";
 
-Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "String combination %1 %2";
-Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "Character %2 of string %1";
-Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "The string %1 contains %2";
-Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "Length of %1";
+Blockly.Msg["TEXT_JOIN_TITLE_SCRATCH"] = "string combination %1 %2";
+Blockly.Msg["TEXT_CHARAT_TITLE_SCRATCH"] = "character %2 of string %1";
+Blockly.Msg["TEXT_CONTAIN_TITLE_SCRATCH"] = "the string %1 contains %2";
+Blockly.Msg["TEXT_LENGTH_TITLE_SCRATCH"] = "length of %1";
 
 Blockly.Msg["NEW_LIST"] = "Make a List";
 
@@ -48,6 +48,7 @@ Blockly.Msg["LIST_ITEMNUMOFLIST"] = "item # of %1 in %2";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
 
 
 
