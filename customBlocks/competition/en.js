@@ -36,17 +36,18 @@ Blockly.Msg["NEW_VARIABLE_OTHER"] = "Make a Variable";
 Blockly.Msg["VARIABLES_SET_OTHER"] = "Variable %1 is set to %2";
 Blockly.Msg["MATH_CHANGE_TITLE_OTHER"] = "Variable %1 changed to %2";
 
-Blockly.Msg["LIST_ADDTOLIST"] = "Add %1 to %2";
-Blockly.Msg["LIST_ITEMOFLIST"] = "Item %2 of %1";
-Blockly.Msg["LIST_DELETEALLOFLIST"] = "Delete all items of %1";
-Blockly.Msg["LIST_LENGTHOFLIST"] = "Length of list %1";
-Blockly.Msg["LIST_INSERTATLIST"] = "Insert %1 into item %3 of %2";
-Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "Replace item %2 of %1 with %3";
-Blockly.Msg["LIST_DELETEOFLIST"] = "Delete item %2 of %1";
-Blockly.Msg["LIST_LISTCONTAINSITEM"] = "List %1 contains %2?";
+Blockly.Msg["LIST_ADDTOLIST"] = "add %1 to %2";
+Blockly.Msg["LIST_ITEMOFLIST"] = "item %2 of %1";
+Blockly.Msg["LIST_DELETEALLOFLIST"] = "delete all of %1";
+Blockly.Msg["LIST_LENGTHOFLIST"] = "length of %1";
+Blockly.Msg["LIST_INSERTATLIST"] = "insert %1 at %3 of %2";
+Blockly.Msg["LIST_REPLACEITEMOFLIST"] = "replace item %2 of %1 with %3";
+Blockly.Msg["LIST_DELETEOFLIST"] = "delete %2 of %1";
+Blockly.Msg["LIST_LISTCONTAINSITEM"] = "%1 contains %2 ?";
 Blockly.Msg["LIST_ITEMNUMOFLIST"] = "Item number of %2 in %1";
 
 
 Blockly.Msg["NEW_FUNCTION"] = "Make a Block";
+
 
 
