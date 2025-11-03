@@ -1588,7 +1588,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}	
 	
-	//切換語言
 	document.getElementById('lang-selector').onchange = function () {
 		if (this.selectedIndex>0) 
 			location.href = "?lang=" + this.options[this.selectedIndex].value;
@@ -1701,7 +1700,7 @@ if (typeof require !== "undefined") {
 
 		var filePath = './package.nw' + request.url.split("?")[0];
 		if (filePath == './package.nw/') {
-			filePath = './package.nw/main.html'
+			filePath = './package.nw/index.html'
 		}
 
 		var extname = String(path.extname(filePath)).toLowerCase();
