@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	initialMoveDiv();	
 
 	function loadToolbox(renderer, categorySystem, scale) {
-		//載入積木目錄
 		category = [
 			categorySystem
 		];
