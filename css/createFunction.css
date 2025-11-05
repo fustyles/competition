@@ -140,12 +140,13 @@
 /* 參數列表容器 - 移除 gap，將間隙交給 margin-right 處理 */
 #paramListContainer {
 	border: none;
-	min-height: auto;
+	height: 45px;
 	padding: 0;
 	justify-content: center;
 	display: flex; 
 	flex-wrap: wrap; 
-	/* 移除 gap: 12px; */
+	font-size: 14px;
+	font-weight: bold;
 	margin-bottom: 10px;
 }
 
