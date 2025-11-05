@@ -1,5 +1,5 @@
 var catSystemScratch = '<xml>'+
-'    <category name="%{BKY_CATSCRATCH1}" colour="%{BKY_CATSCRATCH1_HUE}">'+
+'    <category css-icon="customIcon fa fa-cog" name="%{BKY_CATSCRATCH1}" categorystyle="events_category">'+
 '    <block type="javascript_start_scratch">'+
 '    </block>'+
 '    <block type="javascript_data_input_scratch">'+
@@ -19,7 +19,7 @@ var catSystemScratch = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    </category>'+
-'    <category name="%{BKY_CATSCRATCH2}" colour="%{BKY_CATSCRATCH2_HUE}">'+
+'    <category name="%{BKY_CATSCRATCH2}" categorystyle="loop_category">'+
 '    <block type="controls_if_1_scratch">'+
 '    </block>'+
 '    <block type="controls_if_2_scratch">'+
@@ -39,7 +39,7 @@ var catSystemScratch = '<xml>'+
 '    </block>'+
 '    <block type="controls_flow_statements_scratch"></block>'+
 '    </category>'+
-'    <category name="%{BKY_CATSCRATCH3}" colour="%{BKY_CATSCRATCH3_HUE}">'+
+'    <category name="%{BKY_CATSCRATCH3}" categorystyle="logic_category">'+
 '    <block type="logic_boolean"></block>'+
 '    <block type="logic_compare">'+
 '    <value name="A">'+
@@ -149,7 +149,7 @@ var catSystemScratch = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    </category>'+
-'    <category name="%{BKY_CATSCRATCH4}" colour="%{BKY_CATSCRATCH4_HUE}" custom="MYVARIABLE"></category>'+
-'    <category name="%{BKY_CATSCRATCH5}" colour="%{BKY_CATSCRATCH5_HUE}" custom="MYLIST"></category>'+
-'    <category name="%{BKY_CATSCRATCH6}" colour="%{BKY_CATSCRATCH6_HUE}" custom="MYFUNCTION"></category>'+
+'    <category name="%{BKY_CATSCRATCH4}" categorystyle="variable_category" custom="MYVARIABLE"></category>'+
+'    <category name="%{BKY_CATSCRATCH5}" categorystyle="list_category" custom="MYLIST"></category>'+
+'    <category name="%{BKY_CATSCRATCH6}" categorystyle="procedure_category" custom="MYFUNCTION"></category>'+
 '</xml>';

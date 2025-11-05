@@ -1831,7 +1831,16 @@ this.blockDragger.getInsertionMarkers():[]}getCurrentDragger(){let a,b;return nu
 null)}populateVariables(a){a=$.allUsedVarModels$$module$build$src$core$variables(a);for(let b=0;b<a.length;b++)this.getName(a[b].getId(),$.NameType$$module$build$src$core$names.VARIABLE)}populateProcedures(a){throw Error("The implementation of populateProcedures should be monkey-patched in by blockly.ts");}getName(a,b){let c=a;b===$.NameType$$module$build$src$core$names.VARIABLE&&(a=this.getNameForUserVariable(a))&&(c=a);a=c.toLowerCase();const d=b===$.NameType$$module$build$src$core$names.VARIABLE||
 b===$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE?this.variablePrefix:"";this.db.has(b)||this.db.set(b,new Map);const e=this.db.get(b);if(e.has(a))return d+e.get(a);b=this.getDistinctName(c,b);e.set(a,b.substr(d.length));return b}getUserNames(a){let b;return(a=null==(b=this.db.get(a))?void 0:b.keys())?Array.from(a):[]}getDistinctName(a,b){a=this.safeName(a);let c=null,d,e;for(;this.dbReverse.has(a+(null!=(d=c)?d:""))||this.reservedWords.has(a+(null!=(e=c)?e:""));)c=c?c+1:2;let f;a+=null!=
 (f=c)?f:"";this.dbReverse.add(a);return(b===$.NameType$$module$build$src$core$names.VARIABLE||b===$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE?this.variablePrefix:"")+a}safeName(a){a?(a=encodeURI(a.replace(/ /g,"_")).replace(/[^\w]/g,"_"),-1!=="0123456789".indexOf(a[0])&&(a="my_"+a)):a=$.Msg$$module$build$src$core$msg.UNNAMED_KEY||"unnamed";return a}static equals(a,b){return a.toLowerCase()===b.toLowerCase()}};
-(function(a){a=a.NameType||(a.NameType={});a.DEVELOPER_VARIABLE="DEVELOPER_VARIABLE";a.VARIABLE="VARIABLE";a.PROCEDURE="PROCEDURE"})($.Names$$module$build$src$core$names||($.Names$$module$build$src$core$names={}));$.NameType$$module$build$src$core$names=$.Names$$module$build$src$core$names.NameType;$.Names$$module$build$src$core$names.DEVELOPER_VARIABLE_TYPE=$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE;var module$build$src$core$names={};module$build$src$core$names.NameType=$.NameType$$module$build$src$core$names;
+(function(a){
+	a=a.NameType||(a.NameType={});
+	a.DEVELOPER_VARIABLE="DEVELOPER_VARIABLE";
+	a.VARIABLE="VARIABLE";
+	a.PROCEDURE="PROCEDURE";
+	a.MYVARIABLE="MYVARIABLE";
+	a.MYLIST="MYLIST";
+	a.MYFUNCTION="MYFUNCTION";
+})
+($.Names$$module$build$src$core$names||($.Names$$module$build$src$core$names={}));$.NameType$$module$build$src$core$names=$.Names$$module$build$src$core$names.NameType;$.Names$$module$build$src$core$names.DEVELOPER_VARIABLE_TYPE=$.NameType$$module$build$src$core$names.DEVELOPER_VARIABLE;var module$build$src$core$names={};module$build$src$core$names.NameType=$.NameType$$module$build$src$core$names;
 module$build$src$core$names.Names=$.Names$$module$build$src$core$names;var module$build$src$core$interfaces$i_procedure_block={};module$build$src$core$interfaces$i_procedure_block.isProcedureBlock=isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block;var module$build$src$core$interfaces$i_observable={};module$build$src$core$interfaces$i_observable.isObservable=isObservable$$module$build$src$core$interfaces$i_observable;var ObservableProcedureMap$$module$build$src$core$observable_procedure_map=class extends Map{constructor(){super()}set(a,b){if(this.get(a)===b)return this;super.set(a,b);isObservable$$module$build$src$core$interfaces$i_observable(b)&&b.startPublishing();return this}delete(a){const b=this.get(a);a=super.delete(a);if(!a)return a;isObservable$$module$build$src$core$interfaces$i_observable(b)&&b.stopPublishing();return a}clear(){if(this.size)for(const a of this.keys())this.delete(a)}add(a){return this.set(a.getId(),
 a)}getProcedures(){return[...this.values()]}},module$build$src$core$observable_procedure_map={};module$build$src$core$observable_procedure_map.ObservableProcedureMap=ObservableProcedureMap$$module$build$src$core$observable_procedure_map;var module$build$src$core$icons={};module$build$src$core$icons.CommentIcon=CommentIcon$$module$build$src$core$icons$comment_icon;module$build$src$core$icons.Icon=Icon$$module$build$src$core$icons$icon;module$build$src$core$icons.IconType=IconType$$module$build$src$core$icons$icon_types;module$build$src$core$icons.MutatorIcon=$.MutatorIcon$$module$build$src$core$icons$mutator_icon;module$build$src$core$icons.WarningIcon=WarningIcon$$module$build$src$core$icons$warning_icon;
 module$build$src$core$icons.exceptions=module$build$src$core$icons$exceptions;module$build$src$core$icons.registry=module$build$src$core$icons$registry;var CATEGORY_NAME$$module$build$src$core$procedures,module$build$src$core$procedures;CATEGORY_NAME$$module$build$src$core$procedures="PROCEDURE";$.DEFAULT_ARG$$module$build$src$core$procedures="x";module$build$src$core$procedures={};module$build$src$core$procedures.CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$procedures;module$build$src$core$procedures.DEFAULT_ARG=$.DEFAULT_ARG$$module$build$src$core$procedures;module$build$src$core$procedures.ObservableProcedureMap=ObservableProcedureMap$$module$build$src$core$observable_procedure_map;
@@ -1991,10 +2000,9 @@ zoomChangeToolbox(){
 		this.workspace.dispose();
 		this.workspace = null;
 		document.getElementById("root").innerHTML = "";
-		var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
+		this.workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 		if (xmlScratch)
-			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
-		workspace.scrollCenter();
+			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
 	}
 	else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
@@ -2004,10 +2012,9 @@ zoomChangeToolbox(){
 		this.workspace.dispose();
 		this.workspace = null;
 		document.getElementById("root").innerHTML = "";		
-		var workspace = window.loadToolbox('geras', catSystem, 1.0);
+		this.workspace = window.loadToolbox('geras', catSystem, 1.0);
 		if (xmlBlockly)
-			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
-		workspace.scrollCenter();
+			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
 	}
 };
 
@@ -2087,7 +2094,21 @@ a;b&&this.updateDisplay()}updateDisplay(){let a;a=this.containerVisible?this.isV
 c+"px,"+d+"px)");if(a=this.workspace_.scrollbar)a.setOrigin(c,d),a.resize(),a.hScroll&&a.hScroll.setPosition(a.hScroll.position.x,a.hScroll.position.y),a.vScroll&&a.vScroll.setPosition(a.vScroll.position.x,a.vScroll.position.y)}hide(){if(this.isVisible()){this.setVisible(!1);for(const a of this.listeners)unbind$$module$build$src$core$browser_events(a);this.listeners.length=0;this.reflowWrapper&&(this.workspace_.removeChangeListener(this.reflowWrapper),this.reflowWrapper=null)}}show(a){this.workspace_.setResizesEnabled(!1);
 this.hide();this.clearOldBlocks();"string"===typeof a&&(a=this.getDynamicCategoryContents(a));this.setVisible(!0);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);a=this.createFlyoutInfo(a);this.layout_(a.contents,a.gaps);this.horizontalLayout?this.height_=0:this.width_=0;this.workspace_.setResizesEnabled(!0);this.reflow();this.filterForCapacity();this.position();this.reflowWrapper=this.reflow.bind(this);this.workspace_.addChangeListener(this.reflowWrapper);this.emptyRecycledBlocks()}createFlyoutInfo(a){const b=
 [],c=[];this.permanentlyDisabled.length=0;const d=this.horizontalLayout?this.GAP_X:this.GAP_Y;for(const e of a){if("custom"in e){a=this.getDynamicCategoryContents(e.custom);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);const {contents:f,gaps:g}=this.createFlyoutInfo(a);b.push(...f);c.push(...g)}switch(e.kind.toUpperCase()){case "BLOCK":a=e;const f=this.createFlyoutBlock(a);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BLOCK,block:f});this.addBlockGap(a,c,d);
-break;case "SEP":this.addSeparatorGap(e,c,d);break;case "LABEL":a=this.createButton(e,!0);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break;case "BUTTON":a=this.createButton(e,!1),b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a}),c.push(d)}}return{contents:b,gaps:c}}getDynamicCategoryContents(a){a=this.workspace_.targetWorkspace.getToolboxCategoryCallback(a);if("function"!==typeof a)throw TypeError("Couldn't find a callback function when opening a toolbox category.");return a(this.workspace_.targetWorkspace)}
+break;case "SEP":this.addSeparatorGap(e,c,d);break;case "LABEL":a=this.createButton(e,!0);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break;case "BUTTON":a=this.createButton(e,!1),b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a}),c.push(d)}}return{contents:b,gaps:c}}
+
+getDynamicCategoryContents(a){
+	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYVARIABLE' ,Blockly.myvariable.flyoutCategory);
+	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYLIST' ,Blockly.mylist.flyoutCategory);
+	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYFUNCTION' ,Blockly.myfunction.flyoutCategory);		
+	
+	a=this.workspace_.targetWorkspace.getToolboxCategoryCallback(a);
+	if("function"!==typeof a) {
+		//throw TypeError("Couldn't find a callback function when opening a toolbox category.");
+		return null;
+	} else
+		return a(this.workspace_.targetWorkspace)
+}
+
 createButton(a,b){return new FlyoutButton$$module$build$src$core$flyout_button(this.workspace_,this.targetWorkspace,a,b)}createFlyoutBlock(a){let b;a.blockxml?(a="string"===typeof a.blockxml?$.textToDom$$module$build$src$core$utils$xml(a.blockxml):a.blockxml,(b=this.getRecycledBlock(a.getAttribute("type")))||(b=$.domToBlock$$module$build$src$core$xml(a,this.workspace_))):(b=this.getRecycledBlock(a.type),b||(void 0===a.enabled&&(a.enabled="true"!==a.disabled&&
 !0!==a.disabled),b=append$$module$build$src$core$serialization$blocks(a,this.workspace_)));b.isEnabled()||this.permanentlyDisabled.push(b);return b}getRecycledBlock(a){let b=-1;for(let c=0;c<this.recycledBlocks.length;c++)if(this.recycledBlocks[c].type===a){b=c;break}return-1===b?void 0:this.recycledBlocks.splice(b,1)[0]}addBlockGap(a,b,c){let d;a.gap?d=parseInt(String(a.gap)):a.blockxml&&(a="string"===typeof a.blockxml?$.textToDom$$module$build$src$core$utils$xml(a.blockxml):a.blockxml,d=parseInt(a.getAttribute("gap")));
 b.push(!d||isNaN(d)?c:d)}addSeparatorGap(a,b,c){a=parseInt(String(a.gap));!isNaN(a)&&0<b.length?b[b.length-1]=a:b.push(c)}clearOldBlocks(){var a=this.workspace_.getTopBlocks(!1);for(let c=0,d;d=a[c];c++)this.blockIsRecyclable_(d)?this.recycleBlock(d):d.dispose(!1,!1);for(a=0;a<this.mats.length;a++){const c=this.mats[a];c&&(unbindMouseEvents$$module$build$src$core$tooltip(c),removeNode$$module$build$src$core$utils$dom(c))}this.mats.length=0;for(let c=0,d;d=this.buttons_[c];c++)d.dispose();this.buttons_.length=
@@ -2342,8 +2363,15 @@ RENAME_VARIABLE_ID$$module$build$src$core$internal_constants
 ,ADD_VARIABLE_ID$$module$build$src$core$blockly=ADD_VARIABLE_ID$$module$build$src$core$internal_constants
 
 
-,COLLAPSED_INPUT_NAME$$module$build$src$core$blockly=COLLAPSED_INPUT_NAME$$module$build$src$core$constants,COLLAPSED_FIELD_NAME$$module$build$src$core$blockly=COLLAPSED_FIELD_NAME$$module$build$src$core$constants,VARIABLE_CATEGORY_NAME$$module$build$src$core$blockly=CATEGORY_NAME$$module$build$src$core$variables,VARIABLE_DYNAMIC_CATEGORY_NAME$$module$build$src$core$blockly=
-CATEGORY_NAME$$module$build$src$core$variables_dynamic,PROCEDURE_CATEGORY_NAME$$module$build$src$core$blockly=CATEGORY_NAME$$module$build$src$core$procedures;Workspace$$module$build$src$core$workspace.prototype.newBlock=function(a,b){return new Block$$module$build$src$core$block(this,a,b)};WorkspaceSvg$$module$build$src$core$workspace_svg.prototype.newBlock=function(a,b){return new BlockSvg$$module$build$src$core$block_svg(this,a,b)};WorkspaceSvg$$module$build$src$core$workspace_svg.newTrashcan=function(a){return new Trashcan$$module$build$src$core$trashcan(a)};
+,COLLAPSED_INPUT_NAME$$module$build$src$core$blockly=COLLAPSED_INPUT_NAME$$module$build$src$core$constants,COLLAPSED_FIELD_NAME$$module$build$src$core$blockly=COLLAPSED_FIELD_NAME$$module$build$src$core$constants,
+
+
+VARIABLE_CATEGORY_NAME$$module$build$src$core$blockly=CATEGORY_NAME$$module$build$src$core$variables,
+VARIABLE_DYNAMIC_CATEGORY_NAME$$module$build$src$core$blockly=CATEGORY_NAME$$module$build$src$core$variables_dynamic,
+PROCEDURE_CATEGORY_NAME$$module$build$src$core$blockly=CATEGORY_NAME$$module$build$src$core$procedures;
+
+
+Workspace$$module$build$src$core$workspace.prototype.newBlock=function(a,b){return new Block$$module$build$src$core$block(this,a,b)};WorkspaceSvg$$module$build$src$core$workspace_svg.prototype.newBlock=function(a,b){return new BlockSvg$$module$build$src$core$block_svg(this,a,b)};WorkspaceSvg$$module$build$src$core$workspace_svg.newTrashcan=function(a){return new Trashcan$$module$build$src$core$trashcan(a)};
 WorkspaceCommentSvg$$module$build$src$core$workspace_comment_svg.prototype.showContextMenu=function(a){if(!this.workspace.options.readOnly){var b=[];this.isDeletable()&&this.isMovable()&&(b.push(commentDuplicateOption$$module$build$src$core$contextmenu(this)),b.push(commentDeleteOption$$module$build$src$core$contextmenu(this)));show$$module$build$src$core$contextmenu(a,b,this.RTL)}};MiniWorkspaceBubble$$module$build$src$core$bubbles$mini_workspace_bubble.prototype.newWorkspaceSvg=function(a){return new WorkspaceSvg$$module$build$src$core$workspace_svg(a)};
 $.Names$$module$build$src$core$names.prototype.populateProcedures=function(a){a=allProcedures$$module$build$src$core$procedures(a);a=a[0].concat(a[1]);for(let b=0;b<a.length;b++)this.getName(a[b][0],$.Names$$module$build$src$core$names.NameType.PROCEDURE)};var DropDownDiv$$module$build$src$core$blockly=module$build$src$core$dropdowndiv,connectionTypes$$module$build$src$core$blockly=ConnectionType$$module$build$src$core$connection_type,module$build$src$core$blockly={};
 module$build$src$core$blockly.ALIGN_CENTRE=ALIGN_CENTRE$$module$build$src$core$blockly;module$build$src$core$blockly.ALIGN_LEFT=ALIGN_LEFT$$module$build$src$core$blockly;module$build$src$core$blockly.ALIGN_RIGHT=ALIGN_RIGHT$$module$build$src$core$blockly;module$build$src$core$blockly.ASTNode=ASTNode$$module$build$src$core$keyboard_nav$ast_node;module$build$src$core$blockly.BasicCursor=BasicCursor$$module$build$src$core$keyboard_nav$basic_cursor;module$build$src$core$blockly.Block=Block$$module$build$src$core$block;
@@ -2358,7 +2386,10 @@ module$build$src$core$blockly.FieldVariable=FieldVariable$$module$build$src$core
 module$build$src$core$blockly.Gesture=Gesture$$module$build$src$core$gesture;module$build$src$core$blockly.Grid=Grid$$module$build$src$core$grid;module$build$src$core$blockly.HorizontalFlyout=HorizontalFlyout$$module$build$src$core$flyout_horizontal;module$build$src$core$blockly.INPUT_VALUE=INPUT_VALUE$$module$build$src$core$blockly;module$build$src$core$blockly.Input=Input$$module$build$src$core$inputs$input;module$build$src$core$blockly.InsertionMarkerManager=InsertionMarkerManager$$module$build$src$core$insertion_marker_manager;
 module$build$src$core$blockly.Marker=Marker$$module$build$src$core$keyboard_nav$marker;module$build$src$core$blockly.MarkerManager=MarkerManager$$module$build$src$core$marker_manager;module$build$src$core$blockly.Menu=Menu$$module$build$src$core$menu;module$build$src$core$blockly.MenuItem=MenuItem$$module$build$src$core$menuitem;module$build$src$core$blockly.MetricsManager=MetricsManager$$module$build$src$core$metrics_manager;module$build$src$core$blockly.Msg=$.Msg$$module$build$src$core$msg;
 module$build$src$core$blockly.NEXT_STATEMENT=NEXT_STATEMENT$$module$build$src$core$blockly;module$build$src$core$blockly.Names=$.Names$$module$build$src$core$names;module$build$src$core$blockly.OPPOSITE_TYPE=OPPOSITE_TYPE$$module$build$src$core$internal_constants;module$build$src$core$blockly.OUTPUT_VALUE=OUTPUT_VALUE$$module$build$src$core$blockly;module$build$src$core$blockly.Options=Options$$module$build$src$core$options;module$build$src$core$blockly.PREVIOUS_STATEMENT=PREVIOUS_STATEMENT$$module$build$src$core$blockly;
-module$build$src$core$blockly.PROCEDURE_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$procedures;module$build$src$core$blockly.Procedures=module$build$src$core$procedures;module$build$src$core$blockly.RENAME_VARIABLE_ID=RENAME_VARIABLE_ID$$module$build$src$core$internal_constants;
+
+module$build$src$core$blockly.PROCEDURE_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$procedures;
+
+module$build$src$core$blockly.Procedures=module$build$src$core$procedures;module$build$src$core$blockly.RENAME_VARIABLE_ID=RENAME_VARIABLE_ID$$module$build$src$core$internal_constants;
 
 
 module$build$src$core$blockly.ADD_VARIABLE_ID=ADD_VARIABLE_ID$$module$build$src$core$internal_constants;
@@ -2368,7 +2399,12 @@ module$build$src$core$blockly.RenderedConnection=RenderedConnection$$module$buil
 module$build$src$core$blockly.ScrollbarPair=ScrollbarPair$$module$build$src$core$scrollbar_pair;module$build$src$core$blockly.ShortcutItems=module$build$src$core$shortcut_items;module$build$src$core$blockly.ShortcutRegistry=ShortcutRegistry$$module$build$src$core$shortcut_registry;module$build$src$core$blockly.TOOLBOX_AT_BOTTOM=TOOLBOX_AT_BOTTOM$$module$build$src$core$blockly;module$build$src$core$blockly.TOOLBOX_AT_LEFT=TOOLBOX_AT_LEFT$$module$build$src$core$blockly;
 module$build$src$core$blockly.TOOLBOX_AT_RIGHT=TOOLBOX_AT_RIGHT$$module$build$src$core$blockly;module$build$src$core$blockly.TOOLBOX_AT_TOP=TOOLBOX_AT_TOP$$module$build$src$core$blockly;module$build$src$core$blockly.TabNavigateCursor=TabNavigateCursor$$module$build$src$core$keyboard_nav$tab_navigate_cursor;module$build$src$core$blockly.Theme=Theme$$module$build$src$core$theme;module$build$src$core$blockly.ThemeManager=ThemeManager$$module$build$src$core$theme_manager;
 module$build$src$core$blockly.Themes=module$build$src$core$theme$themes;module$build$src$core$blockly.Toolbox=Toolbox$$module$build$src$core$toolbox$toolbox;module$build$src$core$blockly.ToolboxCategory=ToolboxCategory$$module$build$src$core$toolbox$category;module$build$src$core$blockly.ToolboxItem=ToolboxItem$$module$build$src$core$toolbox$toolbox_item;module$build$src$core$blockly.ToolboxSeparator=ToolboxSeparator$$module$build$src$core$toolbox$separator;module$build$src$core$blockly.Tooltip=module$build$src$core$tooltip;
-module$build$src$core$blockly.Touch=module$build$src$core$touch;module$build$src$core$blockly.Trashcan=Trashcan$$module$build$src$core$trashcan;module$build$src$core$blockly.UnattachedFieldError=UnattachedFieldError$$module$build$src$core$field;module$build$src$core$blockly.VARIABLE_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$variables;module$build$src$core$blockly.VARIABLE_DYNAMIC_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$variables_dynamic;module$build$src$core$blockly.VERSION=VERSION$$module$build$src$core$blockly;
+module$build$src$core$blockly.Touch=module$build$src$core$touch;module$build$src$core$blockly.Trashcan=Trashcan$$module$build$src$core$trashcan;module$build$src$core$blockly.UnattachedFieldError=UnattachedFieldError$$module$build$src$core$field;
+
+module$build$src$core$blockly.VARIABLE_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$variables;
+module$build$src$core$blockly.VARIABLE_DYNAMIC_CATEGORY_NAME=CATEGORY_NAME$$module$build$src$core$variables_dynamic;
+
+module$build$src$core$blockly.VERSION=VERSION$$module$build$src$core$blockly;
 module$build$src$core$blockly.VariableMap=VariableMap$$module$build$src$core$variable_map;module$build$src$core$blockly.VariableModel=VariableModel$$module$build$src$core$variable_model;module$build$src$core$blockly.Variables=module$build$src$core$variables;module$build$src$core$blockly.VariablesDynamic=module$build$src$core$variables_dynamic;module$build$src$core$blockly.VerticalFlyout=VerticalFlyout$$module$build$src$core$flyout_vertical;module$build$src$core$blockly.WidgetDiv=module$build$src$core$widgetdiv;
 module$build$src$core$blockly.Workspace=Workspace$$module$build$src$core$workspace;module$build$src$core$blockly.WorkspaceAudio=WorkspaceAudio$$module$build$src$core$workspace_audio;module$build$src$core$blockly.WorkspaceComment=WorkspaceComment$$module$build$src$core$workspace_comment;module$build$src$core$blockly.WorkspaceCommentSvg=WorkspaceCommentSvg$$module$build$src$core$workspace_comment_svg;module$build$src$core$blockly.WorkspaceDragger=WorkspaceDragger$$module$build$src$core$workspace_dragger;
 module$build$src$core$blockly.WorkspaceSvg=WorkspaceSvg$$module$build$src$core$workspace_svg;module$build$src$core$blockly.Xml=module$build$src$core$xml;module$build$src$core$blockly.ZoomControls=ZoomControls$$module$build$src$core$zoom_controls;module$build$src$core$blockly.blockAnimations=module$build$src$core$block_animations;module$build$src$core$blockly.blockRendering=module$build$src$core$renderers$common$block_rendering;module$build$src$core$blockly.browserEvents=module$build$src$core$browser_events;

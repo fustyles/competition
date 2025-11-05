@@ -38,32 +38,80 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(error);
 		}		
 		xmlToolbox+='</xml>';
-		
 
-		//初始化工作區	
-		workspace = Blockly.inject('root',{
-				renderer: renderer
-				,theme: 'classic'
-				,media: 'media/'
-				,toolbox: xmlToolbox
-				,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
-				,zoom:{controls: true, wheel: false, startScale: scale, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
-				,trashcan: true
-				,move:{
-					scrollbars: {
-					  horizontal: true,
-					  vertical: true
-					},
-					drag: true,
-					wheel: true
-				}			
+		//初始化工作區
+		if (renderer=="zelos") {	
+
+			workspace = Blockly.inject('root',{
+					renderer: 'zelos'
+					,theme: 'classic'				
+					,media: 'media/'
+					,toolbox: xmlToolbox
+					,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
+					,zoom:{controls: true, wheel: false, startScale: scale, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
+					,trashcan: true
+					,move:{
+						scrollbars: {
+						  horizontal: true,
+						  vertical: true
+						},
+						drag: true,
+						wheel: true
+					}			
+					,plugins: {
+					  'flyoutsVerticalToolbox': ContinuousFlyout,
+					  'toolbox': ContinuousToolbox,	
+					  'metricsManager': ContinuousMetrics,
+					}
+					,toolboxConfiguration: {
+					  'MYVARIABLE': Blockly.myvariable.flyoutCategory,
+					  'MYLIST': Blockly.mylist.flyoutCategory,	
+					  'MYFUNCTION': Blockly.myfunction.flyoutCategory,					  
+					}
+				});
+				
+			function onWorkspaceChangedContinuousToolbox(event) {
+				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
+					continuousFlyout.setVisible(false);
+				}
+				else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
+					continuousFlyout.setVisible(true);
+				}
+				else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
+					workspace.toolbox_.clearSelection();
+					setTimeout(function(){
+						if (continuousFlyout.isVisible_ == true)
+							continuousFlyout.setVisible(false);
+					}, 20);
+				}
 			}
-		);
-		
-		workspace.scrollCenter();
+			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
+
+			var continuousFlyout = workspace.toolbox_.flyout_;
+			continuousFlyout.setVisible(false);	
+		} else {
+			workspace = Blockly.inject('root',{
+					renderer: renderer
+					,theme: 'classic'
+					,media: 'media/'
+					,toolbox: xmlToolbox
+					,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
+					,zoom:{controls: true, wheel: false, startScale: scale, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2}
+					,trashcan: true
+					,move:{
+						scrollbars: {
+						  horizontal: true,
+						  vertical: true
+						},
+						drag: true,
+						wheel: true
+					}			
+				}
+			);	
+		}
 		
 		var workspaceChangeTimer;
-		function onWorkspaceChange(event) {
+		function onWorkspaceChanged(event) {
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
 				handleBlockDelete(event);
 			}
@@ -94,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}, 250);
 		}
-		workspace.addChangeListener(onWorkspaceChange);
+		workspace.addChangeListener(onWorkspaceChanged);
 		
 		function handleBlockDelete(event) {
 			const deletedXml = event.oldXml;
@@ -134,6 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		registerMyVariable();
 		registerMyLists();
 		registerMyFunction();
+
+		workspace.scrollCenter();		
 		
 		return workspace;
 	}
@@ -142,8 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	function registerMyVariable(){
 		Blockly.myvariable = {};
 		Blockly.MYVARIABLE_CATEGORY_NAME = "MYVARIABLE"; 
-		Blockly.myvariable.CATEGORY_NAME = "MYVARIABLE"; 
-		Blockly.myvariable.NAME_TYPE=Blockly.MYVARIABLE_CATEGORY_NAME;	
+		Blockly.myvariable.CATEGORY_NAME = Blockly.MYVARIABLE_CATEGORY_NAME; 
+		Blockly.myvariable.NAME_TYPE=Blockly.MYVARIABLE_CATEGORY_NAME;
 
 		Blockly.myvariable.flyoutCategory = function(workspace) {
 			var blocks = [];
@@ -192,23 +242,23 @@ document.addEventListener('DOMContentLoaded', function() {
 			return blocks;
 		};
 
-		function registerMyListCategory() {
+		function registerMyVariableCategory() {
 			if (workspace) {
-				workspace.registerToolboxCategoryCallback(
+				var r = workspace.registerToolboxCategoryCallback(
 					Blockly.MYVARIABLE_CATEGORY_NAME, 
 					Blockly.myvariable.flyoutCategory
-				);				
+				);			
 			} else {
-				setTimeout(registerMyListCategory, 100);
+				setTimeout(registerMyVariableCategory, 100);
 			}
 		}
-		registerMyListCategory();
+		registerMyVariableCategory();
 	}
 	
 	function registerMyLists(){
 		Blockly.mylist = {};
 		Blockly.MYLIST_CATEGORY_NAME = "MYLIST"; 
-		Blockly.mylist.CATEGORY_NAME = "MYLIST"; 
+		Blockly.mylist.CATEGORY_NAME = Blockly.MYLIST_CATEGORY_NAME; 
 		Blockly.mylist.NAME_TYPE=Blockly.MYLIST_CATEGORY_NAME;	
 
 		Blockly.mylist.flyoutCategory = function(workspace) {
@@ -319,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	function registerMyFunction(){
 		Blockly.myfunction = {};
 		Blockly.MYFUNCTION_CATEGORY_NAME = "MYFUNCTION"; 
-		Blockly.myfunction.CATEGORY_NAME = "MYFUNCTION"; 
+		Blockly.myfunction.CATEGORY_NAME = Blockly.MYFUNCTION_CATEGORY_NAME; 
 		Blockly.myfunction.NAME_TYPE=Blockly.MYFUNCTION_CATEGORY_NAME;	
 
 		Blockly.myfunction.flyoutCategory = function(workspace) {
@@ -404,17 +454,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			return blocks;
 		};
 
-		function registerMyListCategory() {
+		function registerMyFunctionCategory() {
 			if (workspace) {
 				workspace.registerToolboxCategoryCallback(
 					Blockly.MYFUNCTION_CATEGORY_NAME, 
 					Blockly.myfunction.flyoutCategory
 				);				
 			} else {
-				setTimeout(registerMyListCategory, 100);
+				setTimeout(registerMyFunctionCategory, 100);
 			}
 		}
-		registerMyListCategory();
+		registerMyFunctionCategory();
 	}
 	
 	function createFunctionBlock() {
@@ -1056,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		//loadToolbox('zelos', catSystemScratch, 0.8);
 		updateMsg();
 		newFile();
-		
+
 		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
 		for (var f=0;f<blocklyWorkspace.length;f++) {
 			blocklyWorkspace[f].addEventListener('dblclick', function(){ 
