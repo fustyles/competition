@@ -77,8 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					continuousFlyout.setVisible(true);
 				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
 					workspace.toolbox_.clearSelection();
-					if (continuousFlyout.isVisible_ == true)
-						continuousFlyout.setVisible(false);
+					setTimeout(function(){
+						if (continuousFlyout.isVisible_ == true)
+							continuousFlyout.setVisible(false);
+					}, 20);
 				}
 			}
 			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
