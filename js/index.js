@@ -16,6 +16,7 @@ var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
 var createFunctionVariable = ["", []];
+var createButtonStatus = false;
 var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -71,18 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
+				console.log(event);
 				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
-				}
-				else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
-					continuousFlyout.setVisible(true);
-				}
-				else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
+				} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
+					if (createButtonStatus == false)
+						continuousFlyout.setVisible(true);
+					else 
+						createButtonStatus = false;
+				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
 					workspace.toolbox_.clearSelection();
-					setTimeout(function(){
-						if (continuousFlyout.isVisible_ == true)
-							continuousFlyout.setVisible(false);
-					}, 20);
+					if (continuousFlyout.isVisible_ == true)
+						continuousFlyout.setVisible(false);
 				}
 			}
 			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
@@ -620,6 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var blockToCenterXY = getBlockToCenterXY(block);
 		block.moveBy(blockToCenterXY.x, blockToCenterXY.y);	
 		
+		createButtonStatus = true;
 		workspace.refreshToolboxSelection();
 		workspace.render();
     });
