@@ -2820,13 +2820,16 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		} else if (this.backgroundStyle_==1) { // Oval
 			cornerRadius = finalHeight / 2;
 			finalWidth = textWidth + cornerRadius*1.5;
+			paddingLeft = 15;
+			paddingLeft = (finalWidth>=50)?paddingLeft:(paddingLeft+(50-finalWidth)/2);
+			finalWidth = (finalWidth>=50)?finalWidth:50;
+			console.log(finalWidth);
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
 				finalWidth, 
 				finalHeight, 
 				cornerRadius 
 			);
-			paddingLeft = 15;
 		} else if (this.backgroundStyle_==2) { // Hexagon
 			finalWidth = textWidth + finalHeight;
 			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, finalHeight);
