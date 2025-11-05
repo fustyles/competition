@@ -2823,7 +2823,6 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			paddingLeft = 15;
 			paddingLeft = (finalWidth>=50)?paddingLeft:(paddingLeft+(50-finalWidth)/2);
 			finalWidth = (finalWidth>=50)?finalWidth:50;
-			console.log(finalWidth);
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
 				0, 0, 
 				finalWidth, 
