@@ -161,8 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (mutation) {
 						mutation.querySelectorAll('arg').forEach(function(arg) {
 							const varId = arg.getAttribute('varid');
-							if (varId)
+							if (varId) {
 								workspace.deleteVariableById(varId);
+							}
 						});
 					}
 				} finally {
