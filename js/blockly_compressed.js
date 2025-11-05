@@ -2804,7 +2804,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		let cornerRadius = 0;
 		let finalWidthMin = 48;
 		let finalWidth = textWidth;
-		let finalHeight = fieldHeight
+		let finalHeight = fieldHeight;
 		let gRectPath = "";
 		let paddingLeft = 0;
 		
@@ -2817,11 +2817,11 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				finalHeight, 
 				cornerRadius 
 			);
-			paddingLeft = 10;
+			paddingLeft = cornerRadius;
 		} else if (this.backgroundStyle_==1) { // Oval
 			cornerRadius = finalHeight / 2;
 			finalWidth = textWidth + cornerRadius*1.5;
-			paddingLeft = 15;
+			paddingLeft = cornerRadius*0.75;
 			paddingLeft = (finalWidth>=finalWidthMin)?paddingLeft:(paddingLeft+(finalWidthMin-finalWidth)/2);
 			finalWidth = (finalWidth>=finalWidthMin)?finalWidth:finalWidthMin;
 			gRectPath = FieldZelosLabelBackground.getRoundRectPath(
@@ -2833,7 +2833,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		} else if (this.backgroundStyle_==2) { // Hexagon
 			finalWidth = textWidth + finalHeight;
 			gRectPath = FieldZelosLabelBackground.getHexagonPath(textWidth, finalHeight);
-			paddingLeft = 20;
+			paddingLeft = finalHeight/2;
 		} else if (this.backgroundStyle_==3) { // Diamond
             finalWidth = textWidth * 2;
             gRectPath = FieldZelosLabelBackground.getDiamondPath(
@@ -3025,18 +3025,18 @@ class FieldZelosInputBackground extends Blockly.FieldTextInput {
             cornerRadius = finalHeight / 6;
             finalWidth = textWidth + cornerRadius * 2;
             gRectPath = FieldZelosInputBackground.getRoundRectPath(0, 0, finalWidth, finalHeight, cornerRadius);
-            paddingLeft = 10;
+            paddingLeft = cornerRadius;
         } else if (this.backgroundStyle_ === FieldZelosInputBackground.SHAPE_TYPES.OVAL) {
 			cornerRadius = finalHeight / 2;
 			finalWidth = textWidth + cornerRadius*1.5;
-			paddingLeft = 15;
+			paddingLeft = cornerRadius*0.75;
 			paddingLeft = (finalWidth>=finalWidthMin)?paddingLeft:(paddingLeft+(finalWidthMin-finalWidth)/2);
 			finalWidth = (finalWidth>=finalWidthMin)?finalWidth:finalWidthMin;
             gRectPath = FieldZelosInputBackground.getRoundRectPath(0, 0, finalWidth, finalHeight, cornerRadius);
         } else if (this.backgroundStyle_ === FieldZelosInputBackground.SHAPE_TYPES.HEXAGON) {
             finalWidth = textWidth + finalHeight; 
             gRectPath = FieldZelosInputBackground.getHexagonPath(textWidth, finalHeight);
-            paddingLeft = 20; 
+            paddingLeft = finalHeight/2; 
         } else if (this.backgroundStyle_ === FieldZelosInputBackground.SHAPE_TYPES.DIAMOND) {
             finalWidth = textWidth * 2; 
             gRectPath = FieldZelosInputBackground.getDiamondPath(finalWidth, finalHeight);
