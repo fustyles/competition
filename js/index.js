@@ -16,7 +16,6 @@ var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
 var createFunctionVariable = ["", []];
-var createButtonStatus = false;
 var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -72,14 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				console.log(event);
 				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
 				} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
-					if (createButtonStatus == false)
-						continuousFlyout.setVisible(true);
-					else 
-						createButtonStatus = false;
+					continuousFlyout.setVisible(true);
 				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
 					workspace.toolbox_.clearSelection();
 					if (continuousFlyout.isVisible_ == true)
@@ -164,14 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (mutation) {
 						mutation.querySelectorAll('arg').forEach(function(arg) {
 							const varId = arg.getAttribute('varid');
-							const variableModel = workspace.getVariableById(varId);
-							if (variableModel) {
-								if (Blockly.Variables && Blockly.Variables.deleteVariable) {
-									Blockly.Variables.deleteVariable(workspace, variableModel);
-								} else {
-									workspace.deleteVariableById(varId);
-								}
-							}
+							if (varId)
+								workspace.deleteVariableById(varId);
 						});
 					}
 				} finally {
@@ -621,7 +610,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		var blockToCenterXY = getBlockToCenterXY(block);
 		block.moveBy(blockToCenterXY.x, blockToCenterXY.y);	
 		
-		createButtonStatus = true;
 		workspace.refreshToolboxSelection();
 		workspace.render();
     });
