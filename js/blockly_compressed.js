@@ -549,7 +549,13 @@ return c
 
 updateMutatorFlyout$$module$build$src$core$procedures=function(a){var b=[],c=a.getBlocksByType("procedures_mutatorarg",!1);for(let f=0,g;g=c[f];f++)b.push(g.getFieldValue("NAME"));c=$.createElement$$module$build$src$core$utils$xml("xml");const d=$.createElement$$module$build$src$core$utils$xml("block");d.setAttribute("type","procedures_mutatorarg");const e=$.createElement$$module$build$src$core$utils$xml("field");e.setAttribute("name","NAME");b=generateUniqueNameFromOptions$$module$build$src$core$variables($.DEFAULT_ARG$$module$build$src$core$procedures,
 b);b=$.createTextNode$$module$build$src$core$utils$xml(b);e.appendChild(b);d.appendChild(e);c.appendChild(d);a.updateToolbox(c)};
-mutatorOpenListener$$module$build$src$core$procedures=function(a){if(a.type===BUBBLE_OPEN$$module$build$src$core$events$utils&&"mutator"===a.bubbleType&&a.isOpen&&a.blockId){a=getWorkspaceById$$module$build$src$core$common(a.workspaceId).getBlockById(a.blockId);var b=a.type;if("procedures_defnoreturn"===b||"procedures_defreturn"===b)a=a.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE).getWorkspace(),updateMutatorFlyout$$module$build$src$core$procedures(a),a.addChangeListener(mutatorChangeListener$$module$build$src$core$procedures)}};
+
+mutatorOpenListener$$module$build$src$core$procedures=function(a){if(a.type===BUBBLE_OPEN$$module$build$src$core$events$utils&&"mutator"===a.bubbleType&&a.isOpen&&a.blockId){a=getWorkspaceById$$module$build$src$core$common(a.workspaceId).getBlockById(a.blockId);var b=a.type;
+if("procedures_defnoreturn"===b||"procedures_defreturn"===b||"javascript_procedures_defnoreturn_scratch"===b)
+	a=a.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE).getWorkspace(),updateMutatorFlyout$$module$build$src$core$procedures(a),a.addChangeListener(mutatorChangeListener$$module$build$src$core$procedures)}
+};
+
+
 mutatorChangeListener$$module$build$src$core$procedures=function(a){if(a.type===$.CREATE$$module$build$src$core$events$utils||a.type===$.DELETE$$module$build$src$core$events$utils||a.type===$.CHANGE$$module$build$src$core$events$utils||a.type===BLOCK_FIELD_INTERMEDIATE_CHANGE$$module$build$src$core$events$utils)a=getWorkspaceById$$module$build$src$core$common(a.workspaceId),updateMutatorFlyout$$module$build$src$core$procedures(a)};
 getCallers$$module$build$src$core$procedures=function(a,b){return b.getAllBlocks(!1).filter(c=>blockIsModernCallerFor$$module$build$src$core$procedures(c,a)||isLegacyProcedureCallBlock$$module$build$src$core$interfaces$i_legacy_procedure_blocks(c)&&$.Names$$module$build$src$core$names.equals(c.getProcedureCall(),a))};
 blockIsModernCallerFor$$module$build$src$core$procedures=function(a,b){return isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block(a)&&!a.isProcedureDef()&&a.getProcedureModel()&&$.Names$$module$build$src$core$names.equals(a.getProcedureModel().getName(),b)};
@@ -1855,8 +1861,24 @@ b,c,d){const e=a.type;b!==c.name&&this.renameVariableAndUses_(c,b,d);for(b=0;b<d
 c+'".');return d}if(c&&this.getVariableById(c))throw Error('Variable id, "'+c+'", is already in use.');d=c||genUid$$module$build$src$core$utils$idgenerator();b=b||"";d=new VariableModel$$module$build$src$core$variable_model(this.workspace,a,b,d);a=this.variableMap.get(b)||[];a.push(d);this.variableMap.delete(b);this.variableMap.set(b,a);fire$$module$build$src$core$events$utils(new (get$$module$build$src$core$events$utils(VAR_CREATE$$module$build$src$core$events$utils))(d));return d}deleteVariable(a){const b=
 a.getId(),c=this.variableMap.get(a.type);if(c)for(let d=0;d<c.length;d++)if(c[d].getId()===b){c.splice(d,1);fire$$module$build$src$core$events$utils(new (get$$module$build$src$core$events$utils(VAR_DELETE$$module$build$src$core$events$utils))(a));0===c.length&&this.variableMap.delete(a.type);break}}
 
-deleteVariableById(a){const b=this.getVariableById(a);if(b){var c=b.name;const d=this.getVariableUsesById(a);for(let e=0,f;f=d[e];e++)if("procedures_defnoreturn"===f.type||"procedures_defreturn"===f.type){a=
-String(f.getFieldValue("NAME"));c=$.Msg$$module$build$src$core$msg.CANNOT_DELETE_VARIABLE_PROCEDURE.replace("%1",c).replace("%2",a);alert$$module$build$src$core$dialog(c);return}1<d.length?(c=$.Msg$$module$build$src$core$msg.DELETE_VARIABLE_CONFIRMATION.replace("%1",String(d.length)).replace("%2",c),confirm$$module$build$src$core$dialog(c,e=>{e&&b&&this.deleteVariableInternal(b,d)})):this.deleteVariableInternal(b,d)}else console.warn("Can't delete non-existent variable: "+a)}deleteVariableInternal(a,
+deleteVariableById(a){
+	const b=this.getVariableById(a);
+	if(b){
+		var c=b.name;
+		const d=this.getVariableUsesById(a);
+		for(let e=0,f;f=d[e];e++)
+			if("procedures_defnoreturn"===f.type||"procedures_defreturn"===f.type||"javascript_procedures_defnoreturn_scratch"===f.type){
+				a=String(f.getFieldValue("NAME"));
+				c=$.Msg$$module$build$src$core$msg.CANNOT_DELETE_VARIABLE_PROCEDURE.replace("%1",c).replace("%2",a);
+				alert$$module$build$src$core$dialog(c);return
+		}
+		1<d.length?(c=$.Msg$$module$build$src$core$msg.DELETE_VARIABLE_CONFIRMATION.replace("%1",String(d.length)).replace("%2",c),confirm$$module$build$src$core$dialog(c,e=>{e&&b&&this.deleteVariableInternal(b,d)})):this.deleteVariableInternal(b,d)
+	}
+	else 
+		console.warn("Can't delete non-existent variable: "+a)
+}
+
+deleteVariableInternal(a,
 b){const c=$.getGroup$$module$build$src$core$events$utils();c||$.setGroup$$module$build$src$core$events$utils(!0);try{for(let d=0;d<b.length;d++)b[d].dispose(!0);this.deleteVariable(a)}finally{$.setGroup$$module$build$src$core$events$utils(c)}}getVariable(a,b){if(b=this.variableMap.get(b||""))for(let c=0,d;d=b[c];c++)if($.Names$$module$build$src$core$names.equals(d.name,a))return d;return null}getVariableById(a){for(const b of this.variableMap.values())for(const c of b)if(c.getId()===a)return c;return null}getVariablesOfType(a){return(a=
 this.variableMap.get(a||""))?a.slice():[]}getVariableTypes(a){const b=new Set(this.variableMap.keys());if(a&&a.getPotentialVariableMap())for(const c of a.getPotentialVariableMap().variableMap.keys())b.add(c);b.has("")||b.add("");return Array.from(b.values())}getAllVariables(){let a=[];for(const b of this.variableMap.values())a=a.concat(b);return a}getAllVariableNames(){return Array.from(this.variableMap.values()).flat().map(a=>a.name)}getVariableUsesById(a){const b=[],c=this.workspace.getAllBlocks(!1);
 for(let d=0;d<c.length;d++){const e=c[d].getVarModels();if(e)for(let f=0;f<e.length;f++)e[f].getId()===a&&b.push(c[d])}return b}},module$build$src$core$variable_map={};module$build$src$core$variable_map.VariableMap=VariableMap$$module$build$src$core$variable_map;var Workspace$$module$build$src$core$workspace=class{get isFlyout(){return this.internalIsFlyout}get isMutator(){return this.internalIsMutator}constructor(a){this.isClearing=this.internalIsMutator=this.internalIsFlyout=this.rendered=!1;this.MAX_UNDO=1024;this.connectionDBList=[];this.topBlocks=[];this.topComments=[];this.commentDB=new Map;this.listeners=[];this.undoStack_=[];this.redoStack_=[];this.blockDB=new Map;this.typedBlocksDB=new Map;this.procedureMap=new ObservableProcedureMap$$module$build$src$core$observable_procedure_map;
