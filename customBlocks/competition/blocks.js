@@ -887,7 +887,6 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
         var xml = Blockly.Xml.workspaceToDom(a.workspace);
         xml = new XMLSerializer().serializeToString(xml);
 
-        // 檢查是否有未定義的區塊類型 (type="undefined")
         if (xml.indexOf('type="undefined"') != -1) {
             xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
             xml = new XMLSerializer().serializeToString(xml);
@@ -932,12 +931,18 @@ Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
 	{
 	  const topBlock = this.getRootBlock(true);
 	  if (topBlock && topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
-		const outputConn = this.outputConnection;
-		if (outputConn && outputConn.targetConnection) {
-		  const parentConn = outputConn.targetConnection;
-		  parentConn.disconnect();
-		  this.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
-		}
+				Blockly.Events.disable();
+				try {
+					const outputConn = this.outputConnection;
+					if (outputConn && outputConn.targetConnection) {
+					  const parentConn = outputConn.targetConnection;
+					  parentConn.disconnect();
+					  this.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
+					}
+				} finally {
+					Blockly.Events.enable();
+					this.bringToFront();
+				}
 	  } else {
 		this.setWarningText(null); 
 	  }
