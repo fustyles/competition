@@ -2013,7 +2013,7 @@ zoomShowCategory(){
 	this.workspace.resize();
 };
 zoomFit(){this.workspace.zoomToFit();};
-zoomCleanup(){this.workspace.cleanUp();this.workspace.scrollCenter();};
+zoomCleanup(){this.workspace.cleanUp();};
 zoomChangeToolbox(){
 	scratchStyle = !scratchStyle;	
 	if (scratchStyle) {

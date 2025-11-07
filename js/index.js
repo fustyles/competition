@@ -176,10 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
 								workspace.deleteVariableById(varId);
 							}
 						});
-						workspace.getToolbox().refreshSelection();
 					}
 				} finally {
 					Blockly.Events.enable();
+					workspace.getToolbox().refreshSelection();
+					console.log(workspace.getToolbox());
 				}
 			}
 		}
@@ -441,11 +442,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				varModels.forEach(function(variable) {
 					if (variable.type=="NS") {
 						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
-							//blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>'));
+							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>'));
 						}
 					} else if (variable.type=="Boolean") {
 						if (Blockly.Blocks['javascript_variable_boolean_scratch']) {
-							//blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>'));
+							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>'));
 						}
 					}
 				});
