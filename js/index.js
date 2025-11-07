@@ -590,6 +590,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
+		
+		var functionBlocks = workspace.getBlocksByType("javascript_procedures_defnoreturn_scratch");
+		for (var i=0;i<functionBlocks.length;i++) {
+			if (functionBlocks[i].getFieldValue("NAME")==createFunctionVariable[0]) {
+				alert(Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_WARN_SCRATCH"]);
+				return;
+			}
+		}
+		
 		var message = hasDuplicateNull(createFunctionVariable[1]);
 		if (message) {
 			alert(message);

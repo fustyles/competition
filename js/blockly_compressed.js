@@ -2649,6 +2649,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 	handleMouseMove(event) {
         if (!this.newBlock_) return;
 		
+		Blockly.Events.disable();
 		try {		
 			const sourceWorkspace = this.newBlock_.workspace;
 			let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
@@ -2754,6 +2755,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			
 		} catch (e) {
 			console.error(e);
+		} finally {
+			Blockly.Events.enable();
 		}			
     }
 
