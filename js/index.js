@@ -61,11 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					  'toolbox': ContinuousToolbox,	
 					  'metricsManager': ContinuousMetrics,
 					}
-					,toolboxConfiguration: {
-					  'MYVARIABLE': Blockly.myvariable.flyoutCategory,
-					  'MYLIST': Blockly.mylist.flyoutCategory,	
-					  'MYFUNCTION': Blockly.myfunction.flyoutCategory,					  
-					}
 				});
 				
 			var continuousFlyout = workspace.toolbox_.flyout_;
@@ -251,8 +246,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					const listAddXml = '<block type="math_change_other" gap="8"><field name="VAR" variabletype="other">'+latestVariable.name+'</field><value name="DELTA"><shadow type="text_noquotes"><field name="TEXT">1</field></shadow></value></block>';
 					blocks.push(Blockly.utils.xml.textToDom(listAddXml));					
 				}
-
-				
 			}
 
 			return blocks;
@@ -1286,7 +1279,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('gemini_clear').style.display = "none";
 	}
 	
-	//執行程式
 	function runCode() {
 	  document.getElementById('javascript_content').style.display = "block";
 		
@@ -1609,10 +1601,18 @@ document.addEventListener('DOMContentLoaded', function() {
 							changeToolboxStyle(false);
 						}
 						
-						workspace.clear();
-						Blockly.Xml.domToWorkspace(blocks, workspace);
-						workspace.scrollCenter();
-						
+						Blockly.Events.disable();
+						try {
+							workspace.clear();
+							Blockly.Xml.domToWorkspace(blocks, workspace);
+							workspace.getToolbox().refreshSelection();
+							workspace.getToolbox().clearSelection();
+							workspace.render();
+							workspace.scrollCenter();
+						} finally {
+							Blockly.Events.enable();
+						}
+					
 						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();
 						resetOutput();

@@ -256,19 +256,26 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
   show(flyoutDef) {
 	var shouldShowFlyout = true;
 	
-	var ws = this.targetWorkspace;
+	var ws = this.targetWorkspace
+	
+	//console.log(ws.eventHistory);	
+	//console.log(this.isVisible_);
 	if (ws.eventHistory) {
-		for (let i = ws.eventHistory.length - 1; i >= 0; i--) {
-			const event = ws.eventHistory[i];
-			var eventType = event[0];
-			var eventOldJsonType = (event[1] !== null)?event[1].type:"";
-			if (eventType=="selected"||eventType=="block_field_intermediate_change"||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
-				ws.eventHistory = [];
-				shouldShowFlyout = false;
-				break;
+		if (ws.eventHistory.length==0&&this.isVisible_ == false)
+			shouldShowFlyout = false;
+		else {
+			for (let i = ws.eventHistory.length - 1; i >= 0; i--) {
+				const event = ws.eventHistory[i];
+				var eventType = event[0];
+				var eventOldJsonType = (event[1] !== null)?event[1].type:"";
+				if (eventType=="selected"||eventType=="block_field_intermediate_change"||(eventType=="var_create"&&this.isVisible_ == false)||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
+					shouldShowFlyout = false;
+					break;
+				}
 			}
 		}
 	}
+	//console.log(shouldShowFlyout);
 
 	super.show(flyoutDef);
 	this.recordScrollPositions();
