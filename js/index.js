@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 				
+			var continuousFlyout = workspace.toolbox_.flyout_;
+			continuousFlyout.setVisible(false);				
+				
 			function onWorkspaceChangedContinuousToolbox(event) {
 				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="create"&&event.json.type=="javascript_procedures_defnoreturn_scratch")||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
 					setTimeout(function(){
@@ -100,8 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
 
-			var continuousFlyout = workspace.toolbox_.flyout_;
-			continuousFlyout.setVisible(false);	
 		} else {
 			workspace = Blockly.inject('root',{
 					renderer: renderer
