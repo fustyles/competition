@@ -69,16 +69,33 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
+				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
+					setTimeout(function(){
+						Blockly.Events.disable();
+						try {
+							if (continuousFlyout.isVisible_ == true) {
+								continuousFlyout.setVisible(false);
+								workspace.toolbox_.clearSelection();
+							}
+						} finally {
+							Blockly.Events.enable();
+						}
+					}, 1000);				
+				} else if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
+					workspace.toolbox_.clearSelection();
 				} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
 					continuousFlyout.setVisible(true);
 				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
-					workspace.toolbox_.clearSelection();
-					setTimeout(function(){
-						if (continuousFlyout.isVisible_ == true)
+					Blockly.Events.disable();
+					try {
+						if (continuousFlyout.isVisible_ == true) {
 							continuousFlyout.setVisible(false);
-					}, 20);
+							workspace.toolbox_.clearSelection();
+						}
+					} finally {
+						Blockly.Events.enable();
+					}
 				}
 			}
 			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
