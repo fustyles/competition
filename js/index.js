@@ -69,18 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
-					setTimeout(function(){
-						Blockly.Events.disable();
-						try {
-							if (continuousFlyout.isVisible_ == true) {
-								continuousFlyout.setVisible(false);
-								workspace.toolbox_.clearSelection();
-							}
-						} finally {
-							Blockly.Events.enable();
+				console.log(event);
+				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="create"&&event.json.type=="javascript_procedures_defnoreturn_scratch")||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
+					Blockly.Events.disable();
+					try {
+						if (continuousFlyout.isVisible_ == true) {
+							continuousFlyout.setVisible(false);
+							workspace.toolbox_.clearSelection();
 						}
-					}, 1000);				
+					} finally {
+						Blockly.Events.enable();
+					}				
 				} else if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
 					workspace.toolbox_.clearSelection();
@@ -632,8 +631,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		'</block>\n'+
 		'</xml>\n';
 		
-		Blockly.Events.disable();
-		try {
+		//Blockly.Events.disable();
+		//try {
 			var domBlock = Blockly.utils.xml.textToDom(xml);
 			var topBlocks = Blockly.Xml.domToWorkspace(domBlock, workspace);		
 			var block = workspace.getBlockById(topBlocks[0]);
@@ -642,9 +641,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.refreshToolboxSelection();
 			workspace.render();
-		} finally {
-			Blockly.Events.enable();
-		}
+		//} finally {
+		//	Blockly.Events.enable();
+		//}
     });
 	
 	function toggleImportQuestionForm(show) {
