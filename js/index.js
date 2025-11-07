@@ -630,19 +630,23 @@ document.addEventListener('DOMContentLoaded', function() {
 		'</block>\n'+
 		'</xml>\n';
 		
-		//Blockly.Events.disable();
-		//try {
+		Blockly.Events.disable();
+		try {
 			var domBlock = Blockly.utils.xml.textToDom(xml);
 			var topBlocks = Blockly.Xml.domToWorkspace(domBlock, workspace);		
 			var block = workspace.getBlockById(topBlocks[0]);
 			var blockToCenterXY = getBlockToCenterXY(block);
-			block.moveBy(blockToCenterXY.x, blockToCenterXY.y);	
+			block.moveBy(blockToCenterXY.x, blockToCenterXY.y);
 			
-			workspace.refreshToolboxSelection();
+			workspace.getToolbox().refreshSelection();
+			workspace.getToolbox().clearSelection();
 			workspace.render();
-		//} finally {
-		//	Blockly.Events.enable();
-		//}
+			
+			var continuousFlyout = workspace.toolbox_.flyout_;
+			continuousFlyout.setVisible(false);				
+		} finally {
+			Blockly.Events.enable();
+		}
     });
 	
 	function toggleImportQuestionForm(show) {
