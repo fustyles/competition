@@ -39,9 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}		
 		xmlToolbox+='</xml>';
 
-		//初始化工作區
 		if (renderer=="zelos") {	
-
 			workspace = Blockly.inject('root',{
 					renderer: 'zelos'
 					,theme: 'classic'				
@@ -176,11 +174,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		registerMyLists();
 		registerMyFunction();
 
+		blocklyFlyoutDblclick();
 		workspace.scrollCenter();		
 		
 		return workspace;
 	}
 	window.loadToolbox = loadToolbox;
+	
+	function blocklyFlyoutDblclick(){
+		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
+		for (var f=0;f<blocklyWorkspace.length;f++) {
+			blocklyWorkspace[f].addEventListener('dblclick', function(){ 
+				Blockly.hideChaff();
+			});
+		}
+	}
 	
 	function registerMyVariable(){
 		Blockly.myvariable = {};
@@ -1101,16 +1109,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 	setTimeout(function(){
 		loadToolbox('geras', catSystem, 1.0);
+		//scratchStyle = true;
 		//loadToolbox('zelos', catSystemScratch, 0.8);
 		updateMsg();
 		newFile();
-
-		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
-		for (var f=0;f<blocklyWorkspace.length;f++) {
-			blocklyWorkspace[f].addEventListener('dblclick', function(){ 
-				Blockly.hideChaff();
-			});
-		}
 	}, 1000);
 
 	function addScript(url) {

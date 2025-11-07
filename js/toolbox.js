@@ -1,4 +1,20 @@
 var catSystem = '<xml>'+
+'    <category name="%{BKY_CATEVENTS}" colour="%{BKY_LOGIC_HUE}">'+
+'    <block type="javascript_data_output">'+
+'    <value name="TEXT">'+
+'    <shadow type="text">'+
+'    <field name="TEXT">abc</field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
+'    <block type="javascript_data_input">'+
+'    <value name="TEXT">'+
+'    <shadow type="text">'+
+'    <field name="TEXT"></field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
+'    </category>'+
 '    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">'+
 '    <block type="controls_if"></block>'+
 '    <block type="logic_compare"></block>'+
@@ -269,20 +285,4 @@ var catSystem = '<xml>'+
 '    </category>'+
 '    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>'+
 '    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>'+
-'    <category name="%{BKY_CATEVENT}" colour="%{BKY_LOGIC_HUE}">'+
-'    <block type="javascript_data_output">'+
-'    <value name="TEXT">'+
-'    <shadow type="text">'+
-'    <field name="TEXT">abc</field>'+
-'    </shadow>'+
-'    </value>'+
-'    </block>'+
-'    <block type="javascript_data_input">'+
-'    <value name="TEXT">'+
-'    <shadow type="text">'+
-'    <field name="TEXT"></field>'+
-'    </shadow>'+
-'    </value>'+
-'    </block>'+
-'    </category>'+
 '</xml>';
