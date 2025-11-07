@@ -147,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}, 250);
+			
+			const block = targetWorkspace.getBlockById(event.blockId);
+			if (block && block.type === "javascript_procedures_defnoreturn_scratch" && event.name == "NAME" && event.type == "block_field_intermediate_change") {
+				targetWorkspace.getToolbox().refreshSelection();
+			}
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
 		
@@ -424,17 +429,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			blocks.push(btn);
 			
 			var procedureBlocks = workspace.getBlocksByType("javascript_procedures_defnoreturn_scratch");
-
+	
 			for (var i=0;i<procedureBlocks.length;i++) {
 				var procBlock = procedureBlocks[i];
 				var varModels = procBlock.argumentVarModels_;
-				
+
 				const callBlock = document.createElement('block');
 				callBlock.setAttribute('type', 'javascript_procedures_callnoreturn_scratch');
 
 				const mutation = document.createElement('mutation');
 				mutation.setAttribute('name', procBlock.getFieldValue("NAME"));
-				
+
 				varModels.forEach(function(variable) {
 					const arg = document.createElement('arg');
 					arg.setAttribute('name', variable.name);

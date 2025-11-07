@@ -258,11 +258,11 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 	
 	var ws = this.targetWorkspace;
 	if (ws.eventHistory) {
-	for (let i = ws.eventHistory.length - 1; i >= 0; i--) {
-		const event = ws.eventHistory[i];
+		for (let i = ws.eventHistory.length - 1; i >= 0; i--) {
+			const event = ws.eventHistory[i];
 			var eventType = event[0];
 			var eventOldJsonType = (event[1] !== null)?event[1].type:"";
-			if (eventType=="selected"||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
+			if (eventType=="selected"||eventType=="block_field_intermediate_change"||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
 				ws.eventHistory = [];
 				shouldShowFlyout = false;
 				break;
