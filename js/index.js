@@ -430,29 +430,27 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i=0;i<procedureBlocks.length;i++) {
 				var procBlock = procedureBlocks[i];
 				var varModels = procBlock.argumentVarModels_;
-				var blocksXml = [];
 
-				var xml = '<block type="javascript_procedures_callnoreturn_scratch"><mutation statements="false">';
+				var blockXml = '<block type="javascript_procedures_callnoreturn_scratch"><mutation name="'+procBlock.getFieldValue("NAME")+'">';
 				varModels.forEach(function(variable) {
-					xml += '<arg name="'+variable.name+'"></arg>';			  
+					blockXml += '<arg name="'+variable.name+'" type="'+variable.type+'"></arg>';			  
 				});
-				xml += '</mutation><field name="NAME">'+procBlock.getFieldValue("NAME")+'</field></block>';
+				blockXml += '</mutation></block>';
+				blocks.push(Blockly.utils.xml.textToDom(blockXml));
 				
-				blocksXml.push(xml);
-			
 				varModels.forEach(function(variable) {
 					if (variable.type=="NS") {
 						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
-							//blocksXml.push('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>');
+							//blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>'));
 						}
 					} else if (variable.type=="Boolean") {
 						if (Blockly.Blocks['javascript_variable_boolean_scratch']) {
-							//blocksXml.push('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>');
+							//blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>'));
 						}
 					}
 				});
-				blocks.push(Blockly.utils.xml.textToDom(blocksXml.join("")));
 			}
+			//console.log(blocks);
 			return blocks;
 		};
 
