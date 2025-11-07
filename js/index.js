@@ -160,7 +160,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			if (blockType === "javascript_procedures_defnoreturn_scratch") {
 				const nameField = deletedXml.querySelector('field[name="NAME"]');
-				if (!nameField) return; 
+				if (!nameField) return;
+				
+				var workspaceXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 
 				const mutation = deletedXml.querySelector('mutation');
 				
@@ -169,10 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (mutation) {
 						mutation.querySelectorAll('arg').forEach(function(arg) {
 							const varId = arg.getAttribute('varid');
-							if (varId) {
+							const varName = arg.getAttribute('name');
+							if (varId&&workspaceXml.indexOf('arg name="'+varName+'"')==-1) {
 								workspace.deleteVariableById(varId);
 							}
 						});
+						workspace.getToolbox().refreshSelection();
 					}
 				} finally {
 					Blockly.Events.enable();
@@ -426,40 +430,29 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i=0;i<procedureBlocks.length;i++) {
 				var procBlock = procedureBlocks[i];
 				var varModels = procBlock.argumentVarModels_;
+				var blocksXml = [];
 
-				const callBlock = document.createElement('block');
-				callBlock.setAttribute('type', 'javascript_procedures_callnoreturn_scratch');
-
-				const mutation = document.createElement('mutation');
-				mutation.setAttribute('name', procBlock.getFieldValue("NAME"));
-
+				var xml = '<block type="javascript_procedures_callnoreturn_scratch"><mutation statements="false">';
 				varModels.forEach(function(variable) {
-					const arg = document.createElement('arg');
-					arg.setAttribute('name', variable.name);
-					mutation.appendChild(arg);				  
+					xml += '<arg name="'+variable.name+'"></arg>';			  
 				});
-
-				callBlock.appendChild(mutation);
-				blocks.push(callBlock);	
+				xml += '</mutation><field name="NAME">'+procBlock.getFieldValue("NAME")+'</field></block>';
 				
+				blocksXml.push(xml);
 			
 				varModels.forEach(function(variable) {
 					if (variable.type=="NS") {
 						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
-							const listAddXml = '<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>';
-					
-							blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+							//blocksXml.push('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>');
 						}
 					} else if (variable.type=="Boolean") {
 						if (Blockly.Blocks['javascript_variable_boolean_scratch']) {
-							const listAddXml = '<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>';
-					
-							blocks.push(Blockly.utils.xml.textToDom(listAddXml));
+							//blocksXml.push('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>');
 						}
 					}
 				});
+				blocks.push(Blockly.utils.xml.textToDom(blocksXml.join("")));
 			}
-			
 			return blocks;
 		};
 
