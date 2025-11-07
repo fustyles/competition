@@ -9,7 +9,7 @@ else
 	lang = "zh-hant";  //en, zh-hans, zh-hant
 document.write("\<script src='./msg/"+lang+".js'\>\<\/script>");
 
-var block_script = ["competition","gemini","spreadsheetSQL"];
+var block_script = ["competition"];
 for (var i=0;i<block_script.length;i++) {
   document.write("\<script src='./customBlocks/"+block_script[i]+"/blocks.js'\>\<\/script>");
   document.write("\<script src='./customBlocks/"+block_script[i]+"/javascript.js'\>\<\/script>");
