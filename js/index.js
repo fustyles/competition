@@ -71,15 +71,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			function onWorkspaceChangedContinuousToolbox(event) {
 				console.log(event);
 				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="create"&&event.json.type=="javascript_procedures_defnoreturn_scratch")||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
-					Blockly.Events.disable();
-					try {
-						if (continuousFlyout.isVisible_ == true) {
-							continuousFlyout.setVisible(false);
-							workspace.toolbox_.clearSelection();
+					setTimeout(function(){
+						Blockly.Events.disable();
+						try {
+							if (continuousFlyout.isVisible_ == true) {
+								continuousFlyout.setVisible(false);
+								workspace.toolbox_.clearSelection();
+							}
+						} finally {
+							Blockly.Events.enable();
 						}
-					} finally {
-						Blockly.Events.enable();
-					}				
+					}, 10);				
 				} else if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
 					workspace.toolbox_.clearSelection();
