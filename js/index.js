@@ -69,22 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			var continuousFlyout = workspace.toolbox_.flyout_;
-			continuousFlyout.setVisible(false);				
+			continuousFlyout.setVisible(false);
+			
+			workspace.eventHistory = [];
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				if (event.type=="var_rename"||event.type=="var_delete"||(event.type=="create"&&event.json.type=="javascript_procedures_defnoreturn_scratch")||(event.type=="delete"&&event.oldJson.type=="javascript_procedures_defnoreturn_scratch")) {
-					setTimeout(function(){
-						Blockly.Events.disable();
-						try {
-							if (continuousFlyout.isVisible_ == true) {
-								continuousFlyout.setVisible(false);
-								workspace.toolbox_.clearSelection();
-							}
-						} finally {
-							Blockly.Events.enable();
-						}
-					}, 10);				
-				} else if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
+				workspace.eventHistory.push([event.type, event.oldJson||null]);
+
+				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 					continuousFlyout.setVisible(false);
 					workspace.toolbox_.clearSelection();
 				} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {

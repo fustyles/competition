@@ -44,7 +44,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 
     this.workspace_.setMetricsManager(
         new ContinuousFlyoutMetrics(this.workspace_, this));
-
+		
     this.workspace_.addChangeListener((e) => {
       if (e.type === Blockly.Events.VIEWPORT_CHANGE) {
         this.selectCategoryByScrollPosition_(-this.workspace_.scrollY);
@@ -253,10 +253,31 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
   /**
    * @override
    */
-  show(flyoutDef) {	  
-    super.show(flyoutDef);
-    this.recordScrollPositions();
-    this.workspace_.resizeContents();
+  show(flyoutDef) {
+	var shouldShowFlyout = true;
+	
+	var ws = this.targetWorkspace;
+	if (ws.eventHistory) {
+	for (let i = ws.eventHistory.length - 1; i >= 0; i--) {
+		const event = ws.eventHistory[i];
+			var eventType = event[0];
+			var eventOldJsonType = (event[1] !== null)?event[1].type:"";
+			if (eventType=="selected"||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
+				ws.eventHistory = [];
+				shouldShowFlyout = false;
+				break;
+			}
+		}
+	}
+
+	super.show(flyoutDef);
+	this.recordScrollPositions();
+	this.workspace_.resizeContents();
+	if (!shouldShowFlyout&&this.isVisible_ == true) {
+		this.setVisible(false);
+	}
+	
+	ws.eventHistory = [];
   }
 
   /**
