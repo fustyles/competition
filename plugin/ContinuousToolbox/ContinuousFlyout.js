@@ -256,8 +256,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
   show(flyoutDef) {
 	var shouldShowFlyout = true;
 	
-	var ws = this.targetWorkspace
-	
+	var ws = this.targetWorkspace;
 	//console.log(ws.eventHistory);	
 	//console.log(this.isVisible_);
 	if (ws.eventHistory) {

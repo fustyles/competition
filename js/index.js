@@ -79,10 +79,15 @@ document.addEventListener('DOMContentLoaded', function() {
 				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
 					Blockly.Events.disable();
 					try {
-						if (continuousFlyout.isVisible_ == true) {
-							continuousFlyout.setVisible(false);
-							workspace.toolbox_.clearSelection();
-						}
+						continuousFlyout.setVisible(false);
+						workspace.toolbox_.clearSelection();
+					} finally {
+						Blockly.Events.enable();
+					}
+				} else if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
+					Blockly.Events.disable();
+					try {
+						workspace.getToolbox().refreshSelection();
 					} finally {
 						Blockly.Events.enable();
 					}
@@ -169,14 +174,31 @@ document.addEventListener('DOMContentLoaded', function() {
 				Blockly.Events.disable();
 				try {
 					if (mutation) {
+						var ns = workspace.getBlocksByType("javascript_variable_ns_scratch");
+						var b = workspace.getBlocksByType("javascript_variable_boolean_scratch");
 						mutation.querySelectorAll('arg').forEach(function(arg) {
 							const varId = arg.getAttribute('varid');
 							const varName = arg.getAttribute('name');
+							const varType = arg.getAttribute('type');
 							if (varId&&workspaceXml.indexOf('arg name="'+varName+'"')==-1) {
 								workspace.deleteVariableById(varId);
+								/*
+								console.log(varName);
+								for (var i=0;i<ns.length;i++) {
+									console.log(ns[i].getFieldValue("variableName"));
+									if (ns[i].getFieldValue("variableName")==varName)
+										ns[i].dispose();
+								}
+								for (var j=0;j<b.length;j++) {
+									console.log(b[j].getFieldValue("variableName"));
+									if (b[j].getFieldValue("variableName")==varName)
+										b[j].dispose();
+								}
+								*/
 							}
 						});
 					}
+					
 					workspace.getToolbox().refreshSelection();
 					workspace.getToolbox().clearSelection();
 					workspace.render();
@@ -394,6 +416,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			btn.setAttribute("callbackKey","CREATE_MYFUNCTION");
 			
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
+				const currentWorkspace = d.getTargetWorkspace();
+				
 				toggleCreateFunctionForm(1);
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
@@ -424,6 +448,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				createFunctionBlockName.value = createFunctionVariable[0];
 				paramContainer.innerHTML = "";
 				createFunctionBlock();
+				
+				currentWorkspace.refreshToolboxSelection();
 			});
 			blocks.push(btn);
 			
@@ -452,7 +478,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 			}
-			console.log(blocks);
 			return blocks;
 		};
 

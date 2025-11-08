@@ -2125,9 +2125,7 @@ weight:1,capabilities:[ComponentManager$$module$build$src$core$component_manager
 this.workspace_.dispose());this.svgGroup_&&removeNode$$module$build$src$core$utils$dom(this.svgGroup_)}getWidth(){return this.width_}getHeight(){return this.height_}getFlyoutScale(){return this.targetWorkspace.scale}getWorkspace(){return this.workspace_}isVisible(){return this.isVisible_}setVisible(a){const b=a!==this.isVisible();this.isVisible_=a;b&&(this.autoClose||this.workspace_.recordDragTargets(),this.updateDisplay())}setContainerVisible(a){const b=a!==this.containerVisible;this.containerVisible=
 a;b&&this.updateDisplay()}updateDisplay(){let a;a=this.containerVisible?this.isVisible():!1;this.svgGroup_&&(this.svgGroup_.style.display=a?"block":"none");let b;null==(b=this.workspace_.scrollbar)||b.setContainerVisible(a)}positionAt_(a,b,c,d){let e;null==(e=this.svgGroup_)||e.setAttribute("width",`${a}`);let f;null==(f=this.svgGroup_)||f.setAttribute("height",`${b}`);this.workspace_.setCachedParentSvgSize(a,b);this.svgGroup_&&setCssTransform$$module$build$src$core$utils$dom(this.svgGroup_,"translate("+
 c+"px,"+d+"px)");if(a=this.workspace_.scrollbar)a.setOrigin(c,d),a.resize(),a.hScroll&&a.hScroll.setPosition(a.hScroll.position.x,a.hScroll.position.y),a.vScroll&&a.vScroll.setPosition(a.vScroll.position.x,a.vScroll.position.y)}hide(){if(this.isVisible()){this.setVisible(!1);for(const a of this.listeners)unbind$$module$build$src$core$browser_events(a);this.listeners.length=0;this.reflowWrapper&&(this.workspace_.removeChangeListener(this.reflowWrapper),this.reflowWrapper=null)}}show(a){this.workspace_.setResizesEnabled(!1);
-this.hide();this.clearOldBlocks();"string"===typeof a&&(a=this.getDynamicCategoryContents(a));this.setVisible(!0);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);a=this.createFlyoutInfo(a);this.layout_(a.contents,a.gaps);this.horizontalLayout?this.height_=0:this.width_=0;this.workspace_.setResizesEnabled(!0);this.reflow();this.filterForCapacity();this.position();this.reflowWrapper=this.reflow.bind(this);this.workspace_.addChangeListener(this.reflowWrapper);this.emptyRecycledBlocks()}createFlyoutInfo(a){const b=
-[],c=[];this.permanentlyDisabled.length=0;const d=this.horizontalLayout?this.GAP_X:this.GAP_Y;for(const e of a){if("custom"in e){a=this.getDynamicCategoryContents(e.custom);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);const {contents:f,gaps:g}=this.createFlyoutInfo(a);b.push(...f);c.push(...g)}switch(e.kind.toUpperCase()){case "BLOCK":a=e;const f=this.createFlyoutBlock(a);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BLOCK,block:f});this.addBlockGap(a,c,d);
-break;case "SEP":this.addSeparatorGap(e,c,d);break;case "LABEL":a=this.createButton(e,!0);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break;case "BUTTON":a=this.createButton(e,!1),b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a}),c.push(d)}}return{contents:b,gaps:c}}
+this.hide();this.clearOldBlocks();"string"===typeof a&&(a=this.getDynamicCategoryContents(a));this.setVisible(!0);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);a=this.createFlyoutInfo(a);this.layout_(a.contents,a.gaps);this.horizontalLayout?this.height_=0:this.width_=0;this.workspace_.setResizesEnabled(!0);this.reflow();this.filterForCapacity();this.position();this.reflowWrapper=this.reflow.bind(this);this.workspace_.addChangeListener(this.reflowWrapper);this.emptyRecycledBlocks()}createFlyoutInfo(a){const b=[],c=[];this.permanentlyDisabled.length=0;const d=this.horizontalLayout?this.GAP_X:this.GAP_Y;for(const e of a){if("custom"in e){a=this.getDynamicCategoryContents(e.custom);a=convertFlyoutDefToJsonArray$$module$build$src$core$utils$toolbox(a);if(e.custom=="MYFUNCTION"){const{contents:f,gaps:g}=this.createFlyoutInfo(a)}else{const{contents:f,gaps:g}=this.createFlyoutInfo(a)}const{contents:f,gaps:g}=this.createFlyoutInfo(a);b.push(...f);c.push(...g)}switch(e.kind.toUpperCase()){case"BLOCK":a=e;const f=this.createFlyoutBlock(a);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BLOCK,block:f});this.addBlockGap(a,c,d);break;case"SEP":this.addSeparatorGap(e,c,d);break;case"LABEL":a=this.createButton(e,!0);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break;case"BUTTON":a=this.createButton(e,!1);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break}}return{contents:b,gaps:c}}
 
 getDynamicCategoryContents(a){
 	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYVARIABLE' ,Blockly.myvariable.flyoutCategory);
@@ -2147,32 +2145,30 @@ createButton(a,b){return new FlyoutButton$$module$build$src$core$flyout_button(t
 createFlyoutBlock(a) {
     let b;
     if (a.blockxml) {
-        if (typeof a.blockxml === "string") {
-            a = $.textToDom$$module$build$src$core$utils$xml(a.blockxml);
-        } else {
-            a = a.blockxml;
-        }
+        a = "string" === typeof a.blockxml ?
+            $.textToDom$$module$build$src$core$utils$xml(a.blockxml) :
+            a.blockxml;
 
-		if (a.getAttribute("type")!="javascript_variable_ns_scratch"&&a.getAttribute("type")!="javascript_variable_boolean_scratch")
+		//if (a.getAttribute("type")!="javascript_variable_ns_scratch"&&a.getAttribute("type")!="javascript_variable_boolean_scratch")
 			b = this.getRecycledBlock(a.getAttribute("type"));
-		if (!b) {
-			b = $.domToBlock$$module$build$src$core$xml(a, this.workspace_);
-		}
+
+        if (!b) {
+            b = $.domToBlock$$module$build$src$core$xml(a, this.workspace_);
+        }
     } else {
         b = this.getRecycledBlock(a.type);
 
         if (!b) {
             if (a.enabled === undefined) {
-                a.enabled = ("true" !== a.disabled && a.disabled !== true);
+                a.enabled = a.disabled !== "true" && a.disabled !== true;
             }
-
             b = append$$module$build$src$core$serialization$blocks(a, this.workspace_);
         }
     }
+
     if (!b.isEnabled()) {
         this.permanentlyDisabled.push(b);
     }
-
     return b;
 }
 
