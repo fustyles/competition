@@ -180,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				} finally {
 					Blockly.Events.enable();
 					workspace.getToolbox().refreshSelection();
-					console.log(workspace.getToolbox());
 				}
 			}
 		}
@@ -451,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 			}
-			//console.log(blocks);
+			console.log(blocks);
 			return blocks;
 		};
 
