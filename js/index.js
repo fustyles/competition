@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			const block = targetWorkspace.getBlockById(event.blockId);
 			if (block && block.type === "javascript_procedures_defnoreturn_scratch" && event.name == "NAME" && event.type == "block_field_intermediate_change") {
-				targetWorkspace.getToolbox().refreshSelection();
+				targetWorkspace.getToolbox().refreshSelection();				
 			}
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
@@ -177,9 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
 							}
 						});
 					}
+					workspace.getToolbox().refreshSelection();
+					workspace.getToolbox().clearSelection();
+					workspace.render();
 				} finally {
 					Blockly.Events.enable();
-					workspace.getToolbox().refreshSelection();
 				}
 			}
 		}
@@ -441,16 +443,15 @@ document.addEventListener('DOMContentLoaded', function() {
 				varModels.forEach(function(variable) {
 					if (variable.type=="NS") {
 						if (Blockly.Blocks['javascript_variable_ns_scratch']) {
-							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name+'</field></block>'));
+							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_ns_scratch"><field name="variableName">'+variable.name.replace("arg_","")+'</field></block>'));
 						}
 					} else if (variable.type=="Boolean") {
 						if (Blockly.Blocks['javascript_variable_boolean_scratch']) {
-							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name+'</field></block>'));
+							blocks.push(Blockly.utils.xml.textToDom('<block type="javascript_variable_boolean_scratch"><field name="variableName">'+variable.name.replace("arg_","")+'</field></block>'));
 						}
 					}
 				});
 			}
-			console.log(blocks);
 			return blocks;
 		};
 
@@ -547,11 +548,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	function createFunctionVariableExist(name) {
 		const variableModels = workspace.getAllVariables();
-		const variableNames = variableModels.map(variableModel => variableModel.name);
-		if (variableNames.includes(name))
-			return true;
-		else
-			return false;
+		for (const variableModel of variableModels) {
+			if (variableModel.name.toLowerCase() === "arg_" + name.toLowerCase()) {
+				return true;
+			}
+		}
+		return false;
 	}	
 
 	function hasDuplicateNull(dataArray) {
@@ -572,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (dataArray[i][0].trim() == "") {
 					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"];
 				} 
-				else if (variableNames.includes(dataArray[i][0])&&dataArray[i][1]!="label") {
+				else if (variableNames.includes("arg_"+dataArray[i][0])&&dataArray[i][1]!="label") {
 					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 				}
 			}
@@ -581,11 +583,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
-		
 		var functionBlocks = workspace.getBlocksByType("javascript_procedures_defnoreturn_scratch");
 		for (var i=0;i<functionBlocks.length;i++) {
 			if (functionBlocks[i].getFieldValue("NAME")==createFunctionVariable[0]) {
-				alert(Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_WARN_SCRATCH"]);
+				alert(Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_EXIST_SCRATCH"]);
 				return;
 			}
 		}
@@ -602,14 +603,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				  '<variables>\n';
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
-				xml += '<variable type="'+createFunctionVariable[1][i][1]+'" id="'+createFunctionVariable[1][i][2]+'">'+createFunctionVariable[1][i][0]+'</variable>\n';
+				xml += '<variable type="'+createFunctionVariable[1][i][1]+'" id="'+createFunctionVariable[1][i][2]+'">'+"arg_"+createFunctionVariable[1][i][0]+'</variable>\n';
 		}
 		xml += '</variables>\n'+
 		'<block type="javascript_procedures_defnoreturn_scratch">\n'+
 		'<mutation>\n';
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
-				xml += '<arg name="'+createFunctionVariable[1][i][0]+'" varid="'+createFunctionVariable[1][i][2]+'" type="'+createFunctionVariable[1][i][1]+'"></arg>\n';
+				xml += '<arg name="'+"arg_"+createFunctionVariable[1][i][0]+'" varid="'+createFunctionVariable[1][i][2]+'" type="'+createFunctionVariable[1][i][1]+'"></arg>\n';
 		}	
 		xml += '</mutation>\n'+		
 		'<field name="NAME">'+createFunctionVariable[0]+'</field>\n';
@@ -1481,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  	input = Number(input);\n'+
 			'  else\n'+
 			'    input = input;\n'+
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  return input;\n'+
 			'}';
 			
@@ -1495,7 +1496,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 			'  input = arr[variable_data_test_index];\n'+	
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
+			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}';
 		}
@@ -1506,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'      input = "";'+
 			'  }'+			
 			'  var arr = input.split(";");\n'+			
-			'  document.body.insertAdjacentHTML("beforeend", msg+"："+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
+			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
 			'  if (text==arr[arr.length-1])\n'+
 			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
 			'  else\n'+
@@ -1605,9 +1606,11 @@ document.addEventListener('DOMContentLoaded', function() {
 						try {
 							workspace.clear();
 							Blockly.Xml.domToWorkspace(blocks, workspace);
+							
 							workspace.getToolbox().refreshSelection();
 							workspace.getToolbox().clearSelection();
 							workspace.render();
+							
 							workspace.scrollCenter();
 						} finally {
 							Blockly.Events.enable();

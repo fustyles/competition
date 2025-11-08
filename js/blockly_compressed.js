@@ -551,7 +551,7 @@ updateMutatorFlyout$$module$build$src$core$procedures=function(a){var b=[],c=a.g
 b);b=$.createTextNode$$module$build$src$core$utils$xml(b);e.appendChild(b);d.appendChild(e);c.appendChild(d);a.updateToolbox(c)};
 
 mutatorOpenListener$$module$build$src$core$procedures=function(a){if(a.type===BUBBLE_OPEN$$module$build$src$core$events$utils&&"mutator"===a.bubbleType&&a.isOpen&&a.blockId){a=getWorkspaceById$$module$build$src$core$common(a.workspaceId).getBlockById(a.blockId);var b=a.type;
-if("procedures_defnoreturn"===b||"procedures_defreturn"===b||"javascript_procedures_defnoreturn_scratch"===b)
+if("procedures_defnoreturn"===b||"procedures_defreturn"===b)
 	a=a.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE).getWorkspace(),updateMutatorFlyout$$module$build$src$core$procedures(a),a.addChangeListener(mutatorChangeListener$$module$build$src$core$procedures)}
 };
 
@@ -1867,7 +1867,7 @@ deleteVariableById(a){
 		var c=b.name;
 		const d=this.getVariableUsesById(a);
 		for(let e=0,f;f=d[e];e++)
-			if("procedures_defnoreturn"===f.type||"procedures_defreturn"===f.type||"javascript_procedures_defnoreturn_scratch"===f.type){
+			if("procedures_defnoreturn"===f.type||"procedures_defreturn"===f.type){
 				a=String(f.getFieldValue("NAME"));
 				c=$.Msg$$module$build$src$core$msg.CANNOT_DELETE_VARIABLE_PROCEDURE.replace("%1",c).replace("%2",a);
 				alert$$module$build$src$core$dialog(c);return

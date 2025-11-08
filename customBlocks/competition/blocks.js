@@ -767,13 +767,13 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 						const allVariables = workspace.getAllVariables();
 						allVariables.find(variableModel => {
 							if (variableModel.name === this.arguments_[i]&&variableModel.type=="NS") {
-								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i], null, {
+								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i].replace("arg_",""), null, {
 									textColor: '#FFFFFF',
 									backgroundColor: '#FD6723',
 									shapeType: 1
 								}), 'ARG'+i);
 							} else if (variableModel.name === this.arguments_[i]&&variableModel.type=="Boolean") {
-								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i], null, {
+								paramsInput.appendField(new FieldZelosLabelBackground(this.arguments_[i].replace("arg_",""), null, {
 									textColor: '#FFFFFF',
 									backgroundColor: '#4C97FF',
 									shapeType: 2
@@ -835,6 +835,7 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
                 }
             } else {
                 b = new Blockly.FieldLabel(this.arguments_[a]);
+				c = new Blockly.FieldLabel(this.arguments_[a].replace("arg_",""));
 					
 				const allVariables = workspace.getAllVariables();
 				allVariables.find(variableModel => {
@@ -842,7 +843,10 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 						this.appendValueInput("ARG" + a)
 							.setAlign(Blockly.Align_RIGHT)
 							.setCheck(["String","Number"])
-							.appendField(b, "ARGNAME" + a).init();
+							.appendField(b, "ARGNAME" + a)
+							.appendField(c).init();
+							
+						this.getField("ARGNAME" + a).setVisible(false);
 							
 						const blockDom = Blockly.utils.xml.createElement('shadow');
 						blockDom.setAttribute('type', "text_noquotes");
@@ -865,7 +869,10 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
 						this.appendValueInput("ARG" + a)
 							.setAlign(Blockly.Align_RIGHT)
 							.setCheck("Boolean")
-							.appendField(b, "ARGNAME" + a).init();
+							.appendField(b, "ARGNAME" + a)
+							.appendField(c).init();
+							
+						this.getField("ARGNAME" + a).setVisible(false);
 					}
 				});		
             }
