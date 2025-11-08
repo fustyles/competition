@@ -452,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				});
 			}
+			console.log(blocks);
 			return blocks;
 		};
 
