@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
 						try {
 							continuousFlyout.setVisible(false);
 							workspace.toolbox_.clearSelection();
+						} catch (e) {
+							console.error(e);							
 						} finally {
 							Blockly.Events.enable();
 							workspace.render();
@@ -94,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					Blockly.Events.disable();
 					try {
 						workspace.getToolbox().refreshSelection();
+					} catch (e) {
+						console.error(e);						
 					} finally {
 						Blockly.Events.enable();
 						workspace.render();
@@ -682,7 +686,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			var continuousFlyout = workspace.toolbox_.flyout_;
 			if (continuousFlyout.autoClose)
-				continuousFlyout.setVisible(false);				
+				continuousFlyout.setVisible(false);
+		} catch (e) {
+			console.error(e);
 		} finally {
 			Blockly.Events.enable();
 			workspace.render();
