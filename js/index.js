@@ -64,28 +64,33 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			var continuousFlyout = workspace.toolbox_.flyout_;
-			continuousFlyout.setVisible(false);
+			if (continuousFlyout.autoClose)
+				continuousFlyout.setVisible(false);
 			
 			workspace.eventHistory = [];
 				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				workspace.eventHistory.push([event.type, event.oldJson||null]);
+				workspace.eventHistory.push([event.type, event.oldJson||null, event]);
 
-				if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
-					continuousFlyout.setVisible(false);
-					workspace.toolbox_.clearSelection();
-				} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
-					continuousFlyout.setVisible(true);
-				} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
-					Blockly.Events.disable();
-					try {
+				if (continuousFlyout.autoClose) {
+					if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
 						continuousFlyout.setVisible(false);
 						workspace.toolbox_.clearSelection();
-					} finally {
-						Blockly.Events.enable();
-						workspace.render();
+					} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
+						continuousFlyout.setVisible(true);
+					} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
+						Blockly.Events.disable();
+						try {
+							continuousFlyout.setVisible(false);
+							workspace.toolbox_.clearSelection();
+						} finally {
+							Blockly.Events.enable();
+							workspace.render();
+						}
 					}
-				} else if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
+				}
+					
+				if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
 					Blockly.Events.disable();
 					try {
 						workspace.getToolbox().refreshSelection();
@@ -172,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				var workspaceXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 				const mutation = deletedXml.querySelector('mutation');
 
-				//Blockly.Events.disable();
+				Blockly.Events.setGroup(true);
 				try {
 					if (mutation) {
 						var ns = workspace.getBlocksByType("javascript_variable_ns_scratch");
@@ -198,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					workspace.getToolbox().refreshSelection();
 					workspace.getToolbox().clearSelection();
 				} finally {
-					//Blockly.Events.enable();
+					Blockly.Events.setGroup(false);
 					workspace.render();
 				}
 			}
@@ -215,11 +220,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	window.loadToolbox = loadToolbox;
 	
-	function safeDisposeBlock(block) {
+	function safeDisposeBlock(block, withEvent = false) {
 	  if (!block) return;
 	  
 	  if (block.getParent()) {
-		block.unplug(true);
+		block.unplug(false);
 	  }
 
 	  block.inputList.forEach(input => {
@@ -232,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		block.outputConnection.disconnect();
 	  }
 
-	  block.dispose(true);
+	  block.dispose(withEvent);
 	}	
 	
 	function blocklyFlyoutDblclick(){
@@ -678,7 +683,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.getToolbox().clearSelection();
 			
 			var continuousFlyout = workspace.toolbox_.flyout_;
-			continuousFlyout.setVisible(false);				
+			if (continuousFlyout.autoClose)
+				continuousFlyout.setVisible(false);				
 		} finally {
 			Blockly.Events.enable();
 			workspace.render();
