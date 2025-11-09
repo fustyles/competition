@@ -154,11 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}, 250);
-			
-			const block = targetWorkspace.getBlockById(event.blockId);
-			if (block && block.type === "javascript_procedures_defnoreturn_scratch" && event.name == "NAME" && event.type == "block_field_intermediate_change") {
-				targetWorkspace.getToolbox().refreshSelection();				
-			}
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
 		
@@ -263,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.registerButtonCallback("CREATE_MYVARIABLE", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
+				currentWorkspace.eventHistory = [];
 				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'other');
 				
 				currentWorkspace.refreshToolboxSelection();			
@@ -327,6 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.registerButtonCallback("CREATE_MYLIST", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
+				currentWorkspace.eventHistory = [];
 				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Array');
 				
 				currentWorkspace.refreshToolboxSelection();			
@@ -438,6 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
+				currentWorkspace.eventHistory = [];
 				
 				toggleCreateFunctionForm(1);
 				if (!subWorkspace) {
