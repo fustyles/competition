@@ -12,8 +12,7 @@ Blockly.Msg["CATSCRATCH4_HUE"] = "310";
 Blockly.Msg["CATSCRATCH5_HUE"] = "260";
 Blockly.Msg["CATSCRATCH6_HUE"] = "290";
 
-Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "Input data";
-Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "Output data";
+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "print";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "when";
 Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "clicked";

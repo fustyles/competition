@@ -12,7 +12,6 @@ Blockly.Msg["CATSCRATCH4_HUE"] = "310";
 Blockly.Msg["CATSCRATCH5_HUE"] = "260";
 Blockly.Msg["CATSCRATCH6_HUE"] = "290";
 
-Blockly.Msg["JAVASCRIPT_DATA_INPUT"] = "输入";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "输出";
 
 Blockly.Msg["JAVASCRIPT_START_HEAD_SCRATCH"] = "当";

@@ -24,7 +24,7 @@ Blockly.common.defineBlocksWithJsonArray([
     ],
     "output": null,
     "inputsInline": true,
-    "colour": 60
+    "style": "text_blocks"
   }
 ]);
 
@@ -45,7 +45,7 @@ Blockly.common.defineBlocksWithJsonArray([
     "previousStatement": null,
     "nextStatement": null,
     "inputsInline": true,
-    "colour": 60
+    "style": "text_blocks"
   }
 ]);
 
