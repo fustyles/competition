@@ -951,8 +951,6 @@ function checkArgVariableRootBlock(block) {
 		if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
 			let argNames = topBlock.arguments_||[];
 			for (let i = 0; i < argNames.length; i++) {
-				console.log(argNames[i]);
-				console.log("arg_"+block.getFieldValue("variableName"));
 				if (argNames[i]=="arg_"+block.getFieldValue("variableName")) {
 					block.setWarningText(null);
 					block.bringToFront();
