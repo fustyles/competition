@@ -1,5 +1,5 @@
 var catSystem = '<xml>'+
-'    <category name="%{BKY_CATEVENTS}" colour="%{BKY_LOGIC_HUE}">'+
+'    <category name="%{BKY_CATEVENTS}" colour="%{BKY_TEXTS_HUE}">'+
 '    <block type="javascript_data_output">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+
