@@ -904,13 +904,6 @@ Blockly.Blocks['javascript_procedures_callnoreturn_scratch'] = {
                     for (var j = 0; j < xml[i].childNodes.length; j++) {
                         if (xml[i].childNodes[j].textContent == this.getFieldValue("NAME")) {
 							var mutation = xml[i].querySelector('mutation');
-							if (mutation) {
-							  var argx = mutation.querySelectorAll('arg[name="x"]');
-							  argx.forEach(arg => mutation.removeChild(arg));
-							  var argy = mutation.querySelectorAll('arg[name="y"]');
-							  argy.forEach(arg => mutation.removeChild(arg));
-							}
-			
                             xml = Blockly.Xml.domToPrettyText(xml[i]);
                             xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>');
                             a.workspace.clear();
