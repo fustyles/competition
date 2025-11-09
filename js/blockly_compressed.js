@@ -2664,19 +2664,19 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 
 			this.newBlock_.moveBy(this.newBlockXY.x, this.newBlockXY.y);
 			this.newBlock_.select();
-			
-			Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
-			Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));			
-			
-			this.boundEvents_.push(
-				Blockly.browserEvents.bind(document, 'mousemove', this, this.handleMouseMove),
-				Blockly.browserEvents.bind(document, 'mouseup', this, this.handleMouseUp)
-			);
 		} catch (e) {
 			console.error(e);
 		} finally {
 			Blockly.Events.enable(); 
 		}			
+			
+		Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
+		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));			
+		
+		this.boundEvents_.push(
+			Blockly.browserEvents.bind(document, 'mousemove', this, this.handleMouseMove),
+			Blockly.browserEvents.bind(document, 'mouseup', this, this.handleMouseUp)
+		);			
     }
 	
 	handleMouseMove(event) {

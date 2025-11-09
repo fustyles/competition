@@ -934,7 +934,7 @@ Blockly.common.defineBlocksWithJsonArray([
 ]);
 
 Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
-	if (event.blockId === this.id && (event.type === Blockly.Events.CHANGE || event.type === Blockly.Events.MOVE || event.type === Blockly.Events.CREATE)) {
+	if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
 		var blocks = [
 		  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
 		  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
@@ -946,21 +946,36 @@ Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
 }
 
 function checkArgVariableRootBlock(block) {
-	block.setWarningText(null);
-	
 	const topBlock = block.getRootBlock(true);
-	if (topBlock && topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
-		try {
-			const outputConn = block.outputConnection;
-			if (outputConn && outputConn.targetConnection) {
-			  //const parentConn = outputConn.targetConnection;
-			  //parentConn.disconnect();
-			  block.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
+	if (topBlock) {
+		if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
+			let argNames = topBlock.arguments_||[];
+			for (let i = 0; i < argNames.length; i++) {
+				console.log(argNames[i]);
+				console.log("arg_"+block.getFieldValue("variableName"));
+				if (argNames[i]=="arg_"+block.getFieldValue("variableName")) {
+					block.setWarningText(null);
+					block.bringToFront();
+					return;
+				}
 			}
-		} finally {
-			block.bringToFront();
 		}
-	}	
+		/*
+		if (topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
+			
+			try {
+				const outputConn = block.outputConnection;
+				if (outputConn && outputConn.targetConnection) {
+				  const parentConn = outputConn.targetConnection;
+				  parentConn.disconnect();
+				}
+			} finally {
+				block.bringToFront();
+			}
+		}
+		*/
+	}
+	block.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
 }
 window.checkArgVariableRootBlock = checkArgVariableRootBlock;
 
