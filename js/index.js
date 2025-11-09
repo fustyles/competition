@@ -1196,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});	
 	
 	function newFile() {
-		workspace.clear();
+		workspace.clear(true);
 		var xmlDoc = Blockly.utils.xml.textToDom('<xml></xml>');
 		Blockly.Xml.domToWorkspace(xmlDoc, workspace);
 		workspace.scrollCenter();
@@ -1648,19 +1648,15 @@ document.addEventListener('DOMContentLoaded', function() {
 							changeToolboxStyle(false);
 						}
 						
-						Blockly.Events.disable();
-						try {
-							workspace.clear();
-							Blockly.Xml.domToWorkspace(blocks, workspace);
-							
-							workspace.getToolbox().refreshSelection();
-							workspace.getToolbox().clearSelection();
-							
-							workspace.scrollCenter();
-						} finally {
-							Blockly.Events.enable();
-							workspace.render();
-						}
+						workspace.clear(true);
+						Blockly.Xml.domToWorkspace(blocks, workspace);
+						
+						workspace.getToolbox().refreshSelection();
+						workspace.getToolbox().clearSelection();
+						
+						workspace.scrollCenter();
+						
+						workspace.render();
 					
 						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();
