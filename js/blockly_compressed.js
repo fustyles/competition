@@ -1999,9 +1999,9 @@ createZoomResetSvg(a){this.zoomResetGroup=createSvgElement$$module$build$src$cor
 
 
 
-resetZoom(a){this.workspace.markFocused();const b=Math.log(this.workspace.options.zoomOptions.startScale/this.workspace.scale)/Math.log(this.workspace.options.zoomOptions.scaleSpeed);this.workspace.beginCanvasTransition();this.workspace.zoomCenter(b);this.workspace.scrollCenter();setTimeout(this.workspace.endCanvasTransition.bind(this.workspace),500);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();a.stopPropagation();a.preventDefault()}
+resetZoom(a){this.workspace.markFocused();const b=Math.log(this.workspace.options.zoomOptions.startScale/this.workspace.scale)/Math.log(this.workspace.options.zoomOptions.scaleSpeed);this.workspace.beginCanvasTransition();this.workspace.zoomCenter(b);setTimeout(this.workspace.endCanvasTransition.bind(this.workspace),500);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();a.stopPropagation();a.preventDefault();this.workspace.scrollCenter();}
 
-zoom(a,b){this.workspace.markFocused();this.workspace.zoomCenter(a);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();b.stopPropagation();b.preventDefault()}
+zoom(a,b){this.workspace.markFocused();this.workspace.zoomCenter(a);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();b.stopPropagation();b.preventDefault();this.workspace.scrollCenter();}
 
 zoomPrevious(){this.workspace.undo(false);};
 zoomNext(){this.workspace.undo(true);};
@@ -2091,12 +2091,42 @@ clientRect:d})}}newBlock(a,b){throw Error("The implementation of newBlock should
 a)}moveDrag(a){a=mouseToSvg$$module$build$src$core$browser_events(a,this.getParentSvg(),this.getInverseScreenCTM());a.x/=this.scale;a.y/=this.scale;return Coordinate$$module$build$src$core$utils$coordinate.sum(this.dragDeltaXY,a)}isDragging(){return null!==this.currentGesture_&&this.currentGesture_.isDragging()}isDraggable(){return this.options.moveOptions&&this.options.moveOptions.drag}isMovable(){return this.options.moveOptions&&!!this.options.moveOptions.scrollbars||this.options.moveOptions&&this.options.moveOptions.wheel||
 this.options.moveOptions&&this.options.moveOptions.drag||this.options.zoomOptions&&this.options.zoomOptions.wheel||this.options.zoomOptions&&this.options.zoomOptions.pinch}isMovableHorizontally(){const a=!!this.scrollbar;return this.isMovable()&&(!a||a&&this.scrollbar.canScrollHorizontally())}isMovableVertically(){const a=!!this.scrollbar;return this.isMovable()&&(!a||a&&this.scrollbar.canScrollVertically())}onMouseWheel_(a){if(Gesture$$module$build$src$core$gesture.inProgress())a.preventDefault(),
 a.stopPropagation();else{var b=this.options.zoomOptions&&this.options.zoomOptions.wheel,c=this.options.moveOptions&&this.options.moveOptions.wheel;if(b||c){var d=getScrollDeltaPixels$$module$build$src$core$browser_events(a);if(MAC$$module$build$src$core$utils$useragent)var e=a.metaKey;b&&(a.ctrlKey||e||!c)?(d=-d.y/50,b=mouseToSvg$$module$build$src$core$browser_events(a,this.getParentSvg(),this.getInverseScreenCTM()),this.zoom(b.x,b.y,d)):(b=this.scrollX-d.x,c=this.scrollY-d.y,a.shiftKey&&!d.x&&(b=
-this.scrollX-d.y,c=this.scrollY),this.scroll(b,c));a.preventDefault()}}}getBlocksBoundingBox(){const a=this.getTopBoundedElements();if(!a.length)return new Rect$$module$build$src$core$utils$rect(0,0,0,0);const b=a[0].getBoundingRectangle();for(let d=1;d<a.length;d++){var c=a[d];c.isInsertionMarker&&c.isInsertionMarker()||(c=c.getBoundingRectangle(),c.top<b.top&&(b.top=c.top),c.bottom>b.bottom&&(b.bottom=c.bottom),c.left<b.left&&(b.left=c.left),c.right>b.right&&(b.right=c.right))}return b}cleanUp(){this.setResizesEnabled(!1);
-$.setGroup$$module$build$src$core$events$utils(!0);const a=this.getTopBlocks(!0);let b=0;for(let c=0,d;d=a[c];c++){if(!d.isMovable())continue;const e=d.getRelativeToSurfaceXY();d.moveBy(-e.x,b-e.y,["cleanup"]);d.snapToGrid();b=d.getRelativeToSurfaceXY().y+d.getHeightWidth().height+this.renderer.getConstants().MIN_BLOCK_HEIGHT}$.setGroup$$module$build$src$core$events$utils(!1);this.setResizesEnabled(!0)}showContextMenu(a){if(!this.options.readOnly&&!this.isFlyout){var b=ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.getContextMenuOptions(ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.WORKSPACE,
+this.scrollX-d.y,c=this.scrollY),this.scroll(b,c));a.preventDefault()}}}getBlocksBoundingBox(){const a=this.getTopBoundedElements();if(!a.length)return new Rect$$module$build$src$core$utils$rect(0,0,0,0);const b=a[0].getBoundingRectangle();for(let d=1;d<a.length;d++){var c=a[d];c.isInsertionMarker&&c.isInsertionMarker()||(c=c.getBoundingRectangle(),c.top<b.top&&(b.top=c.top),c.bottom>b.bottom&&(b.bottom=c.bottom),c.left<b.left&&(b.left=c.left),c.right>b.right&&(b.right=c.right))}return b}
+
+cleanUp(){
+	this.setResizesEnabled(!1);
+	$.setGroup$$module$build$src$core$events$utils(!0);
+	const a=this.getTopBlocks(!0);
+	let b=0;for(let c=0,d;d=a[c];c++){
+		if(!d.isMovable())
+			continue;
+		const e=d.getRelativeToSurfaceXY();
+		d.moveBy(-e.x,b-e.y,["cleanup"]);
+		d.snapToGrid();
+		b=d.getRelativeToSurfaceXY().y+d.getHeightWidth().height+this.renderer.getConstants().MIN_BLOCK_HEIGHT
+	}
+	$.setGroup$$module$build$src$core$events$utils(!1);
+	this.setResizesEnabled(!0);
+	this.scrollCenter();
+}
+
+showContextMenu(a){if(!this.options.readOnly&&!this.isFlyout){var b=ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.getContextMenuOptions(ContextMenuRegistry$$module$build$src$core$contextmenu_registry.ScopeType.WORKSPACE,
 {workspace:this});this.configureContextMenu&&this.configureContextMenu(b,a);show$$module$build$src$core$contextmenu(a,b,this.RTL)}}updateToolbox(a){if(a=convertToolboxDefToJson$$module$build$src$core$utils$toolbox(a)){if(!this.options.languageTree)throw Error("Existing toolbox is null.  Can't create new toolbox.");if(hasCategories$$module$build$src$core$utils$toolbox(a)){if(!this.toolbox_)throw Error("Existing toolbox has no categories.  Can't change mode.");this.options.languageTree=a;this.toolbox_.render(a)}else{if(!this.flyout)throw Error("Existing toolbox has categories.  Can't change mode.");
 this.options.languageTree=a;this.flyout.show(a)}}else if(this.options.languageTree)throw Error("Can't nullify an existing toolbox.");}markFocused(){this.options.parentWorkspace?this.options.parentWorkspace.markFocused():(setMainWorkspace$$module$build$src$core$common(this),this.getParentSvg().focus({preventScroll:!0}))}zoom(a,b,c){c=Math.pow(this.options.zoomOptions.scaleSpeed,c);const d=this.scale*c;if(this.scale!==d){d>this.options.zoomOptions.maxScale?c=this.options.zoomOptions.maxScale/this.scale:
-d<this.options.zoomOptions.minScale&&(c=this.options.zoomOptions.minScale/this.scale);var e=this.getCanvas().getCTM(),f=this.getParentSvg().createSVGPoint();f.x=a;f.y=b;f=f.matrixTransform(e.inverse());a=f.x;b=f.y;e=e.translate(a*(1-c),b*(1-c)).scale(c);this.scrollX=e.e;this.scrollY=e.f;this.setScale(d)}}zoomCenter(a){var b=this.getMetrics();let c;this.flyout?(c=b.svgWidth?b.svgWidth/2:0,b=b.svgHeight?b.svgHeight/2:0):(c=b.viewWidth/2+b.absoluteLeft,b=b.viewHeight/2+b.absoluteTop);this.zoom(c,b,a)}zoomToFit(){if(this.isMovable()){var a=
-this.getMetrics(),b=a.viewWidth;a=a.viewHeight;var c=this.getBlocksBoundingBox(),d=2*ZOOM_TO_FIT_MARGIN$$module$build$src$core$workspace_svg,e=c.right-c.left+d;c=c.bottom-c.top+d;if(e){this.flyout&&(this.horizontalLayout?(a+=this.flyout.getHeight(),c+=this.flyout.getHeight()/this.scale):(b+=this.flyout.getWidth(),e+=this.flyout.getWidth()/this.scale));b/=e;a/=c;$.disable$$module$build$src$core$events$utils();try{this.setScale(Math.min(b,a)),this.scrollCenter()}finally{$.enable$$module$build$src$core$events$utils()}this.maybeFireViewportChangeEvent()}}else console.warn("Tried to move a non-movable workspace. This could result in blocks becoming inaccessible.")}beginCanvasTransition(){addClass$$module$build$src$core$utils$dom(this.svgBlockCanvas_,
+d<this.options.zoomOptions.minScale&&(c=this.options.zoomOptions.minScale/this.scale);var e=this.getCanvas().getCTM(),f=this.getParentSvg().createSVGPoint();f.x=a;f.y=b;f=f.matrixTransform(e.inverse());a=f.x;b=f.y;e=e.translate(a*(1-c),b*(1-c)).scale(c);this.scrollX=e.e;this.scrollY=e.f;this.setScale(d)}}zoomCenter(a){var b=this.getMetrics();let c;this.flyout?(c=b.svgWidth?b.svgWidth/2:0,b=b.svgHeight?b.svgHeight/2:0):(c=b.viewWidth/2+b.absoluteLeft,b=b.viewHeight/2+b.absoluteTop);this.zoom(c,b,a)}
+
+zoomToFit(){
+	if(this.isMovable()){
+		var a=this.getMetrics(),b=a.viewWidth;a=a.viewHeight;var c=this.getBlocksBoundingBox(),d=2*ZOOM_TO_FIT_MARGIN$$module$build$src$core$workspace_svg,e=c.right-c.left+d;c=c.bottom-c.top+d;if(e){this.flyout&&(this.horizontalLayout?(a+=this.flyout.getHeight(),c+=this.flyout.getHeight()/this.scale):(b+=this.flyout.getWidth(),e+=this.flyout.getWidth()/this.scale));b/=e;a/=c;$.disable$$module$build$src$core$events$utils();
+		try{this.setScale(Math.min(b,a)),this.scrollCenter()}
+		finally{$.enable$$module$build$src$core$events$utils()}
+		this.maybeFireViewportChangeEvent()}
+	}else 
+		console.warn("Tried to move a non-movable workspace. This could result in blocks becoming inaccessible.");
+	this.scrollCenter();
+}
+
+beginCanvasTransition(){addClass$$module$build$src$core$utils$dom(this.svgBlockCanvas_,
 "blocklyCanvasTransitioning");addClass$$module$build$src$core$utils$dom(this.svgBubbleCanvas_,"blocklyCanvasTransitioning")}endCanvasTransition(){removeClass$$module$build$src$core$utils$dom(this.svgBlockCanvas_,"blocklyCanvasTransitioning");removeClass$$module$build$src$core$utils$dom(this.svgBubbleCanvas_,"blocklyCanvasTransitioning")}scrollCenter(){if(this.isMovable()){var a=this.getMetrics(),b=(a.scrollWidth-a.viewWidth)/2,c=(a.scrollHeight-a.viewHeight)/2;b=-b-a.scrollLeft;c=-c-a.scrollTop;this.scroll(b,
 c)}else console.warn("Tried to move a non-movable workspace. This could result in blocks becoming inaccessible.")}centerOnBlock(a,b){if(this.isMovable()){var c=a?this.getBlockById(a):null;if(c){a=c.getRelativeToSurfaceXY();c=b?{height:c.height,width:c.width}:c.getHeightWidth();var d=this.scale;b=(a.x+(this.RTL?-1:1)*c.width/2)*d;a=(a.y+c.height/2)*d;c=this.getMetrics();this.scroll(-(b-c.viewWidth/2),-(a-c.viewHeight/2))}}else console.warn("Tried to move a non-movable workspace. This could result in blocks becoming inaccessible.")}setScale(a){this.options.zoomOptions.maxScale&&
 a>this.options.zoomOptions.maxScale?a=this.options.zoomOptions.maxScale:this.options.zoomOptions.minScale&&a<this.options.zoomOptions.minScale&&(a=this.options.zoomOptions.minScale);this.scale=a;this.hideChaff(!1);(a=this.getFlyout(!1))&&a.isVisible()&&(a.reflow(),this.recordDragTargets());this.grid&&this.grid.update(this.scale);a=this.getMetrics();this.scrollX-=a.absoluteLeft;this.scrollY-=a.absoluteTop;a.viewLeft+=a.absoluteLeft;a.viewTop+=a.absoluteTop;this.scroll(this.scrollX,this.scrollY);this.scrollbar&&
