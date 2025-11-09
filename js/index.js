@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.toolbox_.clearSelection();
 					} finally {
 						Blockly.Events.enable();
+						workspace.render();
 					}
 				} else if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
 					Blockly.Events.disable();
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.getToolbox().refreshSelection();
 					} finally {
 						Blockly.Events.enable();
+						workspace.render();
 					}
 				}
 			}
@@ -168,42 +170,40 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (!nameField) return;
 				
 				var workspaceXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-
 				const mutation = deletedXml.querySelector('mutation');
-				
+
 				Blockly.Events.disable();
 				try {
 					if (mutation) {
 						var ns = workspace.getBlocksByType("javascript_variable_ns_scratch");
 						var b = workspace.getBlocksByType("javascript_variable_boolean_scratch");
-						mutation.querySelectorAll('arg').forEach(function(arg) {
-							const varId = arg.getAttribute('varid');
-							const varName = arg.getAttribute('name');
-							const varType = arg.getAttribute('type');
-							if (varId&&workspaceXml.indexOf('arg name="'+varName+'"')==-1) {
-								workspace.deleteVariableById(varId);
-								/*
-								console.log(varName);
-								for (var i=0;i<ns.length;i++) {
-									console.log(ns[i].getFieldValue("variableName"));
-									if (ns[i].getFieldValue("variableName")==varName)
-										ns[i].dispose();
+						
+						const args = mutation.getElementsByTagName('arg');
+						for (let i = 0; i < args.length; i++) {
+							const varId = args[i].getAttribute('varid');
+							const varName = args[i].getAttribute('name');
+							const varType = args[i].getAttribute('type');
+							if (varId&&workspaceXml.indexOf('arg name="'+varName+'"')!=-1) {
+								//workspace.deleteVariableById(varId);
+								
+								for (let j=0;j<ns.length;j++) {
+									if ("arg_"+ns[j].getFieldValue("variableName")==varName)
+										safeDisposeBlock(ns[j]);
 								}
-								for (var j=0;j<b.length;j++) {
-									console.log(b[j].getFieldValue("variableName"));
-									if (b[j].getFieldValue("variableName")==varName)
-										b[j].dispose();
+								for (let k=0;k<b.length;k++) {
+									if ("arg_"+b[k].getFieldValue("variableName")==varName)
+										safeDisposeBlock(b[k]);
 								}
-								*/
+								
 							}
-						});
+						}
 					}
 					
 					workspace.getToolbox().refreshSelection();
 					workspace.getToolbox().clearSelection();
-					workspace.render();
 				} finally {
 					Blockly.Events.enable();
+					workspace.render();
 				}
 			}
 		}
@@ -218,6 +218,26 @@ document.addEventListener('DOMContentLoaded', function() {
 		return workspace;
 	}
 	window.loadToolbox = loadToolbox;
+	
+	function safeDisposeBlock(block) {
+	  if (!block) return;
+	  
+	  if (block.getParent()) {
+		block.unplug(true);
+	  }
+
+	  block.inputList.forEach(input => {
+		if (input.connection && input.connection.targetBlock()) {
+		  input.connection.targetBlock().unplug();
+		}
+	  });
+
+	  if (block.outputConnection && block.outputConnection.targetConnection) {
+		block.outputConnection.disconnect();
+	  }
+
+	  block.dispose(true);
+	}	
 	
 	function blocklyFlyoutDblclick(){
 		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
@@ -660,12 +680,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.getToolbox().refreshSelection();
 			workspace.getToolbox().clearSelection();
-			workspace.render();
 			
 			var continuousFlyout = workspace.toolbox_.flyout_;
 			continuousFlyout.setVisible(false);				
 		} finally {
 			Blockly.Events.enable();
+			workspace.render();
 		}
     });
 	
@@ -1635,11 +1655,11 @@ document.addEventListener('DOMContentLoaded', function() {
 							
 							workspace.getToolbox().refreshSelection();
 							workspace.getToolbox().clearSelection();
-							workspace.render();
 							
 							workspace.scrollCenter();
 						} finally {
 							Blockly.Events.enable();
+							workspace.render();
 						}
 					
 						document.getElementById('javascript_content').style.display = "none";
