@@ -942,8 +942,8 @@ Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
 				try {
 					const outputConn = this.outputConnection;
 					if (outputConn && outputConn.targetConnection) {
-					  const parentConn = outputConn.targetConnection;
-					  parentConn.disconnect();
+					  //const parentConn = outputConn.targetConnection;
+					  //parentConn.disconnect();
 					  this.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
 					}
 				} finally {

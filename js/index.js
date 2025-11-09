@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				var workspaceXml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 				const mutation = deletedXml.querySelector('mutation');
 
-				Blockly.Events.disable();
+				//Blockly.Events.disable();
 				try {
 					if (mutation) {
 						var ns = workspace.getBlocksByType("javascript_variable_ns_scratch");
@@ -183,18 +183,14 @@ document.addEventListener('DOMContentLoaded', function() {
 							const varId = args[i].getAttribute('varid');
 							const varName = args[i].getAttribute('name');
 							const varType = args[i].getAttribute('type');
-							if (varId&&workspaceXml.indexOf('arg name="'+varName+'"')!=-1) {
-								//workspace.deleteVariableById(varId);
-								
-								for (let j=0;j<ns.length;j++) {
-									if ("arg_"+ns[j].getFieldValue("variableName")==varName)
-										safeDisposeBlock(ns[j]);
-								}
-								for (let k=0;k<b.length;k++) {
-									if ("arg_"+b[k].getFieldValue("variableName")==varName)
-										safeDisposeBlock(b[k]);
-								}
-								
+							
+							for (let j=0;j<ns.length;j++) {
+								if ("arg_"+ns[j].getFieldValue("variableName")==varName)
+									safeDisposeBlock(ns[j]);
+							}
+							for (let k=0;k<b.length;k++) {
+								if ("arg_"+b[k].getFieldValue("variableName")==varName)
+									safeDisposeBlock(b[k]);
 							}
 						}
 					}
@@ -202,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					workspace.getToolbox().refreshSelection();
 					workspace.getToolbox().clearSelection();
 				} finally {
-					Blockly.Events.enable();
+					//Blockly.Events.enable();
 					workspace.render();
 				}
 			}
