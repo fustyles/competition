@@ -184,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
 						
 						const args = mutation.getElementsByTagName('arg');
 						for (let i = 0; i < args.length; i++) {
+							workspace.deleteVariableById(args[i].getAttribute('varid'));
+							
 							const varId = args[i].getAttribute('varid');
 							const varName = args[i].getAttribute('name');
 							const varType = args[i].getAttribute('type');
