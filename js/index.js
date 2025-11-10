@@ -694,6 +694,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		} finally {
 			Blockly.Events.enable();
 			workspace.render();
+			document.getElementById('javascript_content').style.display = "none";
 		}
     });
 	
