@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"];
 				} 
 				else if (variableNames.includes("arg_"+dataArray[i][0])&&dataArray[i][1]!="label") {
-					return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
+					//return Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_EXIST_SCRATCH"];
 				}
 			}
 		}
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		for (var i=0;i<functionBlocks.length;i++) {
 			if (functionBlocks[i].getFieldValue("NAME")==createFunctionVariable[0]) {
 				alert(Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_EXIST_SCRATCH"]);
-				return;
+				//return;
 			}
 		}
 		
