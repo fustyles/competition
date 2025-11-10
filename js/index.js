@@ -799,18 +799,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function createFunctionVariableAdd(name, type) {
-		createFunctionVariable[1].push([name, type, generatorVariableUid()]);		
+		createFunctionVariable[1].push([name, type, Blockly.utils.idGenerator.genUid()]);		
 	}
-	
-	function generatorVariableUid() {
-		const ID_SOUP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+|~-={}[];<>,./`';
-		const length = 20;
-		let result = '';
-		for (let i = 0; i < length; i++) {
-		result += ID_SOUP.charAt(Math.floor(Math.random() * ID_SOUP.length));
-		}
-		return result;
-	};	
 	
 	function createFunctionVariableDelete(varid) {
 		const index = createFunctionVariable[1].findIndex(item => {
