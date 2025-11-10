@@ -45,10 +45,12 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
     this.workspace_.setMetricsManager(
         new ContinuousFlyoutMetrics(this.workspace_, this));
 		
+	this.workspace_.eventHistory = [];
+		
     this.workspace_.addChangeListener((e) => {
-      if (e.type === Blockly.Events.VIEWPORT_CHANGE) {
-        this.selectCategoryByScrollPosition_(-this.workspace_.scrollY);
-      }
+		if (e.type === Blockly.Events.VIEWPORT_CHANGE) {
+			this.selectCategoryByScrollPosition_(-this.workspace_.scrollY);
+		}		  
     });
 
     this.autoClose = true;
@@ -258,7 +260,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 	
 	var ws = this.targetWorkspace;
 	//console.log(ws.eventHistory);	
-	//console.log(this.isVisible_);
+	//console.log(this);
 	if (ws.eventHistory) {
 		if (ws.eventHistory.length==0&&this.isVisible_ == false)
 			shouldShowFlyout = false;
@@ -267,21 +269,22 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 				const event = ws.eventHistory[i];
 				var eventType = event[0];
 				var eventOldJsonType = (event[1] !== null)?event[1].type:"";
-				if (eventType=="selected"||eventType=="block_field_intermediate_change"||(eventType=="var_create"&&this.isVisible_ == false)||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")) {
+				var eventBlockId = (event[2] !== null)?event[2]:"";
+				if (eventType=="selected"||eventType=="block_field_intermediate_change"||(eventType=="var_create"&&this.isVisible_ == false)||eventType=="var_rename"||eventType=="var_delete"||(eventType=="create"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="delete"&&eventOldJsonType=="javascript_procedures_defnoreturn_scratch")||(eventType=="create"&&eventBlockId)) {
 					shouldShowFlyout = false;
 					break;
 				}
 			}
 		}
 	}
-	//console.log(shouldShowFlyout);
 
 	super.show(flyoutDef);
 	this.recordScrollPositions();
-	this.workspace_.resizeContents();
+	
 	if (!shouldShowFlyout&&this.isVisible_ == true&&this.autoClose) {
 		this.setVisible(false);
 	}
+	ws.resizeContents();
 	
 	ws.eventHistory = [];
   }

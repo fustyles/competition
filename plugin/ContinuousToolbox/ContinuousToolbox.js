@@ -12,6 +12,27 @@ class ContinuousToolbox extends Blockly.Toolbox {
   /** @override */
   constructor(workspace) {	  
     super(workspace);
+	
+	workspace.eventHistory = [];	
+
+    workspace.addChangeListener((event) => {
+		let eventWorkspace = Blockly.Workspace.getById(event.workspaceId);
+		eventWorkspace.eventHistory.push([event.type, event.oldJson || null, event.blockId || null, event]);
+		
+		var continuousFlyout = eventWorkspace.toolbox_.flyout_;
+		if (continuousFlyout.autoClose) {
+			if ((event.type == "create" || event.type == "click") && continuousFlyout.isVisible_ == true) {
+				continuousFlyout.setVisible(false);
+				eventWorkspace.resizeContents();
+			} else if (event.type == "toolbox_item_select" && continuousFlyout.isVisible_ == false&&event.newItem) {
+				continuousFlyout.setVisible(true);
+				eventWorkspace.resizeContents();
+			} else if (event.type == "toolbox_item_select" && (!event.newItem) && continuousFlyout.isVisible_ == true) {
+				continuousFlyout.setVisible(false);
+				eventWorkspace.resizeContents();
+			}	
+		}	  
+    });
   }
 
   /** @override */
@@ -22,11 +43,13 @@ class ContinuousToolbox extends Blockly.Toolbox {
     const flyout = this.getFlyout();
     flyout.show(this.getInitialFlyoutContents_());
     flyout.recordScrollPositions();
+	
+	this.workspace_.eventHistory = [];	
 
-    this.workspace_.addChangeListener((e) => {
-      if (e.type === Blockly.Events.BLOCK_CREATE) {
-        this.refreshSelection();
-      }
+    this.workspace_.addChangeListener((event) => {
+		if (event.type === Blockly.Events.BLOCK_CREATE) {
+			this.refreshSelection();
+		}  
     });
   }
 

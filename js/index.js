@@ -67,31 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (continuousFlyout.autoClose)
 				continuousFlyout.setVisible(false);
 			
-			workspace.eventHistory = [];
-				
 			function onWorkspaceChangedContinuousToolbox(event) {
-				workspace.eventHistory.push([event.type, event.oldJson||null, event]);
-
-				if (continuousFlyout.autoClose) {
-					if ((event.type=="create"||event.type=="click")&&continuousFlyout.isVisible_==true) {
-						continuousFlyout.setVisible(false);
-						workspace.toolbox_.clearSelection();
-					} else if (event.type=="toolbox_item_select"&&continuousFlyout.isVisible_==false) {
-						continuousFlyout.setVisible(true);
-					} else if (event.type=="toolbox_item_select"&&(!event.newItem)&&continuousFlyout.isVisible_==true) {
-						Blockly.Events.disable();
-						try {
-							continuousFlyout.setVisible(false);
-							workspace.toolbox_.clearSelection();
-						} catch (e) {
-							console.error(e);							
-						} finally {
-							Blockly.Events.enable();
-							workspace.render();
-						}
-					}
-				}
-					
 				if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
 					Blockly.Events.disable();
 					try {
