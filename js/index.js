@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (renderer=="zelos") {	
 			workspace = Blockly.inject('root',{
 					renderer: 'zelos'
-					,theme: 'classic'				
+					,theme: 'zelos'				
 					,media: 'media/'
 					,toolbox: xmlToolbox
 					,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
