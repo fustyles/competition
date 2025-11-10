@@ -754,6 +754,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
+		
+		var continuousFlyout = workspace.toolbox_.flyout_;
+		if (continuousFlyout.autoClose)
+			continuousFlyout.setVisible(false);		
     });	
 
 	function promptAndAddParam(type) {
@@ -1804,7 +1808,6 @@ if (typeof require !== "undefined") {
 	var path = require('path');
 
 	http.createServer(function (request, response) {
-		//console.log('request ', request.url.split("?")[0]);
 
 		var filePath = './package.nw' + request.url.split("?")[0];
 		if (filePath == './package.nw/') {

@@ -2850,11 +2850,13 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				  conn.connect(closest.connection);  
 			  }
 			}		
-		}		
+		}
 
-        for (let i = 0; i < 2; i++) {
-            if (this.boundEvents_.length > 0) {
-                Blockly.browserEvents.unbind(this.boundEvents_.pop());
+		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
+
+		if (this.boundEvents_.length > 0) {
+			for (let i = 0; i < this.boundEvents_.length; i++) {
+				Blockly.browserEvents.unbind(this.boundEvents_.pop());
             }
         }
 

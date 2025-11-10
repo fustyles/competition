@@ -921,15 +921,23 @@ Blockly.common.defineBlocksWithJsonArray([
 ]);
 
 Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
-	if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
-		var blocks = [
-		  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
-		  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
-		];
-		blocks.forEach(block => {
-		  checkArgVariableRootBlock(block);
-		});
-	}
+	Blockly.Events.disable();
+	try {
+		if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
+			var blocks = [
+			  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
+			  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
+			];
+			blocks.forEach(block => {
+			  checkArgVariableRootBlock(block);
+			});
+		}
+	} catch (e) {
+		console.error(e);
+	} finally {
+		Blockly.Events.enable();
+		workspace.render();
+	}	
 }
 
 function checkArgVariableRootBlock(block) {
@@ -940,7 +948,6 @@ function checkArgVariableRootBlock(block) {
 			for (let i = 0; i < argNames.length; i++) {
 				if (argNames[i]=="arg_"+block.getFieldValue("variableName")) {
 					block.setWarningText(null);
-					block.bringToFront();
 					return;
 				}
 			}
