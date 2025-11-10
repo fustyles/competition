@@ -18,7 +18,6 @@ var msg = [
 ["createFunction_header", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_HEADER"]],
 ["createFunction_blockName_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"]],
 ["createFunction_variable_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_LABEL"]],
-["createFunction_blockName_input", "value", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"]],
 ["createFunction_add_ns", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_NT"]],
 ["createFunction_add_b", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_B"]],
 ["createFunction_add_l", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_ADD_T"]],

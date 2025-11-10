@@ -425,7 +425,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	const paramContainer = document.getElementById('paramListContainer');
-	const createFunctionBlockName = document.getElementById('createFunction_blockName_input');
 	
 	function registerMyFunction(){
 		Blockly.myfunction = {};
@@ -470,7 +469,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				createFunctionVariable = ["", []];
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
-				createFunctionBlockName.value = createFunctionVariable[0];
 				paramContainer.innerHTML = "";
 				createFunctionBlock();
 				
@@ -541,14 +539,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (fieldValue[1]=="NS") {
 			customField = new FieldZelosInputBackground(fieldValue[0], null, {
 				textColor: '#FFFFFF',
-				backgroundColor: '#FD6723',
+				backgroundColor: '#FF8C1A',
 				shapeType: 1
 			});
 		}
 		else if (fieldValue[1]=="Boolean") {
 			customField = new FieldZelosInputBackground(fieldValue[0], null, {
 				textColor: '#FFFFFF',
-				backgroundColor: '#3373CC',
+				backgroundColor: '#4C97FF',
 				shapeType: 2
 			});
 		} 
@@ -634,6 +632,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 	
     document.getElementById('confirmButton').addEventListener('click', () => {
+		createFunctionVariable[0] = subWorkspace.getBlocksByType("javascript_createfunction_scratch")[0].getFieldValue("NAME");
+		
 		var functionBlocks = workspace.getBlocksByType("javascript_procedures_defnoreturn_scratch");
 		for (var i=0;i<functionBlocks.length;i++) {
 			if (functionBlocks[i].getFieldValue("NAME")==createFunctionVariable[0]) {
@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (message) {
 			alert(message);
 			return;
-		}		
+		}
 		
         toggleCreateFunctionForm(false);
 		
@@ -832,6 +832,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function showTrashCanIcon(field) {
+		if (field.name == "NAME") return;
+
 		var subworkspace = field.sourceBlock_.workspace;
 		const fieldCoords = getFieldWorkspaceCoordinates(subworkspace, field);		
 		const fieldPageCoords = toPageCoordinates(subworkspace, fieldCoords);
@@ -1145,12 +1147,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		createFunctionVariable = createFunctionVariable1;
 		updateParamContainer();
 		createFunctionBlock();
-	}
-
-	document.getElementById('createFunction_blockName_input').addEventListener('input', () => {
-        createFunctionVariable[0] = document.getElementById('createFunction_blockName_input').value;
-		createFunctionBlock();
-    });	
+	}	
 	
     document.getElementById('createFunction_add_ns').addEventListener('click', () => {
         promptAndAddParam('NS');
