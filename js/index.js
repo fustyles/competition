@@ -819,8 +819,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		const fieldCoords = getFieldWorkspaceCoordinates(subworkspace, field);		
 		const fieldPageCoords = toPageCoordinates(subworkspace, fieldCoords);
 		
-		const TRASH_ICON_WIDTH = 22; 
-		const TRASH_ICON_HEIGHT = 28;
+		const ICON_WIDTH = 22; 
+		const ICON_HEIGHT = 28;
 
 		const fieldRect = field.getSvgRoot().getBoundingClientRect();
 		const fieldWidth = fieldRect.width;
@@ -828,27 +828,64 @@ document.addEventListener('DOMContentLoaded', function() {
 		const X_CENTERING_ADJUSTMENT = 0;
 		const Y_SPACING_OFFSET = -20;		
 
-		const finalX = fieldPageCoords.x + (fieldWidth / 2) - (TRASH_ICON_WIDTH / 2) + X_CENTERING_ADJUSTMENT;
-		const finalY = fieldPageCoords.y - TRASH_ICON_HEIGHT + Y_SPACING_OFFSET;
+		const finalX = fieldPageCoords.x + (fieldWidth / 2) - (ICON_WIDTH / 2) + X_CENTERING_ADJUSTMENT;
+		const finalY = fieldPageCoords.y - ICON_HEIGHT + Y_SPACING_OFFSET;
 
+		const createFunctionDiv = document.getElementById("createFunctionDiv");
+		
 		const trashIconElement = document.createElement("img");
 		trashIconElement.id = "trashIconElement";
 		trashIconElement.src = Blockly.Msg["ICON_TRASH"];
-		trashIconElement.width = TRASH_ICON_WIDTH;
-		trashIconElement.height = TRASH_ICON_HEIGHT;
+		trashIconElement.width = ICON_WIDTH;
+		trashIconElement.height = ICON_HEIGHT;
 		trashIconElement.style.position = 'absolute';
 		trashIconElement.style.left = `${finalX}px`;
 		trashIconElement.style.top = `${finalY}px`;
 		trashIconElement.style.display = 'block';
-		const createFunctionDiv = document.getElementById("createFunctionDiv");
+		
 		createFunctionDiv.appendChild(trashIconElement);
-				
-		const clickHandler = (event) => {
+		const trashClickHandler = (event) => {
 			event.stopPropagation();
 			event.preventDefault();			
 			trashClickHandle(field); 
 		};
-		trashIconElement.addEventListener('click', clickHandler);
+		trashIconElement.addEventListener('click', trashClickHandler);
+		
+		const leftIconElement = document.createElement("img");
+		leftIconElement.id = "leftIconElement";
+		leftIconElement.src = Blockly.Msg["ICON_LEFT"];
+		leftIconElement.width = ICON_WIDTH;
+		leftIconElement.height = ICON_HEIGHT;
+		leftIconElement.style.position = 'absolute';
+		leftIconElement.style.left = `${finalX-ICON_WIDTH*2}px`;
+		leftIconElement.style.top = `${finalY}px`;
+		leftIconElement.style.display = 'block';
+		
+		createFunctionDiv.appendChild(leftIconElement);
+		const leftClickHandler = (event) => {
+			event.stopPropagation();
+			event.preventDefault();			
+			leftClickHandle(field); 
+		};
+		leftIconElement.addEventListener('click', leftClickHandler);
+
+		const rightIconElement = document.createElement("img");
+		rightIconElement.id = "rightIconElement";
+		rightIconElement.src = Blockly.Msg["ICON_RIGHT"];
+		rightIconElement.width = ICON_WIDTH;
+		rightIconElement.height = ICON_HEIGHT;
+		rightIconElement.style.position = 'absolute';
+		rightIconElement.style.left = `${finalX+ICON_WIDTH*2}px`;
+		rightIconElement.style.top = `${finalY}px`;
+		rightIconElement.style.display = 'block';
+		
+		createFunctionDiv.appendChild(rightIconElement);
+		const rightClickHandler = (event) => {
+			event.stopPropagation();
+			event.preventDefault();			
+			rightClickHandle(field); 
+		};
+		rightIconElement.addEventListener('click', rightClickHandler);		
 	}
 	window.showTrashCanIcon = showTrashCanIcon;
 	
@@ -870,10 +907,64 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
+	function leftClickHandle(field) {
+		var fieldName = field.value_;
+		var fieldTpye = "";
+		if (field.backgroundStyle_==1)
+			fieldTpye = "NS";
+		else if (field.backgroundStyle_==2)
+			fieldTpye = "Boolean";
+		else if (field.backgroundStyle_==0)
+			fieldTpye = "label";
+		const index = createFunctionVariable[1].findIndex(item => {
+			return (item[0] === fieldName&&item[1] === fieldTpye);
+		});
+		if (index!=-1) {
+			if (createFunctionVariable[1][index-1]) {
+				var exchangeItem = createFunctionVariable[1][index];
+				createFunctionVariable[1][index] = createFunctionVariable[1][index-1];
+				createFunctionVariable[1][index-1] = exchangeItem;
+				
+				updateParamContainer();
+				createFunctionBlock();				
+			}
+		}
+	}
+
+	function rightClickHandle(field) {
+		var fieldName = field.value_;
+		var fieldTpye = "";
+		if (field.backgroundStyle_==1)
+			fieldTpye = "NS";
+		else if (field.backgroundStyle_==2)
+			fieldTpye = "Boolean";
+		else if (field.backgroundStyle_==0)
+			fieldTpye = "label";
+		const index = createFunctionVariable[1].findIndex(item => {
+			return (item[0] === fieldName&&item[1] === fieldTpye);
+		});
+		if (index!=-1) {
+			if (createFunctionVariable[1][index+1]) {
+				var exchangeItem = createFunctionVariable[1][index];
+				createFunctionVariable[1][index] = createFunctionVariable[1][index+1];
+				createFunctionVariable[1][index+1] = exchangeItem;
+				
+				updateParamContainer();
+				createFunctionBlock();				
+			}
+		}
+	}	
+	
 	function hideTrashCanIcon(field) {
 		var trashIconElement = document.getElementById("trashIconElement");
 		if (trashIconElement)
 			trashIconElement.parentNode.removeChild(trashIconElement);
+		var leftIconElement = document.getElementById("leftIconElement");
+		if (leftIconElement)
+			leftIconElement.parentNode.removeChild(leftIconElement);
+		var rightIconElement = document.getElementById("rightIconElement");
+		if (rightIconElement)
+			rightIconElement.parentNode.removeChild(rightIconElement);		
 	}
 	window.hideTrashCanIcon = hideTrashCanIcon;
 	

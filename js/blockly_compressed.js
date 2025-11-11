@@ -3160,8 +3160,8 @@ class FieldZelosInputBackground extends Blockly.FieldTextInput {
 	}
 
 	onFinishEditing_(newValue) {
-		hideTrashCanIcon(this);
 		super.onFinishEditing_(newValue);
+		hideTrashCanIcon(this);
 	}	
 }
 
