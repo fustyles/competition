@@ -492,15 +492,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	function createFunctionBlock() {
 		if (subWorkspace) {	
 			subWorkspace.clear();		
-			var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_createfunction_scratch"><field name="NAME">'+createFunctionVariable[0]+'</field></block></xml>';
-			var singleBlock_id = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), subWorkspace);
-			var singleBlock = subWorkspace.getBlockById(singleBlock_id[0]);
+			var xml = '<block type="javascript_createfunction_scratch"><field name="NAME">'+createFunctionVariable[0]+'</field></block>';
+			var singleBlock = Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), subWorkspace);
 
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
 				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
 			}
-	 
-			singleBlock.render();
 			
 			subWorkspace.centerOnBlock(singleBlock.id);
 		}
@@ -639,10 +636,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		xml += '<comment pinned="false"></comment>\n'+
 		'</block>';
 		
+		var domBlock = Blockly.utils.xml.textToDom(xml);
+		var block = Blockly.Xml.domToBlock(domBlock, workspace);
+			
 		Blockly.Events.disable();
 		try {
-			var domBlock = Blockly.utils.xml.textToDom(xml);
-			var block = Blockly.Xml.domToBlock(domBlock, workspace);
 			var blockToCenterXY = getBlockToCenterXY(block);
 			block.moveBy(blockToCenterXY.x, blockToCenterXY.y);
 			
