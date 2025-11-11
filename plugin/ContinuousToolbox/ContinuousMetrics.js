@@ -33,9 +33,9 @@ class ContinuousMetrics extends Blockly.MetricsManager {
         svgMetrics.height -= (toolboxMetrics.height + flyoutMetrics.height);
       } else if (toolboxPosition == Blockly.TOOLBOX_AT_LEFT ||
           toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
-		if (this.workspace_.toolbox_.flyout_&&this.workspace_.toolbox_.flyout_.isVisible_)
-			svgMetrics.width -= (toolboxMetrics.width + flyoutMetrics.width);
-		else
+		//if (this.workspace_.toolbox_.flyout_&&this.workspace_.toolbox_.flyout_.isVisible_)
+			//svgMetrics.width -= (toolboxMetrics.width + flyoutMetrics.width);
+		//else
 			svgMetrics.width -= (toolboxMetrics.width);
       }
     }
