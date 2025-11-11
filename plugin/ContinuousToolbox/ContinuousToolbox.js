@@ -20,16 +20,19 @@ class ContinuousToolbox extends Blockly.Toolbox {
 		eventWorkspace.eventHistory.push([event.type, event.oldJson || null, event.blockId || null, event]);
 		
 		var continuousFlyout = eventWorkspace.toolbox_.flyout_;
+		console.log(continuousFlyout);
 		if (continuousFlyout.autoClose) {
 			if ((event.type == "create" || event.type == "click") && continuousFlyout.isVisible_ == true) {
 				continuousFlyout.setVisible(false);
 				eventWorkspace.resizeContents();
+				continuousFlyout.getParentToolbox_().clearSelection();
 			} else if (event.type == "toolbox_item_select" && continuousFlyout.isVisible_ == false&&event.newItem) {
 				continuousFlyout.setVisible(true);
 				eventWorkspace.resizeContents();
 			} else if (event.type == "toolbox_item_select" && (!event.newItem) && continuousFlyout.isVisible_ == true) {
 				continuousFlyout.setVisible(false);
 				eventWorkspace.resizeContents();
+				continuousFlyout.getParentToolbox_().clearSelection();
 			}	
 		}	  
     });
