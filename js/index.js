@@ -243,9 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.registerButtonCallback("CREATE_MYVARIABLE", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
 				currentWorkspace.eventHistory = [];
-				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'other');
-				
-				currentWorkspace.refreshToolboxSelection();			
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'other');			
 			});
 			blocks.push(btn);
 			
@@ -308,9 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.registerButtonCallback("CREATE_MYLIST", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
 				currentWorkspace.eventHistory = [];
-				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Array');
-				
-				currentWorkspace.refreshToolboxSelection();			
+				Blockly.Variables.createVariableButtonHandler(currentWorkspace, null, 'Array');		
 			});
 			blocks.push(btn);
 		
@@ -449,8 +445,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
 				paramContainer.innerHTML = "";
 				createFunctionBlock();
-				
-				currentWorkspace.refreshToolboxSelection();
 			});
 			blocks.push(btn);
 			
@@ -628,14 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
         toggleCreateFunctionForm(false);
 		
-		var xml = '<xml xmlns="https://developers.google.com/blockly/xml">\n'+
-				  '<variables>\n';
-		for (var i=0;i<createFunctionVariable[1].length;i++) {
-			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
-				xml += '<variable type="'+createFunctionVariable[1][i][1]+'" id="'+createFunctionVariable[1][i][2]+'">'+"arg_"+createFunctionVariable[1][i][0]+'</variable>\n';
-		}
-		xml += '</variables>\n'+
-		'<block type="javascript_procedures_defnoreturn_scratch">\n'+
+		var xml = '<block type="javascript_procedures_defnoreturn_scratch">\n'+
 		'<mutation>\n';
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
@@ -650,14 +637,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		xml += '<field name="TITLE">'+title+'</field>\n';
 		xml += '<comment pinned="false"></comment>\n'+
-		'</block>\n'+
-		'</xml>\n';
+		'</block>';
 		
 		Blockly.Events.disable();
 		try {
 			var domBlock = Blockly.utils.xml.textToDom(xml);
-			var topBlocks = Blockly.Xml.domToWorkspace(domBlock, workspace);		
-			var block = workspace.getBlockById(topBlocks[0]);
+			var block = Blockly.Xml.domToBlock(domBlock, workspace);
 			var blockToCenterXY = getBlockToCenterXY(block);
 			block.moveBy(blockToCenterXY.x, blockToCenterXY.y);
 			
@@ -1757,7 +1742,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.workspace.dispose();
 			this.workspace = null;
 			document.getElementById("root").innerHTML = "";
-			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
+			var workspace = window.loadToolbox('zelos', catSystemScratch, 1.0);
 			if (xmlScratch)
 				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 		} else {

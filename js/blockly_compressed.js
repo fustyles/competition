@@ -187,8 +187,6 @@ getViewportBBox$$module$build$src$core$utils$svg_math=function(){const a=getView
 screenToWsCoordinates$$module$build$src$core$utils$svg_math=function(a,b){var c=b.x;b=b.y;const d=a.getInjectionDiv().getBoundingClientRect();c=new Coordinate$$module$build$src$core$utils$coordinate(c-d.left,b-d.top);b=a.getOriginOffsetInPixels();return Coordinate$$module$build$src$core$utils$coordinate.difference(c,b).scale(1/a.scale)};
 workspaceToDom$$module$build$src$core$xml=function(a,b){const c=$.createElement$$module$build$src$core$utils$xml("xml");var d=variablesToDom$$module$build$src$core$xml($.allUsedVarModels$$module$build$src$core$variables(a));d.hasChildNodes()&&c.appendChild(d);d=a.getTopComments(!0);for(let e=0;e<d.length;e++)c.appendChild(d[e].toXmlWithXY(b));a=a.getTopBlocks(!0);for(d=0;d<a.length;d++)c.appendChild(blockToDomWithXY$$module$build$src$core$xml(a[d],b));return c};
 
-
-
 variablesToDom$$module$build$src$core$xml=function(a){
 	const b=$.createElement$$module$build$src$core$utils$xml("variables");
 	for(let c=0;c<a.length;c++){
@@ -201,6 +199,7 @@ variablesToDom$$module$build$src$core$xml=function(a){
 	}
 	return b
 };
+
 blockToDomWithXY$$module$build$src$core$xml=function(a,b){if(a.isInsertionMarker()&&(a=a.getChildren(!1)[0],!a))return new DocumentFragment;let c=0;a.workspace.RTL&&(c=a.workspace.getWidth());b=blockToDom$$module$build$src$core$xml(a,b);if(isElement$$module$build$src$core$xml(b)){const d=a.getRelativeToSurfaceXY();b.setAttribute("x",String(Math.round(a.workspace.RTL?c-d.x:d.x)));b.setAttribute("y",String(Math.round(d.y)))}return b};
 fieldToDom$$module$build$src$core$xml=function(a){if(a.isSerializable()){const b=$.createElement$$module$build$src$core$utils$xml("field");b.setAttribute("name",a.name||"");return a.toXml(b)}return null};allFieldsToDom$$module$build$src$core$xml=function(a,b){for(let c=0;c<a.inputList.length;c++){const d=a.inputList[c];for(let e=0;e<d.fieldRow.length;e++){const f=fieldToDom$$module$build$src$core$xml(d.fieldRow[e]);f&&b.appendChild(f)}}};
 blockToDom$$module$build$src$core$xml=function(a,b){if(a.isInsertionMarker())return(b=a.getChildren(!1)[0])?blockToDom$$module$build$src$core$xml(b):new DocumentFragment;const c=$.createElement$$module$build$src$core$utils$xml(a.isShadow()?"shadow":"block");c.setAttribute("type",a.type);b||(c.id=a.id);if(a.mutationToDom){var d=a.mutationToDom();d&&(d.hasChildNodes()||d.hasAttributes())&&c.appendChild(d)}allFieldsToDom$$module$build$src$core$xml(a,c);if(d=a.getCommentText()){var e=a.getIcon(IconType$$module$build$src$core$icons$icon_types.COMMENT),
@@ -551,7 +550,7 @@ updateMutatorFlyout$$module$build$src$core$procedures=function(a){var b=[],c=a.g
 b);b=$.createTextNode$$module$build$src$core$utils$xml(b);e.appendChild(b);d.appendChild(e);c.appendChild(d);a.updateToolbox(c)};
 
 mutatorOpenListener$$module$build$src$core$procedures=function(a){if(a.type===BUBBLE_OPEN$$module$build$src$core$events$utils&&"mutator"===a.bubbleType&&a.isOpen&&a.blockId){a=getWorkspaceById$$module$build$src$core$common(a.workspaceId).getBlockById(a.blockId);var b=a.type;
-if("procedures_defnoreturn"===b||"procedures_defreturn"===b)
+if("procedures_defnoreturn"===b||"procedures_defreturn"===b||"javascript_procedures_defnoreturn_scratch"===b)
 	a=a.getIcon($.MutatorIcon$$module$build$src$core$icons$mutator_icon.TYPE).getWorkspace(),updateMutatorFlyout$$module$build$src$core$procedures(a),a.addChangeListener(mutatorChangeListener$$module$build$src$core$procedures)}
 };
 
@@ -2026,7 +2025,7 @@ zoomChangeToolbox(){
 		this.workspace.dispose();
 		this.workspace = null;
 		document.getElementById("root").innerHTML = "";
-		this.workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
+		this.workspace = window.loadToolbox('zelos', catSystemScratch, 1.0);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
 	}
@@ -2667,20 +2666,16 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		}
 		
 		let blockXml = 
-        `<xml xmlns="https://developers.google.com/blockly/xml">` +
             `<block type="${blockType}">` +
                 `<field name="variableName">${fieldName}</field>` +
-            `</block>` +
-        `</xml>`;
+            `</block>`;
 		
 		let sourceWorkspace = this.sourceBlock_.workspace;
-		
-		Blockly.Events.disable();
-		try {		
-			let domBlock = Blockly.utils.xml.textToDom(blockXml);
-			let topBlocks = Blockly.Xml.domToWorkspace(domBlock, sourceWorkspace);
-			let block = sourceWorkspace.getBlockById(topBlocks[0]);
+		let domBlock = Blockly.utils.xml.textToDom(blockXml);
+		let block = Blockly.Xml.domToBlock(domBlock, sourceWorkspace);
 			
+		Blockly.Events.disable();
+		try {
 			const blockSize = block.getHeightWidth();
 			const blockWidth = blockSize.width;
 			const blockHeight = blockSize.height;
