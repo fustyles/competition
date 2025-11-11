@@ -433,7 +433,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					});
 					
 					subWorkspace.addChangeListener(function(event) {
-						console.log(event);
 						if (event.type == "viewport_change"||event.type == "create") {
 							var blocks = subWorkspace.getAllBlocks();
 							if (blocks.length==1)

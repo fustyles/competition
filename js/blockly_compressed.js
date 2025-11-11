@@ -2207,7 +2207,17 @@ createFlyoutBlock(a) {
     return b;
 }
 
-getRecycledBlock(a){let b=-1;for(let c=0;c<this.recycledBlocks.length;c++)if(this.recycledBlocks[c].type===a){b=c;break}return-1===b?void 0:this.recycledBlocks.splice(b,1)[0]}addBlockGap(a,b,c){let d;a.gap?d=parseInt(String(a.gap)):a.blockxml&&(a="string"===typeof a.blockxml?$.textToDom$$module$build$src$core$utils$xml(a.blockxml):a.blockxml,d=parseInt(a.getAttribute("gap")));
+getRecycledBlock(a){
+	let b=-1;
+	for(let c=0;c<this.recycledBlocks.length;c++)
+		if(this.recycledBlocks[c].type===a){
+			b=c;
+			break
+		}
+	return-1===b?void 0:this.recycledBlocks.splice(b,1)[0]
+}
+
+addBlockGap(a,b,c){let d;a.gap?d=parseInt(String(a.gap)):a.blockxml&&(a="string"===typeof a.blockxml?$.textToDom$$module$build$src$core$utils$xml(a.blockxml):a.blockxml,d=parseInt(a.getAttribute("gap")));
 b.push(!d||isNaN(d)?c:d)}addSeparatorGap(a,b,c){a=parseInt(String(a.gap));!isNaN(a)&&0<b.length?b[b.length-1]=a:b.push(c)}clearOldBlocks(){var a=this.workspace_.getTopBlocks(!1);for(let c=0,d;d=a[c];c++)this.blockIsRecyclable_(d)?this.recycleBlock(d):d.dispose(!1,!1);for(a=0;a<this.mats.length;a++){const c=this.mats[a];c&&(unbindMouseEvents$$module$build$src$core$tooltip(c),removeNode$$module$build$src$core$utils$dom(c))}this.mats.length=0;for(let c=0,d;d=this.buttons_[c];c++)d.dispose();this.buttons_.length=
 0;let b;null==(b=this.workspace_.getPotentialVariableMap())||b.clear()}emptyRecycledBlocks(){for(let a=0;a<this.recycledBlocks.length;a++)this.recycledBlocks[a].dispose();this.recycledBlocks=[]}blockIsRecyclable_(a){return!1}recycleBlock(a){const b=a.getRelativeToSurfaceXY();a.moveBy(-b.x,-b.y);this.recycledBlocks.push(a)}addBlockListeners_(a,b,c){this.listeners.push(conditionalBind$$module$build$src$core$browser_events(a,"pointerdown",null,this.blockMouseDown(b)));this.listeners.push(conditionalBind$$module$build$src$core$browser_events(c,
 "pointerdown",null,this.blockMouseDown(b)));this.listeners.push(bind$$module$build$src$core$browser_events(a,"pointerenter",b,b.addSelect));this.listeners.push(bind$$module$build$src$core$browser_events(a,"pointerleave",b,b.removeSelect));this.listeners.push(bind$$module$build$src$core$browser_events(c,"pointerenter",b,b.addSelect));this.listeners.push(bind$$module$build$src$core$browser_events(c,"pointerleave",b,b.removeSelect))}blockMouseDown(a){return b=>{const c=this.targetWorkspace.getGesture(b);
