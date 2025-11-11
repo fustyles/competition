@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
 			}
 			
-			subWorkspace.zoomToFit();
+			subWorkspace.centerOnBlock(singleBlock.id);
 			
 		}
 	}
