@@ -21,11 +21,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 		
 		var continuousFlyout = eventWorkspace.toolbox_.flyout_;
 		if (continuousFlyout.autoClose) {
-			if ((event.type == "create" || event.type == "click") && continuousFlyout.isVisible_ == true) {
-				continuousFlyout.setVisible(false);
-				eventWorkspace.resize();
-				continuousFlyout.getParentToolbox_().clearSelection();
-			} else if (event.type == "toolbox_item_select" && continuousFlyout.isVisible_ == false&&event.newItem) {
+			if (event.type == "toolbox_item_select" && continuousFlyout.isVisible_ == false&&event.newItem) {
 				continuousFlyout.setVisible(true);
 				eventWorkspace.resize();
 			} else if (event.type == "toolbox_item_select" && (!event.newItem) && continuousFlyout.isVisible_ == true) {
