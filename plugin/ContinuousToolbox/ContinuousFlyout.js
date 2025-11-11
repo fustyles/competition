@@ -283,7 +283,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 	
 	if (!shouldShowFlyout&&this.isVisible_ == true&&this.autoClose) {
 		this.setVisible(false);
-		ws.resizeContents();
+		ws.resize();
 		this.getParentToolbox_().clearSelection();
 	}
 	

@@ -64,8 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 				
 			var continuousFlyout = workspace.toolbox_.flyout_;
-			if (continuousFlyout.autoClose)
+			if (continuousFlyout.autoClose) {
 				continuousFlyout.setVisible(false);
+				workspace.resize();
+			}
 			
 			function onWorkspaceChangedContinuousToolbox(event) {
 				if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
@@ -663,8 +665,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.getToolbox().clearSelection();
 			
 			var continuousFlyout = workspace.toolbox_.flyout_;
-			if (continuousFlyout.autoClose)
+			if (continuousFlyout.autoClose) {
 				continuousFlyout.setVisible(false);
+				workspace.resize();
+			}
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -733,8 +737,10 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleCreateFunctionForm(false);
 		
 		var continuousFlyout = workspace.toolbox_.flyout_;
-		if (continuousFlyout.autoClose)
-			continuousFlyout.setVisible(false);		
+		if (continuousFlyout.autoClose) {
+			continuousFlyout.setVisible(false);	
+			workspace.resize();
+		}			
     });	
 
 	function promptAndAddParam(type) {
@@ -1718,12 +1724,12 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.clear(true);
 						Blockly.Xml.domToWorkspace(blocks, workspace);
 						
-						workspace.getToolbox().refreshSelection();
 						workspace.getToolbox().clearSelection();
+						workspace.getToolbox().refreshSelection();
 						
 						workspace.scrollCenter();
 						
-						workspace.render();
+						workspace.resize();
 					
 						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();
