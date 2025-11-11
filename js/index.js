@@ -499,7 +499,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
 			}
 			
-			subWorkspace.centerOnBlock(singleBlock.id);
+			subWorkspace.zoomToFit();
+			
 		}
 	}
 
@@ -723,6 +724,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (continuousFlyout.autoClose) {
 			continuousFlyout.setVisible(false);	
 			workspace.resize();
+			workspace.getToolbox().clearSelection();
 		}			
     });	
 
