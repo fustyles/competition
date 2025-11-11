@@ -433,7 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					});
 					
 					subWorkspace.addChangeListener(function(event) {
-						if (event.type === Blockly.Events.VIEWPORT_CHANGE) {
+						console.log(event);
+						if (event.type == "viewport_change"||event.type == "create") {
 							var blocks = subWorkspace.getAllBlocks();
 							if (blocks.length==1)
 								subWorkspace.centerOnBlock(blocks[0].id);
@@ -498,9 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			for (var i=0;i<createFunctionVariable[1].length;i++) {
 				addBlockToInput(singleBlock, "INPUT_"+createFunctionVariable[1][i][0], createFunctionVariable[1][i]);
 			}
-			
-			subWorkspace.centerOnBlock(singleBlock.id);
-			
 		}
 	}
 
