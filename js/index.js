@@ -15,6 +15,7 @@ var categoryExpand = [];
 var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
+var workspaceChangeTimer;
 var createFunctionVariable = ["", []];
 var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
@@ -89,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			);	
 		}
 		
-		var workspaceChangeTimer;
 		function onWorkspaceChanged(event) {
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
 				handleBlockDelete(event);

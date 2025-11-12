@@ -2616,6 +2616,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         event.stopPropagation();
         event.preventDefault();
 		
+		Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));	
+		
 		let blockType = "javascript_variable_ns_scratch";
 		let gapValue = 0;
 		
@@ -2663,10 +2665,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			console.error(e);
 		} finally {
 			Blockly.Events.enable(); 
-		}	
-
-		//Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
-		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));			
+		}				
 		
 		this.boundEvents_.push(
 			Blockly.browserEvents.bind(document, 'mousemove', this, this.handleMouseMove),
@@ -2678,6 +2677,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         if (!this.newBlock_) return;
 		
 		Blockly.Events.disable();
+		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));
+		
 		try {		
 			const sourceWorkspace = this.newBlock_.workspace;
 			let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
@@ -2813,7 +2814,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			}		
 		}
 
-		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
+		//Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
 
 		if (this.boundEvents_.length > 0) {
 			for (let i = 0; i < this.boundEvents_.length; i++) {
