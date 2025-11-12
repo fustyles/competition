@@ -394,7 +394,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
 				currentWorkspace.eventHistory = [];
-				currentWorkspace.getToolbox().clearSelection();
 				
 				toggleCreateFunctionForm(1);
 				
@@ -426,6 +425,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
 				paramContainer.innerHTML = "";
 				createFunctionBlock();
+				
+				currentWorkspace.getToolbox().clearSelection();
 			});
 			blocks.push(btn);
 			
