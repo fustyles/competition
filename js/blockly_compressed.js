@@ -2545,6 +2545,18 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         return path.join(' ');
     }
 	
+	static getBlockToMouseXY(block, event) {
+		const workspace = block.workspace;
+		let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
+		let mousePos = Blockly.utils.svgMath.screenToWsCoordinates(workspace, mouseClient);
+		let blockPos = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
+		
+		let blockToMouseXY = {};
+		blockToMouseXY.x = mousePos.x - blockPos.x;
+		blockToMouseXY.y = mousePos.y - blockPos.y;	  
+
+		return blockToMouseXY;
+	}	
 
     constructor(value, opt_class, opt_config) {
         super(value || '  ', null, opt_config); 
@@ -2616,8 +2628,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         event.stopPropagation();
         event.preventDefault();
 		
-		Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
-		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
+		//Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
+		//Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
 		
 		let blockType = "javascript_variable_ns_scratch";
 		let gapValue = 0;
@@ -2653,7 +2665,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 			this.newBlockWidth_ = blockWidth;
 			this.newBlockHeight_ = blockHeight;
 			
-			let blockToMouseXY = getBlockToMouseXY(this.newBlock_);
+			let blockToMouseXY = FieldZelosLabelBackground.getBlockToMouseXY(this.newBlock_, event);
 			
 			this.newBlockXY = {};
 			this.newBlockXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
@@ -2682,14 +2694,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		
 		Blockly.Events.disable();
 		try {		
-			const sourceWorkspace = this.newBlock_.workspace;
-			let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);
-			let mousePos = Blockly.utils.svgMath.screenToWsCoordinates(sourceWorkspace, mouseClient);
-			let blockPos = Blockly.utils.svgMath.getRelativeXY(this.newBlock_.getSvgRoot());
-			
-			let blockToMouseXY = {};
-			blockToMouseXY.x = mousePos.x - blockPos.x;
-			blockToMouseXY.y = mousePos.y - blockPos.y;
+			let blockToMouseXY = FieldZelosLabelBackground.getBlockToMouseXY(this.newBlock_, event);
 			
 			this.newBlockXY = {};
 			this.newBlockXY.x = blockToMouseXY.x - this.newBlockWidth_/2;
@@ -2814,21 +2819,13 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				  conn.connect(closest.connection);  
 			  }
 			}		
-		}
-
-		//Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
-
-		if (this.boundEvents_.length > 0) {
-			for (let i = 0; i < this.boundEvents_.length; i++) {
-				Blockly.browserEvents.unbind(this.boundEvents_.pop());
-            }
-        }
+		}	
 
         this.newBlock_ = null;
 		this.newBlockWidth_ = null;
 		this.newBlockHeight_ = null;
 		this.newBlockXY = null;
-		this.closest = [];
+		this.closest = [];			
     }	
 
     applyColour() {
@@ -2927,8 +2924,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
             for (let i = 0; i < this.boundEvents_.length; i++) {
                 Blockly.browserEvents.unbind(this.boundEvents_[i]);
             }
-        }
-        
+        }		
+		
         super.dispose();
     }	
 }

@@ -966,47 +966,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		return { x: pageX, y: pageY };
 	}	
-	
-    var mouse_cursor = {};
-
-    function getMousePosition(e) {
-        e = e || window.event;
-        mouse_cursor.pageX = e.pageX;
-        mouse_cursor.pageY = e.pageY;
-        mouse_cursor.offsetX = e.offsetX;
-        mouse_cursor.offsetY = e.offsetY;
-        mouse_cursor.clientX = e.clientX;
-        mouse_cursor.clientY = e.clientY;
-        mouse_cursor.screenX = e.screenX;
-        mouse_cursor.screenY = e.screenY;
-    }
-    document.body.addEventListener('mousemove', getMousePosition, false);
-	
-    function getBlockToMouseXY(block) {
-        var mouseClient = new Blockly.utils.Coordinate(mouse_cursor.pageX - window.scrollX, mouse_cursor.pageY - window.scrollY);
-        var mousePos = Blockly.utils.svgMath.screenToWsCoordinates(workspace, mouseClient);
-        var blockPos = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
-        var blockToMouseXY = {};
-        blockToMouseXY.x = mousePos.x - blockPos.x;
-        blockToMouseXY.y = mousePos.y - blockPos.y;
-        return blockToMouseXY;
-    }
-	window.getBlockToMouseXY = getBlockToMouseXY;
-
-    function getBlockToCenterXY(block) {
-        var position = Blockly.utils.svgMath.getRelativeXY(block.getSvgRoot());
-        var x = position.x;
-        var y = position.y;
-        var scrollX = workspace.scrollX / workspace.scale;
-        var scrollY = workspace.scrollY / workspace.scale;
-        var wsWidth = workspace.getParentSvg().width.baseVal.value / workspace.scale;
-        var wsHeight = workspace.getParentSvg().height.baseVal.value / workspace.scale;
-        var blockToCenterXY = {};
-        blockToCenterXY.x = wsWidth / 2 - block.width / 2 - scrollX - x;
-        blockToCenterXY.y = wsHeight / 2 - block.height / 2 - scrollY - y;
-        return blockToCenterXY;
-    }
-	window.getBlockToCenterXY = getBlockToCenterXY;
 
 	function initialMoveDiv() {
 		const container = document.getElementById('paramListContainer');
