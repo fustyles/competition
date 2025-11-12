@@ -2184,8 +2184,7 @@ createFlyoutBlock(a) {
             a = a.blockxml;
         }
 
-		if (a.getAttribute("type")!="javascript_variable_ns_scratch"&&a.getAttribute("type")!="javascript_variable_boolean_scratch")
-			b = this.getRecycledBlock(a.getAttribute("type"));
+		b = this.getRecycledBlock(a.getAttribute("type"));
 		if (!b) {
 			b = $.domToBlock$$module$build$src$core$xml(a, this.workspace_);
 		}

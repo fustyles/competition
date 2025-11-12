@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
         toggleCreateFunctionForm(false);
 		
-		var xml = '<block type="javascript_procedures_defnoreturn_scratch">\n'+
+		var xml = '<block type="javascript_procedures_defnoreturn_scratch" x="10" y="10">\n'+
 		'<mutation>\n';
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
