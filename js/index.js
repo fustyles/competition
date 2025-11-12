@@ -1315,7 +1315,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
 				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
-				Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
+				//Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
 			}
 			return;
 		}
@@ -1395,7 +1395,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
 				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
-				Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);			
+				//Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);			
 			}
 			return;
 		  }
