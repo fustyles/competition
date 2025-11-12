@@ -40,7 +40,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
      * @type {boolean}
      * @private
      */
-    this.recyclingEnabled_ = false;
+    this.recyclingEnabled_ = true;
 
     this.workspace_.setMetricsManager(
         new ContinuousFlyoutMetrics(this.workspace_, this));
@@ -48,9 +48,16 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 	this.workspace_.eventHistory = [];
 		
     this.workspace_.addChangeListener((e) => {
+				
 		if (e.type === Blockly.Events.VIEWPORT_CHANGE) {
 			this.selectCategoryByScrollPosition_(-this.workspace_.scrollY);
-		}		  
+		}
+		else if (e.type=="selected"&&e.newElementId) {
+			console.log(e);
+			console.log(this.workspace_.getBlockById(e.newElementId));
+			console.log(this.targetWorkspace);
+		}
+
     });
 
     this.autoClose = true;
@@ -311,6 +318,9 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
         if (field instanceof Blockly.FieldVariable) {
           return false;
         }
+        if (field instanceof Blockly.FieldLabelSerializable) {
+          return false;
+        }		
         if (field instanceof Blockly.FieldDropdown) {
           if (field.isOptionListDynamic()) {
             return false;
