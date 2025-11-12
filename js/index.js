@@ -425,8 +425,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
 				paramContainer.innerHTML = "";
 				createFunctionBlock();
-				
-				currentWorkspace.getToolbox().clearSelection();
 			});
 			blocks.push(btn);
 			
@@ -599,7 +597,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
         toggleCreateFunctionForm(false);
 		
-		var xml = '<block type="javascript_procedures_defnoreturn_scratch" x="10" y="10">\n'+
+		var xml = '<block type="javascript_procedures_defnoreturn_scratch">\n'+
 		'<mutation>\n';
 		for (var i=0;i<createFunctionVariable[1].length;i++) {
 			if (createFunctionVariable[1][i][0].trim()!=""&&createFunctionVariable[1][i][1]!="label")
@@ -631,6 +629,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.getElementById('javascript_content').style.display = "none";
 		}
     });
+	
+    document.getElementById('cancelButton').addEventListener('click', () => {
+        toggleCreateFunctionForm(false);
+		
+		workspace.getToolbox().clearSelection();
+    });		
 	
 	function toggleImportQuestionForm(show) {
 		const formDiv = document.getElementById('importQuestion');
@@ -686,10 +690,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		else
 			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
-	
-    document.getElementById('cancelButton').addEventListener('click', () => {
-        toggleCreateFunctionForm(false);
-    });	
 
 	function promptAndAddParam(type) {
 		var message = hasDuplicateNull(createFunctionVariable[1]);
