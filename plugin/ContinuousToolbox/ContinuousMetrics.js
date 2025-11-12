@@ -30,13 +30,16 @@ class ContinuousMetrics extends Blockly.MetricsManager {
       // only supporting a vertical flyout. But included for completeness.
       if (toolboxPosition == Blockly.TOOLBOX_AT_TOP ||
           toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
-        svgMetrics.height -= (toolboxMetrics.height + flyoutMetrics.height);
+		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
+			svgMetrics.height -= toolboxMetrics.height;
+		else			
+			svgMetrics.height -= toolboxMetrics.height + flyoutMetrics.height;
       } else if (toolboxPosition == Blockly.TOOLBOX_AT_LEFT ||
           toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
-		//if (this.workspace_.toolbox_.flyout_&&this.workspace_.toolbox_.flyout_.isVisible_)
-			//svgMetrics.width -= (toolboxMetrics.width + flyoutMetrics.width);
-		//else
-			svgMetrics.width -= (toolboxMetrics.width);
+		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
+			svgMetrics.width -= toolboxMetrics.width;
+		else
+			svgMetrics.width -= toolboxMetrics.width + flyoutMetrics.width;
       }
     }
 	
@@ -59,15 +62,18 @@ class ContinuousMetrics extends Blockly.MetricsManager {
     const toolboxPosition = toolboxMetrics.position;
     let absoluteLeft = 0;
 
-    if (this.workspace_.getToolbox() &&
-        toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
-      //absoluteLeft = toolboxMetrics.width + flyoutMetrics.width;
-	  absoluteLeft = toolboxMetrics.width;
+    if (this.workspace_.getToolbox() && toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
+		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
+			absoluteLeft = toolboxMetrics.width;
+		else
+			absoluteLeft = toolboxMetrics.width + flyoutMetrics.width;
     }
     let absoluteTop = 0;
-    if (this.workspace_.getToolbox() &&
-        toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
-      absoluteTop = toolboxMetrics.height + flyoutMetrics.height;
+    if (this.workspace_.getToolbox() && toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
+		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
+			absoluteTop = toolboxMetrics.height;
+		else
+			absoluteTop = toolboxMetrics.height + flyoutMetrics.height;		
     }
     return {
       top: absoluteTop,
