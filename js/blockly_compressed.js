@@ -2616,7 +2616,8 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
         event.stopPropagation();
         event.preventDefault();
 		
-		Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));	
+		Blockly.Events.fire(new Blockly.Events.BlockCreate(this.newBlock_));
+		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));		
 		
 		let blockType = "javascript_variable_ns_scratch";
 		let gapValue = 0;
@@ -2674,11 +2675,12 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
     }
 	
 	handleMouseMove(event) {
+        event.stopPropagation();
+        event.preventDefault();
+		
         if (!this.newBlock_) return;
 		
 		Blockly.Events.disable();
-		Blockly.Events.fire(new Blockly.Events.BlockMove(this.newBlock_));
-		
 		try {		
 			const sourceWorkspace = this.newBlock_.workspace;
 			let mouseClient = new Blockly.utils.Coordinate(event.pageX - window.scrollX, event.pageY - window.scrollY);

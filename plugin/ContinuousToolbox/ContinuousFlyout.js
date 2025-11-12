@@ -286,8 +286,6 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 		ws.resize();
 		this.getParentToolbox_().clearSelection();
 	}
-	
-	ws.eventHistory = [];
   }
 
   /**
