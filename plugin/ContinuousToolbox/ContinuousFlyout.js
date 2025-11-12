@@ -40,7 +40,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
      * @type {boolean}
      * @private
      */
-    this.recyclingEnabled_ = true;
+    this.recyclingEnabled_ = false;
 
     this.workspace_.setMetricsManager(
         new ContinuousFlyoutMetrics(this.workspace_, this));
