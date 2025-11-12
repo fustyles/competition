@@ -68,22 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				continuousFlyout.setVisible(false);
 				workspace.resize();
 			}
-			
-			function onWorkspaceChangedContinuousToolbox(event) {
-				if (event.type=="change"&&event.blockId&&workspace.getBlockById(event.blockId)&&workspace.getBlockById(event.blockId).type=="javascript_procedures_defnoreturn_scratch") {
-					Blockly.Events.disable();
-					try {
-						workspace.getToolbox().refreshSelection();
-					} catch (e) {
-						console.error(e);						
-					} finally {
-						Blockly.Events.enable();
-						workspace.render();
-					}
-				}
-			}
-			workspace.addChangeListener(onWorkspaceChangedContinuousToolbox);			
-
 		} else {
 			workspace = Blockly.inject('root',{
 					renderer: renderer

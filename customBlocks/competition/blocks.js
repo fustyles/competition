@@ -776,7 +776,18 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
             Blockly.Events.enable();
         }
 	},
-    onchange: Blockly.Blocks['procedures_defnoreturn'].onchange,
+    onchange: function(event) {
+		if (event.type=="block_field_intermediate_change") {
+			Blockly.Events.disable();
+			try {
+				this.workspace.getToolbox().refreshSelection();
+			} catch (e) {
+				console.error(e);						
+			} finally {
+				Blockly.Events.enable();
+			}
+		}
+	},
     getProcedureCall: Blockly.Blocks['procedures_defnoreturn'].getProcedureCall,
     callType_: "javascript_procedures_callnoreturn_scratch"
 };
