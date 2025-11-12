@@ -394,8 +394,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			workspace.registerButtonCallback("CREATE_MYFUNCTION", function(d) {
 				const currentWorkspace = d.getTargetWorkspace();
 				currentWorkspace.eventHistory = [];
+				currentWorkspace.getToolbox().clearSelection();
 				
 				toggleCreateFunctionForm(1);
+				
 				if (!subWorkspace) {
 					subWorkspace = Blockly.inject('createFunctionDiv', {
 						renderer: 'zelos'
@@ -618,9 +620,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		Blockly.Events.disable();
 		try {
-			var blockToCenterXY = getBlockToCenterXY(block);
-			block.moveBy(blockToCenterXY.x, blockToCenterXY.y);
-			
 			workspace.getToolbox().refreshSelection();
 			workspace.getToolbox().clearSelection();
 		} catch (e) {
@@ -689,8 +688,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
-		
-		workspace.getToolbox().clearSelection();		
     });	
 
 	function promptAndAddParam(type) {
@@ -1316,11 +1313,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (topBlocks.length!=1) {
 			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
-				var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_start_scratch" x="10" y="10"></block></xml>';
-				var startBlocks = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
-				var block = workspace.getBlockById(startBlocks[0]);
-				var blockToCenterXY = getBlockToCenterXY(block);
-                block.moveBy(blockToCenterXY.x, blockToCenterXY.y);				
+				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
+				Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
 			}
 			return;
 		}
@@ -1399,11 +1393,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		  if (topBlocks.length!=1) {
 			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
-				var xml = '<xml xmlns="https://developers.google.com/blockly/xml"><block type="javascript_start_scratch" x="10" y="10"></block></xml>';
-				var startBlocks = Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml), workspace);
-				var block = workspace.getBlockById(startBlocks[0]);
-				var blockToCenterXY = getBlockToCenterXY(block);
-                block.moveBy(blockToCenterXY.x, blockToCenterXY.y);				
+				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
+				Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);			
 			}
 			return;
 		  }
