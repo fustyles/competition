@@ -793,7 +793,7 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 			if ((wasConnected && !isConnected)||(!wasConnected && isConnected)) {
 				const parentBlock = (wasConnected && !isConnected)?workspace.getBlockById(event.oldParentId):workspace.getBlockById(event.newParentId);
 				const childBlock = workspace.getBlockById(event.blockId);
-				if ((parentBlock.type&&parentBlock.type==this.type)||(childBlock.type&&childBlock.type==this.type)) {
+				if ((parentBlock&&parentBlock.type==this.type)||(childBlock&&childBlock.type==this.type)) {
 					var blocks = [
 					  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
 					  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
