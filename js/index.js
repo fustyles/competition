@@ -1629,8 +1629,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.getToolbox().refreshSelection();
 						
 						workspace.scrollCenter();
-						
-						workspace.resize();
 					
 						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();
