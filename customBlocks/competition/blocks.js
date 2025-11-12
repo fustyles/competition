@@ -787,6 +787,23 @@ Blockly.Blocks['javascript_procedures_defnoreturn_scratch'] = {
 				Blockly.Events.enable();
 			}
 		}
+		if (event.type === Blockly.Events.BLOCK_MOVE) {
+			const wasConnected = !!event.oldParentId;
+			const isConnected = !!event.newParentId;
+			if ((wasConnected && !isConnected)||(!wasConnected && isConnected)) {
+				const parentBlock = (wasConnected && !isConnected)?workspace.getBlockById(event.oldParentId):workspace.getBlockById(event.newParentId);
+				const childBlock = workspace.getBlockById(event.blockId);
+				if (parentBlock.type==this.type||childBlock.type==this.type) {
+					var blocks = [
+					  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
+					  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
+					];
+					blocks.forEach(block => {
+					  checkArgVariableRootBlock(block);
+					});
+				}
+			}
+		}
 	},
     getProcedureCall: Blockly.Blocks['procedures_defnoreturn'].getProcedureCall,
     callType_: "javascript_procedures_callnoreturn_scratch"
