@@ -48,16 +48,9 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 	this.workspace_.eventHistory = [];
 		
     this.workspace_.addChangeListener((e) => {
-				
 		if (e.type === Blockly.Events.VIEWPORT_CHANGE) {
 			this.selectCategoryByScrollPosition_(-this.workspace_.scrollY);
 		}
-		else if (e.type=="selected"&&e.newElementId) {
-			console.log(e);
-			console.log(this.workspace_.getBlockById(e.newElementId));
-			console.log(this.targetWorkspace);
-		}
-
     });
 
     this.autoClose = true;
