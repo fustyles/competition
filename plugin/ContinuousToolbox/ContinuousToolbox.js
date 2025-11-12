@@ -42,6 +42,9 @@ class ContinuousToolbox extends Blockly.Toolbox {
     flyout.show(this.getInitialFlyoutContents_());
     flyout.recordScrollPositions();
 	
+	if(flyout.autoClose)
+		flyout.setVisible(false);
+	
 	this.workspace_.eventHistory = [];	
 
     this.workspace_.addChangeListener((event) => {

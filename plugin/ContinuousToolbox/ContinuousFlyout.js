@@ -277,7 +277,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
 			}
 		}
 	}
-
+	
 	super.show(flyoutDef);
 	this.recordScrollPositions();
 	

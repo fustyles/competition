@@ -2677,7 +2677,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		} catch (e) {
 			console.error(e);
 		} finally {
-			Blockly.Events.enable(); 
+			Blockly.Events.enable();		
 		}				
 		
 		this.boundEvents_.push(
@@ -2791,7 +2791,7 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 		} catch (e) {
 			console.error(e);
 		} finally {
-			Blockly.Events.enable();
+			Blockly.Events.enable();		
 		}			
     }
 
@@ -2819,13 +2819,13 @@ class FieldZelosLabelBackground extends Blockly.FieldLabelSerializable {
 				  conn.connect(closest.connection);  
 			  }
 			}		
-		}	
+		}
 
         this.newBlock_ = null;
 		this.newBlockWidth_ = null;
 		this.newBlockHeight_ = null;
 		this.newBlockXY = null;
-		this.closest = [];			
+		this.closest = [];		
     }	
 
     applyColour() {

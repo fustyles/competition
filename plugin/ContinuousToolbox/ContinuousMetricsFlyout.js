@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 class ContinuousFlyoutMetrics extends Blockly.FlyoutMetricsManager {
   /** @override */
   constructor(workspace, flyout) {	  

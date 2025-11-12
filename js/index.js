@@ -63,12 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					  'metricsManager': ContinuousMetrics,
 					}
 				});
-				
-			var continuousFlyout = workspace.toolbox_.flyout_;
-			if (continuousFlyout.autoClose) {
-				continuousFlyout.setVisible(false);
-				workspace.resize();
-			}
+			
 		} else {
 			workspace = Blockly.inject('root',{
 					renderer: renderer
@@ -628,12 +623,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			workspace.getToolbox().refreshSelection();
 			workspace.getToolbox().clearSelection();
-			
-			var continuousFlyout = workspace.toolbox_.flyout_;
-			if (continuousFlyout.autoClose) {
-				continuousFlyout.setVisible(false);
-				workspace.resize();
-			}
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -701,12 +690,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cancelButton').addEventListener('click', () => {
         toggleCreateFunctionForm(false);
 		
-		var continuousFlyout = workspace.toolbox_.flyout_;
-		if (continuousFlyout.autoClose) {
-			continuousFlyout.setVisible(false);	
-			workspace.resize();
-			workspace.getToolbox().clearSelection();
-		}			
+		workspace.getToolbox().clearSelection();		
     });	
 
 	function promptAndAddParam(type) {
