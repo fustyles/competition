@@ -417,6 +417,11 @@ document.addEventListener('DOMContentLoaded', function() {
 							var blocks = subWorkspace.getAllBlocks();
 							if (blocks.length==1)
 								subWorkspace.centerOnBlock(blocks[0].id);
+						} else if (event.type == "block_field_intermediate_change") {
+							if (event.blockId) {
+								var block = subWorkspace.getBlockById(event.blockId);
+								createFunctionVariable[0] = block.getFieldValue("NAME");
+							}
 						}
 					});
 				}
