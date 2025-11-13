@@ -77,8 +77,6 @@ class CustomCategory extends Blockly.ToolboxCategory {
 		iconCheckbox.style.pointerEvents = 'auto';
 		
 		iconCheckbox.addEventListener('change', (event) => {
-		  let xmlDom = Blockly.Xml.workspaceToDom(this.workspace_);
-		  this.workspace_.clear();
 		  if (event.target.checked) {
 			this.parentToolbox_.flyout_.autoClose = true;
 			this.parentToolbox_.flyout_.setVisible(false);
@@ -86,7 +84,6 @@ class CustomCategory extends Blockly.ToolboxCategory {
 			this.parentToolbox_.flyout_.autoClose = false;
 			this.parentToolbox_.flyout_.setVisible(true);
 		  }
-		  Blockly.Xml.domToWorkspace(xmlDom, workspace);
 		});	
 		
 		return iconCheckbox;
