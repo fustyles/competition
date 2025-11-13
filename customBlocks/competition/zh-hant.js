@@ -4,6 +4,7 @@ Blockly.Msg["CATSCRATCH3"] = "運算";
 Blockly.Msg["CATSCRATCH4"] = "變數";
 Blockly.Msg["CATSCRATCH5"] = "清單";
 Blockly.Msg["CATSCRATCH6"] = "函式";
+Blockly.Msg["CATSCRATCH7"] = "展開";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
@@ -11,6 +12,7 @@ Blockly.Msg["CATSCRATCH3_HUE"] = "230";
 Blockly.Msg["CATSCRATCH4_HUE"] = "310";
 Blockly.Msg["CATSCRATCH5_HUE"] = "260";
 Blockly.Msg["CATSCRATCH6_HUE"] = "290";
+Blockly.Msg["CATSCRATCH7_HUE"] = "0";
 
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"] = "輸出";
 
