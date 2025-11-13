@@ -86,6 +86,7 @@ class CustomCategory extends Blockly.ToolboxCategory {
 				if (this.parentToolbox_.flyout_.isVisible_==false)
 					this.parentToolbox_.flyout_.setVisible(true);
 			}
+			this.workspace_.resize();
 		});	
 		
 		return iconCheckbox;
