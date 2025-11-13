@@ -117,18 +117,23 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}, 250);
 			
-			clearTimeout(blockChangeTimer);
-			blockChangeTimer = setTimeout(function(){
-				if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
-					var blocks = [
-					  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
-					  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
-					];
-					blocks.forEach(block => {
-					  checkArgVariableRootBlock(block);
-					});
-				}
-			}, 250);
+			if (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG) {
+					clearTimeout(blockChangeTimer);
+					blockChangeTimer = setTimeout(function(){
+						let eventBlock = targetWorkspace.getBlockById(event.blockId);
+						if (eventBlock){
+							eventBlock.bringToFront();
+							var blocks = [
+							  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
+							  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
+							];
+							blocks.forEach(block => {
+								if (block)
+									checkArgVariableRootBlock(block);
+							});
+						}
+					}, 1000);
+			}
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
 		
@@ -184,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		function checkArgVariableRootBlock(block) {
 			const topBlock = block.getRootBlock(true);
 			if (topBlock) {
+				block.bringToFront();
 				if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
 					let argNames = topBlock.arguments_||[];
 					for (let i = 0; i < argNames.length; i++) {
@@ -195,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				/*
 				if (topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
-					
 					try {
 						const outputConn = block.outputConnection;
 						if (outputConn && outputConn.targetConnection) {
