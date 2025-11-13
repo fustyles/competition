@@ -948,57 +948,6 @@ Blockly.common.defineBlocksWithJsonArray([
   }
 ]);
 
-Blockly.Blocks['javascript_variable_ns_scratch'].onchange = function(event) {
-	Blockly.Events.disable();
-	try {
-		if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
-			var blocks = [
-			  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
-			  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
-			];
-			blocks.forEach(block => {
-			  checkArgVariableRootBlock(block);
-			});
-		}
-	} catch (e) {
-		console.error(e);
-	} finally {
-		Blockly.Events.enable();
-		workspace.render();
-	}	
-}
-
-function checkArgVariableRootBlock(block) {
-	const topBlock = block.getRootBlock(true);
-	if (topBlock) {
-		if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
-			let argNames = topBlock.arguments_||[];
-			for (let i = 0; i < argNames.length; i++) {
-				if (argNames[i]=="arg_"+block.getFieldValue("variableName")) {
-					block.setWarningText(null);
-					return;
-				}
-			}
-		}
-		/*
-		if (topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
-			
-			try {
-				const outputConn = block.outputConnection;
-				if (outputConn && outputConn.targetConnection) {
-				  const parentConn = outputConn.targetConnection;
-				  parentConn.disconnect();
-				}
-			} finally {
-				block.bringToFront();
-			}
-		}
-		*/
-	}
-	block.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
-}
-window.checkArgVariableRootBlock = checkArgVariableRootBlock;
-
 Blockly.common.defineBlocksWithJsonArray([
   {
     "type": "javascript_variable_boolean_scratch",
@@ -1015,8 +964,6 @@ Blockly.common.defineBlocksWithJsonArray([
     "style": "logic_blocks" 
   }
 ]);
-
-Blockly.Blocks['javascript_variable_boolean_scratch'].onchange = Blockly.Blocks['javascript_variable_ns_scratch'].onchange;
 
 Blockly.Blocks['javascript_createfunction_scratch'] = {	
 	init: function() {

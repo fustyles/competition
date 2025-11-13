@@ -16,6 +16,7 @@ var scratchStyle = false;
 var xmlBlockly = "";
 var xmlScratch = "";
 var workspaceChangeTimer;
+var blockChangeTimer;
 var createFunctionVariable = ["", []];
 var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
@@ -115,6 +116,19 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}, 250);
+			
+			clearTimeout(blockChangeTimer);
+			blockChangeTimer = setTimeout(function(){
+				if (event.blockId === this.id && (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG)) {
+					var blocks = [
+					  ...this.workspace.getBlocksByType("javascript_variable_ns_scratch"),
+					  ...this.workspace.getBlocksByType("javascript_variable_boolean_scratch")
+					];
+					blocks.forEach(block => {
+					  checkArgVariableRootBlock(block);
+					});
+				}
+			}, 250);
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
 		
@@ -166,6 +180,36 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}
 		}
+		
+		function checkArgVariableRootBlock(block) {
+			const topBlock = block.getRootBlock(true);
+			if (topBlock) {
+				if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
+					let argNames = topBlock.arguments_||[];
+					for (let i = 0; i < argNames.length; i++) {
+						if (argNames[i]=="arg_"+block.getFieldValue("variableName")) {
+							block.setWarningText(null);
+							return;
+						}
+					}
+				}
+				/*
+				if (topBlock.type !== 'javascript_procedures_defnoreturn_scratch') {
+					
+					try {
+						const outputConn = block.outputConnection;
+						if (outputConn && outputConn.targetConnection) {
+						  const parentConn = outputConn.targetConnection;
+						  parentConn.disconnect();
+						}
+					} finally {
+						block.bringToFront();
+					}
+				}
+				*/
+			}
+			block.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
+		}		
 		
 		registerMyVariable();
 		registerMyLists();

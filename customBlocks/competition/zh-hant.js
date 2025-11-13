@@ -4,7 +4,7 @@ Blockly.Msg["CATSCRATCH3"] = "運算";
 Blockly.Msg["CATSCRATCH4"] = "變數";
 Blockly.Msg["CATSCRATCH5"] = "清單";
 Blockly.Msg["CATSCRATCH6"] = "函式";
-Blockly.Msg["CATSCRATCH7"] = "展開";
+Blockly.Msg["CATSCRATCH7"] = "樣式";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
