@@ -49,7 +49,15 @@ class ContinuousToolbox extends Blockly.Toolbox {
 
     this.workspace_.addChangeListener((event) => {
 		if (event.type === Blockly.Events.BLOCK_CREATE) {
-			this.refreshSelection();
+			Blockly.Events.disable();
+			try {
+				this.refreshSelection();
+			} catch (e) {
+				console.error(e);
+			} finally {
+				Blockly.Events.enable();
+			}
+			
 		}  
     });
   }
