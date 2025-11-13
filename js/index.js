@@ -86,11 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		
 		function onWorkspaceChanged(event) {
+			const targetWorkspace = Blockly.getMainWorkspace();
+			
 			if (event.type === Blockly.Events.BLOCK_DELETE) {
 				handleBlockDelete(event);
 			}
-			
-			const targetWorkspace = Blockly.getMainWorkspace();
 			
 			const allowedTypes = [
 				Blockly.Events.BLOCK_CREATE,

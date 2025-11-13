@@ -39,6 +39,9 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   setSelected(isSelected){
+	if (this.toolboxItemDef_.categorystyle=="other_category")
+		return;
+	
     // We do not store the label span on the category, so use getElementsByClassName.
     var labelDom = this.rowDiv_.getElementsByClassName('blocklyTreeLabel')[0];
     if (isSelected) {
@@ -65,7 +68,31 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   createIconDom_() {
-    const iconImg = document.createElement('img');
+	if (this.toolboxItemDef_.categorystyle=="other_category") {
+		const iconCheckbox = document.createElement('input');
+		iconCheckbox.type = 'checkbox';
+		iconCheckbox.checked = true;
+		iconCheckbox.style.width = '20px';
+		iconCheckbox.style.height = '20px';
+		iconCheckbox.style.pointerEvents = 'auto';
+		
+		iconCheckbox.addEventListener('change', (event) => {
+		  let xmlDom = Blockly.Xml.workspaceToDom(this.workspace_);
+		  this.workspace_.clear();
+		  if (event.target.checked) {
+			this.parentToolbox_.flyout_.autoClose = true;
+			this.parentToolbox_.flyout_.setVisible(false);
+		  } else {
+			this.parentToolbox_.flyout_.autoClose = false;
+			this.parentToolbox_.flyout_.setVisible(true);
+		  }
+		  Blockly.Xml.domToWorkspace(xmlDom, workspace);
+		});	
+		
+		return iconCheckbox;
+	}
+	
+	const iconImg = document.createElement('img');
 	if (this.toolboxItemDef_.categorystyle)
 		iconImg.src = 'png/'+this.toolboxItemDef_.categorystyle+'.png';
 	else

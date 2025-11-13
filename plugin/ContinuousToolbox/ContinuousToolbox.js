@@ -17,7 +17,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 
     workspace.addChangeListener((event) => {
 		let eventWorkspace = Blockly.Workspace.getById(event.workspaceId);
-		eventWorkspace.eventHistory.push([event.type, event.oldJson || null, event.blockId || null, event]);
+		eventWorkspace.eventHistory.push([event.type, event.oldJson || null, event.blockId || null]);
 		
 		var continuousFlyout = eventWorkspace.toolbox_.flyout_;
 		if (continuousFlyout.autoClose) {
