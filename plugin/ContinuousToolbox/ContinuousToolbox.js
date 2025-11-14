@@ -78,23 +78,27 @@ class ContinuousToolbox extends Blockly.Toolbox {
     let contents = [];
     for (const toolboxItem of this.contents_) {
       if (toolboxItem instanceof Blockly.ToolboxCategory) {
-        // Create a label node to go at the top of the category
-        contents.push({kind: 'LABEL', text: toolboxItem.getName()});
-        /**
-         * @type {string|Blockly.utils.toolbox.FlyoutItemInfoArray|
-         *    Blockly.utils.toolbox.FlyoutItemInfo}
-         */
-        let itemContents = toolboxItem.getContents();
+		let itemCategorystyle = toolboxItem.toolboxItemDef_.categorystyle;
 
-        // Handle custom categories (e.g. variables and functions)
-        if (typeof itemContents === 'string') {
-          itemContents =
-            /** @type {!Blockly.utils.toolbox.DynamicCategoryInfo} */ ({
-              custom: itemContents,
-              kind: 'CATEGORY',
-            });
-        }
-        contents = contents.concat(itemContents);
+		if (itemCategorystyle&&itemCategorystyle!="element_category") {
+			// Create a label node to go at the top of the category
+			contents.push({kind: 'LABEL', text: toolboxItem.getName()});
+			/**
+			 * @type {string|Blockly.utils.toolbox.FlyoutItemInfoArray|
+			 *    Blockly.utils.toolbox.FlyoutItemInfo}
+			 */	 
+			let itemContents = toolboxItem.getContents();
+
+			// Handle custom categories (e.g. variables and functions)
+			if (typeof itemContents === 'string'&&itemCategorystyle!="element_category") {
+			  itemContents =
+				/** @type {!Blockly.utils.toolbox.DynamicCategoryInfo} */ ({
+				  custom: itemContents,
+				  kind: 'CATEGORY',
+				});
+			}
+			contents = contents.concat(itemContents);
+		}
       }
     }
     return contents;

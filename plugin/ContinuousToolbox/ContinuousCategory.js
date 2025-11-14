@@ -39,7 +39,7 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   setSelected(isSelected){
-	if (this.toolboxItemDef_.categorystyle=="other_category")
+	if (this.toolboxItemDef_.categorystyle=="element_category")
 		return;
 	
     // We do not store the label span on the category, so use getElementsByClassName.
@@ -68,7 +68,7 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   createIconDom_() {
-	if (this.toolboxItemDef_.categorystyle=="other_category") {
+	if (this.toolboxItemDef_.categorystyle=="element_category") {
 		const iconCheckbox = document.createElement('input');
 		iconCheckbox.type = 'checkbox';
 		iconCheckbox.checked = true;
