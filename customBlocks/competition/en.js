@@ -4,7 +4,7 @@ Blockly.Msg["CATSCRATCH3"] = "Operators";
 Blockly.Msg["CATSCRATCH4"] = "Variables";
 Blockly.Msg["CATSCRATCH5"] = "Lists";
 Blockly.Msg["CATSCRATCH6"] = "My Blocks";
-Blockly.Msg["CATSCRATCH7"] = "Style";
+Blockly.Msg["CATSCRATCH7"] = "Auto Close";
 
 Blockly.Msg["CATSCRATCH1_HUE"] = "180";
 Blockly.Msg["CATSCRATCH2_HUE"] = "120";
