@@ -2008,7 +2008,7 @@ zoomNext(){this.workspace.undo(true);};
 
 
 zoomShowCategory(){
-	this.workspace.shiftAllBlocks = function(offsetX) {
+	this.workspace.adjustScrollX = function(offsetX) {
 		this.scrollX = this.scrollX + offsetX;
 		this.scroll(this.scrollX, this.scrollY);
 	};
@@ -2017,11 +2017,11 @@ zoomShowCategory(){
     var toolboxElement = toolbox.HtmlDiv;
 	
     if (toolbox.isVisible_) {
-		this.workspace.shiftAllBlocks(toolboxElement.offsetWidth);
+		this.workspace.adjustScrollX(toolboxElement.offsetWidth);
         toolbox.setVisible(false);
     } else {
         toolbox.setVisible(true);
-        this.workspace.shiftAllBlocks(-toolboxElement.offsetWidth);
+        this.workspace.adjustScrollX(-toolboxElement.offsetWidth);
     }
     
     this.workspace.resize();
