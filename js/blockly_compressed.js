@@ -1791,8 +1791,54 @@ e,f,g);this.height=d.height;if(!this.isLabel_){this.width+=2*FlyoutButton$$modul
 2+d.baseline));this.updateTransform();this.onMouseUpWrapper=conditionalBind$$module$build$src$core$browser_events(this.svgGroup,"pointerup",this,this.onMouseUp);return this.svgGroup}show(){this.updateTransform();this.svgGroup.setAttribute("display","block")}updateTransform(){this.svgGroup.setAttribute("transform","translate("+this.position.x+","+this.position.y+")")}moveTo(a,b){this.position.x=a;this.position.y=b;this.updateTransform()}isLabel(){return this.isLabel_}getPosition(){return this.position}getButtonText(){return this.text}getTargetWorkspace(){return this.targetWorkspace}dispose(){this.onMouseUpWrapper&&
 unbind$$module$build$src$core$browser_events(this.onMouseUpWrapper);this.svgGroup&&removeNode$$module$build$src$core$utils$dom(this.svgGroup);this.svgText&&this.workspace.getThemeManager().unsubscribe(this.svgText)}onMouseUp(a){(a=this.targetWorkspace.getGesture(a))&&a.cancel();this.isLabel_&&this.callbackKey?console.warn("Labels should not have callbacks. Label text: "+this.text):this.isLabel_||this.callbackKey&&this.targetWorkspace.getButtonCallback(this.callbackKey)?this.isLabel_||(a=this.targetWorkspace.getButtonCallback(this.callbackKey))&&
 a(this):console.warn("Buttons should have callbacks. Button text: "+this.text)}};FlyoutButton$$module$build$src$core$flyout_button.TEXT_MARGIN_X=5;FlyoutButton$$module$build$src$core$flyout_button.TEXT_MARGIN_Y=2;FlyoutButton$$module$build$src$core$flyout_button.BORDER_RADIUS=4;register$$module$build$src$core$css("\n.blocklyFlyoutButton {\n  fill: #888;\n  cursor: default;\n}\n\n.blocklyFlyoutButtonShadow {\n  fill: #666;\n}\n\n.blocklyFlyoutButton:hover {\n  fill: #aaa;\n}\n\n.blocklyFlyoutLabel {\n  cursor: default;\n}\n\n.blocklyFlyoutLabelBackground {\n  opacity: 0;\n}\n");
-var module$build$src$core$flyout_button={};module$build$src$core$flyout_button.FlyoutButton=FlyoutButton$$module$build$src$core$flyout_button;var MetricsManager$$module$build$src$core$metrics_manager=class{constructor(a){this.workspace_=a}getDimensionsPx_(a){let b=0,c=0;a&&(b=a.getWidth(),c=a.getHeight());return new Size$$module$build$src$core$utils$size(b,c)}getFlyoutMetrics(a){a=this.getDimensionsPx_(this.workspace_.getFlyout(a));return{width:a.width,height:a.height,position:this.workspace_.toolboxPosition}}getToolboxMetrics(){const a=this.getDimensionsPx_(this.workspace_.getToolbox());return{width:a.width,height:a.height,position:this.workspace_.toolboxPosition}}getSvgMetrics(){return this.workspace_.getCachedParentSvgSize()}getAbsoluteMetrics(){let a=
-0;const b=this.getToolboxMetrics(),c=this.getFlyoutMetrics(!0),d=!!this.workspace_.getToolbox(),e=!!this.workspace_.getFlyout(!0);var f=d?b.position:c.position,g=f===Position$$module$build$src$core$utils$toolbox.LEFT;f=f===Position$$module$build$src$core$utils$toolbox.TOP;d&&g?a=b.width:e&&g&&(a=c.width);g=0;d&&f?g=b.height:e&&f&&(g=c.height);return{top:g,left:a}}getViewMetrics(a){a=a?this.workspace_.scale:1;const b=this.getSvgMetrics(),c=this.getToolboxMetrics(),d=this.getFlyoutMetrics(!0),e=this.workspace_.getToolbox()?
+var module$build$src$core$flyout_button={};module$build$src$core$flyout_button.FlyoutButton=FlyoutButton$$module$build$src$core$flyout_button;var MetricsManager$$module$build$src$core$metrics_manager=class{constructor(a){this.workspace_=a}getDimensionsPx_(a){let b=0,c=0;a&&(b=a.getWidth(),c=a.getHeight());return new Size$$module$build$src$core$utils$size(b,c)}getFlyoutMetrics(a){a=this.getDimensionsPx_(this.workspace_.getFlyout(a));return{width:a.width,height:a.height,position:this.workspace_.toolboxPosition}}getToolboxMetrics(){const a=this.getDimensionsPx_(this.workspace_.getToolbox());return{width:a.width,height:a.height,position:this.workspace_.toolboxPosition}}getSvgMetrics(){return this.workspace_.getCachedParentSvgSize()}
+
+
+getAbsoluteMetrics() {
+  const toolboxMetrics = this.getToolboxMetrics();
+  const flyoutMetrics  = this.getFlyoutMetrics(false);
+
+  const toolbox = this.workspace_.getToolbox();
+  const hasToolbox = !!toolbox;
+
+  const position = toolboxMetrics.position;
+  const Pos = Position$$module$build$src$core$utils$toolbox;
+
+  let absoluteLeft = 0;
+  let absoluteTop  = 0;
+
+  // --------------- LEFT ---------------
+  if (hasToolbox && position === Pos.LEFT) {
+    const autoClose = toolbox.flyout_ && toolbox.flyout_.autoClose;
+
+    if (autoClose) {
+      absoluteLeft = toolboxMetrics.width;
+    } else {
+      //absoluteLeft = toolboxMetrics.width + flyoutMetrics.width;
+	  absoluteLeft = toolboxMetrics.width;
+    }
+  }
+
+  // --------------- TOP ---------------
+  if (hasToolbox && position === Pos.TOP) {
+    const autoClose = toolbox.flyout_ && toolbox.flyout_.autoClose;
+
+    if (autoClose) {
+      absoluteTop = toolboxMetrics.height;
+    } else {
+      //absoluteTop = toolboxMetrics.height + flyoutMetrics.height;
+	  absoluteTop = toolboxMetrics.height;
+    }
+  }
+
+  return {
+    top:  absoluteTop,
+    left: absoluteLeft,
+  };
+}
+
+
+getViewMetrics(a){a=a?this.workspace_.scale:1;const b=this.getSvgMetrics(),c=this.getToolboxMetrics(),d=this.getFlyoutMetrics(!0),e=this.workspace_.getToolbox()?
 c.position:d.position;if(this.workspace_.getToolbox())if(e===Position$$module$build$src$core$utils$toolbox.TOP||e===Position$$module$build$src$core$utils$toolbox.BOTTOM)b.height-=c.height;else{if(e===Position$$module$build$src$core$utils$toolbox.LEFT||e===Position$$module$build$src$core$utils$toolbox.RIGHT)b.width-=c.width}else if(this.workspace_.getFlyout(!0))if(e===Position$$module$build$src$core$utils$toolbox.TOP||e===Position$$module$build$src$core$utils$toolbox.BOTTOM)b.height-=d.height;else if(e===
 Position$$module$build$src$core$utils$toolbox.LEFT||e===Position$$module$build$src$core$utils$toolbox.RIGHT)b.width-=d.width;return{height:b.height/a,width:b.width/a,top:-this.workspace_.scrollY/a,left:-this.workspace_.scrollX/a}}getContentMetrics(a){a=a?1:this.workspace_.scale;const b=this.workspace_.getBlocksBoundingBox();return{height:(b.bottom-b.top)*a,width:(b.right-b.left)*a,top:b.top*a,left:b.left*a}}hasFixedEdges(){return!this.workspace_.isMovableHorizontally()||!this.workspace_.isMovableVertically()}getComputedFixedEdges_(a){if(!this.hasFixedEdges())return{};
 const b=this.workspace_.isMovableHorizontally(),c=this.workspace_.isMovableVertically();a=a||this.getViewMetrics(!1);const d={};c||(d.top=a.top,d.bottom=a.top+a.height);b||(d.left=a.left,d.right=a.left+a.width);return d}getPaddedContent_(a,b){const c=b.top+b.height,d=b.left+b.width,e=a.width;a=a.height;const f=e/2,g=a/2;return{top:Math.min(b.top-g,c-a),bottom:Math.max(c+g,b.top+a),left:Math.min(b.left-f,d-e),right:Math.max(d+f,b.left+e)}}getScrollMetrics(a,b,c){a=a?this.workspace_.scale:1;b=b||this.getViewMetrics(!1);
@@ -2044,8 +2090,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('zelos', catSystemScratch, 1.0);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
-	}
-	else {
+	} else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
 		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
 		xmlScratch = Blockly.Xml.workspaceToDom(this.workspace);
@@ -2057,6 +2102,7 @@ zoomChangeToolbox(){
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
 	}
+	//this.workspace.scrollCenter();
 };
 
 

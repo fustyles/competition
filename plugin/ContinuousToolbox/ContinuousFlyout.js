@@ -99,7 +99,7 @@ class ContinuousFlyout extends Blockly.VerticalFlyout {
         return scrollInfo.position;
       }
     }
-    console.warn(`Scroll position not recorded for category ${name}`);
+    //console.warn(`Scroll position not recorded for category ${name}`);
     return null;
   }
 

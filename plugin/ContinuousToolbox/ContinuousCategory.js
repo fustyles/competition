@@ -68,29 +68,36 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   createIconDom_() {
-	if (this.toolboxItemDef_.categorystyle=="element_category") {
-		const iconCheckbox = document.createElement('input');
-		iconCheckbox.type = 'checkbox';
-		iconCheckbox.checked = true;
-		iconCheckbox.style.width = '20px';
-		iconCheckbox.style.height = '20px';
-		iconCheckbox.style.pointerEvents = 'auto';
-		
-		iconCheckbox.addEventListener('change', (event) => {
-			if (event.target.checked) {
-				this.parentToolbox_.flyout_.autoClose = true;
-				if (this.parentToolbox_.flyout_.isVisible_==true)
-					this.parentToolbox_.flyout_.setVisible(false);
-			} else {
-				this.parentToolbox_.flyout_.autoClose = false;
-				if (this.parentToolbox_.flyout_.isVisible_==false)
-					this.parentToolbox_.flyout_.setVisible(true);
-			}
-			this.parentToolbox_.clearSelection();
-			this.workspace_.resize();
-		});	
-		
-		return iconCheckbox;
+	if (this.toolboxItemDef_.elementstyle !== undefined) {
+		if (this.toolboxItemDef_.elementname=="autoclose") {
+			const iconCheckbox = document.createElement('input');
+			iconCheckbox.type = 'checkbox';
+			iconCheckbox.checked = true;
+			iconCheckbox.style.width = '20px';
+			iconCheckbox.style.height = '20px';
+			iconCheckbox.style.pointerEvents = 'auto';
+			
+			iconCheckbox.addEventListener('change', (event) => {
+				if (event.target.checked) {
+					this.parentToolbox_.flyout_.autoClose = true;
+					if (this.parentToolbox_.flyout_.isVisible_==true) {
+						this.parentToolbox_.flyout_.setVisible(false);
+						this.parentToolbox_.clearSelection();
+					}
+				} else {
+					this.parentToolbox_.flyout_.autoClose = false;
+					if (this.parentToolbox_.flyout_.isVisible_==false) {
+						this.parentToolbox_.flyout_.setVisible(true);
+						const firstItem = this.parentToolbox_.getToolboxItems()[0];
+						this.parentToolbox_.setSelectedItem(firstItem);
+					}
+				}
+				
+				this.workspace_.resize();
+			});	
+			
+			return iconCheckbox;
+		}
 	}
 	
 	const iconImg = document.createElement('img');

@@ -152,5 +152,5 @@ var catSystemScratch = '<xml>'+
 '    <category name="%{BKY_CATSCRATCH4}" categorystyle="variable_category" custom="MYVARIABLE"></category>'+
 '    <category name="%{BKY_CATSCRATCH5}" categorystyle="list_category" custom="MYLIST"></category>'+
 '    <category name="%{BKY_CATSCRATCH6}" categorystyle="procedure_category" custom="MYFUNCTION"></category>'+
-'    <category name="%{BKY_CATSCRATCH7}" categorystyle="element_category"></category>'+
+'    <category name="%{BKY_CATSCRATCH7}" categorystyle="element_category" elementstyle="true" elementname="autoclose"></category>'+
 '</xml>';

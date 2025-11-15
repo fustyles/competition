@@ -78,9 +78,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
     let contents = [];
     for (const toolboxItem of this.contents_) {
       if (toolboxItem instanceof Blockly.ToolboxCategory) {
-		let itemCategorystyle = toolboxItem.toolboxItemDef_.categorystyle;
-
-		if (itemCategorystyle&&itemCategorystyle!="element_category") {
+		if (toolboxItem.toolboxItemDef_.elementstyle === undefined) {
 			// Create a label node to go at the top of the category
 			contents.push({kind: 'LABEL', text: toolboxItem.getName()});
 			/**
@@ -90,7 +88,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 			let itemContents = toolboxItem.getContents();
 
 			// Handle custom categories (e.g. variables and functions)
-			if (typeof itemContents === 'string'&&itemCategorystyle!="element_category") {
+			if (typeof itemContents === 'string') {
 			  itemContents =
 				/** @type {!Blockly.utils.toolbox.DynamicCategoryInfo} */ ({
 				  custom: itemContents,
@@ -112,9 +110,11 @@ class ContinuousToolbox extends Blockly.Toolbox {
   /** @override */
   updateFlyout_(_oldItem, newItem) {	  
     if (newItem) {
-      const target = this.getFlyout()
-          .getCategoryScrollPosition(newItem.name_).y;
-      this.getFlyout().scrollTo(target);
+	  if (newItem.toolboxItemDef_.elementstyle === undefined) {
+		  const target = this.getFlyout()
+			  .getCategoryScrollPosition(newItem.name_).y;
+		  this.getFlyout().scrollTo(target);
+	  }
     }
   }
 

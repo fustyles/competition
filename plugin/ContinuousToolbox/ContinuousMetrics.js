@@ -66,14 +66,16 @@ class ContinuousMetrics extends Blockly.MetricsManager {
 		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
 			absoluteLeft = toolboxMetrics.width;
 		else
-			absoluteLeft = toolboxMetrics.width + flyoutMetrics.width;
+			//absoluteLeft = toolboxMetrics.width + flyoutMetrics.width;
+			absoluteLeft = toolboxMetrics.width;
     }
     let absoluteTop = 0;
     if (this.workspace_.getToolbox() && toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
 		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
 			absoluteTop = toolboxMetrics.height;
 		else
-			absoluteTop = toolboxMetrics.height + flyoutMetrics.height;		
+			//absoluteTop = toolboxMetrics.height + flyoutMetrics.height;
+			absoluteTop = toolboxMetrics.height;
     }
     return {
       top: absoluteTop,

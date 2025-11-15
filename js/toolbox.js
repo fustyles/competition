@@ -285,4 +285,5 @@ var catSystem = '<xml>'+
 '    </category>'+
 '    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>'+
 '    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>'+
+'    <category name="%{BKY_CATAUTOCLOSE}" colour="#DDDDDD" elementstyle="true" elementname="autoclose"></category>'+
 '</xml>';
