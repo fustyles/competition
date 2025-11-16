@@ -68,7 +68,7 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * @override
    */
   createIconDom_() {
-	if (this.toolboxItemDef_.elementstyle !== undefined) {
+	if (this.toolboxItemDef_.elementname !== undefined) {
 		if (this.toolboxItemDef_.elementname=="autoclose") {
 			const iconCheckbox = document.createElement('input');
 			iconCheckbox.type = 'checkbox';

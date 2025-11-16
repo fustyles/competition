@@ -17226,7 +17226,7 @@ function camelCase( string ) {
 	} );
 }
 
-function getElementStyles( elem ) {
+function getelementnames( elem ) {
 	var key, len,
 		style = elem.ownerDocument.defaultView ?
 			elem.ownerDocument.defaultView.getComputedStyle( elem, null ) :
@@ -17295,7 +17295,7 @@ $.effects.animateClass = function( value, duration, easing, callback ) {
 			var el = $( this );
 			return {
 				el: el,
-				start: getElementStyles( this )
+				start: getelementnames( this )
 			};
 		} );
 
@@ -17311,7 +17311,7 @@ $.effects.animateClass = function( value, duration, easing, callback ) {
 
 		// Map all animated objects again - calculate new styles and diff
 		allAnimations = allAnimations.map( function() {
-			this.end = getElementStyles( this.el[ 0 ] );
+			this.end = getelementnames( this.el[ 0 ] );
 			this.diff = styleDifference( this.start, this.end );
 			return this;
 		} );

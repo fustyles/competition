@@ -78,7 +78,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
     let contents = [];
     for (const toolboxItem of this.contents_) {
       if (toolboxItem instanceof Blockly.ToolboxCategory) {
-		if (toolboxItem.toolboxItemDef_.elementstyle === undefined) {
+		if (toolboxItem.toolboxItemDef_.elementname === undefined) {
 			// Create a label node to go at the top of the category
 			contents.push({kind: 'LABEL', text: toolboxItem.getName()});
 			/**
@@ -110,7 +110,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
   /** @override */
   updateFlyout_(_oldItem, newItem) {	  
     if (newItem) {
-	  if (newItem.toolboxItemDef_.elementstyle === undefined) {
+	  if (newItem.toolboxItemDef_.elementname === undefined) {
 		  const target = this.getFlyout()
 			  .getCategoryScrollPosition(newItem.name_).y;
 		  this.getFlyout().scrollTo(target);
