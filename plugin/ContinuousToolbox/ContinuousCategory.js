@@ -101,13 +101,17 @@ class CustomCategory extends Blockly.ToolboxCategory {
 	}
 	
 	const iconImg = document.createElement('img');
-	if (this.toolboxItemDef_.categorystyle)
+	if (this.toolboxItemDef_.categorystyle) {
 		iconImg.src = 'png/'+this.toolboxItemDef_.categorystyle+'.png';
-	else
-		iconImg.src = 'png/logo.png';
+		iconImg.width = '40';
+	} else {
+		iconImg.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';
+		iconImg.width = '1';
+	}		
+	
+	iconImg.height = '40';	
     iconImg.alt = '';
-    iconImg.width = '40';
-    iconImg.height = '40';
+
     return iconImg;
   }
 }

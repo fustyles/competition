@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}, 250);
-			
+		
 			if (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG) {
 					clearTimeout(blockChangeTimer);
 					blockChangeTimer = setTimeout(function(){
@@ -133,7 +133,16 @@ document.addEventListener('DOMContentLoaded', function() {
 							});
 						}
 					}, 1000);
-			}
+			} else if (event.type==Blockly.Events.CREATE) {
+				let eventBlock = targetWorkspace.getBlockById(event.blockId);
+				if (eventBlock.type == "procedures_defnoreturn" || eventBlock.type == "procedures_defreturn") {
+					targetWorkspace.getToolbox().refreshSelection();
+				}
+			} else if (event.type==Blockly.Events.DELETE) {
+				if (event.oldJson.type == "procedures_defnoreturn" || event.oldJson.type == "procedures_defreturn") {
+					targetWorkspace.getToolbox().refreshSelection();
+				}
+			}			
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
 		

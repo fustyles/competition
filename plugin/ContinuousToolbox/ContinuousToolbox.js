@@ -29,7 +29,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 				eventWorkspace.resize();
 				continuousFlyout.getParentToolbox_().clearSelection();
 			}	
-		}	  
+		}			
     });
   }
 
