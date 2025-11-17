@@ -49,15 +49,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 
     this.workspace_.addChangeListener((event) => {
 		if (event.type === Blockly.Events.BLOCK_CREATE) {
-			Blockly.Events.disable();
-			try {
-				this.refreshSelection();
-			} catch (e) {
-				console.error(e);
-			} finally {
-				Blockly.Events.enable();
-			}
-			
+			this.refreshSelection();
 		}  
     });
   }
@@ -84,7 +76,7 @@ class ContinuousToolbox extends Blockly.Toolbox {
 			/**
 			 * @type {string|Blockly.utils.toolbox.FlyoutItemInfoArray|
 			 *    Blockly.utils.toolbox.FlyoutItemInfo}
-			 */	 
+			 */			 
 			let itemContents = toolboxItem.getContents();
 
 			// Handle custom categories (e.g. variables and functions)
@@ -103,8 +95,13 @@ class ContinuousToolbox extends Blockly.Toolbox {
   }
 
   /** @override */
-  refreshSelection() {	  
-    this.getFlyout().show(this.getInitialFlyoutContents_());
+  refreshSelection() {
+      if (this.refreshDebouncer) {
+        clearTimeout(this.refreshDebouncer);
+      }
+      this.refreshDebouncer = setTimeout(() => {
+        this.getFlyout().show(this.getInitialFlyoutContents_());
+      }, 100);
   }
 
   /** @override */
