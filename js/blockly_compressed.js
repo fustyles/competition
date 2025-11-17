@@ -2223,13 +2223,9 @@ this.hide();this.clearOldBlocks();"string"===typeof a&&(a=this.getDynamicCategor
 break;case "SEP":this.addSeparatorGap(e,c,d);break;case "LABEL":a=this.createButton(e,!0);b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a});c.push(d);break;case "BUTTON":a=this.createButton(e,!1),b.push({type:FlyoutItemType$$module$build$src$core$flyout_base.BUTTON,button:a}),c.push(d)}}return{contents:b,gaps:c}}
 
 getDynamicCategoryContents(a){
-	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYVARIABLE' ,Blockly.myvariable.flyoutCategory);
-	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYLIST' ,Blockly.mylist.flyoutCategory);
-	this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYFUNCTION' ,Blockly.myfunction.flyoutCategory);		
-	
 	a=this.workspace_.targetWorkspace.getToolboxCategoryCallback(a);
 	if("function"!==typeof a) {
-		//throw TypeError("Couldn't find a callback function when opening a toolbox category.");
+		throw TypeError("Couldn't find a callback function when opening a toolbox category.");
 		return null;
 	} else
 		return a(this.workspace_.targetWorkspace)

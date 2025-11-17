@@ -41,7 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}		
 		xmlToolbox+='</xml>';
 
-		if (renderer=="zelos") {	
+		if (renderer=="zelos") {
+			registerContinuoutToolboxCustomFlyout();
+			
 			workspace = Blockly.inject('root',{
 					renderer: 'zelos'
 					,theme: 'zelos'				
@@ -64,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					  'metricsManager': ContinuousMetrics,
 					}
 				});
-			
 		} else {
 			workspace = Blockly.inject('root',{
 					renderer: renderer
@@ -135,8 +136,10 @@ document.addEventListener('DOMContentLoaded', function() {
 					}, 1000);
 			} else if (event.type==Blockly.Events.CREATE) {
 				let eventBlock = targetWorkspace.getBlockById(event.blockId);
-				if (eventBlock.type == "procedures_defnoreturn" || eventBlock.type == "procedures_defreturn") {
-					targetWorkspace.getToolbox().refreshSelection();
+				if (eventBlock) {
+					if (eventBlock.type == "procedures_defnoreturn" || eventBlock.type == "procedures_defreturn") {
+						targetWorkspace.getToolbox().refreshSelection();
+					}
 				}
 			} else if (event.type==Blockly.Events.DELETE) {
 				if (event.oldJson.type == "procedures_defnoreturn" || event.oldJson.type == "procedures_defreturn") {
@@ -225,11 +228,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			block.setWarningText(Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"]);
 		}		
 		
-		registerMyVariable();
-		registerMyLists();
-		registerMyFunction();
 
-		blocklyFlyoutDblclick();
+
+		handleFlyoutDoubleClick();
 		workspace.scrollCenter();		
 		
 		return workspace;
@@ -256,13 +257,32 @@ document.addEventListener('DOMContentLoaded', function() {
 	  block.dispose(withEvent);
 	}	
 	
-	function blocklyFlyoutDblclick(){
+	function handleFlyoutDoubleClick(){
 		var blocklyWorkspace = document.getElementsByClassName("blocklyFlyout");
 		for (var f=0;f<blocklyWorkspace.length;f++) {
 			blocklyWorkspace[f].addEventListener('dblclick', function(){ 
 				Blockly.hideChaff();
 			});
 		}
+	}
+	
+	function registerContinuoutToolboxCustomFlyout() {
+		registerMyVariable();
+		registerMyLists();
+		registerMyFunction();
+		
+		Blockly.Flyout.prototype.getDynamicCategoryContents = function(a){
+			this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYVARIABLE' ,Blockly.myvariable.flyoutCategory);
+			this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYLIST' ,Blockly.mylist.flyoutCategory);
+			this.workspace_.targetWorkspace.toolboxCategoryCallbacks.set('MYFUNCTION' ,Blockly.myfunction.flyoutCategory);		
+
+			a=this.workspace_.targetWorkspace.getToolboxCategoryCallback(a);
+			if("function"!==typeof a) {
+				throw TypeError("Couldn't find a callback function when opening a toolbox category.");
+				return null;
+			} else
+				return a(this.workspace_.targetWorkspace)
+		}		
 	}
 	
 	function registerMyVariable(){
