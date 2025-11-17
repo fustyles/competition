@@ -33,13 +33,15 @@ class ContinuousMetrics extends Blockly.MetricsManager {
 		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
 			svgMetrics.height -= toolboxMetrics.height;
 		else			
-			svgMetrics.height -= toolboxMetrics.height + flyoutMetrics.height;
+			//svgMetrics.height -= toolboxMetrics.height + flyoutMetrics.height;
+			svgMetrics.height -= toolboxMetrics.height;
       } else if (toolboxPosition == Blockly.TOOLBOX_AT_LEFT ||
           toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
 		if (this.workspace_.getToolbox().flyout_&&this.workspace_.getToolbox().flyout_.autoClose)
 			svgMetrics.width -= toolboxMetrics.width;
 		else
-			svgMetrics.width -= toolboxMetrics.width + flyoutMetrics.width;
+			//svgMetrics.width -= toolboxMetrics.width + flyoutMetrics.width;
+			svgMetrics.width -= toolboxMetrics.width;
       }
     }
 	
