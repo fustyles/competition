@@ -181,14 +181,6 @@ Blockly.Css.register([
       width: 1.25rem;
       height: 1.25rem;
     }
-    .blocklyTreeRow {
-      height: initial;
-      padding: 3px 0;
-    }
-    .blocklyTreeRowContentContainer {
-      display: flex;
-      flex-direction: column;
-    }
     .blocklyTreeLabel {
       margin: auto;
     }
@@ -215,6 +207,7 @@ Blockly.Css.register([
 	  display: flex;
 	  flex-direction: row;
 	  align-items: center;
+	  height: 100%;	 	  
 	}
 	.blocklyTreeRow {
 	  height: initial;
