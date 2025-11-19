@@ -1608,15 +1608,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			'function data_output_test (input, msg, text) {\n'+
 			'  if (input === null) {'+
 			'      input = "";'+
-			'  }'+			
-			'  var arr = input.split(";");\n'+			
-			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+	
-			'  if (text==arr[arr.length-1])\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[arr.length-1]));\n'+
+			'  }'+
+			'  variable_data_test_index++;\n'+			
+			'  var arr = input.split(";");\n'+	
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+	
+			'  if (text==arr[variable_data_test_index])\n'+
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[variable_data_test_index]));\n'+
 			'  else\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[arr.length-1]));\n'+			
-			'}';		
-
+			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[variable_data_test_index]));\n'+
+			'}';	
+			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
 		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
