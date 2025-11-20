@@ -1518,7 +1518,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		let outputResult = "";
 		let completedCount = 0;
-		const totalTests = inputArray.length;
+		let totalTests = inputArray.length;
 
 		let container = document.getElementById(containerId);
 		if (container) {
@@ -1529,39 +1529,44 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.body.appendChild(container);		
 
 		inputArray.forEach((testCode, index) => {
-			const iframe = document.createElement("iframe");
-			iframe.id = "iframe_" + index;
-			iframe.style.width = "0";
-			iframe.style.height = "0";
-			iframe.style.border = "none";
-			
-			container.appendChild(iframe);
+			if (testCode=="")
+				totalTests--;
+			else {
+				console.log(testCode);
+				const iframe = document.createElement("iframe");
+				iframe.id = "iframe_" + index;
+				iframe.style.width = "0";
+				iframe.style.height = "0";
+				iframe.style.border = "none";
+				
+				container.appendChild(iframe);
 
-			iframe.onload = async function() {
-			  iframe.onload = null;
-			  
-			  const checkFinish = async () => {
-				const body = iframe.contentWindow.document.body;
-				if (!body) return;
+				iframe.onload = async function() {
+				  iframe.onload = null;
+				  
+				  const checkFinish = async () => {
+					const body = iframe.contentWindow.document.body;
+					if (!body) return;
 
-				if (iframe.title=="ok") {
-				  const bodyContent = body.innerText;
-				  outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
-				  completedCount++;
-				  if (completedCount === totalTests) {
-					var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
-					iframeWrite("iframe_output", output);
-					if (container) container.remove();
-				  }
-				} else {
-				  setTimeout(checkFinish, 100);
-				}
-			  };
+					if (iframe.title=="ok") {
+					  const bodyContent = body.innerText;
+					  outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
+					  completedCount++;
+					  if (completedCount === totalTests) {
+						var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+						iframeWrite("iframe_output", output);
+						if (container) container.remove();
+					  }
+					} else {
+					  setTimeout(checkFinish, 100);
+					}
+				  };
 
-			  checkFinish();
-			};
+				  checkFinish();
+				};
 
-			runTest(iframe, testCode);
+				runTest(iframe, testCode);
+			}
 		});
 	}	
 
