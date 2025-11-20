@@ -1532,7 +1532,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (testCode=="")
 				totalTests--;
 			else {
-				console.log(testCode);
 				const iframe = document.createElement("iframe");
 				iframe.id = "iframe_" + index;
 				iframe.style.width = "0";
