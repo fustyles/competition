@@ -1344,8 +1344,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			GeminiKey = key;
 			gemini_chat_initial(key, gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 			
-			iframeWrite("iframe_output", "");			
-			await gemini_chat_run("?");
+			iframeWrite("iframe_output", "");
+			
+			var question = document.getElementById("query_input").value;
+			if (question.length>0)
+				await gemini_chat_run(question);
+			else				
+				await gemini_chat_run("?");
 		}
 	}
 	
