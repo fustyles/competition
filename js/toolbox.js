@@ -147,14 +147,8 @@ var catSystem = '<xml>'+
 '    <block type="text_join">'+
 '      <mutation items="2"></mutation>'+
 '      <value name="ADD0">'+
-'        <shadow type="text">'+
-'          <field name="TEXT"></field>'+
-'        </shadow>'+
 '      </value>'+
 '      <value name="ADD1">'+
-'        <shadow type="text">'+
-'          <field name="TEXT"></field>'+
-'        </shadow>'+
 '      </value>'+
 '    </block>'+
 '    <block type="text_append">'+
@@ -287,3 +281,4 @@ var catSystem = '<xml>'+
 '    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>'+
 '    <category name="%{BKY_CATAUTOCLOSE}" colour="#DDDDDD" elementname="autoclose"></category>'+
 '</xml>';
+
