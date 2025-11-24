@@ -1608,6 +1608,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 			'  input = arr[variable_data_test_index];\n'+	
+			'  if (!isNaN(input) && input.trim() !== "")\n'+
+			'      input = Number(input);\n'+				
 			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}';
