@@ -1,5 +1,5 @@
 Blockly.JavaScript['javascript_data_input'] = function(block) {	
-	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg, type) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input'] = 'async function variable_input (msg, type) {\n'+
 	'  var input;\n'+
 	'  if (type=="NUMBER") {\n'+
 	'    input = Number(prompt(msg));\n'+
@@ -11,16 +11,16 @@ Blockly.JavaScript['javascript_data_input'] = function(block) {
 
 	var type = block.getFieldValue('type');
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";	
-	var code = 'variable_input('+TEXT+', "'+type+'")';
+	var code = 'await variable_input('+TEXT+', "'+type+'")';
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['javascript_data_output'] = function(block) {
-	Blockly.JavaScript.definitions_['javascript_data_output'] = 'function data_output (msg, text) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_output'] = 'async function data_output (msg, text) {\n'+
 	'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;")+"<br>");\n'+
 	'}';	
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";
-	var code = 'data_output("'+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]+'",'+TEXT+');\n';	
+	var code = 'await data_output("'+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]+'",'+TEXT+');\n';	
 	return code;
 };
 Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript['javascript_data_output'];
@@ -37,7 +37,7 @@ Blockly.JavaScript['javascript_start_scratch'] = function(block) {
 
 Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {		
 	Blockly.JavaScript.definitions_['javascript_data_input_data'] = 'var input_data;';	
-	Blockly.JavaScript.definitions_['javascript_data_input'] = 'function variable_input (msg) {\n'+
+	Blockly.JavaScript.definitions_['javascript_data_input'] = 'async function variable_input (msg) {\n'+
 	'  var input = prompt(msg);\n'+	
 	'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 	'  if (!isNaN(input) && input.trim() !== "")\n'+
@@ -46,7 +46,7 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	'}';
 
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";	
-	var code = 'input_data = variable_input('+TEXT+');\n';
+	var code = 'input_data = await variable_input('+TEXT+');\n';
 	return code;
 };
 

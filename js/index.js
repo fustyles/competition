@@ -1582,7 +1582,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		if (!scratchStyle) {
 			code += ''+
-			'function variable_input_test (input, msg, type){\n'+
+			'async function variable_input_test (input, msg, type){\n'+
 			'  if (input === null) {'+
 			'      input = "";'+
 			'  }'+			
@@ -1600,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		} else {
 			code += ''+
-			'function variable_input_test (input, msg){\n'+
+			'async function variable_input_test (input, msg){\n'+
 			'  if (input === null) {'+
 			'      input = "";'+
 			'  }'+			
@@ -1614,7 +1614,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		code += ''+
-			'function data_output_test (input, msg, text) {\n'+
+			'async function data_output_test (input, msg, text) {\n'+
 			'  if (input === null) {'+
 			'      input = "";'+
 			'  }'+
