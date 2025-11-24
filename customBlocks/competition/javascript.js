@@ -245,11 +245,11 @@ Blockly.JavaScript['javascript_procedures_callnoreturn_scratch'] = function(bloc
 };
 
 Blockly.JavaScript['javascript_variable_ns_scratch'] = function(block) {	
-	var code = block.getFieldValue('variableName');
+	var code = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('variableName'), "VARIABLE");
 	return ["arg_"+code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['javascript_variable_boolean_scratch'] = function(block) {	
-	var code = block.getFieldValue('variableName');
+	var code = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('variableName'), "VARIABLE");
 	return ["arg_"+code, Blockly.JavaScript.ORDER_ATOMIC];
 };
