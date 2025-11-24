@@ -1607,9 +1607,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  input = arr[variable_data_test_index];\n'+	
+			'  input = arr[variable_data_test_index];\n'+
 			'  if (!isNaN(input) && input.trim() !== "")\n'+
-			'      input = Number(input);\n'+				
+			'      input = Number(input);\n'+
 			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}';
@@ -1635,7 +1635,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
-
+console.log(iframe_code);
 		try {
 			iframeWrite(iframe.id, iframe_code);				
 		} catch (e) {
