@@ -1491,7 +1491,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	  
 		var blocks = workspace.getBlocksByType("javascript_data_output");
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
-		if (blocks.length!=1&&blocks_scratch.length!=1) {
+		if (blocks.length==0&&blocks_scratch.length==0) {
 			alert(Blockly.Msg["TEST_CODE_CHECK"]);
 			return;
 		}
