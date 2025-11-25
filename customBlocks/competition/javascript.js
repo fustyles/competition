@@ -70,14 +70,14 @@ Blockly.JavaScript['controls_if_2_scratch'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['controls_repeat_ext_scratch'] = Blockly.JavaScript.forBlock['controls_repeat_ext'];
-/*
+//Blockly.JavaScript['controls_repeat_ext_scratch'] = Blockly.JavaScript.forBlock['controls_repeat_ext'];
 Blockly.JavaScript['controls_repeat_ext_scratch'] = function(block) {
-  var times = Blockly.JavaScript.valueToCode(block, 'TIMES', Blockly.JavaScript.ORDER_ATOMIC);
+  var times = Blockly.JavaScript.valueToCode(block, 'TIMES', Blockly.JavaScript.ORDER_FUNCTION_CALL);
   var statements_do = Blockly.JavaScript.statementToCode(block, 'DO');
-  return "var repeat_end = "+times+";\nfor (var repeat_i = 0; repeat_i < repeat_end; repeat_i++) {\n"+statements_do+"await delay(0.01);\n}\n";
+  var id = "times_"+block.id.replace(/[^a-zA-Z0-9 ]/g, '');
+  var i = "i_"+block.id.replace(/[^a-zA-Z0-9 ]/g, '');
+  return "var "+id+" = Number("+times+");\nfor (var "+i+" = 0; "+i+" < "+id+"; "+i+"++) {\n"+statements_do+"await delay(0.01);\n}\n";
 };
-*/
 Blockly.JavaScript['controls_whileUntil_scratch'] = Blockly.JavaScript.forBlock['controls_whileUntil'];
 Blockly.JavaScript['controls_flow_statements_scratch'] = Blockly.JavaScript.forBlock['controls_flow_statements'];
 

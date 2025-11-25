@@ -1635,7 +1635,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
-console.log(iframe_code);
+		
 		try {
 			iframeWrite(iframe.id, iframe_code);				
 		} catch (e) {
