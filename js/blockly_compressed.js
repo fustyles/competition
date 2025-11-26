@@ -2090,6 +2090,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('zelos', catSystemScratch, 1.0);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
+		this.workspace.scrollCenter();
 	} else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
 		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
@@ -2101,8 +2102,8 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('geras', catSystem, 1.0);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
+		this.workspace.scrollCenter();
 	}
-	//this.workspace.scrollCenter();
 };
 
 

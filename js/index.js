@@ -1554,7 +1554,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 					if (iframe.title=="ok") {
 					  const bodyContent = body.innerText;
-					  outputResult += "[ "+ (completedCount+1)+" ]\n\n"+bodyContent + "\n\n";
+					  outputResult += "【 "+ (completedCount+1)+" 】\n\n"+bodyContent + "\n\n";
 					  completedCount++;
 					  if (completedCount === totalTests) {
 						var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
