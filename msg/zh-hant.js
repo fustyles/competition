@@ -44,6 +44,7 @@ Blockly.Msg["ENTER_QUESTION"] = "試題";
 Blockly.Msg["ENTER_QUERY"] = "對話內容";
 Blockly.Msg["TEST_CODE"] = "評測程式";
 Blockly.Msg["TEST_DATA"] = "評測資料";
+Blockly.Msg["TEST_RUNNING"] = "程式執行中...";
 Blockly.Msg["TEST_CODE_CORRECT"] = "正確答案：%1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "正確答案：%1 🔴";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "請輸入評測資料，以分號 ; 分隔要輸入的數個評測值與答案。";

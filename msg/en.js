@@ -44,6 +44,7 @@ Blockly.Msg["ENTER_QUESTION"] = "Question";
 Blockly.Msg["ENTER_QUERY"] = "Conversation content";
 Blockly.Msg["TEST_CODE"] = "Verification Program";
 Blockly.Msg["TEST_DATA"] = "Test Data";
+Blockly.Msg["TEST_RUNNING"] = "Program is running...";
 Blockly.Msg["TEST_CODE_CORRECT"] = "Correct answer: %1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "Correct answer: %1 🔴";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter the test data. Use semicolons (;) to separate multiple test values ​​and answers.";

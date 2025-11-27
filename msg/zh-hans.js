@@ -44,6 +44,7 @@ Blockly.Msg["ENTER_QUESTION"] = "试题";
 Blockly.Msg["ENTER_QUERY"] = "对话内容";
 Blockly.Msg["TEST_CODE"] = "评测程式";
 Blockly.Msg["TEST_DATA"] = "评测资料";
+Blockly.Msg["TEST_RUNNING"] = "程式执行中...";
 Blockly.Msg["TEST_CODE_CORRECT"] = "正确答案：%1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "正确答案：%1 🔴";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "请输入评测资料，以分号 ; 分隔要输入的数个评测值与答案。";
