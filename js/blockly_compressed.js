@@ -2099,7 +2099,7 @@ zoomChangeToolbox(){
 		this.workspace.dispose();
 		this.workspace = null;
 		document.getElementById("root").innerHTML = "";		
-		this.workspace = window.loadToolbox('geras', catSystem, 1.0);
+		this.workspace = window.loadToolbox('geras', catSystem, 0.9);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
 		this.workspace.scrollCenter();
