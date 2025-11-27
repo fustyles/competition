@@ -1232,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	setTimeout(function(){
 		loadToolbox('geras', catSystem, 1.0);
 		//scratchStyle = true;
-		//loadToolbox('zelos', catSystemScratch, 0.8);
+		//loadToolbox('zelos', catSystemScratch, 0.9);
 		updateMsg();
 		newFile();
 	}, 1000);
