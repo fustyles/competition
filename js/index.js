@@ -1754,7 +1754,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.workspace.dispose();
 			this.workspace = null;
 			document.getElementById("root").innerHTML = "";
-			var workspace = window.loadToolbox('zelos', catSystemScratch, 1.0);
+			var workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 			if (xmlScratch)
 				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), workspace);
 		} else {
@@ -1765,7 +1765,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.workspace.dispose();
 			this.workspace = null;
 			document.getElementById("root").innerHTML = "";		
-			var workspace = window.loadToolbox('geras', catSystem, 1.0);
+			var workspace = window.loadToolbox('geras', catSystem, 0.9);
 			if (xmlBlockly)
 				Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), workspace);
 		}
