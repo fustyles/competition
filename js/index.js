@@ -1230,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 		
 	setTimeout(function(){
-		loadToolbox('geras', catSystem, 1.0);
+		loadToolbox('geras', catSystem, 0.9);
 		//scratchStyle = true;
 		//loadToolbox('zelos', catSystemScratch, 0.9);
 		updateMsg();
