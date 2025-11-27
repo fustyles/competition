@@ -1455,6 +1455,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			
 			try {
+				iframeWrite("iframe_output", Blockly.Msg["TEST_RUNNING"]);
 				iframeWrite(iframe.id, iframe_code);				
 			} catch (e) {
 				console.log(e);
@@ -1514,6 +1515,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}	  
 
 		if (inputArray.length>0) {
+			iframeWrite("iframe_output", Blockly.Msg["TEST_RUNNING"]);
 			runMultipleIframeTests(inputArray);
 		}
 	}

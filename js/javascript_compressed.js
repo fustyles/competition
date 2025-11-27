@@ -330,8 +330,14 @@ procedures_defreturn$$module$build$src$generators$javascript$procedures=function
 }
 
 
-,procedures_callreturn$$module$build$src$generators$javascript$procedures=function(a,b){const c=b.nameDB_.getName(a.getFieldValue("NAME"),$.NameType$$module$build$src$core$names.PROCEDURE),d=[],e=a.getVars();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"null";return["await "+c+"("+d.join(", ")+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]},
-procedures_callnoreturn$$module$build$src$generators$javascript$procedures=function(a,b){return "await "+b.forBlock.procedures_callreturn(a,b)[0]+";\n"},procedures_ifreturn$$module$build$src$generators$javascript$procedures=function(a,b){let c="if ("+(b.valueToCode(a,"CONDITION",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"false")+") {\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||
+,procedures_callreturn$$module$build$src$generators$javascript$procedures=function(a,b){
+	const c=b.nameDB_.getName(a.getFieldValue("NAME"),$.NameType$$module$build$src$core$names.PROCEDURE),d=[],e=a.getVars();for(let f=0;f<e.length;f++)d[f]=b.valueToCode(a,"ARG"+f,Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"null";
+	return["await "+c+"("+d.join(", ")+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]
+}
+,
+procedures_callnoreturn$$module$build$src$generators$javascript$procedures=function(a,b){
+	return "await "+b.forBlock.procedures_callreturn(a,b)[0]+";\n"
+},procedures_ifreturn$$module$build$src$generators$javascript$procedures=function(a,b){let c="if ("+(b.valueToCode(a,"CONDITION",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"false")+") {\n";b.STATEMENT_SUFFIX&&(c+=b.prefixLines(b.injectId(b.STATEMENT_SUFFIX,a),b.INDENT));a.hasReturnValue_?(a=b.valueToCode(a,"VALUE",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||
 "null",c+=b.INDENT+"return "+a+";\n"):c+=b.INDENT+"return;\n";return c+"}\n"},text$$module$build$src$generators$javascript$text=function(a,b){return[b.quote_(a.getFieldValue("TEXT")),Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]},
 
 text_noquotes$$module$build$src$generators$javascript$text=function(a,b){
