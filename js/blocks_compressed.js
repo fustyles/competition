@@ -452,7 +452,8 @@ updateShape_: function() {
                 .setAlign($.Align$$module$build$src$core$inputs$input.RIGHT)
                 .appendField(b, "ARGNAME" + a)
                 .init();
-				
+			
+/*			
 			const blockDom = Blockly.utils.xml.createElement('shadow');
 			blockDom.setAttribute('type', "text");
 
@@ -460,16 +461,15 @@ updateShape_: function() {
 			fieldDom.setAttribute('name', 'TEXT');
 			fieldDom.textContent = "";
 			blockDom.appendChild(fieldDom);
-
 			const newBlock = Blockly.Xml.domToBlock(blockDom, this.workspace);
 			const newBlockConnection = newBlock.outputConnection;
-
 
 			const input = this.getInput("ARG" + a);
 			const inputConnection = input ? input.connection : null;
 			if (inputConnection) {
 				inputConnection.connect(newBlockConnection);
-			}					
+			}
+*/				
         }
     }
     
