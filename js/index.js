@@ -1477,6 +1477,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	*/
 	document.getElementById('button_test').onclick = function () {
 		document.getElementById('javascript_content').style.display = "block";
+		reloadZoom();
 		
 	    if (scratchStyle) {
 		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
@@ -1610,7 +1611,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
 			'  input = arr[variable_data_test_index];\n'+
-			'  if (!isNaN(input) && input.trim() !== "")\n'+
+			'  if (input && !isNaN(input) && input.trim() !== "")\n'+
 			'      input = Number(input);\n'+
 			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
@@ -1650,6 +1651,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	}		
 	
 	document.getElementById('button_run').onclick = function () {
+		document.getElementById('javascript_content').style.display = "block";
+		reloadZoom();
 		document.getElementById('iframe_output').innerHTML = "";
 		stopCode();
 		setTimeout(function(){
@@ -1817,6 +1820,7 @@ function textareaFocus(id) {
 }
 
 function contentZoom(content) {
+	if (!content) content = "javascript";
 	const div_title = document.getElementById(content+"_title");
 	const div_content = document.getElementById(content+"_content");
 	const div_code = document.getElementById(content+"_code");
@@ -1848,29 +1852,29 @@ function contentZoom(content) {
 }
 
 function reloadZoom(content) {
-    const div_content = document.getElementById(content + "_content");
+	if (!content) content = "javascript";
 
-    if (div_content.style.height != "40px") {
-        const contentDiv = document.getElementById("javascript_content");
+	const codeDiv = document.getElementById(content+"_code");
+	codeDiv.style.display = "block";
 
-        contentDiv.style.width = '450px';
-        contentDiv.style.height = 'calc(100vh - 100px)';
-        contentDiv.style.left = 'calc(100vw - 478px)';
-        contentDiv.style.top = '64px';
-        contentDiv.style.padding = '0em';
-        contentDiv.style.fontSize = '14px';
-        contentDiv.style.position = 'absolute';
+    const contentDiv = document.getElementById(content + "_content");
+	contentDiv.style.width = '450px';
+	contentDiv.style.height = 'calc(100vh - 100px)';
+	contentDiv.style.left = 'calc(100vw - 478px)';
+	contentDiv.style.top = '64px';
+	contentDiv.style.padding = '0em';
+	contentDiv.style.fontSize = '14px';
+	contentDiv.style.position = 'absolute';
 
-        const questionInput = document.getElementById("question_input");
-        const queryInput = document.getElementById("query_input");
+	const questionInput = document.getElementById("question_input");
+	const queryInput = document.getElementById("query_input");
 
-		questionInput.style.flex = '1';
-		questionInput.style.height = '25%';
-		questionInput.style.width = '98%';
+	questionInput.style.flex = '1';
+	questionInput.style.height = '25%';
+	questionInput.style.width = '98%';
 
-		queryInput.style.width = '72%';
-		queryInput.style.height = '3.2em';
-    }
+	queryInput.style.width = '72%';
+	queryInput.style.height = '3.2em';
 }
 
 if (typeof require !== "undefined") {
