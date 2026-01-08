@@ -1726,7 +1726,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						workspace.getToolbox().clearSelection();
 						workspace.getToolbox().refreshSelection();
 						
-						workspace.scrollCenter();
+						//workspace.scrollToStart();
 					
 						document.getElementById('javascript_content').style.display = "none";
 						javascriptCode();

@@ -2008,7 +2008,20 @@ new Size$$module$build$src$core$utils$size(this.WIDTH,d),this.MARGIN_HORIZONTAL,
 	}
 	this.top=b.top;
 	//this.left=b.left;
-	this.left = this.workspace.getToolbox().getWidth()+60;
+	if (this.workspace.getToolbox().flyout_ && this.workspace.getToolbox().flyout_.autoClose)
+		this.left = this.workspace.getToolbox().getWidth()+60;
+	else {
+		const toolboxWidth = this.workspace.getToolbox()
+		  ? this.workspace.getToolbox().getWidth()
+		  : 0;
+
+		const flyout = this.workspace.getFlyout();
+		const flyoutWidth = flyout && flyout.isVisible()
+		  ? flyout.getWidth()
+		  : 0;
+
+		this.left = toolboxWidth + flyoutWidth + 60;
+	}	
 		
 	var g;
 	null==(g=this.svgGroup)||g.setAttribute("transform","translate("+this.left+","+this.top+") rotate(180)")}
@@ -2090,7 +2103,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
-		this.workspace.scrollCenter();
+		this.workspace.scrollToStart();
 	} else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
 		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
@@ -2102,7 +2115,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('geras', catSystem, 0.9);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
-		this.workspace.scrollCenter();
+		this.workspace.scrollToStart();
 	}
 };
 
@@ -2440,9 +2453,25 @@ Position$$module$build$src$core$utils$toolbox.LEFT?new Rect$$module$build$src$co
 this.wouldDelete_&&(this.updateCursorDeleteStyle_(!1),this.wouldDelete_=a,this.updateCursorDeleteStyle_(!0))}updateCursorDeleteStyle_(a){const b=this.wouldDelete_?"blocklyToolboxDelete":"blocklyToolboxGrab";a?this.addStyle(b):this.removeStyle(b)}getToolboxItemById(a){return this.contentMap_[a]||null}getWidth(){return this.width_}getHeight(){return this.height_}getFlyout(){return this.flyout_}getWorkspace(){return this.workspace_}getSelectedItem(){return this.selectedItem_}getPreviouslySelectedItem(){return this.previouslySelectedItem_}isHorizontal(){return this.horizontalLayout_}position(){const a=
 this.workspace_.getMetrics(),b=this.HtmlDiv;b&&(this.horizontalLayout_?(b.style.left="0",b.style.height="auto",b.style.width="100%",this.height_=b.offsetHeight,this.width_=a.viewWidth,this.toolboxPosition===Position$$module$build$src$core$utils$toolbox.TOP?b.style.top="0":b.style.bottom="0"):(this.toolboxPosition===Position$$module$build$src$core$utils$toolbox.RIGHT?b.style.right="0":b.style.left="0",b.style.height="100%",this.width_=b.offsetWidth,this.height_=a.viewHeight),this.flyout_.position())}handleToolboxItemResize(){const a=
 this.workspace_,b=this.HtmlDiv.getBoundingClientRect();a.translate(this.toolboxPosition===Position$$module$build$src$core$utils$toolbox.LEFT?a.scrollX+b.width:a.scrollX,this.toolboxPosition===Position$$module$build$src$core$utils$toolbox.TOP?a.scrollY+b.height:a.scrollY);svgResize$$module$build$src$core$common(a)}clearSelection(){this.setSelectedItem(null)}refreshTheme(){for(let a=0;a<this.contents_.length;a++){const b=this.contents_[a];b.refreshTheme&&b.refreshTheme()}}refreshSelection(){this.selectedItem_&&
-this.selectedItem_.isSelectable()&&this.selectedItem_.getContents().length&&this.flyout_.show(this.selectedItem_.getContents())}setVisible(a){this.isVisible_!==a&&(this.HtmlDiv.style.display=a?"block":"none",this.isVisible_=a,this.workspace_.recordDragTargets())}autoHide(a){!a&&this.flyout_&&this.flyout_.autoClose&&this.clearSelection()}setSelectedItem(a){const b=this.selectedItem_;!a&&!b||a&&!isSelectableToolboxItem$$module$build$src$core$interfaces$i_selectable_toolbox_item(a)||(this.shouldDeselectItem_(b,
-a)&&null!==b&&this.deselectItem_(b),this.shouldSelectItem_(b,a)&&null!==a&&this.selectItem_(b,a),this.updateFlyout_(b,a),this.fireSelectEvent_(b,a))}shouldDeselectItem_(a,b){return null!==a&&(!a.isCollapsible()||a!==b)}shouldSelectItem_(a,b){return null!==b&&b!==a}deselectItem_(a){this.selectedItem_=null;this.previouslySelectedItem_=a;a.setSelected(!1);setState$$module$build$src$core$utils$aria(this.contentsDiv_,State$$module$build$src$core$utils$aria.ACTIVEDESCENDANT,"")}selectItem_(a,b){this.selectedItem_=
-b;this.previouslySelectedItem_=a;b.setSelected(!0);setState$$module$build$src$core$utils$aria(this.contentsDiv_,State$$module$build$src$core$utils$aria.ACTIVEDESCENDANT,b.getId())}selectItemByPosition(a){-1<a&&a<this.contents_.length&&(a=this.contents_[a],a.isSelectable()&&this.setSelectedItem(a))}updateFlyout_(a,b){b&&(a!==b||b.isCollapsible())&&b.getContents().length?(this.flyout_.show(b.getContents()),this.flyout_.scrollToStart()):this.flyout_.hide()}fireSelectEvent_(a,b){const c=a&&a.getName();
+this.selectedItem_.isSelectable()&&this.selectedItem_.getContents().length&&this.flyout_.show(this.selectedItem_.getContents())}setVisible(a){this.isVisible_!==a&&(this.HtmlDiv.style.display=a?"block":"none",this.isVisible_=a,this.workspace_.recordDragTargets())}autoHide(a){!a&&this.flyout_&&this.flyout_.autoClose&&this.clearSelection()}
+setSelectedItem(a){
+	const b=this.selectedItem_;!a&&!b||a&&!isSelectableToolboxItem$$module$build$src$core$interfaces$i_selectable_toolbox_item(a)||(
+		this.shouldDeselectItem_(b,a)&&null!==b&&this.deselectItem_(b),
+		this.shouldSelectItem_(b,a)&&null!==a&&this.selectItem_(b,a),
+		this.updateFlyout_(b,a),
+		Blockly.svgResize(this.workspace_),
+		this.fireSelectEvent_(b,a)
+	)
+}
+shouldDeselectItem_(a,b){return null!==a&&(!a.isCollapsible()||a!==b)}shouldSelectItem_(a,b){return null!==b&&b!==a}deselectItem_(a){this.selectedItem_=null;this.previouslySelectedItem_=a;a.setSelected(!1);setState$$module$build$src$core$utils$aria(this.contentsDiv_,State$$module$build$src$core$utils$aria.ACTIVEDESCENDANT,"")}selectItem_(a,b){this.selectedItem_=
+b;this.previouslySelectedItem_=a;b.setSelected(!0);setState$$module$build$src$core$utils$aria(this.contentsDiv_,State$$module$build$src$core$utils$aria.ACTIVEDESCENDANT,b.getId())}selectItemByPosition(a){-1<a&&a<this.contents_.length&&(a=this.contents_[a],a.isSelectable()&&this.setSelectedItem(a))}
+updateFlyout_(a,b){
+	b&&(a!==b||b.isCollapsible())&&b.getContents().length?(
+	this.flyout_.show(b.getContents())
+	,this.flyout_.scrollToStart()
+	):this.flyout_.hide()
+}
+fireSelectEvent_(a,b){const c=a&&a.getName();
 let d=b&&b.getName();a===b&&(d=null);a=new (get$$module$build$src$core$events$utils(TOOLBOX_ITEM_SELECT$$module$build$src$core$events$utils))(c,d,this.workspace_.id);fire$$module$build$src$core$events$utils(a)}selectParent_(){return this.selectedItem_?this.selectedItem_.isCollapsible()&&this.selectedItem_.isExpanded()?(this.selectedItem_.toggleExpanded(),!0):this.selectedItem_.getParent()&&this.selectedItem_.getParent().isSelectable()?(this.setSelectedItem(this.selectedItem_.getParent()),!0):!1:!1}selectChild_(){if(!this.selectedItem_||
 !this.selectedItem_.isCollapsible())return!1;const a=this.selectedItem_;a.isExpanded()?this.selectNext_():a.toggleExpanded();return!0}selectNext_(){if(!this.selectedItem_)return!1;let a=this.contents_.indexOf(this.selectedItem_)+1;if(-1<a&&a<this.contents_.length){let b=this.contents_[a];for(;b&&!b.isSelectable();)b=this.contents_[++a];if(b&&b.isSelectable())return this.setSelectedItem(b),!0}return!1}selectPrevious_(){if(!this.selectedItem_)return!1;let a=this.contents_.indexOf(this.selectedItem_)-
 1;if(-1<a&&a<this.contents_.length){let b=this.contents_[a];for(;b&&!b.isSelectable();)b=this.contents_[--a];if(b&&b.isSelectable())return this.setSelectedItem(b),!0}return!1}dispose(){this.workspace_.getComponentManager().removeComponent("toolbox");this.flyout_.dispose();for(var a=0;a<this.contents_.length;a++)this.contents_[a].dispose();for(a=0;a<this.boundEvents_.length;a++)unbind$$module$build$src$core$browser_events(this.boundEvents_[a]);this.boundEvents_=[];this.contents_=[];this.HtmlDiv&&(this.workspace_.getThemeManager().unsubscribe(this.HtmlDiv),
@@ -2461,8 +2490,21 @@ position(a,b){
 	if(this.initialized){var c=getCornerOppositeToolbox$$module$build$src$core$positionable_helpers(this.workspace,a);a=getStartPositionRect$$module$build$src$core$positionable_helpers(c,new Size$$module$build$src$core$utils$size(WIDTH$$module$build$src$core$trashcan,BODY_HEIGHT$$module$build$src$core$trashcan+LID_HEIGHT$$module$build$src$core$trashcan),MARGIN_HORIZONTAL$$module$build$src$core$trashcan,MARGIN_VERTICAL$$module$build$src$core$trashcan,a,this.workspace);b=bumpPositionRect$$module$build$src$core$positionable_helpers(a,MARGIN_VERTICAL$$module$build$src$core$trashcan,c.vertical===verticalPosition$$module$build$src$core$positionable_helpers.TOP?bumpDirection$$module$build$src$core$positionable_helpers.DOWN:bumpDirection$$module$build$src$core$positionable_helpers.UP,b);
 	this.top=b.top;
 	//this.left=b.left;
-	this.left = this.workspace.getToolbox().getWidth()+22;	
-	
+	if (this.workspace.getToolbox().flyout_ && this.workspace.getToolbox().flyout_.autoClose)
+		this.left = this.workspace.getToolbox().getWidth()+22;	
+	else {
+		const toolboxWidth = this.workspace.getToolbox()
+		  ? this.workspace.getToolbox().getWidth()
+		  : 0;
+
+		const flyout = this.workspace.getFlyout();
+		const flyoutWidth = flyout && flyout.isVisible()
+		  ? flyout.getWidth()
+		  : 0;
+
+		this.left = toolboxWidth + flyoutWidth + 22;
+	}
+
 	var d;
 	null==(d=this.svgGroup)||d.setAttribute("transform","translate("+this.left+","+this.top+")")}
 }
