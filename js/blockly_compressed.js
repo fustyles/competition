@@ -2103,7 +2103,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('zelos', catSystemScratch, 0.9);
 		if (xmlScratch)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlScratch), this.workspace);
-		this.workspace.scrollToStart();
+		this.workspace.scrollCenter();
 	} else {
 		Blockly.Msg["PROCEDURES_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"];
 		Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS"] = Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"];		
@@ -2115,7 +2115,7 @@ zoomChangeToolbox(){
 		this.workspace = window.loadToolbox('geras', catSystem, 0.9);
 		if (xmlBlockly)
 			Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlBlockly), this.workspace);
-		this.workspace.scrollToStart();
+		this.workspace.scrollCenter();
 	}
 };
 
@@ -2468,7 +2468,7 @@ b;this.previouslySelectedItem_=a;b.setSelected(!0);setState$$module$build$src$co
 updateFlyout_(a,b){
 	b&&(a!==b||b.isCollapsible())&&b.getContents().length?(
 	this.flyout_.show(b.getContents())
-	,this.flyout_.scrollToStart()
+	//,this.flyout_.scrollToStart()
 	):this.flyout_.hide()
 }
 fireSelectEvent_(a,b){const c=a&&a.getName();
