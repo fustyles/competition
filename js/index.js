@@ -738,6 +738,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			
         toggleImportQuestionForm(true);
     });
+	
+    document.getElementById('editButton').addEventListener('click', () => {
+		const sheetId = Blockly.Msg["IMPORTQUESTION_SHEET_ID"];
+		const gid = Blockly.Msg["IMPORTQUESTION_SHEET_GID"];
+
+		const url = `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`;
+		window.open(url, "_blank");		
+    });		
 
     document.getElementById('importCancelButton').addEventListener('click', () => {
         toggleImportQuestionForm(false);
