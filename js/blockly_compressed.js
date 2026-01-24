@@ -2059,7 +2059,16 @@ createZoomResetSvg(a){this.zoomResetGroup=createSvgElement$$module$build$src$cor
 
 resetZoom(a){this.workspace.markFocused();const b=Math.log(this.workspace.options.zoomOptions.startScale/this.workspace.scale)/Math.log(this.workspace.options.zoomOptions.scaleSpeed);this.workspace.beginCanvasTransition();this.workspace.zoomCenter(b);setTimeout(this.workspace.endCanvasTransition.bind(this.workspace),500);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();a.stopPropagation();a.preventDefault();this.workspace.scrollCenter();}
 
-zoom(a,b){this.workspace.markFocused();this.workspace.zoomCenter(a);this.fireZoomEvent();clearTouchIdentifier$$module$build$src$core$touch();b.stopPropagation();b.preventDefault();this.workspace.scrollCenter();}
+zoom(a,b){
+	this.workspace.markFocused();
+	this.workspace.zoomCenter(a);
+	this.fireZoomEvent();
+	clearTouchIdentifier$$module$build$src$core$touch();
+	b.stopPropagation();
+	b.preventDefault();
+	//this.workspace.scrollCenter();
+	this.workspace.resize();
+}
 
 zoomPrevious(){this.workspace.undo(false);};
 zoomNext(){this.workspace.undo(true);};
