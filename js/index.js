@@ -1448,7 +1448,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				const body = iframe.contentWindow.document.body;
 				if (!body) return;
 
-				if (iframe.title=="ok") {
+				if (iframe.title=="ok"||iframe.title=="err") {
 				  const bodyContent = body.innerText;
 				  var output = bodyContent.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 				  iframeWrite("iframe_output", output);
@@ -1534,6 +1534,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		let outputResult = "";
 		let completedCount = 0;
+		let rightCount = 0;
 		let totalTests = inputArray.length;
 
 		let container = document.getElementById(containerId);
@@ -1563,11 +1564,14 @@ document.addEventListener('DOMContentLoaded', function() {
 					const body = iframe.contentWindow.document.body;
 					if (!body) return;
 
-					if (iframe.title=="ok") {
+					if (iframe.title=="ok"||iframe.title=="err") {
 					  const bodyContent = body.innerText;
 					  outputResult += "【 "+ (completedCount+1)+" 】\n"+bodyContent + "\n\n";
 					  completedCount++;
+					  if (iframe.title=="ok")
+						  rightCount++;
 					  if (completedCount === totalTests) {
+						outputResult += "\n\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： " + rightCount + " / " + completedCount;
 						var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 						iframeWrite("iframe_output", output);
 						if (container) container.remove();
@@ -1643,7 +1647,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"console.log(document.body.innerHTML);window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 		

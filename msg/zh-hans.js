@@ -47,6 +47,7 @@ Blockly.Msg["TEST_DATA"] = "测资数据";
 Blockly.Msg["TEST_RUNNING"] = "程式执行中...";
 Blockly.Msg["TEST_CODE_CORRECT"] = "答案：%1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "答案：%1 🔴";
+Blockly.Msg["TEST_CODE_CORRECT_COUNT"] = "答对数";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "请输入评测资料，以分号 ; 分隔要输入的数个评测值与答案。";
 Blockly.Msg["TEST_CODE_CHECK"] = "工作区必须只有一个输出积木并置于程式的结尾，取消评测！";
 Blockly.Msg["TEST_DATA_JSON_ERROR"] = "评测JSON资料格式错误，取消评测！";
