@@ -490,7 +490,7 @@ registerBlockOptions_$$module$build$src$core$contextmenu_items=function(){regist
 
 
 
-
+/*
 registerDownload$$module$build$src$core$contextmenu_items=function(){
 	ContextMenuRegistry$$module$build$src$core$contextmenu_registry.registry.register(
 		{
@@ -503,6 +503,7 @@ registerDownload$$module$build$src$core$contextmenu_items=function(){
 };
 
 registerDownload$$module$build$src$core$contextmenu_items();
+*/
 
 registerDelete$$module$build$src$core$contextmenu_items();registerHelp$$module$build$src$core$contextmenu_items()};
 registerDefaultOptions$$module$build$src$core$contextmenu_items=function(){registerWorkspaceOptions_$$module$build$src$core$contextmenu_items();registerBlockOptions_$$module$build$src$core$contextmenu_items()};isProcedureBlock$$module$build$src$core$interfaces$i_procedure_block=function(a){return void 0!==a.getProcedureModel&&void 0!==a.doProcedureUpdate&&void 0!==a.isProcedureDef};

@@ -37,4 +37,5 @@ var msg = [
 ["editButton", "innerHTML", Blockly.Msg["EDITBUTTON"]],
 ["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]],
 ["button_key", "title", Blockly.Msg["BUTTON_GEMINI_API_KEY"]],
+["button_png", "title", Blockly.Msg["DOWNLOAD"]]
 ];

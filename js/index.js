@@ -1329,6 +1329,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
+	document.getElementById('button_png').onclick = function () {
+		Blockly.downloadScreenshot(workspace)
+	}	
+	
 	var output_result = "";
 	var gemini_model = "gemini-2.5-flash-lite";
 	
