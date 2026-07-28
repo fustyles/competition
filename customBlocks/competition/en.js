@@ -1,4 +1,4 @@
-Blockly.Msg["CATSCRATCH1"] = "Events";
+Blockly.Msg["CATSCRATCH1"] = "Dedicated";
 Blockly.Msg["CATSCRATCH2"] = "Control";
 Blockly.Msg["CATSCRATCH3"] = "Operators";
 Blockly.Msg["CATSCRATCH4"] = "Variables";

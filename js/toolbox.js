@@ -1,13 +1,17 @@
 var catSystem = '<xml>'+
 '    <category name="%{BKY_CATEVENTS}" colour="%{BKY_TEXTS_HUE}">'+
-'    <block type="javascript_data_output">'+
+'    <block type="javascript_start_scratch">'+
+'    </block>'+
+'    <block type="javascript_data_input_scratch">'+
 '    <value name="TEXT">'+
-'    <shadow type="text">'+
-'    <field name="TEXT">abc</field>'+
+'    <shadow type="text_noquotes">'+
+'    <field name="TEXT"></field>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
-'    <block type="javascript_data_input">'+
+'    <block type="javascript_data_input_get_scratch">'+
+'    </block>'+
+'    <block type="javascript_data_output">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+
 '    <field name="TEXT"></field>'+
@@ -219,13 +223,6 @@ var catSystem = '<xml>'+
 '    </value>'+
 '    </block>'+
 '    <block type="text_trim">'+
-'    <value name="TEXT">'+
-'    <shadow type="text">'+
-'    <field name="TEXT">abc</field>'+
-'    </shadow>'+
-'    </value>'+
-'    </block>'+
-'    <block type="javascript_data_output">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+
 '    <field name="TEXT">abc</field>'+

@@ -1,4 +1,4 @@
-Blockly.Msg["CATSCRATCH1"] = "事件";
+Blockly.Msg["CATSCRATCH1"] = "專用";
 Blockly.Msg["CATSCRATCH2"] = "控制";
 Blockly.Msg["CATSCRATCH3"] = "運算";
 Blockly.Msg["CATSCRATCH4"] = "變數";
