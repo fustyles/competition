@@ -76,6 +76,127 @@
 	padding: 10px;
 }
 
+#aiAssistant_content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+}
+
+
+#aiAssistant_content {
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+#aiAssistant_message {
+    width: 97%;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+#aiAssistant_key,
+#aiAssistant_model {
+    box-sizing: border-box;
+}
+
+/* 只讓 AI 助手這個表單變成非鎖定模式，其他彈窗維持原本的模態行為 */
+#aiAssistant {
+    background-color: transparent; /* 拿掉半透明黑色遮罩，視覺上更明確表示「非鎖定」 */
+    pointer-events: none;          /* 外層整片透明區域不攔截點擊，點擊會穿透到底下的工作區 */
+}
+
+#aiAssistant #aiAssistant_content {
+    pointer-events: auto;          /* 表單本體(白色卡片)還是要能正常點擊、輸入、拖曳 */
+}
+
+#aiAssistant #aiAssistant_header {
+    cursor: move;
+    user-select: none; /* 拖曳時避免選取到文字 */
+}
+
+#aiAssistant_key {
+    width: 270px; /* 依你想要的寬度調整 */
+    height: 30px;
+}
+
+#aiAssistant_model {
+    width: 200px; /* 依你想要的寬度調整 */
+    height: 30px;    
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 10px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+/* 使用者訊息：靠右、藍底 */
+.chat-bubble.user {
+    align-self: flex-end;
+    background-color: #4a90e2;
+    color: #fff;
+    border-bottom-right-radius: 2px;
+}
+
+/* AI 回覆：靠左、灰底 */
+.chat-bubble.ai {
+    align-self: flex-start;
+    background-color: #f1f1f1;
+    color: #222;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-bubble .role-label {
+    display: block;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+
+/* Markdown 內容微調 */
+.chat-bubble pre {
+    background: rgba(0,0,0,0.06);
+    padding: 6px 8px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12px;
+}
+.chat-bubble code {
+    background: rgba(0,0,0,0.08);
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.chat-bubble.ai pre, .chat-bubble.ai code { background: rgba(0,0,0,0.06); }
+.chat-bubble.user pre, .chat-bubble.user code { background: rgba(255,255,255,0.2); color:#fff; }
+.chat-bubble p { margin: 4px 0; }
+.chat-bubble ul, .chat-bubble ol { margin: 4px 0 4px 18px; }
+
 /* 標題樣式 */
 .header {
     background-color: #e0e0e0;

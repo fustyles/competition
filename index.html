@@ -1,9 +1,11 @@
 <!--
 @license
-Copyright 2025 Taiwan (ChungYi Fu)
+Copyright 2026 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 6/4/2025 00:00 (Taiwan Standard Time)
+@Update 2/9/2026 00:00 (Taiwan Standard Time)
+
+Main page: https://fustyles.github.io/competition/
 -->
 
 
@@ -40,6 +42,8 @@ Copyright 2025 Taiwan (ChungYi Fu)
 	<script src="plugin/ContinuousToolbox/ContinuousFlyout.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousToolbox.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
+	<script src="js/marked.min.js"></script>
+	<script src="js/purify.min.js"></script>	
 </head>
 <body class="root">
 <main id="main" class="has-tabs" >
@@ -58,8 +62,8 @@ Copyright 2025 Taiwan (ChungYi Fu)
 					<!-- https://fonts.google.com/icons -->
 					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons md-dark">play_arrow</i></a>
 					<a href="#" id="button_test" title="Verification Program"><i class="material-icons md-dark">done</i></a>
+                    <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>
 					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
-					<a href="#" id="button_key" title="Input Gemini API Key"><i class="material-icons md-dark">key</i></a>
 					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons md-dark">create</i></a>
 					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons md-dark">folder_open</i></a>
 					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
@@ -102,8 +106,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
 		</div>
 		<div id="javascript_code" class="update_code">
 			<span id="enter_question" placeholder="Enter question">Question</span><br>
-			<textarea id="question_input" style="flex:1;height:25%;width:98%;" onfocus="this.select()"></textarea>
-			<ul id="tabs"><textarea id="query_input" style="height:3.2em;width:72%;" onfocus="this.select()" placeholder="Chat with AI"></textarea>　<a href="#" id="gemini_clear" title="Import your blocks"><i class="material-icons md-dark">autorenew</i></a>　<a href="#" id="gemini_ask" title="Import your blocks"><i class="material-icons md-dark">face_retouching_natural</i></a></ul>	
+			<textarea id="question_input" style="flex:1;height:25%;width:98%;" onfocus="this.select()"></textarea>	
 			<iframe id="iframe_output" style="width:100%; height:60%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
 		</div>
 	</div>
@@ -139,7 +142,7 @@ Copyright 2025 Taiwan (ChungYi Fu)
             </div>
             <div class="form-group-row">
                 <label id="importQuestion_sheet_name_title" for="importQuestion_sheet_name">工作表名稱</label>
-                <input id="importQuestion_sheet_name" type="text" id="sheetName" value=""  onfocus="this.select()">				
+                <input id="importQuestion_sheet_name" type="text" id="sheetName" value="" onfocus="this.select()">				
                 <label id="importQuestion_sheet_keyword_title" for="importQuestion_sheet_keyword">關鍵字</label>
                 <input id="importQuestion_sheet_keyword" type="text" id="sheetKeyword" value="">
 				<button id="importQuestionsButton" class="action-button">查詢題庫</button>				
@@ -153,6 +156,34 @@ Copyright 2025 Taiwan (ChungYi Fu)
             </div>
         </div>
     </div>	
+	
+	<div id="aiAssistant" class="modal-container">
+		<div id="aiAssistant_content">
+			<div id="aiAssistant_header" class="header">AI 解題助手</div>
+			<div class="form-group">
+				<div id="aiAssistantsMessages" class="chat-messages"></div>
+			</div>            
+			<div class="form-group-row">		
+				<label id="aiAssistant_key_title" for="aiAssistant_key">Gemini 金鑰</label>
+				<input id="aiAssistant_key" type="text" value="" placeholder="請輸入金鑰" onfocus="this.select()">				
+				<label id="aiAssistant_model_title" for="aiAssistant_model">模型</label>
+				<select id="aiAssistant_model">
+					  <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>                
+			          <option value="gemini-3.6-flash">gemini-3.6-flash</option>
+					  <option value="gemini-3.5-flash">gemini-3.5-flash</option>
+					  <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite</option>
+				</select>
+			</div>         
+            <div class="form-group-row">
+                <textarea id="aiAssistant_message" rows="4" placeholder="請輸入對話內容" ></textarea>
+            </div>		
+			<div class="button-group-footer">
+                <button id="aiCancelButton" class="action-button">關閉視窗</button>
+                <button id="aiResetButton" class="action-button">重設對話</button>
+                <button id="aiAssistantsChatButton" class="action-button">送出</button>				
+			</div>
+		</div>
+	</div>
 </div>
 </main>
 

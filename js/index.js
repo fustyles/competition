@@ -18,7 +18,8 @@ var xmlScratch = "";
 var workspaceChangeTimer;
 var blockChangeTimer;
 var createFunctionVariable = ["", []];
-var GeminiKey = Blockly.Msg["GEMINI_KEY"];
+var apiKey = "";
+var apiModel = "";
 
 document.addEventListener('DOMContentLoaded', function() {
 	
@@ -738,6 +739,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			
         toggleImportQuestionForm(true);
     });
+    
+	function toggleAiAssistantForm(show) {
+		const formDiv = document.getElementById('aiAssistant');
+		if (show) {
+			formDiv.style.display = 'flex'; 			
+		} else {
+			formDiv.style.display = 'none';
+		}
+	}
+	window.toggleAiAssistantForm = toggleAiAssistantForm;
+    
+    document.getElementById('button_ai').addEventListener('click', () => {	
+        toggleAiAssistantForm(true);
+    });    
 	
     document.getElementById('editButton').addEventListener('click', () => {
 		const sheetId = Blockly.Msg["IMPORTQUESTION_SHEET_ID"];
@@ -1334,77 +1349,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 	
 	var output_result = "";
-	var gemini_model = "gemini-2.5-flash-lite";
-	
-	gemini_chat_initial(CryptoJS.AES.decrypt(GeminiKey, 'test').toString(CryptoJS.enc.Utf8), gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
 
 	async function gemini_chat_response(gemini_chat_data) {
-		var iframeElement = document.getElementById('iframe_output');
-		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
-		iframeDocument.body.insertAdjacentHTML("beforeend", "<br>"+gemini_chat_response_br(gemini_chat_data.replace(/\*\*/g,""), 'br'));
-		if (GeminiKey==Blockly.Msg["GEMINI_KEY"]&&gemini_chat_data.toLowerCase().indexOf("quota")!=-1&&gemini_chat_data.toLowerCase().indexOf("exceeded")!=-1) {
-			document.getElementById('button_key').click();
-		}
-		//iframeDocument.body.scrollTop = iframeDocument.body.scrollHeight;
-		//iframeDocument.documentElement.scrollTop = iframeDocument.documentElement.scrollHeight;
+
 	}
 	window.gemini_chat_response = gemini_chat_response;
-		
-	document.getElementById('button_key').onclick = async function () {
-		var key = prompt(Blockly.Msg["GEMINI_KEY_INPUT"]);
-		if (key) {
-			GeminiKey = key;
-			gemini_chat_initial(key, gemini_model, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
-			
-			iframeWrite("iframe_output", "");
-			
-			var question = document.getElementById("query_input").value;
-			if (question.length>0)
-				await gemini_chat_run(question);
-			else				
-				await gemini_chat_run("?");
-		}
-	}
-	
-	document.getElementById('gemini_ask').onclick = async function () {
-		//if (!document.getElementById("question_input").value.trim()) return;
-		iframeWrite("iframe_output", "");
-		
-		var iframeElement = document.getElementById('iframe_output');
-		const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
-		iframeDocument.body.insertAdjacentHTML("beforeend", output_result);
-		
-		var code = Blockly.Msg["NOCODE"];
-		if (workspace.getAllBlocks().length > 0)
-			code = Blockly.JavaScript.workspaceToCode(workspace);
-
-		var promptTemplate = Blockly.Msg["GEMINI_PROMPT"];
-
-		var var1 = document.getElementById("question_input").value;
-		var var2 = code;
-		var var3 = document.getElementById("query_input").value;
-
-		var prompt = promptTemplate
-			.replace("%1", var1)
-			.replace("%2", var2)
-			.replace("%3", var3);
-
-		await gemini_chat_run(prompt);
-	}
-	
-	document.getElementById('gemini_clear').onclick = async function () {
-		document.getElementById("query_input").value = "";
-		var query = confirm(Blockly.Msg["GEMINI_CLEAR_QUERY"]);
-		if (query) {
-			gemini_chat_clear();
-			iframeWrite("iframe_output", "");
-		}
-	}
-	
-	if (!navigator.onLine) {
-		document.getElementById('gemini_ask').style.display = "none";
-		document.getElementById('gemini_clear').style.display = "none";
-	}
 	
 	function runCode() {
 	  document.getElementById('javascript_content').style.display = "block";
@@ -1651,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"console.log(document.body.innerHTML);window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 		
@@ -1794,6 +1743,195 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (this.selectedIndex>0) 
 			location.href = "?lang=" + this.options[this.selectedIndex].value;
 	}
+	
+	// 將一則訊息(使用者或AI)加入對話視窗，並以 Markdown 渲染內容
+	function appendChatMessage(role, text) {
+		const container = document.getElementById('aiAssistantsMessages');
+		if (!container) return;
+
+		// role: 'user' 或 'ai'
+		const bubble = document.createElement('div');
+		bubble.className = 'chat-bubble ' + role;
+
+		const label = document.createElement('span');
+		label.className = 'role-label';
+		label.textContent = role === 'user' ? '你' : 'AI 助手';
+		bubble.appendChild(label);
+
+		const content = document.createElement('div');
+		content.className = 'markdown-body';
+
+		// 用 marked 解析 Markdown，再用 DOMPurify 消毒，避免 XSS
+		const rawHtml = marked.parse(text || '');
+		content.innerHTML = DOMPurify.sanitize(rawHtml);
+
+		bubble.appendChild(content);
+		container.appendChild(bubble);
+
+		// 自動捲到最新訊息
+		container.scrollTop = container.scrollHeight;
+	}
+
+	async function initialAiAssistant() {
+		gemini_chat_initial(apiKey, apiModel, 10000, 0, Blockly.Msg["GEMINI_ROLE"]);
+        const container = document.getElementById('aiAssistantsMessages');
+        container.innerHTML = "";
+	}
+		
+	// 送出按鈕：取得輸入內容、顯示使用者訊息、呼叫 AI、顯示回覆
+	async function sendAiAssistantMessage() {
+		const input = document.getElementById('aiAssistant_message');
+		const text = (input.value || '').trim();
+		if (!text) {
+            return;
+        }
+        
+		const key = document.getElementById('aiAssistant_key');
+		const aikey = (key.value || '').trim();
+		if (!aikey) {          
+            return;
+        }
+        
+        apiModel = document.getElementById('aiAssistant_model').value;
+
+        if (apiKey == "") {
+            apiKey = aikey;
+            
+            initialAiAssistant(); 
+        }
+		else if (apiKey != aikey) {
+            var res = confirm("金鑰已變更，將重設對話紀錄才能繼續！你確定嗎？");
+            if (res) {
+                apiKey = aikey;
+                initialAiAssistant();
+            }
+            else
+                return;
+        }
+
+        gemini_chat_model(apiModel);
+
+		appendChatMessage('user', text);
+		input.value = '';
+
+		// 顯示暫時的「思考中」提示
+		appendChatMessage('ai', '_思考中..._');
+		const container = document.getElementById('aiAssistantsMessages');
+		const thinkingBubble = container.lastElementChild;
+
+		try {
+			const replyText = await callGeminiForAssistant(text);
+			thinkingBubble.remove();
+			appendChatMessage('ai', replyText);
+		} catch (err) {
+			thinkingBubble.remove();
+			appendChatMessage('ai', '⚠️ 發生錯誤，請稍後再試。');
+			console.error('AI Assistant error:', err);
+		}
+	}
+
+	// 呼叫你既有的 Gemini API 邏輯（請依你 button_key 儲存的金鑰方式接上實際呼叫）
+	async function callGeminiForAssistant(userText) {
+		
+		var code = Blockly.Msg["NOCODE"];
+		if (workspace.getAllBlocks().length > 0)
+			code = Blockly.JavaScript.workspaceToCode(workspace);
+
+		var promptTemplate = Blockly.Msg["GEMINI_PROMPT"];
+
+		var var1 = document.getElementById("question_input").value;
+		var var2 = code;
+		var var3 = userText;
+
+		var prompt = promptTemplate
+			.replace("%1", var1)
+			.replace("%2", var2)
+			.replace("%3", var3);
+
+		var replyText = await gemini_chat_run(prompt);
+        
+        return replyText;
+	}
+    
+    const sendBtn = document.getElementById('aiAssistantsChatButton');
+    if (sendBtn) sendBtn.addEventListener('click', sendAiAssistantMessage);
+    
+    const resetBtn = document.getElementById('aiResetButton');
+    if (resetBtn) resetBtn.addEventListener('click', initialAiAssistant);   
+
+    const cancelBtn = document.getElementById('aiCancelButton');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function () {
+            document.getElementById('aiAssistant').style.display = 'none';
+        });
+    }
+
+    // Enter 送出(可選)
+    const msgInput = document.getElementById('aiAssistant_message');
+    if (msgInput) {
+        msgInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAiAssistantMessage();
+            }
+        });
+    }
+    
+    // 讓 AI 助手表單可以用滑鼠拖曳標題列來移動位置
+    function makeDraggable(dragHandle, targetEl) {
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        dragHandle.addEventListener('pointerdown', function (e) {
+            isDragging = true;
+
+            // 第一次拖曳時，把目前由 flex 置中算出來的實際位置
+            // 轉換成 fixed 定位的 left/top，之後才能自由移動
+            const rect = targetEl.getBoundingClientRect();
+            targetEl.style.position = 'fixed';
+            targetEl.style.left = rect.left + 'px';
+            targetEl.style.top = rect.top + 'px';
+            targetEl.style.margin = '0';
+
+            // 拖曳期間讓外層 flex 不再置中它，避免互相打架
+            targetEl.parentElement.style.justifyContent = 'flex-start';
+            targetEl.parentElement.style.alignItems = 'flex-start';
+
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+
+            dragHandle.setPointerCapture(e.pointerId);
+        });
+
+        dragHandle.addEventListener('pointermove', function (e) {
+            if (!isDragging) return;
+
+            let newLeft = e.clientX - offsetX;
+            let newTop = e.clientY - offsetY;
+
+            // 限制不要整個拖出視窗外，至少留 40px 可以抓回來
+            const margin = 40;
+            const maxLeft = window.innerWidth - margin;
+            const maxTop = window.innerHeight - margin;
+            newLeft = Math.min(Math.max(newLeft, -(targetEl.offsetWidth - margin)), maxLeft);
+            newTop = Math.min(Math.max(newTop, 0), maxTop);
+
+            targetEl.style.left = newLeft + 'px';
+            targetEl.style.top = newTop + 'px';
+        });
+
+        dragHandle.addEventListener('pointerup', function (e) {
+            isDragging = false;
+            dragHandle.releasePointerCapture(e.pointerId);
+        });
+    }
+
+    const aiAssistantHeader = document.getElementById('aiAssistant_header');
+    const aiAssistantContent = document.getElementById('aiAssistant_content');
+    if (aiAssistantHeader && aiAssistantContent) {
+        makeDraggable(aiAssistantHeader, aiAssistantContent);
+    }    
 });	
 
 var tabs = ['code_content','xml_content','category_content'];
@@ -1883,14 +2021,10 @@ function reloadZoom(content) {
 	contentDiv.style.position = 'absolute';
 
 	const questionInput = document.getElementById("question_input");
-	const queryInput = document.getElementById("query_input");
 
 	questionInput.style.flex = '1';
 	questionInput.style.height = '25%';
 	questionInput.style.width = '98%';
-
-	queryInput.style.width = '72%';
-	queryInput.style.height = '3.2em';
 }
 
 if (typeof require !== "undefined") {

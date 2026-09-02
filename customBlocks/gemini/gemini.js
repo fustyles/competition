@@ -12,6 +12,14 @@ function gemini_chat_initial(input_key, input_model, input_tokens, input_tempera
   gemini_chat_insert(input_role, "OK");
 }
 
+function gemini_chat_key(input_key) {
+  Gemini_api_key = input_key;
+}
+
+function gemini_chat_model(input_model) {
+  Gemini_model = input_model;
+}
+
 async function gemini_chat_insert(request, response) {
 	var char_request = {};
 	char_request.role = "user";
@@ -45,7 +53,7 @@ async function gemini_chat_run(userPrompt) {
 			
     let result = '';
     try {
-        let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${Gemini_api_key}`;
+        let url = `https://generativelanguage.googleapis.com/v1beta/models/${Gemini_model}:generateContent?key=${Gemini_api_key}`;
 		let data = {
 			"contents": chatHistory.history,
 			"generationConfig": chatHistory.generationConfig
@@ -85,6 +93,8 @@ async function gemini_chat_run(userPrompt) {
             gemini_chat_response(result);
         }
     }
+    
+    return result;
 }
 
 function gemini_chat_set(input_property, input_value) {
@@ -326,7 +336,7 @@ async function getFileBase64(fileURL, type) {
 async function gemini_generate_image_request(message) {
 	let result = "";
     try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${Gemini_api_key}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${Gemini_api_key}`;
         const data = {
             contents: [
                 {
@@ -374,7 +384,7 @@ async function gemini_generate_image_mix_request(prompt, imageURL) {
 	let result = "";
     try {
 		let inline_data = await get_inline_data(imageURL);	
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${Gemini_api_key}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${Gemini_api_key}`;
         const data = {
             contents: [
                 {
