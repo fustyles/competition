@@ -406,39 +406,31 @@
 }
 
 
-/* 1. 設定表格本身的樣式 */
 #importQuestionTable {
-    /* 讓相鄰單元格的邊框合併成一條單線，這是製作細實線框的關鍵 */
     border-collapse: collapse; 
-    
-    /* 為表格外部添加 1px 黑色實線 */
     border: 1px solid black;
-	
-	font-size: 10px; /* 範例：設定為 10 像素 */	
-    
-    /* 可選：讓表格寬度適應父容器 */
-    //width: 2000px;
+    font-size: 10px;
+    table-layout: fixed;   /* 關鍵：改用固定版面，欄寬不再被內容牽著走 */
+    width: 100%;
 }
 
-/* 2. 設定表格單元格 (td) 的樣式 */
-/* 由於 table 和 td 的邊框會合併，通常只需要明確設定 td/th 的邊框即可 */
+/* 依欄位順序設定寬度：序號/分類/摘要 窄一點，題目給多一點空間 */
+#importQuestionTable td:nth-child(1) { width: 50px; }
+#importQuestionTable td:nth-child(2) { width: 80px; }
+#importQuestionTable td:nth-child(3) { width: 80px; }
+#importQuestionTable td:nth-child(4) { width: 450px; }  /* 題目欄，主要放寬對象 */
+
+/* 測資數據 1/2/3：內容常是不可斷行的長字串，強制斷行避免撐開欄寬 */
+#importQuestionTable td:nth-child(n+5) {
+    width: 140px;
+    word-break: break-all;      /* 允許在任意字元處換行，即使沒有空白 */
+    overflow-wrap: break-word;
+}
+
+/* 所有欄位都保險加上，避免長字串在極端情況仍撐破 */
 #importQuestionTable td {
-    /* 為每個單元格添加 1px 黑色實線 */
     border: 1px solid black;
-    
-    /* 可選：增加單元格內容與邊框的空間 */
     padding: 8px; 
-    
-    /* 可選：文字對齊 */
     text-align: left; 
-}
-
-/* 3. 處理 tr 的邊框 (通常不需要，因為 td 的邊框會覆蓋 tr 的邊框) */
-/* 如果您仍想顯式為 tr 設定邊框，請注意：在 border-collapse: collapse; 模式下，
-   tr 的垂直邊框通常會被 td 的邊框取代或忽略。
-   但為確保完整性，可以添加以下：
-*/
-#importQuestionTable tr {
-    /* 這裡的邊框效果可能不明顯或被 td 覆蓋，但您可以設置 */
-    border: 1px solid black; 
+    overflow-wrap: break-word;
 }
