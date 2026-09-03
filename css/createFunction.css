@@ -104,6 +104,7 @@
 #aiAssistant_key,
 #aiAssistant_model {
     box-sizing: border-box;
+    font-size: 12px;	
 }
 
 /* 只讓 AI 助手這個表單變成非鎖定模式，其他彈窗維持原本的模態行為 */
@@ -122,12 +123,12 @@
 }
 
 #aiAssistant_key {
-    width: 270px; /* 依你想要的寬度調整 */
+    width: 300px; /* 依你想要的寬度調整 */
     height: 30px;
 }
 
 #aiAssistant_model {
-    width: 200px; /* 依你想要的寬度調整 */
+    width: 205px; /* 依你想要的寬度調整 */
     height: 30px;    
 }
 

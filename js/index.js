@@ -1744,31 +1744,27 @@ document.addEventListener('DOMContentLoaded', function() {
 			location.href = "?lang=" + this.options[this.selectedIndex].value;
 	}
 	
-	// 將一則訊息(使用者或AI)加入對話視窗，並以 Markdown 渲染內容
 	function appendChatMessage(role, text) {
 		const container = document.getElementById('aiAssistantsMessages');
 		if (!container) return;
 
-		// role: 'user' 或 'ai'
 		const bubble = document.createElement('div');
 		bubble.className = 'chat-bubble ' + role;
 
 		const label = document.createElement('span');
 		label.className = 'role-label';
-		label.textContent = role === 'user' ? '你' : 'AI 助手';
+		label.textContent = role === 'user' ? Blockly.Msg["GEMINI_ROLE_YOU"] : Blockly.Msg["GEMINI_ASK"];
 		bubble.appendChild(label);
 
 		const content = document.createElement('div');
 		content.className = 'markdown-body';
 
-		// 用 marked 解析 Markdown，再用 DOMPurify 消毒，避免 XSS
 		const rawHtml = marked.parse(text || '');
 		content.innerHTML = DOMPurify.sanitize(rawHtml);
 
 		bubble.appendChild(content);
 		container.appendChild(bubble);
 
-		// 自動捲到最新訊息
 		container.scrollTop = container.scrollHeight;
 	}
 
@@ -1778,7 +1774,6 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = "";
 	}
 		
-	// 送出按鈕：取得輸入內容、顯示使用者訊息、呼叫 AI、顯示回覆
 	async function sendAiAssistantMessage() {
 		const input = document.getElementById('aiAssistant_message');
 		const text = (input.value || '').trim();
@@ -1800,7 +1795,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initialAiAssistant(); 
         }
 		else if (apiKey != aikey) {
-            var res = confirm("金鑰已變更，將重設對話紀錄才能繼續！你確定嗎？");
+            var res = confirm(Blockly.Msg["GEMINI_KEY_MESSAGE"]);
             if (res) {
                 apiKey = aikey;
                 initialAiAssistant();
@@ -1815,7 +1810,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		input.value = '';
 
 		// 顯示暫時的「思考中」提示
-		appendChatMessage('ai', '_思考中..._');
+		appendChatMessage('ai', Blockly.Msg["GEMINI_THINKING"]);
 		const container = document.getElementById('aiAssistantsMessages');
 		const thinkingBubble = container.lastElementChild;
 
@@ -1825,12 +1820,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			appendChatMessage('ai', replyText);
 		} catch (err) {
 			thinkingBubble.remove();
-			appendChatMessage('ai', '⚠️ 發生錯誤，請稍後再試。');
+			appendChatMessage('ai', Blockly.Msg["GEMINI_CHAT_ERROR"]);
 			console.error('AI Assistant error:', err);
 		}
 	}
 
-	// 呼叫你既有的 Gemini API 邏輯（請依你 button_key 儲存的金鑰方式接上實際呼叫）
 	async function callGeminiForAssistant(userText) {
 		
 		var code = Blockly.Msg["NOCODE"];
@@ -1866,7 +1860,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Enter 送出(可選)
     const msgInput = document.getElementById('aiAssistant_message');
     if (msgInput) {
         msgInput.addEventListener('keydown', function (e) {
@@ -1877,7 +1870,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 讓 AI 助手表單可以用滑鼠拖曳標題列來移動位置
     function makeDraggable(dragHandle, targetEl) {
         let isDragging = false;
         let offsetX = 0;
@@ -1886,15 +1878,12 @@ document.addEventListener('DOMContentLoaded', function() {
         dragHandle.addEventListener('pointerdown', function (e) {
             isDragging = true;
 
-            // 第一次拖曳時，把目前由 flex 置中算出來的實際位置
-            // 轉換成 fixed 定位的 left/top，之後才能自由移動
             const rect = targetEl.getBoundingClientRect();
             targetEl.style.position = 'fixed';
             targetEl.style.left = rect.left + 'px';
             targetEl.style.top = rect.top + 'px';
             targetEl.style.margin = '0';
 
-            // 拖曳期間讓外層 flex 不再置中它，避免互相打架
             targetEl.parentElement.style.justifyContent = 'flex-start';
             targetEl.parentElement.style.alignItems = 'flex-start';
 
@@ -1910,7 +1899,6 @@ document.addEventListener('DOMContentLoaded', function() {
             let newLeft = e.clientX - offsetX;
             let newTop = e.clientY - offsetY;
 
-            // 限制不要整個拖出視窗外，至少留 40px 可以抓回來
             const margin = 40;
             const maxLeft = window.innerWidth - margin;
             const maxTop = window.innerHeight - margin;
