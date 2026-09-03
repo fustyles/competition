@@ -1809,7 +1809,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		appendChatMessage('user', text);
 		input.value = '';
 
-		// 顯示暫時的「思考中」提示
 		appendChatMessage('ai', Blockly.Msg["GEMINI_THINKING"]);
 		const container = document.getElementById('aiAssistantsMessages');
 		const thinkingBubble = container.lastElementChild;
