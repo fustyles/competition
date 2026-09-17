@@ -1518,6 +1518,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (!body) return;
 
 					if (iframe.title=="ok"||iframe.title=="err") {
+						
 					  const bodyContent = body.innerText;
 					  outputResult += "【 "+ (completedCount+1)+" 】\n"+bodyContent + "\n\n";
 					  completedCount++;
@@ -1537,16 +1538,16 @@ document.addEventListener('DOMContentLoaded', function() {
 				  checkFinish();
 				};
 
-				runTest(iframe, testCode);
+				runTest(iframe, testCode, inputArray);
 			}
 		});
 	}	
 
-	function runTest(iframe, input) {
+	function runTest(iframe, input, inputArray) {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
-		code = 'var variable_data_test_index = -1;\n' + code;
+		code = 'var systemAnswer = ""; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
 		
 		if (!scratchStyle) {
 			code += ''+
@@ -1557,7 +1558,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
+			'  systemAnswer = input;\n'+				
 			'  input = arr[variable_data_test_index];\n'+
+			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
 			'  if (type=="NUMBER")\n'+
 			'  	input = Number(input);\n'+
 			'  else\n'+
@@ -1575,12 +1578,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  input = arr[variable_data_test_index];\n'+
+			'  systemAnswer = input;\n'+			
+			'  input = arr[variable_data_test_index];\n'+					
+			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
 			'  if (input && !isNaN(input) && input.trim() !== "")\n'+
 			'      input = Number(input);\n'+
 			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
-			'}';
+			'}\n';
 		}
 
 		code += ''+
@@ -1590,13 +1595,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  }'+
 			'  variable_data_test_index++;\n'+			
 			'  var arr = input.split(";");\n'+	
-			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+	
-			'  if (text==arr[variable_data_test_index])\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", arr[variable_data_test_index]));\n'+
-			'  else\n'+
-			'    document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", arr[variable_data_test_index]));\n'+
-			'}';	
+			'  systemAnswer = input;\n'+				
+			'  input = arr[variable_data_test_index];\n'+
+			'  userAnswer += (userAnswer ? ";" : "") + text;\n'+		
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
+			'}\n';
+
+		code += ''+
+		
+			'if (userAnswer.trim()==systemAnswer.trim()) {\n'+		
+			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswer));\n'+
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'} else {\n'+
+			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", userAnswer));\n'+
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'}\n';				
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
