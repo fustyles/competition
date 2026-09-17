@@ -1520,7 +1520,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (iframe.title=="ok"||iframe.title=="err") {
 						
 					  const bodyContent = body.innerText;
-					  outputResult += "【 "+ (completedCount+1)+" 】\n"+bodyContent + "\n\n";
+					  outputResult += "【 "+ (completedCount+1)+" 】"+bodyContent + "\n\n";
 					  completedCount++;
 					  if (iframe.title=="ok")
 						  rightCount++;
@@ -1538,7 +1538,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				  checkFinish();
 				};
 
-				runTest(iframe, testCode, inputArray);
+				runTest(iframe, testCode.trim(), inputArray);
 			}
 		});
 	}	
@@ -1548,8 +1548,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
 		code = 'var systemAnswer = ""; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
-		
-		if (!scratchStyle) {
+        
+		var blocks_scratch = workspace.getBlocksByType("javascript_data_input_scratch");       
+
+		if (blocks_scratch.length==0) {
 			code += ''+
 			'async function variable_input_test (input, msg, type){\n'+
 			'  if (input === null) {'+
@@ -1565,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  	input = Number(input);\n'+
 			'  else\n'+
 			'    input = input;\n'+
-			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
+			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
 			'  return input;\n'+
 			'}';
 			
@@ -1583,7 +1585,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
 			'  if (input && !isNaN(input) && input.trim() !== "")\n'+
 			'      input = Number(input);\n'+
-			'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
+			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}\n';
 		}
@@ -1598,17 +1600,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  systemAnswer = input;\n'+				
 			'  input = arr[variable_data_test_index];\n'+
 			'  userAnswer += (userAnswer ? ";" : "") + text;\n'+		
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
+			'  //document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
 			'}\n';
 
 		code += ''+
 		
 			'if (userAnswer.trim()==systemAnswer.trim()) {\n'+		
-			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswer));\n'+
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswer));\n'+            
 			'} else {\n'+
-			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", userAnswer));\n'+
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", userAnswer));\n'+            
 			'}\n';				
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
@@ -2023,7 +2025,7 @@ function reloadZoom(content) {
 	const questionInput = document.getElementById("question_input");
 
 	questionInput.style.flex = '1';
-	questionInput.style.height = '25%';
+	questionInput.style.height = '40%';
 	questionInput.style.width = '98%';
 }
 
