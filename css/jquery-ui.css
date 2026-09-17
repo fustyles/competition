@@ -937,6 +937,8 @@ body .ui-tooltip {
 	align-items:center;
     justify-content:center;
 	height: 40px;
+    cursor: move;
+    user-select: none;	
 }
 .ui-widget-header a {
 	color: #ffffff;
