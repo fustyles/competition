@@ -476,34 +476,35 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				toggleCreateFunctionForm(1);
 				
-				if (!subWorkspace) {
-					subWorkspace = Blockly.inject('createFunctionDiv', {
-						renderer: 'zelos'
-						,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
-						,zoom:{wheel: true, startScale: 1, maxScale: 1.8, minScale: 0.6, scaleSpeed: 1.2}
-						,move:{
-							scrollbars: {
-							  horizontal: false,
-							  vertical: false
-							},
-							drag: true,
-							wheel: true
-						}						
-					});
+                if (subWorkspace)
+                    subWorkspace.dispose();
+				
+                subWorkspace = Blockly.inject('createFunctionDiv', {
+                    renderer: 'zelos'
+                    ,grid:{spacing: 20,length: 3,colour: '#eee',snap: true}
+                    ,zoom:{wheel: true, startScale: 1, maxScale: 1.8, minScale: 0.6, scaleSpeed: 1.2}
+                    ,move:{
+                        scrollbars: {
+                          horizontal: false,
+                          vertical: false
+                        },
+                        drag: true,
+                        wheel: true
+                    }						
+                });
 					
-					subWorkspace.addChangeListener(function(event) {
-						if (event.type == "viewport_change"||event.type == "create") {
-							var blocks = subWorkspace.getAllBlocks();
-							if (blocks.length==1)
-								subWorkspace.centerOnBlock(blocks[0].id);
-						} else if (event.type == "block_field_intermediate_change") {
-							if (event.blockId) {
-								var block = subWorkspace.getBlockById(event.blockId);
-								createFunctionVariable[0] = block.getFieldValue("NAME");
-							}
+				subWorkspace.addChangeListener(function(event) {
+					if (event.type == "viewport_change"||event.type == "create") {
+						var blocks = subWorkspace.getAllBlocks();
+						if (blocks.length==1)
+							subWorkspace.centerOnBlock(blocks[0].id);
+					} else if (event.type == "block_field_intermediate_change") {
+						if (event.blockId) {
+							var block = subWorkspace.getBlockById(event.blockId);
+							createFunctionVariable[0] = block.getFieldValue("NAME");
 						}
-					});
-				}
+					}
+				});
 				
 				createFunctionVariable = ["", []];
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
