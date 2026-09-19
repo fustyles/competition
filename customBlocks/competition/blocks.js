@@ -147,8 +147,7 @@ Blockly.common.defineBlocksWithJsonArray([
     "args1": [
       {
         "type": "input_statement",
-        "name": "statement_if",
-        "check": "Boolean"
+        "name": "statement_if"
       }
     ],
     "message2": "%{BKY_JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH}",
