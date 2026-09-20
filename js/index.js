@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				currentWorkspace.eventHistory = [];
 				
 				toggleCreateFunctionForm(1);
-				
+                
                 if (subWorkspace)
                     subWorkspace.dispose();
 				
@@ -492,19 +492,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         wheel: true
                     }						
                 });
-					
-				subWorkspace.addChangeListener(function(event) {
-					if (event.type == "viewport_change"||event.type == "create") {
-						var blocks = subWorkspace.getAllBlocks();
-						if (blocks.length==1)
-							subWorkspace.centerOnBlock(blocks[0].id);
-					} else if (event.type == "block_field_intermediate_change") {
-						if (event.blockId) {
-							var block = subWorkspace.getBlockById(event.blockId);
-							createFunctionVariable[0] = block.getFieldValue("NAME");
-						}
-					}
-				});
+                
+                subWorkspace.addChangeListener(function(event) {
+                    if (event.type == "viewport_change"||event.type == "create") {
+                        var blocks = subWorkspace.getAllBlocks();
+                        if (blocks.length==1)
+                            subWorkspace.centerOnBlock(blocks[0].id);
+                    } else if (event.type == "block_field_intermediate_change") {
+                        if (event.blockId) {
+                            var block = subWorkspace.getBlockById(event.blockId);
+                            createFunctionVariable[0] = block.getFieldValue("NAME");
+                        }
+                    }
+                });
 				
 				createFunctionVariable = ["", []];
 				createFunctionVariable[0] = Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_INPUT"];
@@ -1474,7 +1474,17 @@ document.addEventListener('DOMContentLoaded', function() {
 				return;
 			}
 		} else {
-			inputArray.push(prompt(Blockly.Msg["TEST_CODE_MESSAGE"]));
+            iframeWrite("iframe_output", "");
+            var input;
+            var i = 0;
+            while (true) {
+                i++;
+                input = prompt(Blockly.Msg["TEST_CODE_MESSAGE"].replace("%1", i));
+                if (input === null || input.trim() === "") {
+                    break;
+                }
+                inputArray.push(input);
+            }
 		}	  
 
 		if (inputArray.length>0) {
@@ -1526,7 +1536,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					  if (iframe.title=="ok")
 						  rightCount++;
 					  if (completedCount === totalTests) {
-						outputResult += "\n\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： " + rightCount + " / " + completedCount;
+						outputResult += "\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： " + rightCount + " / " + completedCount;
 						var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 						iframeWrite("iframe_output", output);
 						if (container) container.remove();
@@ -1539,12 +1549,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				  checkFinish();
 				};
 
-				runTest(iframe, testCode.trim(), inputArray);
+				runTest(iframe, testCode.trim());
 			}
 		});
 	}	
 
-	function runTest(iframe, input, inputArray) {
+	function runTest(iframe, input) {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
@@ -1958,6 +1968,7 @@ function displayTab(id) {
 
 function javascriptCode() {
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
+    console.log(code);
 	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"}main();");
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }
