@@ -136,10 +136,13 @@ Main page: https://fustyles.github.io/competition/
             </div>
             <div class="form-group-row">
                 <label id="importQuestion_sheet_name_title" for="importQuestion_sheet_name">工作表名稱</label>
-                <input id="importQuestion_sheet_name" type="text" value="" onfocus="this.select()">				
+                <span class="sheet-picker">
+                    <input id="importQuestion_sheet_name" type="text" value="" onfocus="this.select()" autocomplete="off">
+                    <div id="importQuestion_sheet_list" class="sheet-list"></div>
+                </span>
                 <label id="importQuestion_sheet_keyword_title" for="importQuestion_sheet_keyword">關鍵字</label>
                 <input id="importQuestion_sheet_keyword" type="text" value="">
-				<button id="importQuestionsButton" class="action-button">查詢題庫</button>				
+                <button id="importQuestionsButton" class="action-button">查詢題庫</button>
             </div>			
             <div class="form-group">
                 <div id="importQuestionsList" style="overflow: auto;"></div>

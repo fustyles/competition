@@ -21,6 +21,20 @@ var createFunctionVariable = ["", []];
 var apiKey = "";
 var apiModel = "";
 
+var sheetNames = [
+    "全國賽","國小基礎","國中基礎",
+    "114花蓮縣國小組","114金門縣國小組","114屏東縣國小組","114苗栗縣國小組",
+    "114桃園市國小組","114臺南市國小組","114南投縣國小組","114基隆市國小組",
+    "114雲林縣國小組","114新北市國小組","114新竹市國小組","114新竹縣國小組",
+    "114嘉義市國小組","114嘉義縣國小組","114彰化縣國小組","114臺中市國小組",
+    "114臺北市國小組","114臺東縣國小組","114澎湖縣國小組",
+    "114花蓮縣國中組","114金門縣國中組","114屏東縣國中組","114桃園市國中組",
+    "114臺南市國中組","114南投縣國中組","114基隆市國中組","114雲林縣國中組",
+    "114新北市國中組","114新竹市國中組","114新竹縣國中組","114嘉義市國中組",
+    "114嘉義縣國中組","114彰化縣國中組","114臺中市國中組","114臺北市國中組",
+    "114臺東縣國中組","114澎湖縣國中組"
+];
+
 document.addEventListener('DOMContentLoaded', function() {
 	
 	initialMoveDiv();	
@@ -786,7 +800,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		async function spreadsheetsql_getDataFinish_question(head_response, response) {
 			spreadsheetsql_getQuestionsList('importQuestionsList', "question", true);
-
+            reloadZoom();
 		};
 		window.spreadsheetsql_getDataFinish_question = spreadsheetsql_getDataFinish_question;
 
@@ -1972,7 +1986,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiAssistantContent = document.getElementById('aiAssistant_content');
     if (aiAssistantHeader && aiAssistantContent) {
         makeDraggable(aiAssistantHeader, aiAssistantContent);
-    }    
+    }  
+
+    var input = document.getElementById("importQuestion_sheet_name");
+    var list  = document.getElementById("importQuestion_sheet_list");
+
+    function render(filter) {
+        list.innerHTML = "";
+        sheetNames
+            .filter(function (n) { return !filter || n.indexOf(filter) !== -1; })
+            .forEach(function (n) {
+                var item = document.createElement("div");
+                item.textContent = n;
+                // 用 mousedown 避免 input 先失焦導致清單關閉
+                item.addEventListener("mousedown", function (e) {
+                    e.preventDefault();
+                    input.value = n;
+                    list.classList.remove("show");
+                    document.getElementById('importQuestionsButton').click();
+                });
+                list.appendChild(item);
+            });
+    }
+
+    function open() {
+        render("");
+        list.classList.add("show");
+        list.scrollTop = 0;
+    }
+
+    input.addEventListener("click", open);
+    input.addEventListener("focus", open);
+    input.addEventListener("input", function () {
+        render(input.value.trim());
+        list.classList.add("show");
+    });
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") list.classList.remove("show");
+    });
+    document.addEventListener("click", function (e) {
+        if (!e.target.closest(".sheet-picker")) list.classList.remove("show");
+    });    
 });	
 
 var tabs = ['code_content','xml_content','category_content'];

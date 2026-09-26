@@ -62,18 +62,19 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 800px;	
+    max-width: 750px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
+    font-size: 16px;    
 }
 
 #importQuestionsList {
 	overflow: auto; /* 核心屬性：內容溢出時自動顯示捲軸 */
 	border: 1px solid #ccc; /* 方便觀察容器邊界 */
 	height: 300px; /* 關鍵：設定固定的高度 */
-	width: 778px; /* 設定寬度，捲軸會影響內容寬度 */
-	padding: 10px;
+	width: 730px; /* 設定寬度，捲軸會影響內容寬度 */
+	padding: 10px;  
 }
 
 #aiAssistant_content {
@@ -415,10 +416,9 @@
 }
 
 /* 依欄位順序設定寬度：序號/分類/摘要 窄一點，題目給多一點空間 */
-#importQuestionTable td:nth-child(1) { width: 50px; }
-#importQuestionTable td:nth-child(2) { width: 80px; }
-#importQuestionTable td:nth-child(3) { width: 80px; }
-#importQuestionTable td:nth-child(4) { width: 450px; }  /* 題目欄，主要放寬對象 */
+#importQuestionTable td:nth-child(1) { width: 20%; }
+#importQuestionTable td:nth-child(2) { width: 30%; }
+#importQuestionTable td:nth-child(3) { width: 50%; }
 
 /* 測資數據 1/2/3：內容常是不可斷行的長字串，強制斷行避免撐開欄寬 */
 #importQuestionTable td:nth-child(n+5) {
@@ -476,3 +476,29 @@
     font-weight: bold;
     color: #1a73e8;
 }
+
+.sheet-picker {
+    position: relative;
+    display: inline-block;
+}
+.sheet-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    width: max-content;
+    max-height: 240px;          /* 超過此高度出現卷軸 */
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #999;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    z-index: 1000;
+}
+.sheet-list.show { display: block; }
+.sheet-list div {
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.sheet-list div:hover { background: #e6f0ff; }
