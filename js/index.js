@@ -1768,10 +1768,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}	
 	
-	document.getElementById('lang-selector').onchange = function () {
-		if (this.selectedIndex>0) 
-			location.href = "?lang=" + this.options[this.selectedIndex].value;
-	}
+    const langToggle = document.getElementById("lang-toggle");
+    const langPanel  = document.getElementById("lang-panel");
+
+    // 點圖示：顯示 / 隱藏
+    langToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        langPanel.classList.toggle("show");
+    });
+
+    // 點選語言：跳轉
+    langPanel.querySelectorAll(".lang-option").forEach(function (opt) {
+        opt.addEventListener("click", function () {
+            location.href = "?lang=" + this.dataset.lang;
+        });
+    });
+
+    // 點其他地方：收起
+    document.addEventListener("click", function (e) {
+        if (!langPanel.contains(e.target)) {
+            langPanel.classList.remove("show");
+        }
+    });
+
+    // 標示目前語言
+    const currentLang = new URLSearchParams(location.search).get("lang");
+    if (currentLang) {
+        const cur = langPanel.querySelector('[data-lang="' + currentLang + '"]');
+        if (cur) cur.classList.add("active");
+    }  
 	
 	function appendChatMessage(role, text) {
 		const container = document.getElementById('aiAssistantsMessages');
