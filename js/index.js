@@ -2120,7 +2120,7 @@ function reloadZoom(content) {
 
 	questionInput.style.flex = '1';
 	questionInput.style.height = '97%';
-	questionInput.style.width = '98%';
+	questionInput.style.width = '97%';
     questionInput.scrollTop = 0; 
 }
 
