@@ -139,7 +139,7 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
                 for (var j=0;j<3;j++) {
 					if (!spreadsheetsql_head_response[task_id][i][j])
 						spreadsheetsql_head_response[task_id][i][j] = "";
-					innerData += "<td id='"+task_id+"_"+i+"_"+j+"' style='text-align:center'>"+spreadsheetsql_head_response[task_id][i][j].replace(/\n/g,'<br>')+"</td>";
+					innerData += "<td id='"+task_id+"_"+i+"_"+j+"' style='font-size: 16px;text-align:center'>"+spreadsheetsql_head_response[task_id][i][j].replace(/\n/g,'<br>')+"</td>";
 				}
 				innerData += "</tr>";
 			}
