@@ -1526,6 +1526,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('javascript_content').style.display = "block";
 		reloadZoom();
         document.getElementById("question_input").style.height = "35%";
+        document.getElementById("iframe_output").style.height = "60%";
 		
 	    if (scratchStyle) {
 		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
@@ -1753,6 +1754,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
 		reloadZoom();
         document.getElementById("question_input").style.height = "35%";
+        document.getElementById("iframe_output").style.height = "60%";
         
 		document.getElementById('iframe_output').innerHTML = "";
 		stopCode();
@@ -2214,8 +2216,10 @@ function reloadZoom(content) {
 
 	questionInput.style.flex = '1';
 	questionInput.style.height = '60%';
-	questionInput.style.width = '97%';
+	questionInput.style.width = '100%';
     questionInput.scrollTop = 0; 
+    
+    document.getElementById("iframe_output").style.height = "35%";
 }
 
 if (typeof require !== "undefined") {
