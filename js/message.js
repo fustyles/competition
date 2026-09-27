@@ -21,6 +21,7 @@ var msg = [
 ["aiAssistant_message", "placeholder", Blockly.Msg["QUERY_INPUT"]],
 ["aiAssistant_key_title", "innerHTML", Blockly.Msg["GEMINI_KEY"]],
 ["aiAssistant_model_title", "innerHTML", Blockly.Msg["GEMINI_MODEL"]],
+["console_title", "innerHTML", Blockly.Msg["JAVASCRIPT_CONSOLE_TITLE"]],
 ["button_test", "title", Blockly.Msg["TEST_CODE"]],
 ["createFunction_header", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_HEADER"]],
 ["createFunction_blockName_label", "innerHTML", Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"]],

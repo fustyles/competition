@@ -35,6 +35,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_EXIST_SCRATCH"] = "函式名稱已存在
 Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "工作區必須有一個啟動程式積木，執行取消！";
 Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"] = "此積木只能連接到來源函式積木下的堆疊積木中。";
 Blockly.Msg["JAVASCRIPT_CONSOLE"] = "輸出至訊息視窗 %1";
+Blockly.Msg["JAVASCRIPT_CONSOLE_TITLE"] = "訊息視窗";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "與：";
 Blockly.Msg["DOWNLOAD"] = "下載積木圖片"
