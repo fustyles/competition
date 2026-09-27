@@ -69,6 +69,7 @@ Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "Sheet Name";
 Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "Questions";
 Blockly.Msg["IMPORTCANCELBUTTON"] = "Close window";
 Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "Query question bank";
+Blockly.Msg["IMPORTQUESTION_EXAM_LIST"] = "Dropdown question bank selection menu";
 Blockly.Msg["EDITBUTTON"] = "Co-edited system question bank";
 Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "Keyword";
 Blockly.Msg["IMPORTQUESTION_SHEET_ID"] = "15-v_SP1gT8-yS7nrp5yMjc6Zxn0zwP_o6Lrsz37olqU";

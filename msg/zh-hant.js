@@ -69,6 +69,7 @@ Blockly.Msg["IMPORTQUESTION_SHEET_NAME_TITLE"] = "工作表名稱";
 Blockly.Msg["IMPORTQUESTIONSLIST_TITLE"] = "題目";
 Blockly.Msg["IMPORTCANCELBUTTON"] = "關閉視窗";
 Blockly.Msg["IMPORTQUESTIONSBUTTON"] = "查詢題庫";
+Blockly.Msg["IMPORTQUESTION_EXAM_LIST"] = "下拉題庫選單";
 Blockly.Msg["EDITBUTTON"] = "共編系統題庫";
 Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"] = "關鍵字";
 Blockly.Msg["IMPORTQUESTION_SHEET_ID"] = "15-v_SP1gT8-yS7nrp5yMjc6Zxn0zwP_o6Lrsz37olqU";
