@@ -2112,7 +2112,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function open() {
-        if (sheetId.value.trim() != Blockly.Msg["IMPORTQUESTION_SHEET_ID"]) return;
+        if (sheetId.value.trim() != Blockly.Msg["IMPORTQUESTION_SHEET_ID"]) {
+            sheetName.placeholder = "";
+            return;
+        }
+        sheetName.placeholder = Blockly.Msg["IMPORTQUESTION_EXAM_LIST"];
+        
         render("");
         sheetList.classList.add("show");
         sheetList.scrollTop = 0;
