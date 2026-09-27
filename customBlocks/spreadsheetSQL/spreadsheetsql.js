@@ -151,7 +151,6 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 				if (!spreadsheetsql_response[task_id][i][j])
 					spreadsheetsql_response[task_id][i][j] = "";
 				if (j==0) {
-                    console.log(spreadsheetsql_response[task_id][i].slice(4).join('","'));
 					var title = spreadsheetsql_response[task_id][i][3]+'\n\n\n'+Blockly.Msg["TEST_DATA"]+'\n{"data":["'+(spreadsheetsql_response[task_id][i].slice(4).join('","')+'"').replace(/,""/g, "")+']}';
 					innerData += "<td id='"+task_id+"_"+(i+k)+"_"+j+"' style='text-align:center;'><button style='width:100px' title='"+title+"' onclick='reloadZoom();document.getElementById(\"javascript_content\").style.display = \"block\";document.getElementById(\"question_input\").value = this.title;window.toggleImportQuestionForm(false);var iframe = document.getElementById(\"iframe_output\");iframe.contentWindow.document.open();iframe.contentWindow.document.write(\"\");iframe.contentWindow.document.close();iframe.focus();document.getElementById(\"question_input\").style.height = \"97%\";document.getElementById(\"iframe_output\").innerHTML = \"\";'>"+spreadsheetsql_response[task_id][i][j]+"</button></td>"
 				}
