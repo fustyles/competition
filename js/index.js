@@ -1537,8 +1537,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		Window input: 12;4;3 → Automatically input 12 and 4, compare whether the output value equals the validation value 3
 	*/
 	document.getElementById('button_test').onclick = function () {
-		toggleConsoleForm(false);
-        
 		document.getElementById('javascript_content').style.display = "block";
 		reloadZoom();
         document.getElementById("question_input").style.height = "40%";
@@ -1554,7 +1552,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			return;
 		  }
 	    }
-	  
+		
+		toggleConsoleForm(false);
+		
 		var blocks = workspace.getBlocksByType("javascript_data_output");
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
 		if (blocks.length==0&&blocks_scratch.length==0) {
