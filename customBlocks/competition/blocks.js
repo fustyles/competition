@@ -110,6 +110,23 @@ Blockly.common.defineBlocksWithJsonArray([
 
 Blockly.common.defineBlocksWithJsonArray([
   {
+    "type": "javascript_console_scratch",
+    "message0": "%{BKY_JAVASCRIPT_CONSOLE_SCRATCH}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "style": "looks_blocks" 
+  }
+]);
+
+Blockly.common.defineBlocksWithJsonArray([
+  {
     "type": "controls_if_1_scratch",
     "message0": "%{BKY_JAVASCRIPT_CONTROLS_IF_IF_SCRATCH}",
     "args0": [

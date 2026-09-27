@@ -1,5 +1,5 @@
 var catSystemScratch = '<xml>'+
-'    <category css-icon="customIcon fa fa-cog" name="%{BKY_CATSCRATCH1}" categorystyle="events_category">'+
+'    <category name="%{BKY_CATSCRATCH1}" categorystyle="events_category">'+
 '    <block type="javascript_start_scratch">'+
 '    </block>'+
 '    <block type="javascript_data_input_scratch">'+
@@ -12,6 +12,15 @@ var catSystemScratch = '<xml>'+
 '    <block type="javascript_data_input_get_scratch">'+
 '    </block>'+
 '    <block type="javascript_data_output_scratch">'+
+'    <value name="TEXT">'+
+'    <shadow type="text_noquotes">'+
+'    <field name="TEXT"></field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
+'    </category>'+
+'    <category name="%{BKY_CATSCRATCH8}" categorystyle="looks_category">'+
+'    <block type="javascript_console_scratch">'+
 '    <value name="TEXT">'+
 '    <shadow type="text_noquotes">'+
 '    <field name="TEXT"></field>'+

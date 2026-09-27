@@ -1,4 +1,5 @@
 Blockly.Msg["CATSCRATCH1"] = "專用";
+Blockly.Msg["CATSCRATCH8"] = "外觀";
 Blockly.Msg["CATSCRATCH2"] = "控制";
 Blockly.Msg["CATSCRATCH3"] = "運算";
 Blockly.Msg["CATSCRATCH4"] = "變數";
@@ -21,6 +22,8 @@ Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "被點擊";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "說出 %1";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "詢問 %1 並等待";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "詢問的答案";
+
+Blockly.Msg["JAVASCRIPT_CONSOLE_SCRATCH"] = "輸出至訊息視窗 %1";
 
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "如果 %1 那麼";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "否則";

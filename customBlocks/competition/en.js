@@ -1,4 +1,5 @@
 Blockly.Msg["CATSCRATCH1"] = "Dedicated";
+Blockly.Msg["CATSCRATCH8"] = "Appearance";
 Blockly.Msg["CATSCRATCH2"] = "Control";
 Blockly.Msg["CATSCRATCH3"] = "Operators";
 Blockly.Msg["CATSCRATCH4"] = "Variables";
@@ -21,6 +22,8 @@ Blockly.Msg["JAVASCRIPT_START_TIE_SCRATCH"] = "clicked";
 Blockly.Msg["JAVASCRIPT_DATA_OUTPUT_SCRATCH"] = "say %1";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_SCRATCH"] = "ask %1 and wait";
 Blockly.Msg["JAVASCRIPT_DATA_INPUT_ANSWER_SCRATCH"] = "answer";
+
+Blockly.Msg["JAVASCRIPT_CONSOLE_SCRATCH"] = "Output to message window %1";
 
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_IF_SCRATCH"] = "if %1 then";
 Blockly.Msg["JAVASCRIPT_CONTROLS_IF_ELSE_SCRATCH"] = "else";

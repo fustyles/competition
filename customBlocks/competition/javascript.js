@@ -55,6 +55,20 @@ Blockly.JavaScript['javascript_data_input_get_scratch'] = function(block) {
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript['javascript_console_scratch'] = function(block) {	
+	Blockly.JavaScript.definitions_['javascript_consoleOutput'] = 'function consoleOutput(text) {\n'+
+	'  var parentDoc = window.parent.document;\n'+
+	'  var div = parentDoc.getElementById("console_output");\n'+
+	'  if (!div) return;\n'+
+	'  if (div.style.display!="none")\n'+
+	'    div.innerHTML += (div.innerHTML?"<br>":"") + text;\n'+
+	'}';
+    
+	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";	
+	var code = 'consoleOutput('+TEXT+');\n';
+	return code;
+};
+
 Blockly.JavaScript['controls_if_1_scratch'] = function(block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'condition', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_statement_if = Blockly.JavaScript.statementToCode(block, 'statement_if');
