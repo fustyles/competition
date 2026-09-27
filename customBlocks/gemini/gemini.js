@@ -50,6 +50,8 @@ async function gemini_chat_run(userPrompt) {
 	char_request_text.text = userPrompt;
 	char_request.parts.push(char_request_text);
 	chatHistory["history"].push(char_request);
+    
+    console.log(chatHistory.history);
 			
     let result = '';
     try {

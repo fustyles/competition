@@ -1931,7 +1931,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		bubble.appendChild(content);
 		container.appendChild(bubble);
 
-		container.scrollTop = container.scrollHeight;
+		//container.scrollTop = container.scrollHeight;
 	}
 
 	async function initialAiAssistant() {
@@ -1991,6 +1991,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	async function callGeminiForAssistant(userText) {
+        
+        const container = document.getElementById('aiAssistantsMessages');
+        if (container)
+            container.scrollTop = container.scrollHeight;        
 		
 		var code = Blockly.Msg["NOCODE"];
 		if (workspace.getAllBlocks().length > 0)
