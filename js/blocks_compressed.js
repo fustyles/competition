@@ -734,6 +734,7 @@ var INDEXOF_TOOLTIP_EXTENSION$$module$build$src$blocks$text=function(){this.setT
 
 $.register$$module$build$src$core$extensions("text_indexOf_tooltip",INDEXOF_TOOLTIP_EXTENSION$$module$build$src$blocks$text);$.register$$module$build$src$core$extensions("text_quotes",QUOTES_EXTENSION$$module$build$src$blocks$text);$.registerMutator$$module$build$src$core$extensions("text_join_mutator",JOIN_MUTATOR_MIXIN$$module$build$src$blocks$text,JOIN_EXTENSION$$module$build$src$blocks$text);
 $.registerMutator$$module$build$src$core$extensions("text_charAt_mutator",CHARAT_MUTATOR_MIXIN$$module$build$src$blocks$text,CHARAT_EXTENSION$$module$build$src$blocks$text);$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$text);var module$build$src$blocks$text={};module$build$src$blocks$text.blocks=blocks$$module$build$src$blocks$text;var blocks$$module$build$src$blocks$variables=$.createBlockDefinitionsFromJsonArray$$module$build$src$core$common([{type:"variables_get",message0:"%1",args0:[{type:"field_variable",name:"VAR",variable:"%{BKY_VARIABLES_DEFAULT_NAME}"}],output:null,style:"variable_blocks",helpUrl:"%{BKY_VARIABLES_GET_HELPURL}",tooltip:"%{BKY_VARIABLES_GET_TOOLTIP}",extensions:["contextMenu_variableSetterGetter"]},
+
 {
 	type:"variables_set"
 	,message0:"%{BKY_VARIABLES_SET}"
@@ -769,9 +770,8 @@ d),enabled:!0,callback:deleteOptionCallbackFactory$$module$build$src$blocks$vari
 $.renameVariable$$module$build$src$core$variables(b,c)}},deleteOptionCallbackFactory$$module$build$src$blocks$variables_dynamic=function(a){return function(){const b=a.workspace,c=a.getField("VAR").getVariable();b.deleteVariableById(c.getId());b.refreshToolboxSelection()}};$.registerMixin$$module$build$src$core$extensions("contextMenu_variableDynamicSetterGetter",CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN$$module$build$src$blocks$variables_dynamic);$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$variables_dynamic);
 var module$build$src$blocks$variables_dynamic={};module$build$src$blocks$variables_dynamic.blocks=blocks$$module$build$src$blocks$variables_dynamic;var blocks$$module$build$src$blocks$blocks=Object.assign({},blocks$$module$build$src$blocks$colour,blocks$$module$build$src$blocks$lists,blocks$$module$build$src$blocks$logic,blocks$$module$build$src$blocks$loops,blocks$$module$build$src$blocks$math,blocks$$module$build$src$blocks$procedures,blocks$$module$build$src$blocks$variables,blocks$$module$build$src$blocks$variables_dynamic),module$build$src$blocks$blocks={};module$build$src$blocks$blocks.blocks=blocks$$module$build$src$blocks$blocks;
 module$build$src$blocks$blocks.colour=module$build$src$blocks$colour;module$build$src$blocks$blocks.lists=module$build$src$blocks$lists;module$build$src$blocks$blocks.loops=module$build$src$blocks$loops;module$build$src$blocks$blocks.math=module$build$src$blocks$math;module$build$src$blocks$blocks.procedures=module$build$src$blocks$procedures;module$build$src$blocks$blocks.texts=module$build$src$blocks$text;module$build$src$blocks$blocks.variables=module$build$src$blocks$variables;
-module$build$src$blocks$blocks.variablesDynamic=module$build$src$blocks$variables_dynamic;
-module$build$src$blocks$blocks.__namespace__=$;
-
+module$build$src$blocks$blocks.variablesDynamic=module$build$src$blocks$variables_dynamic;     
+module$build$src$blocks$blocks.__namespace__=$;    
 return module$build$src$blocks$blocks;
 }));
 

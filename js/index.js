@@ -2135,7 +2135,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".sheet-picker")) sheetList.classList.remove("show");
-    });    
+    });   
+  
 });	
 
 var tabs = ['code_content','xml_content','category_content'];
