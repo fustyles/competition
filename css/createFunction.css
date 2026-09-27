@@ -133,6 +133,70 @@
     height: 30px;    
 }
 
+#consoleLog {
+    position: fixed;          /* 固定在畫面上，可改成 absolute */
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    height: 300px;
+    background: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    font-size: 12px;
+}
+
+#console_header {
+    height: 24px;
+    flex-shrink: 0;
+    background: #333;
+    display: flex;
+    justify-content: space-between;   /* 標題靠左、× 靠右 */
+    align-items: center;
+    padding: 0 4px 0 8px;
+    cursor: move;
+    user-select: none;
+    touch-action: none;   /* 手機觸控拖曳用 */    
+}
+
+#console_title {
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#consoleCancelButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#consoleCancelButton .material-icons {
+    font-size: 18px;
+    color: white;
+}
+
+#consoleCancelButton:hover .material-icons {
+    color: #ff6b6b;
+}
+
+#console_content {
+    flex: 1;                     /* 佔滿剩下的高度 */
+    overflow: hidden;
+}
+
+#console_output {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;      /* 避免 padding 撐大造成捲軸跑版 */
+    overflow: auto;
+}
+    
 .chat-messages {
     display: flex;
     flex-direction: column;

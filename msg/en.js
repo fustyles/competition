@@ -34,6 +34,7 @@ Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_NULL_SCRATCH"] = "Parameter name cannot 
 Blockly.Msg["JAVASCRIPT_CREATE_FUNCTION_EXIST_SCRATCH"] = "The function name already exists; automatically change the name";
 Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"] = "The workspace must have a startup script block, execution canceled!";
 Blockly.Msg["JAVASCRIPT_CONNECT_MESSAGE_SCRATCH"] = "This block can only be placed inside the stack under the source function block.";
+Blockly.Msg["JAVASCRIPT_CONSOLE"] = "Output to message window %1";
 Blockly.Msg["PROCEDURES_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["PROCEDURES_CALL_BEFORE_PARAMS_BACKUP"] = "with:";
 Blockly.Msg["DOWNLOAD"] = "Download PNG"

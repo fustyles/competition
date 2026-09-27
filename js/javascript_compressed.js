@@ -350,6 +350,20 @@ text_noquotes$$module$build$src$generators$javascript$text=function(a,b){
 	return[text,Order$$module$build$src$generators$javascript$javascript_generator.NONE]
 },
 
+javascript_console$$module$build$src$generators$javascript$text=function(a,b){
+	b.definitions_['javascript_consoleOutput'] = 'function consoleOutput(text) {\n'+
+	'  var parentDoc = window.parent.document;\n'+
+	'  var div = parentDoc.getElementById("console_output");\n'+
+	'  if (!div) return;\n'+
+	'  if (div.style.display!="none")\n'+
+	'    div.innerHTML += (div.innerHTML?"<br>":"") + text;\n'+
+	'}';
+    
+    var TEXT = b.valueToCode(a, "TEXT", Order$$module$build$src$generators$javascript$javascript_generator.NONE) || '""';
+	var code = 'consoleOutput('+TEXT+');\n';
+	return code
+},
+
 text_multiline$$module$build$src$generators$javascript$text=function(a,b){a=b.multiline_quote_(a.getFieldValue("TEXT"));b=-1!==a.indexOf("+")?Order$$module$build$src$generators$javascript$javascript_generator.ADDITION:Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC;
 return[a,b]},text_join$$module$build$src$generators$javascript$text=function(a,b){switch(a.itemCount_){case 0:return["''",Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC];case 1:return a=b.valueToCode(a,"ADD0",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"''",forceString$$module$build$src$generators$javascript$text(a);case 2:var c=b.valueToCode(a,"ADD0",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"''";a=b.valueToCode(a,
 "ADD1",Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"''";return[forceString$$module$build$src$generators$javascript$text(c)[0]+" + "+forceString$$module$build$src$generators$javascript$text(a)[0],Order$$module$build$src$generators$javascript$javascript_generator.ADDITION];default:c=Array(a.itemCount_);for(let d=0;d<a.itemCount_;d++)c[d]=b.valueToCode(a,"ADD"+d,Order$$module$build$src$generators$javascript$javascript_generator.NONE)||"''";return["["+c.join(",")+"].join('')",
@@ -504,6 +518,7 @@ module$build$src$generators$javascript$math.math_random_int=math_random_int$$mod
 module$build$src$generators$javascript$procedures.procedures_defnoreturn=procedures_defreturn$$module$build$src$generators$javascript$procedures;module$build$src$generators$javascript$procedures.procedures_defreturn=procedures_defreturn$$module$build$src$generators$javascript$procedures;module$build$src$generators$javascript$procedures.procedures_ifreturn=procedures_ifreturn$$module$build$src$generators$javascript$procedures;var strRegExp$$module$build$src$generators$javascript$text=/^\s*'([^']|\\')*'\s*$/,forceString$$module$build$src$generators$javascript$text=function(a){return strRegExp$$module$build$src$generators$javascript$text.test(a)?[a,Order$$module$build$src$generators$javascript$javascript_generator.ATOMIC]:["String("+a+")",Order$$module$build$src$generators$javascript$javascript_generator.FUNCTION_CALL]},getSubstringIndex$$module$build$src$generators$javascript$text=function(a,b,c){return"FIRST"===b?"0":
 "FROM_END"===b?a+".length - 1 - "+c:"LAST"===b?a+".length - 1":c},text_prompt$$module$build$src$generators$javascript$text=text_prompt_ext$$module$build$src$generators$javascript$text,module$build$src$generators$javascript$text={};module$build$src$generators$javascript$text.text=text$$module$build$src$generators$javascript$text;
 module$build$src$generators$javascript$text.text_noquotes=text_noquotes$$module$build$src$generators$javascript$text;
+module$build$src$generators$javascript$text.javascript_console=javascript_console$$module$build$src$generators$javascript$text;
 module$build$src$generators$javascript$text.text_append=text_append$$module$build$src$generators$javascript$text;
 module$build$src$generators$javascript$text.text_changeCase=text_changeCase$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_charAt=text_charAt$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_count=text_count$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_getSubstring=text_getSubstring$$module$build$src$generators$javascript$text;
 module$build$src$generators$javascript$text.text_indexOf=text_indexOf$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_isEmpty=text_isEmpty$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_join=text_join$$module$build$src$generators$javascript$text;module$build$src$generators$javascript$text.text_length=text_length$$module$build$src$generators$javascript$text;

@@ -229,6 +229,13 @@ var catSystem = '<xml>'+
 '    </shadow>'+
 '    </value>'+
 '    </block>'+
+'    <block type="javascript_console">'+
+'    <value name="TEXT">'+
+'    <shadow type="text">'+
+'    <field name="TEXT"></field>'+
+'    </shadow>'+
+'    </value>'+
+'    </block>'+
 '    <block type="javascript_data_input">'+
 '    <value name="TEXT">'+
 '    <shadow type="text">'+

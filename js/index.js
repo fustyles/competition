@@ -735,7 +735,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		workspace.getToolbox().clearSelection();
     });		
-	
+
+    
+	function toggleAiAssistantForm(show) {
+		const formDiv = document.getElementById('aiAssistant');
+		if (show) {
+			formDiv.style.display = 'flex'; 			
+		} else {
+			formDiv.style.display = 'none';
+		}
+	}
+	window.toggleAiAssistantForm = toggleAiAssistantForm;
+    
+    document.getElementById('button_ai').addEventListener('click', () => {	
+        toggleAiAssistantForm(true);
+    });
+
 	function toggleImportQuestionForm(show) {
 		const formDiv = document.getElementById('importQuestion');
 		if (show) {
@@ -754,20 +769,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}		
 			
         toggleImportQuestionForm(true);
-    });
-    
-	function toggleAiAssistantForm(show) {
-		const formDiv = document.getElementById('aiAssistant');
-		if (show) {
-			formDiv.style.display = 'flex'; 			
-		} else {
-			formDiv.style.display = 'none';
-		}
-	}
-	window.toggleAiAssistantForm = toggleAiAssistantForm;
-    
-    document.getElementById('button_ai').addEventListener('click', () => {	
-        toggleAiAssistantForm(true);
     });    
 	
     document.getElementById('editButton').addEventListener('click', () => {
@@ -812,7 +813,75 @@ document.addEventListener('DOMContentLoaded', function() {
 		else
 			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
+    
+	function toggleConsoleForm(show) {
+		const formDiv = document.getElementById('consoleLog');
+		if (show) {
+			formDiv.style.display = 'flex'; 
 
+            var metrics = Blockly.getMainWorkspace().getMetrics();
+            formDiv.style.left = (metrics.toolboxWidth + 100) + 'px';
+            formDiv.style.top = (metrics.viewHeight - 280) + 'px';
+            formDiv.style.width = '200px';
+            formDiv.style.height = '300px';
+            
+            var div = document.getElementById('console_output');
+            div.innerHTML = '';
+
+		} else {
+			formDiv.style.display = 'none';
+		}
+	}
+	window.toggleConsoleForm = toggleConsoleForm;
+
+    document.getElementById('consoleCancelButton').addEventListener('click', () => {
+        toggleConsoleForm(false);
+    });	
+    
+    var box = document.getElementById('consoleLog');
+    var header = document.getElementById('console_header');
+    var offsetX = 0, offsetY = 0, dragging = false;
+
+    header.addEventListener('pointerdown', function (e) {
+        // 點到 × 按鈕時不拖曳
+        if (e.target.closest('#consoleCancelButton')) return;
+
+        var rect = box.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        // 從 right/bottom 定位改成 left/top，方便移動
+        box.style.left = rect.left + 'px';
+        box.style.top = rect.top + 'px';
+        box.style.right = 'auto';
+        box.style.bottom = 'auto';
+
+        dragging = true;
+        header.setPointerCapture(e.pointerId);   // 滑鼠經過 iframe 時也不會中斷
+        e.preventDefault();
+    });
+
+    header.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+
+        // 限制在可視範圍內
+        var maxX = window.innerWidth - box.offsetWidth;
+        var maxY = window.innerHeight - box.offsetHeight;
+        var x = Math.min(Math.max(0, e.clientX - offsetX), maxX);
+        var y = Math.min(Math.max(0, e.clientY - offsetY), maxY);
+
+        box.style.left = x + 'px';
+        box.style.top = y + 'px';
+    });
+
+    function stopDrag(e) {
+        if (!dragging) return;
+        dragging = false;
+        header.releasePointerCapture(e.pointerId);
+    }
+    header.addEventListener('pointerup', stopDrag);
+    header.addEventListener('pointercancel', stopDrag);    
+    
 	function promptAndAddParam(type) {
 		var message = hasDuplicateNull(createFunctionVariable[1]);
 		if (message) {
@@ -1468,6 +1537,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		Window input: 12;4;3 → Automatically input 12 and 4, compare whether the output value equals the validation value 3
 	*/
 	document.getElementById('button_test').onclick = function () {
+		toggleConsoleForm(false);
+        
 		document.getElementById('javascript_content').style.display = "block";
 		reloadZoom();
         document.getElementById("question_input").style.height = "40%";
@@ -1672,8 +1743,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	  document.getElementById("iframe_output").src = "about:blank";
 	}		
 	
-	document.getElementById('button_run').onclick = function () {
-		document.getElementById('javascript_content').style.display = "block";
+	document.getElementById('button_run').onclick = function () {    
+		const scratchBlocks = workspace.getBlocksByType("javascript_console_scratch", false);
+        const blocklyBlocks = workspace.getBlocksByType("javascript_console", false);         
+		if (scratchBlocks.length>0||blocklyBlocks.length>0)
+            toggleConsoleForm(true);
+        else
+            toggleConsoleForm(false);
+        
 		reloadZoom();
         document.getElementById("question_input").style.height = "40%";
         
@@ -2068,7 +2145,6 @@ function displayTab(id) {
 
 function javascriptCode() {
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
-    console.log(code);
 	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"}main();");
 	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
 }

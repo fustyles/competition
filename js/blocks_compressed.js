@@ -54,6 +54,19 @@ blocks$$module$build$src$blocks$lists.lists_split={init:function(){const a=$.fro
 this.getInput("INPUT").connection;b.setShadowDom(null);const c=b.targetBlock();c&&(b.disconnect(),c.isShadow()?c.dispose(!1):this.bumpNeighbours())}"SPLIT"===a?(this.outputConnection.setCheck("Array"),this.getInput("INPUT").setCheck("String")):(this.outputConnection.setCheck("String"),this.getInput("INPUT").setCheck("Array"))},mutationToDom:function(){const a=$.createElement$$module$build$src$core$utils$xml("mutation");a.setAttribute("mode",this.getFieldValue("MODE"));return a},domToMutation:function(a){this.updateType_(a.getAttribute("mode"))},
 saveExtraState:function(){return null},loadExtraState:function(){}};$.defineBlocks$$module$build$src$core$common(blocks$$module$build$src$blocks$lists);var module$build$src$blocks$lists={};module$build$src$blocks$lists.blocks=blocks$$module$build$src$blocks$lists;var blocks$$module$build$src$blocks$logic=$.createBlockDefinitionsFromJsonArray$$module$build$src$core$common([{type:"logic_boolean",message0:"%1",args0:[{type:"field_dropdown",name:"BOOL",options:[["%{BKY_LOGIC_BOOLEAN_TRUE}","TRUE"],["%{BKY_LOGIC_BOOLEAN_FALSE}","FALSE"]]}],output:"Boolean",style:"logic_blocks",tooltip:"%{BKY_LOGIC_BOOLEAN_TOOLTIP}",helpUrl:"%{BKY_LOGIC_BOOLEAN_HELPURL}"},{type:"controls_if",message0:"%{BKY_CONTROLS_IF_MSG_IF} %1",args0:[{type:"input_value",name:"IF0",check:"Boolean"}],message1:"%{BKY_CONTROLS_IF_MSG_THEN} %1",args1:[{type:"input_statement",name:"DO0"}],previousStatement:null,nextStatement:null,style:"logic_blocks",helpUrl:"%{BKY_CONTROLS_IF_HELPURL}",suppressPrefixSuffix:!0,mutator:"controls_if_mutator",extensions:["controls_if_tooltip"]}
 
+,{type: "javascript_console"
+    ,message0: "%{BKY_JAVASCRIPT_CONSOLE}"
+    ,args0: [
+      {
+        type: "input_value"
+        ,name: "TEXT"
+      }
+    ]
+    ,previousStatement: null
+    ,nextStatement: null
+    ,inputsInline: true
+    ,style: "text_blocks" 
+	}
 
 ,{type:"mySwitch"
 	,message0:"%{BKY_MYSWITCH_TITLE}"
