@@ -1525,7 +1525,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('button_test').onclick = function () {
 		document.getElementById('javascript_content').style.display = "block";
 		reloadZoom();
-        document.getElementById("question_input").style.height = "40%";
+        document.getElementById("question_input").style.height = "35%";
 		
 	    if (scratchStyle) {
 		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
@@ -1752,7 +1752,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleConsoleForm(false);
         
 		reloadZoom();
-        document.getElementById("question_input").style.height = "40%";
+        document.getElementById("question_input").style.height = "35%";
         
 		document.getElementById('iframe_output').innerHTML = "";
 		stopCode();
@@ -2213,7 +2213,7 @@ function reloadZoom(content) {
 	const questionInput = document.getElementById("question_input");
 
 	questionInput.style.flex = '1';
-	questionInput.style.height = '97%';
+	questionInput.style.height = '60%';
 	questionInput.style.width = '97%';
     questionInput.scrollTop = 0; 
 }
