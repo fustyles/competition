@@ -68,7 +68,7 @@ Main page: https://fustyles.github.io/competition/
 					<a href="#" id="button_png" title="Download PNG"><i class="material-icons md-dark">image</i></a>						
 					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
                     <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>					
-					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">list_alt</i></a>
+					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">unfold_more</i></a>
                     <span class="lang-wrap">
                         <i class="material-icons md-dark" id="lang-toggle" title="Language">language</i>
                         <div id="lang-panel">
@@ -97,10 +97,12 @@ Main page: https://fustyles.github.io/competition/
 		<div id="javascript_title" class="ui-widget-header">
 			<span id="title_code"></span>
 			<span class="contentzoom"><a href="#" id="button_copycode" title="Copy to clipboard"><i class="material-icons" style="vertical-align: middle; color: white;">featured_play_list</i></a></span>
-			<span class="contentzoom_right1"><a id="button_resize" onclick="reloadZoom();" style="cursor: pointer" title="Resize"><i class="material-icons" style="vertical-align: middle; color: white;">refresh</i></a>	</span>		
+			<span class="contentzoom_resize"><a id="button_resize" onclick="reloadZoom();" style="cursor: pointer" title="Resize"><i class="material-icons" style="vertical-align: middle; color: white;">refresh</i></a>	</span>		
+			<span class="contentzoom_hide"><a id="button_hide" style="cursor: pointer" title="Hide"><i class="material-icons" style="vertical-align: middle; color: white;">keyboard_arrow_up</i></a>	</span>
+			<span class="contentzoom_enlarge"><a id="button_enlarge" style="cursor: pointer" title="Enlarge"><i class="material-icons" style="vertical-align: middle; color: white;">aspect_ratio</i></a>	</span>
 		</div>
 		<div id="javascript_code" class="update_code">
-			<textarea id="question_input" style="flex:1;height:97%;width:97%;padding:5px;" onfocus="this.select()"></textarea>	
+			<textarea id="question_input" style="flex:1;height:97%;width:97%;padding:5px;border:none;outline:none;" onfocus="this.select()"></textarea>	
 			<iframe id="iframe_output" style="width:100%; height:55%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
 		</div>
 	</div>

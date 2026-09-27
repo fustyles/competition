@@ -1332,6 +1332,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			div.style.display = "none";
 		}
 	}
+    
+	document.getElementById('button_hide').onclick = function () {
+		var div = document.getElementById('javascript_content');
+		div.style.display = "none";
+	}    
 	
 	document.getElementById('button_reset').onclick = function () {
 		var result = confirm(Blockly.Msg.BUTTON_RESET);
@@ -1339,6 +1344,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			newFile();
 		}
 	}
+    
+	document.getElementById('button_enlarge').onclick = function () {
+		var div = document.getElementById('javascript_content');
+
+        var metrics = Blockly.getMainWorkspace().getMetrics();
+        div.style.left = (metrics.toolboxWidth + 100) + 'px';
+        div.style.top = "64px";
+        div.style.width = (metrics.viewWidth - 150) + 'px';
+        div.style.height = (metrics.viewHeight - 40) + 'px';
+	}    
 
 	document.getElementById('button_save_xml').onclick = function () {
 		try {
