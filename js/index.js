@@ -1423,8 +1423,8 @@ document.addEventListener('DOMContentLoaded', function() {
         div.style.width = (metrics.viewWidth - 150) + 'px';
         div.style.height = (metrics.viewHeight - 40) + 'px';
         
-        document.getElementById("question_input").style.height = "99%";
-        document.getElementById("question_input").style.height = "99%";          
+        document.getElementById("question_input").style.width = "100%";
+        document.getElementById("question_input").style.height = "100%";          
 	}    
 
 	document.getElementById('button_save_xml').onclick = function () {
