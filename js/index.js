@@ -2004,44 +2004,46 @@ document.addEventListener('DOMContentLoaded', function() {
         makeDraggable(aiAssistantHeader, aiAssistantContent);
     }  
 
-    var input = document.getElementById("importQuestion_sheet_name");
-    var list  = document.getElementById("importQuestion_sheet_list");
+    var sheetId = document.getElementById("importQuestion_sheet_id");
+    var sheetName = document.getElementById("importQuestion_sheet_name");
+    var sheetList  = document.getElementById("importQuestion_sheet_list");
 
     function render(filter) {
-        list.innerHTML = "";
+        sheetList.innerHTML = "";
         sheetNames
             .filter(function (n) { return !filter || n.indexOf(filter) !== -1; })
             .forEach(function (n) {
                 var item = document.createElement("div");
                 item.textContent = n;
-                // 用 mousedown 避免 input 先失焦導致清單關閉
                 item.addEventListener("mousedown", function (e) {
                     e.preventDefault();
-                    input.value = n;
-                    list.classList.remove("show");
+                    sheetName.value = n;
+                    sheetList.classList.remove("show");
                     document.getElementById('importQuestionsButton').click();
                 });
-                list.appendChild(item);
+                sheetList.appendChild(item);
             });
     }
 
     function open() {
+        if (sheetId.value.trim() != Blockly.Msg["IMPORTQUESTION_SHEET_ID"]) return;
         render("");
-        list.classList.add("show");
-        list.scrollTop = 0;
+        sheetList.classList.add("show");
+        sheetList.scrollTop = 0;
     }
 
-    input.addEventListener("click", open);
-    input.addEventListener("focus", open);
-    input.addEventListener("input", function () {
-        render(input.value.trim());
-        list.classList.add("show");
+    sheetName.addEventListener("click", open);
+    sheetName.addEventListener("focus", open);
+    sheetName.addEventListener("input", function () {
+        if (sheetId.value.trim() != Blockly.Msg["IMPORTQUESTION_SHEET_ID"]) return;
+        render(sheetName.value.trim());
+        sheetList.classList.add("show");
     });
-    input.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") list.classList.remove("show");
+    sheetName.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") sheetList.classList.remove("show");
     });
     document.addEventListener("click", function (e) {
-        if (!e.target.closest(".sheet-picker")) list.classList.remove("show");
+        if (!e.target.closest(".sheet-picker")) sheetList.classList.remove("show");
     });    
 });	
 
