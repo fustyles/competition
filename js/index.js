@@ -1456,20 +1456,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.gemini_chat_response = gemini_chat_response;
 	
 	function runCode() {
-	  document.getElementById('javascript_content').style.display = "block";
-		
-	  if (scratchStyle) {
-		const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
-		if (topBlocks.length!=1) {
-			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
-			if (topBlocks.length==0) {
-				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
-				//Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
-			}
-			return;
-		}
-	  }
-		
 	  var code = Blockly.JavaScript.workspaceToCode(workspace);
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
@@ -1552,9 +1538,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			return;
 		  }
 	    }
-		
-		toggleConsoleForm(false);
-		
+        
+        toggleConsoleForm(false);
+	  
 		var blocks = workspace.getBlocksByType("javascript_data_output");
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
 		if (blocks.length==0&&blocks_scratch.length==0) {
@@ -1743,7 +1729,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	  document.getElementById("iframe_output").src = "about:blank";
 	}		
 	
-	document.getElementById('button_run').onclick = function () {    
+	document.getElementById('button_run').onclick = function () {  
+	  document.getElementById('javascript_content').style.display = "block";
+		
+        if (scratchStyle) {
+            const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
+            if (topBlocks.length!=1) {
+                alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+                if (topBlocks.length==0) {
+                    var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
+                    //Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
+                }
+                return;
+            }
+        }
+      
 		const scratchBlocks = workspace.getBlocksByType("javascript_console_scratch", false);
         const blocklyBlocks = workspace.getBlocksByType("javascript_console", false);         
 		if (scratchBlocks.length>0||blocklyBlocks.length>0)
