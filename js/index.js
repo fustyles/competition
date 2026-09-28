@@ -2237,6 +2237,11 @@ function reloadZoom(content) {
     document.getElementById("iframe_output").style.height = "35%";
 }
 
+function loadExam() {
+	document.getElementById("question_input").style.height = '95%';
+    document.getElementById("iframe_output").style.display = "none";
+}
+
 if (typeof require !== "undefined") {
 	var http = require('http');
 	var fs = require('fs');
