@@ -1418,13 +1418,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		var div = document.getElementById('javascript_content');
 
         var metrics = Blockly.getMainWorkspace().getMetrics();
-        div.style.left = (metrics.toolboxWidth + 100) + 'px';
+        div.style.left = (metrics.toolboxWidth + 272) + 'px';
         div.style.top = "64px";
-        div.style.width = (metrics.viewWidth - 150) + 'px';
-        div.style.height = (metrics.viewHeight - 40) + 'px';
+        div.style.width = (metrics.viewWidth - 300) + 'px';
+        div.style.height = (metrics.viewHeight - 45) + 'px';
         
         document.getElementById("question_input").style.width = "100%";
-        document.getElementById("question_input").style.height = "100%";          
+        document.getElementById("question_input").style.height = "100%"; 
+        document.getElementById("iframe_output").style.display = "none";        
 	}    
 
 	document.getElementById('button_save_xml').onclick = function () {
@@ -2232,6 +2233,7 @@ function reloadZoom(content) {
 	questionInput.style.width = '100%';
     questionInput.scrollTop = 0; 
     
+    document.getElementById("iframe_output").style.display = "flex";
     document.getElementById("iframe_output").style.height = "35%";
 }
 
