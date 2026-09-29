@@ -40,7 +40,7 @@ Blockly.JavaScript['javascript_data_input_scratch'] = function(block) {
 	Blockly.JavaScript.definitions_['javascript_data_input'] = 'async function variable_input (msg) {\n'+
 	'  var input = prompt(msg);\n'+	
 	'  document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+
-	'  if (input && !isNaN(input) && input.trim() !== "" && input[0] != "0")\n'+
+	'  if (input && !isNaN(input) && input.trim() !== "")\n'+
 	'      input = Number(input);\n'+
 	'  return input;\n'+
 	'}';
