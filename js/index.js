@@ -911,8 +911,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const textareaMessage = document.getElementById('bugReport_message');        
         var response = linebot_push_message(Blockly.Msg["LINEBOT_TOKEN"], Blockly.Msg["LINEBOT_USERID"], textareaMessage.value);
         if (response == 1) {
-            alert(Blockly.Msg["BUGREPORT_SEND_OK"]);
-            toggleBugReportForm(false);
+            textareaMessage.value = Blockly.Msg["BUGREPORT_SEND_OK"];
+            setTimeout(function () {
+              toggleBugReportForm(false);
+            }, 1000);    
         }
         else 
             alert(Blockly.Msg["BUGREPORT_SEND_ERROR"] + "\n\n" + response);
