@@ -843,28 +843,25 @@ document.addEventListener('DOMContentLoaded', function() {
     var offsetX = 0, offsetY = 0, dragging = false;
 
     header.addEventListener('pointerdown', function (e) {
-        // 點到 × 按鈕時不拖曳
         if (e.target.closest('#consoleCancelButton')) return;
 
         var rect = box.getBoundingClientRect();
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
 
-        // 從 right/bottom 定位改成 left/top，方便移動
         box.style.left = rect.left + 'px';
         box.style.top = rect.top + 'px';
         box.style.right = 'auto';
         box.style.bottom = 'auto';
 
         dragging = true;
-        header.setPointerCapture(e.pointerId);   // 滑鼠經過 iframe 時也不會中斷
+        header.setPointerCapture(e.pointerId);
         e.preventDefault();
     });
 
     header.addEventListener('pointermove', function (e) {
         if (!dragging) return;
 
-        // 限制在可視範圍內
         var maxX = window.innerWidth - box.offsetWidth;
         var maxY = window.innerHeight - box.offsetHeight;
         var x = Math.min(Math.max(0, e.clientX - offsetX), maxX);
@@ -880,7 +877,46 @@ document.addEventListener('DOMContentLoaded', function() {
         header.releasePointerCapture(e.pointerId);
     }
     header.addEventListener('pointerup', stopDrag);
-    header.addEventListener('pointercancel', stopDrag);    
+    header.addEventListener('pointercancel', stopDrag); 
+
+	function toggleBugReportForm(show) {
+		const formDiv = document.getElementById('bugReport');
+		if (show) {
+			formDiv.style.display = 'flex'; 
+
+            var metrics = Blockly.getMainWorkspace().getMetrics();
+            formDiv.style.left = (metrics.viewWidth/2 - 200) + 'px';
+            formDiv.style.top = (metrics.viewHeight/2 - 150) + 'px';
+            formDiv.style.width = '400px';
+            formDiv.style.height = '300px';
+            
+            var div = document.getElementById('bugReport_message');
+            div.value = '';
+
+		} else {
+			formDiv.style.display = 'none';
+		}
+	}
+	window.toggleBugReportForm = toggleBugReportForm;
+    
+    document.getElementById('button_report').addEventListener('click', () => {	
+        toggleBugReportForm(true);
+    });
+    
+    document.getElementById('bugReportCancelButton').addEventListener('click', () => {	
+        toggleBugReportForm(false);
+    });  
+    
+    document.getElementById('bugReportSendButton').addEventListener('click', () => {
+        const textareaMessage = document.getElementById('bugReport_message');        
+        var response = linebot_push_message(Blockly.Msg["LINEBOT_TOKEN"], Blockly.Msg["LINEBOT_USERID"], textareaMessage.value);
+        if (response == 1) {
+            alert(Blockly.Msg["BUGREPORT_SEND_OK"]);
+            toggleBugReportForm(false);
+        }
+        else 
+            alert(Blockly.Msg["BUGREPORT_SEND_ERROR"] + "\n\n" + response);
+    }); 
     
 	function promptAndAddParam(type) {
 		var message = hasDuplicateNull(createFunctionVariable[1]);
@@ -2242,6 +2278,35 @@ function loadExam() {
 	document.getElementById("question_input").style.height = '95%';
     document.getElementById("question_input").scrollTop = 0;
     document.getElementById("iframe_output").style.display = "none";
+}
+
+function linebot_push_message(bot_token, bot_userid, bot_message) {	
+    var bot_msg = '{"type":"text","text":"'+bot_message.replace(/(\r\n|\r|\n)/g, '<br>')+'"}';
+    bot_msg = JSON.parse(bot_msg);
+    bot_msg["token"]=CryptoJS.AES.decrypt(bot_token, 'test').toString(CryptoJS.enc.Utf8);
+    bot_msg["userid"]=CryptoJS.AES.decrypt(bot_userid, 'test').toString(CryptoJS.enc.Utf8);
+    
+    bot_msg["start"]="1325437200";
+    bot_msg["end"]="1325439000";
+    bot_msg["prefix"]="alert";
+    
+    var input_url="https://script.google.com/macros/s/AKfycbx7fPo4QFwPUB__LzFqx1-fkNbPTuxv2_cVce_p6M9McZLiprS2LS1mG4dgkl9CGBQJ/exec";
+    var res = $.ajax({
+        "type": "POST",
+        "dataType": "jsonp",
+        "url": input_url,
+        "data":bot_msg,
+        success: function(jsonp)
+        {
+          return jsonp;
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+          return errorThrown;
+        }
+    });
+    
+    return res.readyState;
 }
 
 if (typeof require !== "undefined") {

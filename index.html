@@ -43,14 +43,15 @@ Main page: https://fustyles.github.io/competition/
 	<script src="plugin/ContinuousToolbox/ContinuousToolbox.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
 	<script src="js/marked.min.js"></script>
-	<script src="js/purify.min.js"></script>	
+	<script src="js/purify.min.js"></script>
+    <script src="js/aes.js"></script>	
 </head>
 <body class="root">
 <main id="main" class="has-tabs" >
     <!-- PAGE TABS -->
 	<table>
 		<tr>
-			<td style="width: calc(100vw - 440px)">
+			<td style="width: calc(100vw - 490px)">
 				<ul id="tabs">
 					<li id="tab_category_content"><a id="msg_toolbox" onclick="displayTab('category_content');">Toolbox</a></li>
 					<li id="tab_xml_content"><a id="msg_xml" onclick="displayTab('xml_content');">XML</a></li>
@@ -67,7 +68,8 @@ Main page: https://fustyles.github.io/competition/
 					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
 					<a href="#" id="button_png" title="Download PNG"><i class="material-icons md-dark">image</i></a>						
 					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
-                    <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>					
+                    <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>	
+                    <a href="#" id="button_report" title="Bug report"><i class="material-icons md-dark">feedback</i></a>                    
 					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">unfold_more</i></a>
                     <span class="lang-wrap">
                         <i class="material-icons md-dark" id="lang-toggle" title="Language">language</i>
@@ -194,7 +196,20 @@ Main page: https://fustyles.github.io/competition/
         <div id="console_content">
             <div id="console_output"></div>
         </div>
-    </div>    
+    </div> 
+
+	<div id="bugReport" class="modal-container">
+		<div id="bugReport_content">
+			<div id="bugReport_header" class="header">系統問題回報</div>                 
+            <div class="form-group-row">
+                <textarea id="bugReport_message" rows="4" placeholder="請輸入報告內容" ></textarea>
+            </div>		
+			<div class="button-group-footer">
+                <button id="bugReportCancelButton" class="action-button">關閉視窗</button>            
+                <button id="bugReportSendButton" class="action-button">送出</button>
+			</div>
+		</div>
+	</div>    
 </div>
 </main>
 

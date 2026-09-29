@@ -34,6 +34,7 @@ var msg = [
 ["button_resize", "title", Blockly.Msg["BUTTON_RESIZE"]],
 ["button_hide", "title", Blockly.Msg["BUTTON_HIDE"]],
 ["button_enlarge", "title", Blockly.Msg["BUTTON_ENLARGE"]],
+["button_report", "title", Blockly.Msg["BUTTON_REPORT"]],
 ["question_input", "placeholder", Blockly.Msg["QUESTION_INPUT"]],
 ["query_input", "placeholder", Blockly.Msg["QUERY_INPUT"]],
 ["button_question", "title", Blockly.Msg["BUTTON_QUEST"]],
@@ -47,5 +48,9 @@ var msg = [
 ["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]],
 ["importQuestion_sheet_name", "title", Blockly.Msg["IMPORTQUESTION_EXAM_LIST"]],
 ["button_key", "title", Blockly.Msg["BUTTON_GEMINI_API_KEY"]],
-["button_png", "title", Blockly.Msg["DOWNLOAD"]]
+["button_png", "title", Blockly.Msg["DOWNLOAD"]],
+["bugReport_header", "innerHTML", Blockly.Msg["BUGREPORT_HEADER"]],
+["bugReport_message", "placeholder", Blockly.Msg["BUGREPORT_MESSAGE"]],
+["bugReportCancelButton", "innerHTML", Blockly.Msg["BUGREPORT_CANCELBUTTON"]],
+["bugReportSendButton", "innerHTML", Blockly.Msg["BUGREPORT_SENDBUTTON"]],
 ];
