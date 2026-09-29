@@ -1750,8 +1750,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       
 		const scratchBlocks = workspace.getBlocksByType("javascript_console_scratch", false);
-        const blocklyBlocks = workspace.getBlocksByType("javascript_console", false);         
-		if (scratchBlocks.length>0||blocklyBlocks.length>0)
+        const blocklyBlocks = workspace.getBlocksByType("javascript_console", false);
+		const printBlocks = workspace.getBlocksByType("text_print", false);		
+		if (scratchBlocks.length>0||blocklyBlocks.length>0||printBlocks.length>0)
             toggleConsoleForm(true);
         else
             toggleConsoleForm(false);
