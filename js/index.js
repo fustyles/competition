@@ -1723,9 +1723,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  systemAnswer = input;\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
-			'  if (/^-?(0|[1-9]\\d*)(\\.\\d+)?$/.test(input)) {\n'+
-			'    input = Number(input);\n'+
-			'  }\n'+
+            '  if (/^[+-]?(?:0|[1-9]\\d*)(?:\\.\\d+)?$|^[+-]?\\.\\d+$/.test(input) && input.replace(/[+\\-.]/g, "").length <= 15)\n'+
+            '      input = Number(input);\n'+
 			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}\n';
