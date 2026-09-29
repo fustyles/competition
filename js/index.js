@@ -1714,7 +1714,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		} else {
 			code += ''+
 			'async function variable_input_test (input, msg){\n'+
-			'  if (input === null) {'+
+			'  if (input === null || input === undefined) {'+
 			'      input = "";'+
 			'  }'+			
 			'  variable_data_test_index++;\n'+
@@ -1723,8 +1723,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  systemAnswer = input;\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
-			'  if (input && !isNaN(input) && input.trim() !== "")\n'+
-			'      input = Number(input);\n'+
+			'  if (/^-?(0|[1-9]\\d*)(\\.\\d+)?$/.test(input)) {\n'+
+			'    input = Number(input);\n'+
+			'  }\n'+
 			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
 			'}\n';
