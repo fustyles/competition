@@ -885,10 +885,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			formDiv.style.display = 'flex'; 
 
             var metrics = Blockly.getMainWorkspace().getMetrics();
-            formDiv.style.left = (metrics.viewWidth/2 - 200) + 'px';
-            formDiv.style.top = (metrics.viewHeight/2 - 150) + 'px';
-            formDiv.style.width = '400px';
-            formDiv.style.height = '300px';
+            formDiv.style.left = (metrics.viewWidth/2 - 250) + 'px';
+            formDiv.style.top = (metrics.viewHeight/2 - 200) + 'px';
+            formDiv.style.width = '500px';
+            formDiv.style.height = '400px';
             
             var div = document.getElementById('bugReport_message');
             div.value = '';
