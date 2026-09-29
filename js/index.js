@@ -1687,7 +1687,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  systemAnswer = input;\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
-			'  if (input && !isNaN(input) && input.trim() !== "")\n'+
+			'  if (input && !isNaN(input) && input.trim() !== "" && input[0] != "0")\n'+
 			'      input = Number(input);\n'+
 			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
 			'  return input;\n'+
