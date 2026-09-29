@@ -22,7 +22,7 @@ var apiKey = "";
 var apiModel = "";
 
 var sheetNames = [
-    "113全國賽","113全國賽範例","114全國賽國中組","114全國賽國小組",
+    "114全國賽國中組","114全國賽國小組","113全國賽","113全國賽範例",
     "國小基礎練習","國小基礎應用","國中基礎練習","國中基礎應用",
     "114花蓮縣國小組","114金門縣國小組","114屏東縣國小組","114苗栗縣國小組",
     "114桃園市國小組","114臺南市國小組","114南投縣國小組","114基隆市國小組",
@@ -1502,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 	  
-	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 	  
 	  
 	  try {
@@ -1757,7 +1757,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.title = 'err';return;}window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 		
