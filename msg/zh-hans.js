@@ -61,6 +61,7 @@ Blockly.Msg["BUTTON_RESIZE"] = "还原视窗";
 Blockly.Msg["BUTTON_HIDE"] = "隐藏视窗";
 Blockly.Msg["BUTTON_ENLARGE"] = "放大视窗";
 Blockly.Msg["BUTTON_REPORT"] = "报告错误";
+Blockly.Msg["BUTTON_LANGUAGE"] = "语系";
 Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与目前工作区积木程式的讨论。";
 Blockly.Msg["BUTTON_QUEST"] = "汇入题库";

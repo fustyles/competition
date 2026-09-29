@@ -61,6 +61,7 @@ Blockly.Msg["BUTTON_RESIZE"] = "Restore window";
 Blockly.Msg["BUTTON_HIDE"] = "Hide window";
 Blockly.Msg["BUTTON_ENLARGE"] = "Enlarge window";
 Blockly.Msg["BUTTON_REPORT"] = "Report an error";
+Blockly.Msg["BUTTON_LANGUAGE"] = "Language";
 Blockly.Msg["QUESTION_INPUT"] = "Input Blockly programming question";
 Blockly.Msg["QUERY_INPUT"] = "Enter the content of the dialogue with the AI ​​to discuss the programming content.";
 Blockly.Msg["BUTTON_QUEST"] = "Import question";

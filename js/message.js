@@ -9,6 +9,7 @@ var msg = [
 ["button_save_xml", "title", Blockly.Msg["BUTTON_SAVE_XML"]],
 ["button_open_xml", "title", Blockly.Msg["BUTTON_OPEN_XML"]],
 ["button_copycode", "title", Blockly.Msg["BUTTON_COPYCODE"]],
+["lang-toggle", "title", Blockly.Msg["BUTTON_LANGUAGE"]],
 ["title_code", "innerHTML", Blockly.Msg["BUTTON_UPLOAD_CODE"]],
 ["enter_question", "innerHTML", Blockly.Msg["ENTER_QUESTION"]],
 ["enter_query", "innerHTML", Blockly.Msg["ENTER_QUERY"]],
