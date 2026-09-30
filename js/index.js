@@ -1688,6 +1688,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 
 	function runTest(iframe, input) {
+		input = JSON.stringify(input);
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
