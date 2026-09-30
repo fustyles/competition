@@ -343,7 +343,7 @@ procedures_callnoreturn$$module$build$src$generators$javascript$procedures=funct
 text_noquotes$$module$build$src$generators$javascript$text=function(a,b){
 	var text = a.getFieldValue("TEXT");
 	if (isNaN(text)||(/^\s*$/.test(text))) {
-		text = "'"+a.getFieldValue("TEXT").replace(/\'/g, "\\\'")+"'";
+		text = "'"+a.getFieldValue("TEXT").replace(/\\/g, "\\\\").replace(/\'/g, "\\'")+"'";
 	} else {
 		text = a.getFieldValue("TEXT");
 	}
