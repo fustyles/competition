@@ -1690,7 +1690,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	function runTest(iframe, input) {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input.replace(/\'/g, "\\\'")+"', ");
-		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
+		code = code.replace(/data_output\(/g,"data_output_test('"+input.replace(/\'/g, "\\\'")+"', ");		
 		code = 'var systemAnswer = "'+input+'"; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
         
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_input_scratch");       
