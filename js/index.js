@@ -2281,8 +2281,9 @@ function loadExam() {
     document.getElementById("iframe_output").style.display = "none";
 }
 
-function linebot_push_message(bot_token, bot_userid, bot_message) {	
-    var bot_msg = '{"type":"text","text":"'+bot_message.replace(/(\r\n|\r|\n)/g, '<br>')+'"}';
+function linebot_push_message(bot_token, bot_userid, bot_message) {
+	bot_message = (bot_message+"").replace(/\'/g,"%27").replace(/\"/g,"%22").replace(/(\r\n|\r|\n)/g, '<br>');	
+    var bot_msg = '{"type":"text","text":"'+bot_message+'"}';
     bot_msg = JSON.parse(bot_msg);
     bot_msg["token"]=CryptoJS.AES.decrypt(bot_token, 'test').toString(CryptoJS.enc.Utf8);
     bot_msg["userid"]=CryptoJS.AES.decrypt(bot_userid, 'test').toString(CryptoJS.enc.Utf8);
