@@ -1584,12 +1584,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         toggleConsoleForm(false);
 	  
+		/*
 		var blocks = workspace.getBlocksByType("javascript_data_output");
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch");
 		if (blocks.length==0&&blocks_scratch.length==0) {
 			alert(Blockly.Msg["TEST_CODE_CHECK"]);
 			return;
 		}
+		*/
 
 		var question_input = document.getElementById("question_input").value;
 		const jsonRegex = /\{[\s\S]*?\}/;
@@ -1689,7 +1691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input+"', ");		
-		code = 'var systemAnswer = ""; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
+		code = 'var systemAnswer = "'+input+'"; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
         
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_input_scratch");       
 
@@ -1701,8 +1703,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  }'+			
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
-			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  systemAnswer = input;\n'+				
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
 			'  if (type=="NUMBER")\n'+
@@ -1721,8 +1722,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  }'+			
 			'  variable_data_test_index++;\n'+
 			'  var arr = input.split(";");\n'+
-			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+
-			'  systemAnswer = input;\n'+			
+			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
 			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
             '  if (input.trim() !== "" && !isNaN(input) && input.replace(/[+\\-.]/g, "").length <= 15)\n'+
@@ -1738,8 +1738,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'      input = "";'+
 			'  }'+
 			'  variable_data_test_index++;\n'+			
-			'  var arr = input.split(";");\n'+	
-			'  systemAnswer = input;\n'+				
+			'  var arr = input.split(";");\n'+					
 			'  input = arr[variable_data_test_index];\n'+
 			'  userAnswer += (userAnswer ? ";" : "") + text;\n'+		
 			'  //document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
