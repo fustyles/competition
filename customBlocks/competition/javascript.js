@@ -277,10 +277,10 @@ Blockly.JavaScript['javascript_variable_boolean_scratch'] = function(block) {
 };
 
 Blockly.Blocks['variables_set'] = Blockly.Blocks['variables_set_local'];
-Blockly.JavaScript.forBlock['variables_set'] = Blockly.JavaScript['variables_set_local'];
+Blockly.JavaScript.forBlock['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'];
 
-Blockly.JavaScript.forBlock['text_print'] = Blockly.JavaScript['javascript_console_scratch'];
-Blockly.JavaScript.forBlock['text_prompt_ext'] = Blockly.JavaScript['javascript_data_input'];
+Blockly.JavaScript.forBlock['text_print'] = Blockly.JavaScript.forBlock['javascript_console_scratch'];
+Blockly.JavaScript.forBlock['text_prompt_ext'] = Blockly.JavaScript.forBlock['javascript_data_input'];
 
-Blockly.JavaScript.forBlock['variables_set'] = Blockly.JavaScript['variables_set_local'];
-Blockly.JavaScript.forBlock['text_prompt'] = Blockly.JavaScript['javascript_data_input'];
+Blockly.JavaScript.forBlock['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'];
+Blockly.JavaScript.forBlock['text_prompt'] = Blockly.JavaScript.forBlock['javascript_data_input'];
