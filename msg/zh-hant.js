@@ -52,7 +52,6 @@ Blockly.Msg["TEST_CODE_CORRECT"] = "輸出：%1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "輸出：%1 🔴";
 Blockly.Msg["TEST_CODE_CORRECT_COUNT"] = "答對數";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "請填入測資資料 %1，以分號符號(;)分隔要輸入與輸出的連續資料。\n若不填資料送出即可停止輸入。";
-Blockly.Msg["TEST_CODE_CHECK"] = "工作區必須只有一個輸出積木並置於程式的結尾，取消測資！";
 Blockly.Msg["TEST_DATA_JSON_ERROR"] = "測資JSON資料格式錯誤，取消測資！";
 Blockly.Msg["BUTTON_GEMINI_API_KEY"] = "輸入Gemini API金鑰";
 Blockly.Msg["BUTTON_UPLOAD_CODE"] = "試題內容";

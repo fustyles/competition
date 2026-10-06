@@ -52,7 +52,6 @@ Blockly.Msg["TEST_CODE_CORRECT"] = "Output Data: %1 🟢";
 Blockly.Msg["TEST_CODE_ERROR"] = "Output Data: %1 🔴";
 Blockly.Msg["TEST_CODE_CORRECT_COUNT"] = "Number of correct answers";
 Blockly.Msg["TEST_CODE_MESSAGE"] = "Please enter test data %1, separating the input and output values with a semicolon (;).\nSubmit without entering any data to stop.";
-Blockly.Msg["TEST_CODE_CHECK"] = "The workspace must have only one output block and be placed at the end of the program. Cancel the evaluation!";
 Blockly.Msg["TEST_DATA_JSON_ERROR"] = "The evaluation JSON data format is incorrect. Cancel the evaluation!"
 Blockly.Msg["BUTTON_GEMINI_API_KEY"] = "Input Gemini API Key";
 Blockly.Msg["BUTTON_UPLOAD_CODE"] = "Test Question";
