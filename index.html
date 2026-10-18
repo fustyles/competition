@@ -3,7 +3,7 @@
 Copyright 2026 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 18/10/2026 00:00 (Taiwan Standard Time)
+@Update 2/9/2026 00:00 (Taiwan Standard Time)
 
 Main page: https://fustyles.github.io/competition/
 -->
@@ -176,11 +176,14 @@ Main page: https://fustyles.github.io/competition/
 					  <option value="gemini-3.5-flash">gemini-3.5-flash</option>
 					  <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite</option>
 				</select>
-			</div>         
+                <a href="https://aistudio.google.com/api-keys" target="_blank" id="button_apikeys" title="Gemini api Key"><i class="material-icons md-dark">vpn_key</i></a>
+                <a href="https://drive.google.com/drive/folders/14ZRbvde5nQLEb97vUCX5XKeAti6NXtHo?usp=drive_link" target="_blank" id="button_resource" title="Learning Resources"><i class="material-icons md-dark">folder_shared</i></a>
+            </div>         
             <div class="form-group-row">
                 <textarea id="aiAssistant_message" rows="4" placeholder="請輸入對話內容" ></textarea>
             </div>		
 			<div class="button-group-footer">
+                <button id="ResourcetButton" class="action-button">重設對話</button>
                 <button id="aiResetButton" class="action-button">重設對話</button>					
                 <button id="aiCancelButton" class="action-button">關閉視窗</button>
                 <button id="aiAssistantsChatButton" class="action-button">送出</button>
