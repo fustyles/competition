@@ -1476,11 +1476,23 @@ document.addEventListener('DOMContentLoaded', function() {
 			var xmlText = Blockly.Xml.domToText(xml);
 
 			var link = document.createElement('a');
-			link.download="project.xml";
+			link.download="id_number.xml";
 			link.href="data:application/octet-stream;utf-8," + encodeURIComponent(xmlText);
 			document.body.appendChild(link);
 			link.click();
-			link.remove();				
+			link.remove();	
+
+			/*
+				var code = Blockly.JavaScript.workspaceToCode(workspace);
+				code = js_beautify(code);
+	
+				var link = document.createElement('a');
+				link.download="id_number.js";
+				link.href="data:application/octet-stream;utf-8," + encodeURIComponent(code);
+				document.body.appendChild(link);
+				link.click();
+				link.remove();	
+			*/
 		} catch (e) {
 			alert(e);
 		}
