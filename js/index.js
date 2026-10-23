@@ -769,6 +769,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		}		
 			
         toggleImportQuestionForm(true);
+    }); 
+
+    document.getElementById('button_resetSheet').addEventListener('click', () => {
+        document.getElementById('importQuestion_sheet_id').value = Blockly.Msg["IMPORTQUESTION_SHEET_ID"];
+        document.getElementById('importQuestion_sheet_name').value = Blockly.Msg["IMPORTQUESTION_SHEET_NAME"];
+        document.getElementById('importQuestionsList').innerHTML = "";
     });    
 	
     document.getElementById('editButton').addEventListener('click', () => {

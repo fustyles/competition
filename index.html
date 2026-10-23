@@ -135,11 +135,13 @@ Main page: https://fustyles.github.io/competition/
     <div id="importQuestion" class="modal-container">
         <div id="importQuestion_content">
             <div id="importQuestion_header" class="header">匯入題目與評測資料</div>
-
             <div class="form-group">
                 <label id="importQuestion_sheet_id_title" for="sheetUrl">試算表ID</label>
-                <input id="importQuestion_sheet_id" type="text" id="sheetUrl" value=""  onfocus="this.select()">
             </div>
+            <div class="form-group-row">
+                <input id="importQuestion_sheet_id" type="text" id="sheetUrl" style="width: 680px;" value=""  onfocus="this.select()">
+                <a id="button_resetSheet" style="cursor: pointer" title="Reload sheet"><i class="material-icons" style="vertical-align: middle; color: black;">refresh</i></a>
+            </div>            
             <div class="form-group-row">
                 <label id="importQuestion_sheet_name_title" for="importQuestion_sheet_name">工作表名稱</label>
                 <span class="sheet-picker">
@@ -154,7 +156,7 @@ Main page: https://fustyles.github.io/competition/
                 <div id="importQuestionsList" style="overflow: auto;"></div>
             </div>
             <div class="button-group-footer">
-                <button id="editButton" class="action-button">共編題庫</button>			
+                <button id="editButton" class="action-button">系統題庫</button>			
                 <button id="importCancelButton" class="action-button">關閉視窗</button>				
             </div>
         </div>

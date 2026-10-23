@@ -56,4 +56,5 @@ var msg = [
 ["bugReportSendButton", "innerHTML", Blockly.Msg["BUGREPORT_SENDBUTTON"]],
 ["button_apikeys", "title", Blockly.Msg["BUTTON_APIKEYS"]],
 ["button_resource", "title", Blockly.Msg["BUTTON_RESOURCE"]],
+["button_resetSheet", "title", Blockly.Msg["BUTTON_RESETSHEET"]],
 ];
