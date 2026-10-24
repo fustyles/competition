@@ -2057,7 +2057,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		var prompt = promptTemplate
 			.replace("%1", var1)
 			.replace("%2", var2)
-			.replace("%3", var3);
+			.replace("%3", var3)
+            .replace("%4", (scratchStyle?'scratch':'blockly'));          
 
 		var replyText = await gemini_chat_run(prompt);
         
