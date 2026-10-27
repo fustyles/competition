@@ -1591,7 +1591,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	    if (scratchStyle) {
 		  const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
 		  if (topBlocks.length!=1) {
-			alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+			iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+			//alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
 			if (topBlocks.length==0) {
 				var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
 				//Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);			
@@ -1603,7 +1604,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		const blocks_blockly = workspace.getBlocksByType("javascript_data_output", false); 
 		const blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch", false);
 		if (blocks_blockly.length==0 && blocks_scratch.length==0) {
-			iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_OUTPUT_ALERT"]);
+			if (scratchStyle)
+				iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_OUTPUT_ALERT_SCRATCH"]);
+			else
+				iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_OUTPUT_ALERT"]);
 			return;
 		}
         
@@ -1793,7 +1797,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (scratchStyle) {
             const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
             if (topBlocks.length!=1) {
-                alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+				iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+                //alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
                 if (topBlocks.length==0) {
                     var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
                     //Blockly.Xml.domToBlock(Blockly.utils.xml.textToDom(xml), workspace);				
