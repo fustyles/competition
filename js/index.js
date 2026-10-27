@@ -1720,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+
-			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+			
 			'  if (type=="NUMBER")\n'+
 			'  	input = Number(input);\n'+
 			'  else\n'+
@@ -1739,7 +1739,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
-			'  userAnswer += (userAnswer ? ";" : "") + input;\n'+			
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+			
             '  if (input.trim() !== "" && !isNaN(input) && input.replace(/[+\\-.]/g, "").length <= 15)\n'+
             '      input = Number(input);\n'+
 			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
@@ -1755,7 +1755,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+			
 			'  var arr = input.split(";");\n'+					
 			'  input = arr[variable_data_test_index];\n'+
-			'  userAnswer += (userAnswer ? ";" : "") + text;\n'+		
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + text;\n'+		
 			'  //document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
 			'}\n';
 
