@@ -1602,7 +1602,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		const blocks = workspace.getBlocksByType("javascript_data_output", false); 
 		if (blocks.length==0) {
-			alert(Blockly.Msg["JAVASCRIPT_INPUT_ALERT"]);
+			iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_OUTPUT_ALERT"]);
 			return;
 		}
         
