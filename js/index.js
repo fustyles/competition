@@ -1600,8 +1600,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		  }
 	    }
 		
-		const blocks = workspace.getBlocksByType("javascript_data_output", false); 
-		if (blocks.length==0) {
+		const blocks_blockly = workspace.getBlocksByType("javascript_data_output", false); 
+		const blocks_scratch = workspace.getBlocksByType("javascript_data_output_scratch", false);
+		if (blocks_blockly.length==0 && blocks_scratch.length==0) {
 			iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_OUTPUT_ALERT"]);
 			return;
 		}
