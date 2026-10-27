@@ -1599,6 +1599,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			return;
 		  }
 	    }
+		
+		const blocks = workspace.getBlocksByType("javascript_data_output", false); 
+		if (blocks.length==0) {
+			alert(Blockly.Msg["JAVASCRIPT_INPUT_ALERT"]);
+			return;
+		}
         
         toggleConsoleForm(false);
 
