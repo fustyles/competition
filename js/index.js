@@ -2197,7 +2197,49 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".sheet-picker")) sheetList.classList.remove("show");
     });   
-  
+
+    const questionInput = document.getElementById('question_input');
+    if (!questionInput) return;
+
+    const DEFAULT_SIZE = 14, MIN_SIZE = 8, MAX_SIZE = 48, STEP = 2;
+    let fontSize = DEFAULT_SIZE;
+
+    // 讀取上次的設定（瀏覽器不允許時就用預設值）
+    try {
+        const saved = parseInt(localStorage.getItem('question_input_fontsize'), 10);
+        if (saved >= MIN_SIZE && saved <= MAX_SIZE) fontSize = saved;
+    } catch (e) {}
+
+    function applyFontSize() {
+        questionInput.style.fontSize = fontSize + 'px';
+        try { localStorage.setItem('question_input_fontsize', fontSize); } catch (e) {}
+    }
+    applyFontSize();
+
+    questionInput.addEventListener('keydown', function (e) {
+        if (!(e.ctrlKey || e.metaKey)) return;   // metaKey 讓 Mac 的 Cmd 也能用
+
+        if (e.key === '+' || e.key === '=' || e.code === 'NumpadAdd') {
+            fontSize = Math.min(MAX_SIZE, fontSize + STEP);
+        } else if (e.key === '-' || e.code === 'NumpadSubtract') {
+            fontSize = Math.max(MIN_SIZE, fontSize - STEP);
+        } else if (e.key === '0' || e.code === 'Numpad0') {
+            fontSize = DEFAULT_SIZE;
+        } else {
+            return;
+        }
+        e.preventDefault();   // 阻止瀏覽器整頁縮放
+        applyFontSize();
+    });
+
+    // Ctrl + 滑鼠滾輪也能縮放
+    questionInput.addEventListener('wheel', function (e) {
+        if (!(e.ctrlKey || e.metaKey)) return;
+        e.preventDefault();
+        fontSize = e.deltaY < 0 ? Math.min(MAX_SIZE, fontSize + STEP)
+                                : Math.max(MIN_SIZE, fontSize - STEP);
+        applyFontSize();
+    }, { passive: false });  
 });	
 
 var tabs = ['code_content','xml_content','category_content'];
@@ -2291,7 +2333,8 @@ function reloadZoom(content) {
 	questionInput.style.flex = '1';
 	questionInput.style.height = '60%';
 	questionInput.style.width = '100%';
-    questionInput.scrollTop = 0; 
+    questionInput.scrollTop = 0;
+	questionInput.style.fontSize = '14px';
     
     document.getElementById("iframe_output").style.display = "flex";
     document.getElementById("iframe_output").style.height = "35%";
