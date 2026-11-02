@@ -1404,10 +1404,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
 		
 	$(function() {
-		$( "#javascript_content" ).draggable();
-		$( "#javascript_content" ).resizable();
-		$( "#run_content" ).draggable();
-		$( "#run_content" ).resizable();		
+        $("#javascript_content").draggable({
+            handle: "#javascript_title",   // 只能拖標題列（標題列本來就是 cursor: move）
+            cancel: "a, .contentzoom, .contentzoom_resize, .contentzoom_hide, .contentzoom_enlarge",
+            //containment: "#main",          // 不能拖出主畫面
+            scroll: false                  // 拖到邊緣時不要捲動頁面
+        });
+        $("#javascript_content").resizable({
+            containment: "#main",          // 不能拉超過主畫面
+            minWidth: 250,
+            minHeight: 150
+        });		
 	});	
 	
 	function newFile() {
@@ -2197,7 +2204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener("click", function (e) {
         if (!e.target.closest(".sheet-picker")) sheetList.classList.remove("show");
     });   
-
+  
     const questionInput = document.getElementById('question_input');
     if (!questionInput) return;
 
@@ -2239,7 +2246,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fontSize = e.deltaY < 0 ? Math.min(MAX_SIZE, fontSize + STEP)
                                 : Math.max(MIN_SIZE, fontSize - STEP);
         applyFontSize();
-    }, { passive: false });  
+    }, { passive: false }); 
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollX !== 0 || window.scrollY !== 0) window.scrollTo(0, 0);
+    });    
 });	
 
 var tabs = ['code_content','xml_content','category_content'];
@@ -2334,10 +2345,11 @@ function reloadZoom(content) {
 	questionInput.style.height = '60%';
 	questionInput.style.width = '100%';
     questionInput.scrollTop = 0;
-	questionInput.style.fontSize = '14px';
+    questionInput.style.fontSize = '14px';  
     
     document.getElementById("iframe_output").style.display = "flex";
     document.getElementById("iframe_output").style.height = "35%";
+
 }
 
 function loadExam() {
