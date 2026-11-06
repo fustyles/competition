@@ -820,6 +820,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
     
+    document.getElementById('button_normalpage').addEventListener('click', () => {
+		window.location.href = "/offline";
+    });     
+    
 	function toggleConsoleForm(show) {
 		const formDiv = document.getElementById('consoleLog');
 		if (show) {

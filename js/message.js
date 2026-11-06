@@ -57,4 +57,5 @@ var msg = [
 ["button_apikeys", "title", Blockly.Msg["BUTTON_APIKEYS"]],
 ["button_resource", "title", Blockly.Msg["BUTTON_RESOURCE"]],
 ["button_resetSheet", "title", Blockly.Msg["BUTTON_RESETSHEET"]],
+["button_normalpage", "title", Blockly.Msg["BUTTON_NORMALPAGE"]],
 ];
