@@ -35,4 +35,5 @@ var msg = [
 ["importCancelButton", "innerHTML", Blockly.Msg["IMPORTCANCELBUTTON"]],
 ["importQuestionsButton", "innerHTML", Blockly.Msg["IMPORTQUESTIONSBUTTON"]],
 ["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]],
+["button_page", "title", Blockly.Msg["BUTTON_PAGE"]],
 ];

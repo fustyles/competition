@@ -87,6 +87,7 @@ Blockly.Msg["BUTTON_RESET"] = "重设工作区";
 Blockly.Msg["BUTTON_OPEN_XML"] = "开启积木档";
 Blockly.Msg["BUTTON_SAVE_XML"] = "储存积木档";
 Blockly.Msg["BUTTON_COPYCODE"] = "复制执行结果到剪贴簿";
+Blockly.Msg["BUTTON_PAGE"] = "开启进阶版积木平台";
 Blockly.Msg["LANGUAGE_EN"] = "英文";
 Blockly.Msg["LANGUAGE_CHT"] = "中文";
 Blockly.Msg["BUTTON_START"] = "执行程式";

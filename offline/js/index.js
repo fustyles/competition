@@ -737,6 +737,9 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleImportQuestionForm(false);
     });	
     
+    document.getElementById('button_page').addEventListener('click', () => {
+		window.location.href = "../";
+    }); 
     
 	function toggleConsoleForm(show) {
 		const formDiv = document.getElementById('consoleLog');

@@ -87,6 +87,7 @@ Blockly.Msg["BUTTON_RESET"] = "Reset workspace";
 Blockly.Msg["BUTTON_OPEN_XML"] = "Import xml file";
 Blockly.Msg["BUTTON_SAVE_XML"] = "Export to a xml file";
 Blockly.Msg["BUTTON_COPYCODE"] = "Copy to clipboard";
+Blockly.Msg["BUTTON_PAGE"] = "Open the advanced version of the building block platform";
 Blockly.Msg["LANGUAGE_EN"] = "EN";
 Blockly.Msg["LANGUAGE_CHT"] = "CHT";
 Blockly.Msg["BUTTON_START"] = "Start";

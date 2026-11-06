@@ -83,6 +83,7 @@ Blockly.Msg["BUTTON_RESET"] = "重設工作區";
 Blockly.Msg["BUTTON_OPEN_XML"] = "開啟積木檔";
 Blockly.Msg["BUTTON_SAVE_XML"] = "儲存積木檔";
 Blockly.Msg["BUTTON_COPYCODE"] = "複製執行結果到剪貼簿";
+Blockly.Msg["BUTTON_PAGE"] = "開啟進階版積木平台";
 Blockly.Msg["LANGUAGE_EN"] = "英文";
 Blockly.Msg["LANGUAGE_CHT"] = "中文";
 Blockly.Msg["BUTTON_START"] = "執行程式";
