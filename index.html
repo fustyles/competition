@@ -129,9 +129,9 @@ Main page: https://fustyles.github.io/competition/
 		// 依網址 ?lang= 參數切換視窗文字
 		var lang = new URLSearchParams(location.search).get('lang');
 		document.getElementById('versionSelect_header').textContent = Blockly.Msg["FSM_TITLE"];
-		document.getElementById('versionSelect_desc').textContent = Blockly.Msg["BUTTON_DESC"];
-		document.getElementById('versionStandardButton').textContent = Blockly.Msg["BUTTON_STANDARD"];
-		document.getElementById('versionAdvancedButton').textContent = Blockly.Msg["BUTTON_ADVANCED"];
+		document.getElementById('versionSelect_desc').textContent = Blockly.Msg["PAGE_DESC"];
+		document.getElementById('versionStandardButton').textContent = Blockly.Msg["PAGE_STANDARD"];
+		document.getElementById('versionAdvancedButton').textContent = Blockly.Msg["PAGE_ADVANCED"];
 
 		// 鎖住頁面：攔截視窗外的鍵盤操作（避免 Tab 鍵跳到底下的元素）
 		function blockKeys(e) {
