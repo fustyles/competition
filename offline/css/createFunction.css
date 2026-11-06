@@ -1,0 +1,471 @@
+/* 按鈕基礎樣式 */
+.action-button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* 主要功能按鈕樣式 */
+#showFormButton {
+    background-color: #007bff;
+    color: white;
+}
+#showFormButton:hover {
+    background-color: #0056b3;
+}
+
+
+/* ==================================== */
+/* 模組化視窗 (Modal) 樣式     */
+/* ==================================== */
+
+/* 模組化容器樣式 - 負責遮罩和置中 */
+.modal-container {
+    /* 預設隱藏，由 JS 控制顯示 */
+    display: none; 
+
+    /* 關鍵定位：讓它在螢幕上置中且覆蓋整個視窗 */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 關鍵置中：Flexbox */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    
+    background-color: rgba(0, 0, 0, 0.5); /* 遮罩效果 */
+    z-index: 1000;
+}
+
+/* 內容區塊的樣式 - 實際的表單視窗 */
+#createFunction_content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 700px;	
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#importQuestion_content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;	
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#importQuestionsList {
+	overflow: auto; /* 核心屬性：內容溢出時自動顯示捲軸 */
+	border: 1px solid #ccc; /* 方便觀察容器邊界 */
+	height: 300px; /* 關鍵：設定固定的高度 */
+	width: 578px; /* 設定寬度，捲軸會影響內容寬度 */
+	padding: 10px;
+}
+
+/* 標題樣式 */
+.header {
+    background-color: #e0e0e0;
+    padding: 15px;
+    margin: -25px -25px 15px -25px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* 輸入框組樣式 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 輸入框樣式 */
+.form-group input, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 輸入框組樣式 (保留 Flexbox 佈局) */
+.form-group-row {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: nowrap;
+    /* 移除或註解 gap: 10px; */
+    align-items: center;
+    /* 新增一個負值的外邊距，用於抵消最後一個元素多餘的 margin-right，
+       確保整體不會溢出或出現不必要的滾動條。
+       這個值應等於您設定的 margin-right 值，例如 20px。 */
+    margin-right: -20px; 
+}
+
+/* 為所有直接子元素 (label 和 input) 設定間距 */
+.form-group-row > * {
+    margin-right: 20px; /* 您想要的間隙大小，例如 20 像素 */
+}
+
+/* 移除最後一個元素的右邊距，避免溢出 */
+.form-group-row > *:last-child {
+    margin-right: 0;
+}
+
+/* 輸入框樣式 (使用新的選擇器，並確保寬度是固定的或受控的) */
+.form-group-row input, .form-group-row textarea { 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 200px; /* 建議使用固定寬度，防止佔用過多空間 */
+    box-sizing: border-box;
+}
+
+/* 參數列表容器 - 移除 gap，將間隙交給 margin-right 處理 */
+#paramListContainer {
+	border: none;
+	height: 45px;
+	padding: 0;
+	justify-content: center;
+	display: flex; 
+	flex-wrap: wrap; 
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+/* 參數圖示基礎樣式 */
+.param-tag {
+	/* 確保間隙：讓每個圖示右側有 12px 的空間 */
+	margin-right: 4px; 
+	margin-bottom: 4px; /* 處理換行時的垂直間隙 */
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px 14px; /* 調整內邊距，使其更接近影像 */
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+/* 1. 橢圓形 (數字或文字) */
+.param-tag.NS {
+	border-radius: 9999px;
+	color: #FFFFFF; 
+	background-color: #FF8C1A;
+}
+
+/* 2. 六邊形 (布林值) */
+.param-tag.Boolean {
+	border-radius: 0;
+	/* 六邊形剪裁路徑 */
+	clip-path: polygon(
+		15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%
+	);
+	/* 調整 padding 讓內容在六邊形中置中看起來更自然 */
+	padding: 6px 18px;
+	color: #FFFFFF; 
+	background-color: #3373CC;	
+}
+
+/* 3. 圓角矩形 (說明文字) */
+.param-tag.label {
+	border-radius: 8px;
+	color: #FFFFFF; 
+	background-color: #59C059;	
+}
+
+/* 刪除按鈕 'x' 樣式 */
+.param-tag .delete-btn {
+	margin-left: 6px; /* 縮小名稱與 'x' 之間的間距 */
+	cursor: pointer;
+	font-weight: bold;
+	line-height: 1;
+	padding: 0 2px;
+	color: #6c757d;
+	transition: color 0.2s;
+}
+.param-tag .delete-btn:hover {
+	color: #343a40;
+}
+
+/* 底部操作按鈕樣式 */
+.button-group-param {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.param-button_ns {
+	flex: 1;
+	padding: 25px 10px;
+	margin: 0 5px;
+	background-color: #e8e8e8;
+	border: none;
+	border-radius: 9999px;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+.param-button_b {
+	flex: 1;
+	padding: 25px 10px;
+	margin: 0 5px;
+	background-color: #e8e8e8;
+	border: none;
+	border-radius: 0px;
+	clip-path: polygon(
+		15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%
+	);	
+	cursor: pointer;
+	font-size: 1em;
+}
+
+.param-button_l {
+	flex: 1;
+	padding: 25px 10px;
+	margin: 0 5px;
+	background-color: #e8e8e8;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+.button-group-footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+.action-button {
+	padding: 10px 20px;
+	margin-left: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: #f8f9fa;
+}
+#confirmButton {
+	background-color: #007bff;
+	color: white;
+	border-color: #007bff;
+}
+
+/* 拖曳時的樣式 (必須加上 !important 以確保覆蓋 param-tag 或其他定位) */
+.dragging {
+    cursor: grabbing !important;
+    opacity: 0.8;
+    /* 拖曳時設為絕對定位，讓它浮在上面 */
+    position: absolute !important; 
+    z-index: 1000 !important;
+}
+
+/* 確保可拖曳元素有抓取游標 */
+.draggable {
+    cursor: grab;
+    /* 為了配合拖曳邏輯中的位置計算，建議設置為 relative */
+    position: relative;
+}
+
+
+/* 1. 設定表格本身的樣式 */
+#importQuestionTable {
+    /* 讓相鄰單元格的邊框合併成一條單線，這是製作細實線框的關鍵 */
+    border-collapse: collapse; 
+    
+    /* 為表格外部添加 1px 黑色實線 */
+    border: 1px solid black;
+	
+	font-size: 12px; /* 範例：設定為 10 像素 */	
+    
+    /* 可選：讓表格寬度適應父容器 */
+    width: 100%;
+
+    /* 新增：固定表格佈局，讓欄寬嚴格依照百分比設定，不受內容長短影響 */
+    table-layout: fixed;
+}
+
+/* 2. 設定表格單元格 (td) 的樣式 */
+/* 由於 table 和 td 的邊框會合併，通常只需要明確設定 td/th 的邊框即可 */
+#importQuestionTable td {
+    /* 為每個單元格添加 1px 黑色實線 */
+    border: 1px solid black;
+    
+    /* 可選：增加單元格內容與邊框的空間 */
+    padding: 8px; 
+    
+    /* 可選：文字對齊 */
+    text-align: left; 
+
+    /* 新增：內容過長時自動換行，避免撐破欄位 */
+    overflow-wrap: break-word;
+}
+
+/* 新增：設定三欄寬度 20% / 40% / 40% */
+#importQuestionTable td:nth-child(1) {
+    width: 20%;
+}
+#importQuestionTable td:nth-child(2) {
+    width: 30%;
+}
+#importQuestionTable td:nth-child(3) {
+    width: 50%;
+}
+
+/* 3. 處理 tr 的邊框 (通常不需要，因為 td 的邊框會覆蓋 tr 的邊框) */
+/* 如果您仍想顯式為 tr 設定邊框，請注意：在 border-collapse: collapse; 模式下，
+   tr 的垂直邊框通常會被 td 的邊框取代或忽略。
+   但為確保完整性，可以添加以下：
+*/
+#importQuestionTable tr {
+    /* 這裡的邊框效果可能不明顯或被 td 覆蓋，但您可以設置 */
+    border: 1px solid black; 
+}
+
+#importQuestion_list {
+    height: 40px;          /* 高度 */
+    font-size: 18px;       /* 字體大小 */
+    padding: 4px 8px;
+    min-width: 220px;      /* 寬度，可依考試名稱長度調整 */
+    border: 1px solid #999;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+#importQuestion_list option {
+    font-size: 18px;       /* 下拉展開後選項的字體 */
+}
+
+#importQuestion_title,
+#importQuestionsButton {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+#importQuestionsButton {
+    height: 40px;
+}
+
+.lang-wrap {
+    position: relative;
+    display: inline-block;
+}
+#lang-toggle {
+    cursor: pointer;
+}
+#lang-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: auto;
+    right: 3px;
+    transform: none;
+    z-index: 1000;
+    padding: 4px 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    white-space: nowrap;
+}
+#lang-panel.show {
+    display: block;
+}
+.lang-option {
+    display: block;          /* 每個選項各佔一行 */
+    padding: 8px 16px;
+    font-size: 18px;
+    line-height: normal;
+    text-align: left;
+    color: #333;
+    cursor: pointer;
+}
+.lang-option:hover {
+    background: #eee;
+}
+.lang-option.active {
+    font-weight: bold;
+    color: #1a73e8;
+}
+
+
+#consoleLog {
+    position: fixed;          /* 固定在畫面上，可改成 absolute */
+    right: 20px;
+    bottom: 20px;
+    width: 200px;
+    height: 300px;
+    background: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    font-size: 12px;
+}
+
+#console_header {
+    height: 24px;
+    flex-shrink: 0;
+    background: #333;
+    display: flex;
+    justify-content: space-between;   /* 標題靠左、× 靠右 */
+    align-items: center;
+    padding: 0 4px 0 8px;
+    cursor: move;
+    user-select: none;
+    touch-action: none;   /* 手機觸控拖曳用 */    
+}
+
+#console_title {
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#consoleCancelButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#consoleCancelButton .material-icons {
+    font-size: 18px;
+    color: white;
+}
+
+#consoleCancelButton:hover .material-icons {
+    color: #ff6b6b;
+}
+
+#console_content {
+    flex: 1;                     /* 佔滿剩下的高度 */
+    overflow: hidden;
+}
+
+#console_output {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;      /* 避免 padding 撐大造成捲軸跑版 */
+    overflow: auto;
+}
+   
