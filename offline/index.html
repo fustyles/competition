@@ -1,0 +1,154 @@
+<!--
+@license
+Copyright 2026 Taiwan (ChungYi Fu)
+
+@author https://www.facebook.com/francefu/
+@Update 19/10/2026 00:00 (Taiwan Standard Time)
+-->
+
+
+<!doctype html>
+<html>
+<head>
+    <title>法蘭斯解題積木平台</title>
+    <meta name="description" content="法蘭斯解題積木平台是由鳳山科技中心法蘭斯老師開發的積木程式解題與演算法測驗平台，整合 Gemini AI 解題助手，專為科技教育創意實作競賽資訊科技組設計。">
+    <meta name="keywords" content="法蘭斯解題積木平台, 法蘭斯, 鳳山科技中心, 科技教育創意實作競賽, 資訊科技組, Blockly解題, Scratch解題">	
+	<meta charset="utf-8">	
+	<meta http-equiv="Access-Control-Allow-Headers" content="Origin, X-Requested-With, Content-Type, Accept">
+	<meta http-equiv="Access-Control-Allow-Methods" content="GET,POST,PUT,DELETE,OPTIONS">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<meta http-equiv='Access-Control-Allow-Credentials' content='true'>	
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="stylesheet" href="css/icon.css" />
+	<link rel="stylesheet" href="css/custom.css" />
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link rel="stylesheet" href="css/createFunction.css">	
+	<script src="js/blockly_compressed.js"></script>
+	<script src="js/blocks_compressed.js"></script>
+	<script src="js/javascript_compressed.js"></script>
+	<script src="js/custom.js"></script>	
+	<script src="js/index.js"></script>
+	<script src="js/message.js"></script>
+	<script src="plugin/ScreenShot/screenshot.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
+	<script src="js/toolbox.js"></script>	
+    <script src="js/beautify.js"></script>
+	<script src="plugin/ContinuousToolbox/ContinuousCategory.js"></script>
+	<script src="plugin/ContinuousToolbox/ContinuousMetrics.js"></script>  
+	<script src="plugin/ContinuousToolbox/ContinuousFlyout.js"></script>
+	<script src="plugin/ContinuousToolbox/ContinuousToolbox.js"></script>
+	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
+	<script src="exam/list.js"></script>	
+</head>
+<body class="root">
+<main id="main" class="has-tabs" >
+    <!-- PAGE TABS -->
+	<table>
+		<tr>
+			<td style="width: calc(100vw - 370px);text-align: center;vertical-align: middle;">
+				<ul id="tabs">
+					<li id="tab_category_content"><a id="msg_toolbox">Toolbox</a></li>
+				</ul>
+			</td>			
+			<td style="width: 370px;text-align: left;vertical-align: middle;">
+				<ul id="tabs">
+					<!-- https://fonts.google.com/icons -->
+					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons">play_arrow</i></a>
+					<a href="#" id="button_test" title="Verification Program"><i class="material-icons">done</i></a>
+					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons">create</i></a>
+					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons">folder_open</i></a>
+					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons">save</i></a>
+					<a href="#" id="button_question" title="Import Question"><i class="material-icons">view_list</i></a>                    
+					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons">unfold_more</i></a>
+                    <span class="lang-wrap">
+                        <i class="material-icons" id="lang-toggle" title="Language">language</i>
+                        <div id="lang-panel">
+                            <span class="lang-option" data-lang="en">ENGLISH</span>
+                            <span class="lang-option" data-lang="zh-hans">简体中文</span>
+                            <span class="lang-option" data-lang="zh-hant">繁體中文</span>
+                        </div>
+                    </span>                
+				</ul>
+			</td>
+		</tr>					
+	</table>	
+	  
+	<!-- CONTENT  -->
+	<div class="drop-shadow"></div>
+	<div id="category_content" class="content">
+		<div id="root"></div>
+		<xml id="toolbox" style="display: none"></xml>
+	</div>
+	<div id="dialog_toolbox" onmousedown="textareaFocus('dialog_toolbox_parent');" ontouchstart="textareaFocus('dialog_toolbox_parent');"></div>
+	
+	<div id="javascript_content" class="ui-widget-content" onmousedown="textareaFocus('javascript_content');" ontouchstart="textareaFocus('javascript_content');">
+		<div id="javascript_title" class="ui-widget-header">
+			<span id="title_code"></span>
+			<span class="contentzoom"><a href="#" id="button_copycode" title="Copy to clipboard"><i class="material-icons" style="vertical-align: middle; color: white;">featured_play_list</i></a></span>
+			<span class="contentzoom_resize"><a id="button_resize" onclick="reloadZoom();" style="cursor: pointer" title="Resize"><i class="material-icons" style="vertical-align: middle; color: white;">refresh</i></a>	</span>		
+			<span class="contentzoom_hide"><a id="button_hide" style="cursor: pointer" title="Hide"><i class="material-icons" style="vertical-align: middle; color: white;">keyboard_arrow_up</i></a>	</span>
+			<span class="contentzoom_enlarge"><a id="button_enlarge" style="cursor: pointer" title="Enlarge"><i class="material-icons" style="vertical-align: middle; color: white;">aspect_ratio</i></a>	</span>
+		</div>
+		<div id="javascript_code" class="update_code">
+			<div id="question_input" style="border: 1px solid #ddd;width:100%;height:60%;overflow: auto;padding:0px; overflow-y:auto; overflow-x:hidden;"></div>
+            <iframe id="iframe_output" style="border: 1px solid #ddd;width:100%; height:35%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
+		</div>       
+	</div>
+	
+    <div id="createFunction" class="modal-container">
+        <div id="createFunction_content">
+            <div id="createFunction_header" class="header">建立一個積木</div>
+			<div class="form-group" style="display:none">
+				<label id="createFunction_variable_label">參數列表</label>
+				<div id="paramListContainer"></div>
+			</div>			
+            <div id="createFunctionDiv" style="width:700px;height:200px;"></div>
+            <div class="button-group-param">
+                <button id="createFunction_add_ns" class="param-button_ns">添加輸入方塊<br>數字或文字</button>
+                <button id="createFunction_add_b" class="param-button_b">添加輸入方塊<br>布林值</button>
+                <button id="createFunction_add_l" class="param-button_l">添加說明文字</button>
+            </div>
+
+            <div class="button-group-footer">
+                <button id="cancelButton" class="action-button">取消</button>
+                <button id="confirmButton" class="action-button">確定</button>
+            </div>
+        </div>
+    </div>
+	
+    <div id="importQuestion" class="modal-container">
+        <div id="importQuestion_content">
+            <div id="importQuestion_header" class="header">匯入題目與測資資料</div>
+            <div class="form-group-row">
+                <label id="importQuestion_title" for="importQuestion_list">題庫名稱</label>
+                <select id="importQuestion_list"></select>				
+				<button id="importQuestionsButton" style="display:none;">查詢題庫</button>				
+            </div>            
+            <div class="form-group">
+                <div id="importQuestionsList" style="overflow: auto;"></div>
+            </div>
+            <div class="button-group-footer">
+                <button id="importCancelButton" class="action-button">取消</button>
+            </div>           
+        </div>
+    </div>	
+    
+    <div id="consoleLog">
+        <div id="console_header">
+            <span id="console_title">訊息視窗</span>
+            <a id="consoleCancelButton" title="Hide">
+                <i class="material-icons">close</i>
+            </a>
+        </div>
+        <div id="console_content">
+            <div id="console_output"></div>
+        </div>
+    </div>       
+</div>
+</main>
+
+
+</body>
+</html>
