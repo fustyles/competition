@@ -96,12 +96,12 @@ Main page: https://fustyles.github.io/competition/
 			cursor: pointer;
 			transition: background-color 0.2s;
 		}
-		#versionStandardButton {
+		#versionNormalButton {
 			background-color: #007bff;
 			color: #fff;
 			border: 1px solid #007bff;
 		}
-		#versionStandardButton:hover { background-color: #e2e6ea; }
+		#versionNormalButton:hover { background-color: #e2e6ea; }
 		#versionAdvancedButton {
 			background-color: #f8f9fa;
 			color: #333;
@@ -117,7 +117,7 @@ Main page: https://fustyles.github.io/competition/
 		<div id="versionSelect_header">法蘭斯解題積木平台</div>
 		<div id="versionSelect_desc">請選擇要使用的版本</div>
 		<div id="versionSelect_buttons">
-			<button id="versionStandardButton" class="version-button">普通版</button>
+			<button id="versionNormalButton" class="version-button">一般版</button>
 			<button id="versionAdvancedButton" class="version-button">進階版</button>
 		</div>
 	</div>
@@ -127,11 +127,17 @@ Main page: https://fustyles.github.io/competition/
 		var overlay = document.getElementById('versionSelect');
 
 		// 依網址 ?lang= 參數切換視窗文字
+		var texts = {
+			'en':      { title: 'Francis Blockly Problem-Solving Platform', desc: 'Please choose a version', standard: 'Standard', advanced: 'Advanced' },
+			'zh-hans': { title: '法兰斯解题积木平台', desc: '请选择要使用的版本', standard: '普通版', advanced: '进阶版' },
+			'zh-hant': { title: '法蘭斯解題積木平台', desc: '請選擇要使用的版本', standard: '普通版', advanced: '進階版' }
+		};
 		var lang = new URLSearchParams(location.search).get('lang');
-		document.getElementById('versionSelect_header').textContent = Blockly.Msg["FSM_TITLE"];
-		document.getElementById('versionSelect_desc').textContent = Blockly.Msg["PAGE_DESC"];
-		document.getElementById('versionStandardButton').textContent = Blockly.Msg["PAGE_STANDARD"];
-		document.getElementById('versionAdvancedButton').textContent = Blockly.Msg["PAGE_ADVANCED"];
+		var t = texts[lang] || texts['zh-hant'];
+		document.getElementById('versionSelect_header').textContent = t.title;
+		document.getElementById('versionSelect_desc').textContent = t.desc;
+		document.getElementById('versionNormalButton').textContent = t.standard;
+		document.getElementById('versionAdvancedButton').textContent = t.advanced;
 
 		// 鎖住頁面：攔截視窗外的鍵盤操作（避免 Tab 鍵跳到底下的元素）
 		function blockKeys(e) {
@@ -143,8 +149,8 @@ Main page: https://fustyles.github.io/competition/
 		document.addEventListener('keydown', blockKeys, true);
 
 		// 一般版：轉址
-		document.getElementById('versionStandardButton').addEventListener('click', function () {
-			window.location.href = 'offline';
+		document.getElementById('versionNormalButton').addEventListener('click', function () {
+			window.location.href = '/offline';
 		});
 
 		// 進階版：解鎖，進入目前網頁
@@ -181,7 +187,7 @@ Main page: https://fustyles.github.io/competition/
 					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
                     <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>	
                     <a href="#" id="button_report" title="Bug report"><i class="material-icons md-dark">feedback</i></a>
-					<a href="#" id="button_standardpage" title="Normal Page"><i class="material-icons md-dark">meeting_room</i></a>                    
+					<a href="#" id="button_normalpage" title="Normal Page"><i class="material-icons md-dark">meeting_room</i></a>                    
 					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">unfold_more</i></a>
                     <span class="lang-wrap">
                         <i class="material-icons md-dark" id="lang-toggle" title="Language">language</i>
