@@ -96,12 +96,12 @@ Main page: https://fustyles.github.io/competition/
 			cursor: pointer;
 			transition: background-color 0.2s;
 		}
-		#versionNormalButton {
+		#versionStandardButton {
 			background-color: #007bff;
 			color: #fff;
 			border: 1px solid #007bff;
 		}
-		#versionNormalButton:hover { background-color: #e2e6ea; }
+		#versionStandardButton:hover { background-color: #e2e6ea; }
 		#versionAdvancedButton {
 			background-color: #f8f9fa;
 			color: #333;
@@ -117,7 +117,7 @@ Main page: https://fustyles.github.io/competition/
 		<div id="versionSelect_header">法蘭斯解題積木平台</div>
 		<div id="versionSelect_desc">請選擇要使用的版本</div>
 		<div id="versionSelect_buttons">
-			<button id="versionNormalButton" class="version-button">一般版</button>
+			<button id="versionStandardButton" class="version-button">一般版</button>
 			<button id="versionAdvancedButton" class="version-button">進階版</button>
 		</div>
 	</div>
@@ -136,7 +136,7 @@ Main page: https://fustyles.github.io/competition/
 		var t = texts[lang] || texts['zh-hant'];
 		document.getElementById('versionSelect_header').textContent = t.title;
 		document.getElementById('versionSelect_desc').textContent = t.desc;
-		document.getElementById('versionNormalButton').textContent = t.standard;
+		document.getElementById('versionStandardButton').textContent = t.standard;
 		document.getElementById('versionAdvancedButton').textContent = t.advanced;
 
 		// 鎖住頁面：攔截視窗外的鍵盤操作（避免 Tab 鍵跳到底下的元素）
@@ -148,8 +148,8 @@ Main page: https://fustyles.github.io/competition/
 		}
 		document.addEventListener('keydown', blockKeys, true);
 
-		// 一般版：轉址
-		document.getElementById('versionNormalButton').addEventListener('click', function () {
+		// 普通版：轉址
+		document.getElementById('versionStandardButton').addEventListener('click', function () {
 			window.location.href = '/offline';
 		});
 
