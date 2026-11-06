@@ -40,7 +40,111 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="plugin/ContinuousToolbox/ContinuousFlyout.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousToolbox.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
-	<script src="exam/list.js"></script>	
+	<script src="exam/list.js"></script>
+
+	<!-- ===== 統一色系（覆寫上方 CSS，需放在所有 link 之後） ===== -->
+	<style>
+		:root {
+			--brand:       #4C5C8F;   /* 主色：與試題標題卡同色系 */
+			--brand-dark:  #3B4A78;
+			--brand-soft:  #EEF1F8;   /* 淺底：hover、選取 */
+			--line:        #E2E6EF;   /* 分隔線 */
+			--run:         #4CA35A;   /* 執行：呼應「迴圈」綠 */
+			--run-dark:    #3D8A4A;
+			--test:        #3F82C4;   /* 驗證：呼應藍色系 */
+		}
+
+		/* ---------- 上方工具列 ---------- */
+		#main > table {
+			width: 100%;
+			height: 64px;
+			border-collapse: collapse;
+			background: #fff;
+			border-bottom: 1px solid var(--line);
+		}
+		#tabs { align-items: center; }
+		#tabs li a {
+			color: var(--brand);
+			font-weight: 600;
+			font-size: 18px;
+		}
+		#tabs > a,
+		#lang-toggle {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			margin: 0 2px;
+			border-radius: 8px;
+			transition: background-color .2s, color .2s;
+		}
+		#tabs > a .material-icons,
+		#lang-toggle.material-icons {
+			font-size: 28px;
+			padding: 0;
+			line-height: 1;
+			color: var(--brand);
+		}
+		#tabs > a:hover,
+		#lang-toggle:hover { background: var(--brand-soft); }
+
+		/* 執行：主要動作，實心綠色按鈕 */
+		#button_run { background: var(--run); }
+		#button_run:hover { background: var(--run-dark); }
+		#tabs > #button_run .material-icons { color: #fff; }
+		/* 驗證：藍色 */
+		#tabs > #button_test .material-icons { color: var(--test); }
+
+		.lang-wrap { display: inline-flex; align-items: center; }
+		.lang-option:hover  { background: var(--brand-soft); }
+		.lang-option.active { color: var(--brand); }
+
+		/* ---------- 試題內容視窗 / 對話框標題列 ---------- */
+		#javascript_content {
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			box-shadow: 0 4px 14px rgba(40, 50, 90, .15);
+		}
+		.ui-widget-header {
+			background: var(--brand);
+			border-color: var(--brand);
+		}
+		/* 試題內容標題列：淺底藍字，避免與下方深藍題目卡連成一片 */
+		#javascript_title.ui-widget-header {
+			background: var(--brand-soft);
+			border: none;
+			border-bottom: 1px solid var(--line);
+			color: var(--brand);
+			border-radius: 7px 7px 0 0;
+		}
+		#javascript_title .material-icons {
+			font-size: 26px;
+			color: var(--brand) !important;   /* 覆寫 HTML 內的 color: white */
+		}
+		#javascript_title a:hover .material-icons { color: var(--brand-dark) !important; opacity: .75; }
+
+		/* ---------- 訊息視窗 ---------- */
+		#consoleLog { border-color: var(--line); border-radius: 8px; }
+		#console_header { background: var(--brand); }
+
+		/* ---------- 建立積木 / 匯入題目 對話框 ---------- */
+		.modal-container .header {
+			background: var(--brand);
+			color: #fff;
+		}
+		.action-button:hover { background: var(--brand-soft); }
+		#confirmButton {
+			background: var(--brand);
+			border-color: var(--brand);
+		}
+		#confirmButton:hover { background: var(--brand-dark); }
+		#importQuestion_list { border-color: #C9CFDD; }
+		#importQuestionsList { border-color: var(--line); border-radius: 6px; }
+		#importQuestionTable,
+		#importQuestionTable tr,
+		#importQuestionTable td { border-color: #C9CFDD; }
+	</style>
 </head>
 <body class="root">
 <main id="main" class="has-tabs" >
