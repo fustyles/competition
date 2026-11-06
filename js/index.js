@@ -820,7 +820,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			spreadsheetsql_executeSql("select * where A like '%"+keyword+"%' or B like '%"+keyword+"%' or C like '%" +keyword+"%' or D like '%"+keyword+"%'", "question");
     });
     
-    document.getElementById('button_normalpage').addEventListener('click', () => {
+    document.getElementById('button_standardpage').addEventListener('click', () => {
 		window.location.href = "competition/offline/";
     });     
     
