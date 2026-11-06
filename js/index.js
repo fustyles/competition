@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('button_normalpage').addEventListener('click', () => {
-		window.location.href = "offline/index.html";
+		window.location.href = "competition/offline/";
     });     
     
 	function toggleConsoleForm(show) {
