@@ -46,9 +46,124 @@ Main page: https://fustyles.github.io/competition/
 	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
 	<script src="js/marked.min.js"></script>
 	<script src="js/purify.min.js"></script>
-    <script src="js/aes.js"></script>	
+    <script src="js/aes.js"></script>
+	<style>
+		/* ===== 進入頁面版本選擇視窗 ===== */
+		#versionSelect {
+			position: fixed;
+			top: 0; left: 0;
+			width: 100vw; height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: rgba(0, 0, 0, 0.6);
+			z-index: 2147483647;       /* 高於頁面所有元素，鎖住整個頁面 */
+		}
+		#versionSelect_content {
+			background: #fff;
+			width: 90%;
+			max-width: 460px;
+			border-radius: 8px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+			overflow: hidden;
+			text-align: center;
+			font-family: Roboto, Arial, sans-serif;
+		}
+		#versionSelect_header {
+			background-color: #e0e0e0;
+			padding: 15px;
+			font-weight: bold;
+			font-size: 1.3em;
+			color: #333;
+		}
+		#versionSelect_desc {
+			padding: 20px 20px 5px;
+			font-size: 16px;
+			color: #555;
+		}
+		#versionSelect_buttons {
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+			padding: 20px 20px 25px;
+		}
+		.version-button {
+			flex: 1;
+			padding: 14px 10px;
+			font-size: 18px;
+			font-weight: bold;
+			border-radius: 6px;
+			cursor: pointer;
+			transition: background-color 0.2s;
+		}
+		#versionNormalButton {
+			background-color: #007bff;
+			color: #fff;
+			border: 1px solid #007bff;
+		}
+		#versionNormalButton:hover { background-color: #e2e6ea; }
+		#versionAdvancedButton {
+			background-color: #f8f9fa;
+			color: #333;
+			border: 1px solid #ccc;            
+		}
+		#versionAdvancedButton:hover { background-color: #0056b3; }
+	</style>
 </head>
 <body class="root">
+<!-- 進入頁面版本選擇視窗：選擇前鎖住頁面 -->
+<div id="versionSelect">
+	<div id="versionSelect_content">
+		<div id="versionSelect_header">法蘭斯解題積木平台</div>
+		<div id="versionSelect_desc">請選擇要使用的版本</div>
+		<div id="versionSelect_buttons">
+			<button id="versionNormalButton" class="version-button">一般版</button>
+			<button id="versionAdvancedButton" class="version-button">進階版</button>
+		</div>
+	</div>
+</div>
+<script>
+	(function () {
+		var overlay = document.getElementById('versionSelect');
+
+		// 依網址 ?lang= 參數切換視窗文字
+		var texts = {
+			'en':      { title: 'Francis Blockly Problem-Solving Platform', desc: 'Please choose a version', normal: 'Basic', advanced: 'Advanced' },
+			'zh-hans': { title: '法兰斯解题积木平台', desc: '请选择要使用的版本', normal: '一般版', advanced: '进阶版' },
+			'zh-hant': { title: '法蘭斯解題積木平台', desc: '請選擇要使用的版本', normal: '一般版', advanced: '進階版' }
+		};
+		var lang = new URLSearchParams(location.search).get('lang');
+		var t = texts[lang] || texts['zh-hant'];
+		document.getElementById('versionSelect_header').textContent = t.title;
+		document.getElementById('versionSelect_desc').textContent = t.desc;
+		document.getElementById('versionNormalButton').textContent = t.normal;
+		document.getElementById('versionAdvancedButton').textContent = t.advanced;
+
+		// 鎖住頁面：攔截視窗外的鍵盤操作（避免 Tab 鍵跳到底下的元素）
+		function blockKeys(e) {
+			if (!overlay.contains(e.target)) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}
+		document.addEventListener('keydown', blockKeys, true);
+
+		// 一般版：轉址
+		document.getElementById('versionNormalButton').addEventListener('click', function () {
+			window.location.href = 'https://fustyles.github.io/competition/offline';
+		});
+
+		// 進階版：解鎖，進入目前網頁
+		document.getElementById('versionAdvancedButton').addEventListener('click', function () {
+			document.removeEventListener('keydown', blockKeys, true);
+			overlay.style.display = 'none';
+			// 視窗關閉後讓 Blockly 重新計算尺寸，避免工作區顯示異常
+			window.dispatchEvent(new Event('resize'));
+		});
+
+		document.getElementById('versionAdvancedButton').focus();
+	})();
+</script>
 <main id="main" class="has-tabs" >
     <!-- PAGE TABS -->
 	<table>
