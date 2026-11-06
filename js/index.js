@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('button_standardpage').addEventListener('click', () => {
-		window.location.href = "offline/";
+		window.location.href = "offline";
     });     
     
 	function toggleConsoleForm(show) {
