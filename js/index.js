@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('button_normalpage').addEventListener('click', () => {
-		window.location.href = "https://fustyles.github.io/competition/offline/";
+		window.location.href = "competition/offline/";
     });     
     
 	function toggleConsoleForm(show) {
