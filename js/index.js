@@ -1695,13 +1695,22 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (iframe.title=="ok"||iframe.title=="err") {
 						
 					  const bodyContent = body.innerText;
+                      const bodyContentHTML = body.innerHTML;
 					  outputResult += "【 "+ Blockly.Msg["TEST_CODE_TEST"].replace("%1", completedCount+1) +" 】"+bodyContent + "\n\n";
 					  completedCount++;
 					  if (iframe.title=="ok")
 						  rightCount++;
 					  if (completedCount === totalTests) {
-						outputResult += "\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： " + rightCount + " / " + completedCount;
-						var output = outputResult.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+						outputResult += "\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： [red]" + rightCount + "[/red] / " + completedCount;
+                        var output = outputResult
+                            .replace(/ /g, "&nbsp;")
+                            .replace(/\n/g, "<br>")
+                            .replace(/\[orange\]/g, "<span style='color: orange;'>")
+                            .replace(/\[\/orange\]/g, "</span>")
+                            .replace(/\[blue\]/g, "<span style='color: blue;'>")
+                            .replace(/\[\/blue\]/g, "</span>")
+                            .replace(/\[red\]/g, "<span style='color: red;'>")
+                            .replace(/\[\/red\]/g, "</span>");                            
 						iframeWrite("iframe_output", output);
 						if (container) container.remove();
 					  }
@@ -1722,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var code = Blockly.JavaScript.workspaceToCode(workspace);
 		code = code.replace(/variable_input\(/g,"variable_input_test('"+input.replace(/\\/g, "\\\\").replace(/\'/g, "\\\'")+"', ");
 		code = code.replace(/data_output\(/g,"data_output_test('"+input.replace(/\\/g, "\\\\").replace(/\'/g, "\\\'")+"', ");		
-		code = 'var systemAnswer = "'+input+'"; var userAnswer = ""; var variable_data_test_index = -1;\n' + code;
+		code = 'var systemAnswer = "'+input+'"; var userAnswer = ""; var userAnswerHTML = ""; var variable_data_test_index = -1;\n' + code;
         
 		var blocks_scratch = workspace.getBlocksByType("javascript_data_input_scratch");       
 
@@ -1736,7 +1745,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+
-			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+			
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+
+			'  userAnswerHTML += (variable_data_test_index>0 ? ";" : "") + "[orange]" + input + "[/orange]";\n'+ 			
 			'  if (type=="NUMBER")\n'+
 			'  	input = Number(input);\n'+
 			'  else\n'+
@@ -1755,7 +1765,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  var arr = input.split(";");\n'+
 			'  if (variable_data_test_index>(arr.length-1)) return "";\n'+			
 			'  input = arr[variable_data_test_index];\n'+					
-			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+			
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + input;\n'+	
+			'  userAnswerHTML += (variable_data_test_index>0 ? ";" : "") + "[orange]" + input + "[/orange]";\n'+             
             '  if (input.trim() !== "" && !isNaN(input) && input.replace(/[+\\-.]/g, "").length <= 15)\n'+
             '      input = Number(input);\n'+
 			'  //document.body.insertAdjacentHTML("beforeend", (msg?(msg+"："):"")+String(input).replace(/ /g,"&nbsp;")+"<br>");\n'+		
@@ -1771,18 +1782,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			'  variable_data_test_index++;\n'+			
 			'  var arr = input.split(";");\n'+					
 			'  input = arr[variable_data_test_index];\n'+
-			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + text;\n'+		
+			'  userAnswer += (variable_data_test_index>0 ? ";" : "") + text;\n'+
+			'  userAnswerHTML += (variable_data_test_index>0 ? ";" : "") + "[blue]" + text + "[/blue]";\n'+            
 			'  //document.body.insertAdjacentHTML("beforeend", "<BR>"+(msg?(msg+"："):"")+String(text).replace(/ /g,"&nbsp;"));\n'+				
 			'}\n';
 
-		code += ''+
-		
+		code += ''+		
 			'if (userAnswer.trim()==systemAnswer.trim()) {\n'+		
 			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswer));\n'+            
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswerHTML));\n'+            
 			'} else {\n'+
 			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
-			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", userAnswer));\n'+            
+			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_ERROR"]+'".replace("%1", userAnswerHTML));\n'+            
 			'}\n';				
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
