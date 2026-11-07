@@ -1418,8 +1418,54 @@ document.addEventListener('DOMContentLoaded', function() {
             containment: "#main",          // 不能拉超過主畫面
             minWidth: 250,
             minHeight: 150
-        });		
-	});	
+        });
+        initQuestionSplitter();
+	});
+
+	// 試題欄位與執行結果欄位之間的分隔條：上下拖曳調整兩區高度，雙擊還原 60% / 35%
+	function initQuestionSplitter() {
+		var splitter = document.getElementById('question_splitter');
+		var codeDiv  = document.getElementById('javascript_code');
+		var topEl    = document.getElementById('question_input');
+		var bottomEl = document.getElementById('iframe_output');
+		if (!splitter || !codeDiv || !topEl || !bottomEl) return;
+
+		var MIN = 40;   // 每一區最少保留的高度 (px)
+		var startY, startTop, total;
+
+		splitter.addEventListener('pointerdown', function (e) {
+			if (e.button !== 0) return;
+			e.preventDefault();
+			startY   = e.clientY;
+			startTop = topEl.offsetHeight;
+			total    = topEl.offsetHeight + bottomEl.offsetHeight;   // 兩區總高度維持不變
+			splitter.setPointerCapture(e.pointerId);
+			codeDiv.classList.add('splitting');                    // 拖曳中 iframe 不吃滑鼠事件
+		});
+
+		splitter.addEventListener('pointermove', function (e) {
+			if (!splitter.hasPointerCapture(e.pointerId)) return;
+			var newTop = Math.max(MIN, Math.min(total - MIN, startTop + (e.clientY - startY)));
+			// 百分比是以內容區高度計算，需扣掉上下 padding（底部預留給縮放把手的空間）
+			var cs = getComputedStyle(codeDiv);
+			var h = codeDiv.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+			// 用百分比設定，之後縮放整個視窗時兩區仍維持比例
+			topEl.style.height    = (newTop / h * 100) + '%';
+			bottomEl.style.height = ((total - newTop) / h * 100) + '%';
+		});
+
+		function endDrag(e) {
+			if (splitter.hasPointerCapture(e.pointerId)) splitter.releasePointerCapture(e.pointerId);
+			codeDiv.classList.remove('splitting');
+		}
+		splitter.addEventListener('pointerup', endDrag);
+		splitter.addEventListener('pointercancel', endDrag);
+
+		splitter.addEventListener('dblclick', function () {
+			topEl.style.height    = '60%';
+			bottomEl.style.height = '35%';
+		});
+	}
 	
 	function newFile() {
 		workspace.clear(true);
@@ -1480,7 +1526,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById("question_input").style.width = "100%";
         document.getElementById("question_input").style.height = "100%"; 
-        document.getElementById("iframe_output").style.display = "none";        
+        document.getElementById("iframe_output").style.display = "none";  
+        document.getElementById("question_splitter").style.display = "none"; 
 	}    
 
 	document.getElementById('button_save_xml').onclick = function () {
@@ -2363,6 +2410,7 @@ function reloadZoom(content) {
     
     document.getElementById("iframe_output").style.display = "flex";
     document.getElementById("iframe_output").style.height = "35%";
+    document.getElementById("question_splitter").style.display = ""; 
 
 }
 
