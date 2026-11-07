@@ -19,3 +19,94 @@ main .xml_content{height: calc(100vh - 87px); padding: 2ex; color:white; backgro
 .contentzoom_resize { position:absolute; left:calc(100% - 95px); top:-2px}
 .contentzoom_hide { position:absolute; left:calc(100% - 50px); top:-2px}
 .contentzoom_enlarge { position:absolute; left:calc(100% - 140px); top:-2px}
+
+/* ===== 試題內容視窗：內容區高度 ===== */
+/* 標題列為 50px + 底線 1px，原本的 calc(100% - 40px) 會讓內容超出視窗 10px */
+#javascript_content #javascript_code {
+    height: calc(100% - 51px);
+    padding-bottom: 14px;          /* 底部預留空間給右下角縮放把手，避免和捲軸重疊 */
+    box-sizing: border-box;
+}
+#javascript_content #question_input {
+    display: block;
+    box-sizing: border-box;
+}
+
+/* ===== 試題內容視窗：右下角拖曳縮放把手 ===== */
+/* 取消 jQuery UI 預設的三角形圖片與 .ui-icon 的位移，讓把手貼齊右下角 */
+#javascript_content .ui-resizable-se {
+    width: 16px;
+    height: 14px;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    background: none !important;
+    text-indent: 0;
+    vertical-align: baseline;
+    cursor: nwse-resize;
+    z-index: 100 !important;
+}
+/* 用三條斜線畫出簡潔的抓取紋路 */
+#javascript_content .ui-resizable-se::after {
+    content: "";
+    position: absolute;
+    right: 3px;
+    bottom: 2px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg,
+        transparent 0 42%,  #9AA3BD 42% 50%,
+        transparent 50% 63%, #9AA3BD 63% 71%,
+        transparent 71% 84%, #9AA3BD 84% 92%,
+        transparent 92%);
+    transition: filter 0.15s;
+}
+#javascript_content .ui-resizable-se:hover::after,
+#javascript_content.ui-resizable-resizing .ui-resizable-se::after {
+    filter: brightness(0.55);
+}
+/* 拖曳縮放時讓 iframe 不吃滑鼠事件，避免游標滑進輸出區就卡住 */
+#javascript_content.ui-resizable-resizing iframe {
+    pointer-events: none;
+}
+
+/* ===== 試題內容視窗：試題欄位與執行結果之間的上下拖曳分隔條 ===== */
+#question_splitter {
+    position: relative;
+    height: 10px;
+    margin: 1px 0;
+    cursor: row-resize;
+    touch-action: none;          /* 手機觸控拖曳用 */
+    user-select: none;
+    background: var(--brand-soft, #f2f2f2);
+    border-radius: 3px;
+    transition: background-color 0.15s;
+}
+/* 中間兩條橫線的抓取紋路 */
+#question_splitter::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 36px;
+    height: 4px;
+    transform: translate(-50%, -50%);
+    border-top: 1px solid #9AA3BD;
+    border-bottom: 1px solid #9AA3BD;
+}
+#question_splitter:hover,
+#javascript_code.splitting #question_splitter {
+    background: #DDE2EE;
+}
+#question_splitter:hover::before,
+#javascript_code.splitting #question_splitter::before {
+    border-color: var(--brand, #4C5C8F);
+}
+/* 執行結果區被隱藏時（例如放大檢視、載入試題），分隔條也一起隱藏 */
+#javascript_code:has(#iframe_output[style*="display: none"]) #question_splitter {
+    display: none;
+}
+/* 拖曳中避免 iframe 攔截滑鼠事件 */
+#javascript_code.splitting iframe {
+    pointer-events: none;
+}
