@@ -1695,7 +1695,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (iframe.title=="ok"||iframe.title=="err") {
 						
 					  const bodyContent = body.innerText;
-                      const bodyContentHTML = body.innerHTML;
 					  outputResult += "【 "+ Blockly.Msg["TEST_CODE_TEST"].replace("%1", completedCount+1) +" 】"+bodyContent + "\n\n";
 					  completedCount++;
 					  if (iframe.title=="ok")
