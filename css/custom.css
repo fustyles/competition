@@ -28,3 +28,95 @@ html, body.root {
 main {
     overflow: hidden;   /* 子元素超出也不會撐大頁面 */
 }
+/* ===== 試題內容視窗：右下角拖曳縮放把手 ===== */
+/* 在視窗底部預留一條 14px 的空間放把手，避免和捲軸重疊 */
+#javascript_content #javascript_code {
+    padding-bottom: 14px;
+    box-sizing: border-box;
+}
+/* textarea 改成區塊元素，消除行內元素底部多出的空隙 */
+#javascript_content #question_input {
+    display: block;
+    box-sizing: border-box;
+}
+/* 取消 jQuery UI 預設的三角形圖片與 .ui-icon 的位移，讓把手貼齊右下角 */
+#javascript_content .ui-resizable-se {
+    width: 16px;
+    height: 14px;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    background: none !important;
+    text-indent: 0;
+    vertical-align: baseline;
+    cursor: nwse-resize;
+    z-index: 100 !important;
+}
+/* 用三條斜線畫出簡潔的抓取紋路 */
+#javascript_content .ui-resizable-se::after {
+    content: "";
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg,
+        transparent 0 42%,  #9e9e9e 42% 50%,
+        transparent 50% 63%, #9e9e9e 63% 71%,
+        transparent 71% 84%, #9e9e9e 84% 92%,
+        transparent 92%);
+    transition: filter 0.15s;
+}
+#javascript_content .ui-resizable-se:hover::after,
+#javascript_content.ui-resizable-resizing .ui-resizable-se::after {
+    filter: brightness(0.5);
+}
+/* 拖曳縮放時讓 iframe 不吃滑鼠事件，避免游標滑進輸出區就卡住 */
+#javascript_content.ui-resizable-resizing iframe {
+    pointer-events: none;
+}
+
+/* ===== 試題內容視窗：試題欄位與執行結果之間的上下拖曳分隔條 ===== */
+#question_splitter {
+    position: relative;
+    height: 10px;
+    margin: 1px 0;
+    cursor: row-resize;
+    touch-action: none;          /* 手機觸控拖曳用 */
+    user-select: none;
+    background: #f2f2f2;
+    border-radius: 3px;
+    transition: background-color 0.15s;
+}
+/* 中間兩條橫線的抓取紋路 */
+#question_splitter::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 36px;
+    height: 4px;
+    transform: translate(-50%, -50%);
+    border-top: 1px solid #9e9e9e;
+    border-bottom: 1px solid #9e9e9e;
+}
+#question_splitter:hover,
+#javascript_code.splitting #question_splitter {
+    background: #dcdcdc;
+}
+#question_splitter:hover::before,
+#javascript_code.splitting #question_splitter::before {
+    border-color: #555;
+}
+/* 執行結果區被隱藏時（例如放大檢視、載入試題），分隔條也一起隱藏 */
+#javascript_code:has(#iframe_output[style*="display: none"]) #question_splitter {
+    display: none;
+}
+/* 拖曳中避免 iframe 攔截滑鼠事件 */
+#javascript_code.splitting iframe {
+    pointer-events: none;
+}
+/* 已有分隔條，關閉 textarea 右下角瀏覽器內建的縮放把手 */
+#question_input {
+    resize: none;
+}
