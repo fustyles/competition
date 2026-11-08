@@ -1,0 +1,236 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">重量</variable>
+    <variable type="other" id="v2">偏遠</variable>
+    <variable type="other" id="v3">偏遠加收</variable>
+    <variable type="other" id="v4">超重加收</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">重量</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">偏遠</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="variables_set_other">
+                        <field name="VAR" id="v3" variabletype="other">偏遠加收</field>
+                        <value name="VALUE">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v4" variabletype="other">超重加收</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="controls_if_1_scratch">
+                                <value name="condition">
+                                  <block type="logic_compare">
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v2" variabletype="other">偏遠</field>
+                                      </block>
+                                    </value>
+                                    <field name="OP">EQ</field>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">是</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v3" variabletype="other">偏遠加收</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">50</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_if_1_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v1" variabletype="other">重量</field>
+                                          </block>
+                                        </value>
+                                        <field name="OP">GT</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">5</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="variables_set_other">
+                                        <field name="VAR" id="v4" variabletype="other">超重加收</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic">
+                                            <field name="OP">MULTIPLY</field>
+                                            <value name="A">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="math_round">
+                                                <field name="OP">ROUNDUP</field>
+                                                <value name="NUM">
+                                                  <shadow type="math_number">
+                                                    <field name="NUM">3.1</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic">
+                                                    <field name="OP">MINUS</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v1" variabletype="other">重量</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">5</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number">
+                                                <field name="NUM">10</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v3" variabletype="other">偏遠加收</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="javascript_data_output_scratch">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT"/>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v4" variabletype="other">超重加收</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="javascript_data_output_scratch">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT"/>
+                                                  </shadow>
+                                                  <block type="math_arithmetic">
+                                                    <field name="OP">ADD</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="math_arithmetic">
+                                                        <field name="OP">ADD</field>
+                                                        <value name="A">
+                                                          <shadow type="math_number">
+                                                            <field name="NUM">100</field>
+                                                          </shadow>
+                                                        </value>
+                                                        <value name="B">
+                                                          <shadow type="math_number">
+                                                            <field name="NUM">0</field>
+                                                          </shadow>
+                                                          <block type="variables_get_other">
+                                                            <field name="VAR" id="v3" variabletype="other">偏遠加收</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v4" variabletype="other">超重加收</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

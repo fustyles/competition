@@ -1,0 +1,180 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">第一數</variable>
+    <variable type="other" id="v2">第二數</variable>
+    <variable type="other" id="v3">x</variable>
+    <variable type="other" id="v4">y</variable>
+    <variable type="other" id="v5">餘數</variable>
+    <variable type="other" id="v6">公因數</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">第一數</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">第二數</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="variables_set_other">
+                        <field name="VAR" id="v3" variabletype="other">x</field>
+                        <value name="VALUE">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                          <block type="variables_get_other">
+                            <field name="VAR" id="v1" variabletype="other">第一數</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v4" variabletype="other">y</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other">
+                                <field name="VAR" id="v2" variabletype="other">第二數</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_whileUntil_scratch">
+                                <field name="MODE">UNTIL</field>
+                                <value name="BOOL">
+                                  <block type="logic_compare">
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v4" variabletype="other">y</field>
+                                      </block>
+                                    </value>
+                                    <field name="OP">EQ</field>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO">
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v5" variabletype="other">餘數</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="math_modulo">
+                                        <value name="DIVIDEND">
+                                          <shadow type="math_number">
+                                            <field name="NUM">64</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v3" variabletype="other">x</field>
+                                          </block>
+                                        </value>
+                                        <value name="DIVISOR">
+                                          <shadow type="math_number">
+                                            <field name="NUM">10</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">y</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_other">
+                                        <field name="VAR" id="v3" variabletype="other">x</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">y</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_other">
+                                            <field name="VAR" id="v4" variabletype="other">y</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v5" variabletype="other">餘數</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v6" variabletype="other">公因數</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v3" variabletype="other">x</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v6" variabletype="other">公因數</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

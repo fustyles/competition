@@ -1,0 +1,404 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="Array" id="l1">營收</variable>
+    <variable type="other" id="v2">最高月</variable>
+    <variable type="other" id="v3">最低月</variable>
+    <variable type="other" id="v4">i</variable>
+    <variable type="other" id="v5">第三季</variable>
+    <variable type="other" id="v6">第四季</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="list_deletealloflist_scratch">
+        <field name="VAR" id="l1" variabletype="Array">營收</field>
+        <next>
+          <block type="controls_repeat_ext_scratch">
+            <value name="TIMES">
+              <shadow type="math_number">
+                <field name="NUM">12</field>
+              </shadow>
+            </value>
+            <statement name="DO">
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="list_addtolist_scratch">
+                    <value name="ITEM">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">thing</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <field name="VAR" id="l1" variabletype="Array">營收</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="variables_set_other">
+                <field name="VAR" id="v2" variabletype="other">最高月</field>
+                <value name="VALUE">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT">1</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v3" variabletype="other">最低月</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">1</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_other">
+                        <field name="VAR" id="v4" variabletype="other">i</field>
+                        <value name="VALUE">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">2</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="controls_whileUntil_scratch">
+                            <field name="MODE">UNTIL</field>
+                            <value name="BOOL">
+                              <block type="logic_compare">
+                                <value name="A">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v4" variabletype="other">i</field>
+                                  </block>
+                                </value>
+                                <field name="OP">GT</field>
+                                <value name="B">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">12</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="controls_if_1_scratch">
+                                <value name="condition">
+                                  <block type="logic_compare">
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="list_itemoflist_scratch">
+                                        <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                        <value name="INDEX">
+                                          <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">i</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <field name="OP">GT</field>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="list_itemoflist_scratch">
+                                        <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                        <value name="INDEX">
+                                          <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v2" variabletype="other">最高月</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v2" variabletype="other">最高月</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v4" variabletype="other">i</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_if_1_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="list_itemoflist_scratch">
+                                            <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                            <value name="INDEX">
+                                              <shadow type="math_number">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v4" variabletype="other">i</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <field name="OP">LT</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="list_itemoflist_scratch">
+                                            <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                            <value name="INDEX">
+                                              <shadow type="math_number">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v3" variabletype="other">最低月</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="variables_set_other">
+                                        <field name="VAR" id="v3" variabletype="other">最低月</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">i</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="math_change_other">
+                                        <field name="VAR" id="v4" variabletype="other">i</field>
+                                        <value name="DELTA">
+                                          <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="variables_set_other">
+                                <field name="VAR" id="v5" variabletype="other">第三季</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <shadow type="math_number">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic">
+                                        <field name="OP">ADD</field>
+                                        <value name="A">
+                                          <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="list_itemoflist_scratch">
+                                            <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                            <value name="INDEX">
+                                              <shadow type="math_number">
+                                                <field name="NUM">7</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="list_itemoflist_scratch">
+                                            <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                            <value name="INDEX">
+                                              <shadow type="math_number">
+                                                <field name="NUM">8</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="list_itemoflist_scratch">
+                                        <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                        <value name="INDEX">
+                                          <shadow type="math_number">
+                                            <field name="NUM">9</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v6" variabletype="other">第四季</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic">
+                                        <field name="OP">ADD</field>
+                                        <value name="A">
+                                          <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic">
+                                            <field name="OP">ADD</field>
+                                            <value name="A">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="list_itemoflist_scratch">
+                                                <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                                <value name="INDEX">
+                                                  <shadow type="math_number">
+                                                    <field name="NUM">10</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="list_itemoflist_scratch">
+                                                <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                                <value name="INDEX">
+                                                  <shadow type="math_number">
+                                                    <field name="NUM">11</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="list_itemoflist_scratch">
+                                            <field name="VAR" id="l1" variabletype="Array">營收</field>
+                                            <value name="INDEX">
+                                              <shadow type="math_number">
+                                                <field name="NUM">12</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v2" variabletype="other">最高月</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="javascript_data_output_scratch">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT"/>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v3" variabletype="other">最低月</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="controls_if_2_scratch">
+                                                <value name="condition">
+                                                  <block type="logic_compare">
+                                                    <value name="A">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v6" variabletype="other">第四季</field>
+                                                      </block>
+                                                    </value>
+                                                    <field name="OP">GT</field>
+                                                    <value name="B">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v5" variabletype="other">第三季</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <statement name="statement_if">
+                                                  <block type="javascript_data_output_scratch">
+                                                    <value name="TEXT">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">是</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </statement>
+                                                <statement name="statement_else">
+                                                  <block type="javascript_data_output_scratch">
+                                                    <value name="TEXT">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">否</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </statement>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
