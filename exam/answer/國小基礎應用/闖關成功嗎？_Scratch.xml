@@ -1,0 +1,223 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">第一關</variable>
+    <variable type="other" id="v2">第二關</variable>
+    <variable type="other" id="v3">第三關</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">第一關</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">第二關</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT"/>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v3" variabletype="other">第三關</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch"/>
+                            </value>
+                            <next>
+                              <block type="controls_if_2_scratch">
+                                <value name="condition">
+                                  <block type="logic_operation">
+                                    <field name="OP">AND</field>
+                                    <value name="A">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic">
+                                            <field name="OP">DIVIDE</field>
+                                            <value name="A">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <shadow type="math_number">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic">
+                                                    <field name="OP">ADD</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v1" variabletype="other">第一關</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v2" variabletype="other">第二關</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="math_number">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v3" variabletype="other">第三關</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number">
+                                                <field name="NUM">3</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <field name="OP">GTE</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">70</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="logic_operation">
+                                        <field name="OP">AND</field>
+                                        <value name="A">
+                                          <block type="logic_operation">
+                                            <field name="OP">AND</field>
+                                            <value name="A">
+                                              <block type="logic_compare">
+                                                <value name="A">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v1" variabletype="other">第一關</field>
+                                                  </block>
+                                                </value>
+                                                <field name="OP">GTE</field>
+                                                <value name="B">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">60</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="logic_compare">
+                                                <value name="A">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v2" variabletype="other">第二關</field>
+                                                  </block>
+                                                </value>
+                                                <field name="OP">GTE</field>
+                                                <value name="B">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">60</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="logic_compare">
+                                            <value name="A">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v3" variabletype="other">第三關</field>
+                                              </block>
+                                            </value>
+                                            <field name="OP">GTE</field>
+                                            <value name="B">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">60</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">是</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">否</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
