@@ -1,0 +1,206 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">M</variable>
+    <variable type="other" id="v2">A</variable>
+    <variable type="other" id="v3">B</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">M</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">A</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT"/>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v3" variabletype="other">B</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch"/>
+                            </value>
+                            <next>
+                              <block type="controls_if_2_scratch">
+                                <value name="condition">
+                                  <block type="logic_compare">
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v2" variabletype="other">A</field>
+                                      </block>
+                                    </value>
+                                    <field name="OP">GT</field>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v3" variabletype="other">B</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                      <block type="text_join_scratch">
+                                        <value name="VALUE1">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">abc</field>
+                                          </shadow>
+                                          <block type="text_join_scratch">
+                                            <value name="VALUE1">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">abc</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v2" variabletype="other">A</field>
+                                              </block>
+                                            </value>
+                                            <value name="VALUE2">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">/</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="VALUE2">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">def</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v1" variabletype="other">M</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="controls_if_2_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v3" variabletype="other">B</field>
+                                          </block>
+                                        </value>
+                                        <field name="OP">GT</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v2" variabletype="other">A</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="text_join_scratch">
+                                            <value name="VALUE1">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">abc</field>
+                                              </shadow>
+                                              <block type="text_join_scratch">
+                                                <value name="VALUE1">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">abc</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v3" variabletype="other">B</field>
+                                                  </block>
+                                                </value>
+                                                <value name="VALUE2">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">/</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="VALUE2">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">def</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v1" variabletype="other">M</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <statement name="statement_else">
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">一樣大</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,134 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">S</variable>
+    <variable type="other" id="v2">K</variable>
+    <variable type="other" id="v3">L</variable>
+    <variable type="other" id="v4">數</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">S</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">K</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT"/>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v3" variabletype="other">L</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch"/>
+                            </value>
+                            <next>
+                              <block type="variables_set_other">
+                                <field name="VAR" id="v4" variabletype="other">數</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v1" variabletype="other">S</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_whileUntil_scratch">
+                                    <field name="MODE">UNTIL</field>
+                                    <value name="BOOL">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">數</field>
+                                          </block>
+                                        </value>
+                                        <field name="OP">GT</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v3" variabletype="other">L</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v4" variabletype="other">數</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="math_change_other">
+                                            <field name="VAR" id="v4" variabletype="other">數</field>
+                                            <value name="DELTA">
+                                              <shadow type="math_number">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v2" variabletype="other">K</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
