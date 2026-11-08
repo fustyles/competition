@@ -1811,7 +1811,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				toggleImportQuestionForm(false);
 				reloadZoom();
-				javascriptCode();
 				resetOutput();
 			})
 			.catch(function (err) {
