@@ -1,0 +1,440 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">N</variable>
+    <variable id="v02">資料</variable>
+    <variable id="v03">i</variable>
+    <variable id="v04">最小位置</variable>
+    <variable id="v05">第幾輪</variable>
+    <variable id="l01">種類</variable>
+    <variable id="l02">數量</variable>
+    <variable id="l03">價格</variable>
+    <variable id="l04">排序結果</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="l01">種類</field>
+            <value name="VALUE">
+              <block type="lists_create_with">
+                <mutation items="0"/>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="l02">數量</field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="0"/>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="l03">價格</field>
+                    <value name="VALUE">
+                      <block type="lists_create_with">
+                        <mutation items="0"/>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="l04">排序結果</field>
+                        <value name="VALUE">
+                          <block type="lists_create_with">
+                            <mutation items="0"/>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_repeat_ext">
+                            <value name="TIMES">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">N</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="javascript_data_input_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_local">
+                                    <field name="VAR" id="v02">資料</field>
+                                    <value name="VALUE">
+                                      <block type="javascript_data_input_get_scratch"/>
+                                    </value>
+                                    <next>
+                                      <block type="lists_setIndex">
+                                        <mutation at="false"/>
+                                        <field name="MODE">INSERT</field>
+                                        <field name="WHERE">LAST</field>
+                                        <value name="LIST">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="l01">種類</field>
+                                          </block>
+                                        </value>
+                                        <value name="TO">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v02">資料</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_repeat_ext">
+                                <value name="TIMES">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v01">N</field>
+                                  </block>
+                                </value>
+                                <statement name="DO">
+                                  <block type="javascript_data_input_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v02">資料</field>
+                                        <value name="VALUE">
+                                          <block type="javascript_data_input_get_scratch"/>
+                                        </value>
+                                        <next>
+                                          <block type="lists_setIndex">
+                                            <mutation at="false"/>
+                                            <field name="MODE">INSERT</field>
+                                            <field name="WHERE">LAST</field>
+                                            <value name="LIST">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="l02">數量</field>
+                                              </block>
+                                            </value>
+                                            <value name="TO">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v02">資料</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_repeat_ext">
+                                    <value name="TIMES">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v01">N</field>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="javascript_data_input_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v02">資料</field>
+                                            <value name="VALUE">
+                                              <block type="javascript_data_input_get_scratch"/>
+                                            </value>
+                                            <next>
+                                              <block type="lists_setIndex">
+                                                <mutation at="false"/>
+                                                <field name="MODE">INSERT</field>
+                                                <field name="WHERE">LAST</field>
+                                                <value name="LIST">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="l03">價格</field>
+                                                  </block>
+                                                </value>
+                                                <value name="TO">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">資料</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="controls_repeat_ext">
+                                        <value name="TIMES">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v01">N</field>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v04">最小位置</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">1</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="controls_for">
+                                                <field name="VAR" id="v03">i</field>
+                                                <value name="FROM">
+                                                  <block type="math_number">
+                                                    <field name="NUM">2</field>
+                                                  </block>
+                                                </value>
+                                                <value name="TO">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v01">N</field>
+                                                  </block>
+                                                </value>
+                                                <value name="BY">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO">
+                                                  <block type="controls_if">
+                                                    <value name="IF0">
+                                                      <block type="logic_compare">
+                                                        <field name="OP">LT</field>
+                                                        <value name="A">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l03">價格</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v03">i</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l03">價格</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v04">最小位置</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="DO0">
+                                                      <block type="variables_set_local">
+                                                        <field name="VAR" id="v04">最小位置</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v03">i</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </statement>
+                                                  </block>
+                                                </statement>
+                                                <next>
+                                                  <block type="lists_setIndex">
+                                                    <mutation at="false"/>
+                                                    <field name="MODE">INSERT</field>
+                                                    <field name="WHERE">LAST</field>
+                                                    <value name="LIST">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="l04">排序結果</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="TO">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v04">最小位置</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="lists_setIndex">
+                                                        <mutation at="true"/>
+                                                        <field name="MODE">SET</field>
+                                                        <field name="WHERE">FROM_START</field>
+                                                        <value name="LIST">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="l03">價格</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v04">最小位置</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="TO">
+                                                          <block type="math_number">
+                                                            <field name="NUM">999999</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="controls_for">
+                                            <field name="VAR" id="v05">第幾輪</field>
+                                            <value name="FROM">
+                                              <block type="math_number">
+                                                <field name="NUM">1</field>
+                                              </block>
+                                            </value>
+                                            <value name="TO">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">N</field>
+                                              </block>
+                                            </value>
+                                            <value name="BY">
+                                              <block type="math_number">
+                                                <field name="NUM">1</field>
+                                              </block>
+                                            </value>
+                                            <statement name="DO">
+                                              <block type="javascript_data_output">
+                                                <value name="TEXT">
+                                                  <shadow type="text">
+                                                    <field name="TEXT"/>
+                                                  </shadow>
+                                                  <block type="lists_getIndex">
+                                                    <mutation statement="false" at="true"/>
+                                                    <field name="MODE">GET</field>
+                                                    <field name="WHERE">FROM_START</field>
+                                                    <value name="VALUE">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="l01">種類</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="AT">
+                                                      <block type="lists_getIndex">
+                                                        <mutation statement="false" at="true"/>
+                                                        <field name="MODE">GET</field>
+                                                        <field name="WHERE">FROM_START</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="l04">排序結果</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v05">第幾輪</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </statement>
+                                            <next>
+                                              <block type="controls_for">
+                                                <field name="VAR" id="v05">第幾輪</field>
+                                                <value name="FROM">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                                <value name="TO">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v01">N</field>
+                                                  </block>
+                                                </value>
+                                                <value name="BY">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO">
+                                                  <block type="javascript_data_output">
+                                                    <value name="TEXT">
+                                                      <shadow type="text">
+                                                        <field name="TEXT"/>
+                                                      </shadow>
+                                                      <block type="lists_getIndex">
+                                                        <mutation statement="false" at="true"/>
+                                                        <field name="MODE">GET</field>
+                                                        <field name="WHERE">FROM_START</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="l02">數量</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l04">排序結果</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v05">第幾輪</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </statement>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

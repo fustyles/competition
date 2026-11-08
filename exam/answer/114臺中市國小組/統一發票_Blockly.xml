@@ -1,0 +1,441 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">發票號碼</variable>
+    <variable id="v02">位數</variable>
+    <variable id="v03">最多相同位數</variable>
+    <variable id="v04">j</variable>
+    <variable id="v05">除數</variable>
+    <variable id="l01">頭獎號碼</variable>
+    <variable id="l02">獎項名稱</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">發票號碼</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="l01">頭獎號碼</field>
+            <value name="VALUE">
+              <block type="lists_create_with">
+                <mutation items="3"/>
+                <value name="ADD0">
+                  <block type="math_number">
+                    <field name="NUM">41016094</field>
+                  </block>
+                </value>
+                <value name="ADD1">
+                  <block type="math_number">
+                    <field name="NUM">98081574</field>
+                  </block>
+                </value>
+                <value name="ADD2">
+                  <block type="math_number">
+                    <field name="NUM">7309261</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="l02">獎項名稱</field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="6"/>
+                    <value name="ADD0">
+                      <block type="text">
+                        <field name="TEXT">頭獎</field>
+                      </block>
+                    </value>
+                    <value name="ADD1">
+                      <block type="text">
+                        <field name="TEXT">二獎</field>
+                      </block>
+                    </value>
+                    <value name="ADD2">
+                      <block type="text">
+                        <field name="TEXT">三獎</field>
+                      </block>
+                    </value>
+                    <value name="ADD3">
+                      <block type="text">
+                        <field name="TEXT">四獎</field>
+                      </block>
+                    </value>
+                    <value name="ADD4">
+                      <block type="text">
+                        <field name="TEXT">五獎</field>
+                      </block>
+                    </value>
+                    <value name="ADD5">
+                      <block type="text">
+                        <field name="TEXT">六獎</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="controls_if">
+                    <mutation elseif="2" else="1"/>
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">NEQ</field>
+                        <value name="A">
+                          <block type="text_length">
+                            <value name="VALUE">
+                              <block type="text_join">
+                                <mutation items="1"/>
+                                <value name="ADD0">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v01">發票號碼</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">8</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="javascript_data_output">
+                        <value name="TEXT">
+                          <shadow type="text">
+                            <field name="TEXT"/>
+                          </shadow>
+                          <block type="text">
+                            <field name="TEXT">非統一編號</field>
+                          </block>
+                        </value>
+                      </block>
+                    </statement>
+                    <value name="IF1">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">發票號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">25834483</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO1">
+                      <block type="javascript_data_output">
+                        <value name="TEXT">
+                          <shadow type="text">
+                            <field name="TEXT"/>
+                          </shadow>
+                          <block type="text">
+                            <field name="TEXT">特別獎</field>
+                          </block>
+                        </value>
+                      </block>
+                    </statement>
+                    <value name="IF2">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">發票號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">46587380</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO2">
+                      <block type="javascript_data_output">
+                        <value name="TEXT">
+                          <shadow type="text">
+                            <field name="TEXT"/>
+                          </shadow>
+                          <block type="text">
+                            <field name="TEXT">特獎</field>
+                          </block>
+                        </value>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v03">最多相同位數</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_for">
+                            <field name="VAR" id="v04">j</field>
+                            <value name="FROM">
+                              <block type="math_number">
+                                <field name="NUM">1</field>
+                              </block>
+                            </value>
+                            <value name="TO">
+                              <block type="math_number">
+                                <field name="NUM">3</field>
+                              </block>
+                            </value>
+                            <value name="BY">
+                              <block type="math_number">
+                                <field name="NUM">1</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v02">位數</field>
+                                <value name="VALUE">
+                                  <block type="math_number">
+                                    <field name="NUM">8</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set_local">
+                                    <field name="VAR" id="v05">除數</field>
+                                    <value name="VALUE">
+                                      <block type="math_number">
+                                        <field name="NUM">100000000</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="controls_whileUntil">
+                                        <field name="MODE">WHILE</field>
+                                        <value name="BOOL">
+                                          <block type="logic_operation">
+                                            <field name="OP">AND</field>
+                                            <value name="A">
+                                              <block type="logic_compare">
+                                                <field name="OP">GTE</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">位數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">3</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="logic_compare">
+                                                <field name="OP">NEQ</field>
+                                                <value name="A">
+                                                  <block type="math_modulo">
+                                                    <value name="DIVIDEND">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v01">發票號碼</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="DIVISOR">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v05">除數</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_modulo">
+                                                    <value name="DIVIDEND">
+                                                      <block type="lists_getIndex">
+                                                        <mutation statement="false" at="true"/>
+                                                        <field name="MODE">GET</field>
+                                                        <field name="WHERE">FROM_START</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="l01">頭獎號碼</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v04">j</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="DIVISOR">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v05">除數</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v02">位數</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">MINUS</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">位數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_local">
+                                                <field name="VAR" id="v05">除數</field>
+                                                <value name="VALUE">
+                                                  <block type="math_arithmetic">
+                                                    <field name="OP">DIVIDE</field>
+                                                    <value name="A">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v05">除數</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="math_number">
+                                                        <field name="NUM">10</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="controls_if">
+                                            <value name="IF0">
+                                              <block type="logic_compare">
+                                                <field name="OP">GT</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">位數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v03">最多相同位數</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="DO0">
+                                              <block type="variables_set_local">
+                                                <field name="VAR" id="v03">最多相同位數</field>
+                                                <value name="VALUE">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">位數</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </statement>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_if">
+                                <mutation elseif="0" else="1"/>
+                                <value name="IF0">
+                                  <block type="logic_compare">
+                                    <field name="OP">GTE</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v03">最多相同位數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">3</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                      <block type="lists_getIndex">
+                                        <mutation statement="false" at="true"/>
+                                        <field name="MODE">GET</field>
+                                        <field name="WHERE">FROM_START</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="l02">獎項名稱</field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <block type="math_arithmetic">
+                                            <field name="OP">MINUS</field>
+                                            <value name="A">
+                                              <block type="math_number">
+                                                <field name="NUM">9</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v03">最多相同位數</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="ELSE">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                      <block type="text">
+                                        <field name="TEXT">無中獎</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
