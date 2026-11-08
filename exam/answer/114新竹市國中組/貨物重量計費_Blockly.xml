@@ -1,0 +1,221 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">w</variable>
+    <variable id="v02">費用</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">w</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="controls_if">
+            <mutation elseif="2" else="1"/>
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">w</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">10</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">費用</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">MULTIPLY</field>
+                    <value name="A">
+                      <block type="variables_get">
+                        <field name="VAR" id="v01">w</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">30</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <value name="IF1">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">w</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">30</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO1">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">費用</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <block type="math_number">
+                        <field name="NUM">300</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_arithmetic">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <block type="math_arithmetic">
+                            <field name="OP">MINUS</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">w</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">10</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">25</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <value name="IF2">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">w</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">50</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO2">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">費用</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <block type="math_number">
+                        <field name="NUM">800</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_arithmetic">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <block type="math_arithmetic">
+                            <field name="OP">MINUS</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">w</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">30</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">20</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">費用</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <block type="math_number">
+                        <field name="NUM">1200</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_arithmetic">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <block type="math_arithmetic">
+                            <field name="OP">MINUS</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">w</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">50</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">15</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="variables_get">
+                    <field name="VAR" id="v02">費用</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

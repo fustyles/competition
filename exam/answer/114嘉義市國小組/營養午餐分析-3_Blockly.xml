@@ -1,0 +1,139 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">前一天</variable>
+    <variable id="v02">次數</variable>
+    <variable id="v03">主菜</variable>
+  </variables>
+  <block x="20" y="20" type="controls_repeat_ext">
+    <value name="TIMES">
+      <block type="math_number">
+        <field name="NUM">2</field>
+      </block>
+    </value>
+    <statement name="DO">
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">前一天</field>
+        <value name="VALUE">
+          <block type="text">
+            <field name="TEXT"/>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="v02">次數</field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_repeat_ext">
+                <value name="TIMES">
+                  <block type="math_number">
+                    <field name="NUM">5</field>
+                  </block>
+                </value>
+                <statement name="DO">
+                  <block type="javascript_data_input_scratch">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT"/>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v03">主菜</field>
+                        <value name="VALUE">
+                          <block type="javascript_data_input_get_scratch"/>
+                        </value>
+                        <next>
+                          <block type="controls_if">
+                            <value name="IF0">
+                              <block type="logic_operation">
+                                <field name="OP">AND</field>
+                                <value name="A">
+                                  <block type="logic_compare">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v01">前一天</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="text">
+                                        <field name="TEXT">A</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="logic_compare">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v03">主菜</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="text">
+                                        <field name="TEXT">B</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v02">次數</field>
+                                <value name="VALUE">
+                                  <block type="math_arithmetic">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v02">次數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v01">前一天</field>
+                                <value name="VALUE">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">主菜</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="variables_get">
+                        <field name="VAR" id="v02">次數</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
