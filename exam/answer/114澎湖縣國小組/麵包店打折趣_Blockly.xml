@@ -1,0 +1,184 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">數量</variable>
+    <variable id="v02">單價</variable>
+    <variable id="v03">總金額</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">數量</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch">
+            <value name="TEXT">
+              <shadow type="text_noquotes">
+                <field name="TEXT"/>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">單價</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch"/>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">總金額</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic">
+                        <field name="OP">MULTIPLY</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">數量</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get">
+                            <field name="VAR" id="v02">單價</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_if">
+                        <mutation elseif="2" else="0"/>
+                        <value name="IF0">
+                          <block type="logic_compare">
+                            <field name="OP">GTE</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v03">總金額</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">300</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v03">總金額</field>
+                            <value name="VALUE">
+                              <block type="math_arithmetic">
+                                <field name="OP">MULTIPLY</field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">總金額</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM">0.8</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <value name="IF1">
+                          <block type="logic_compare">
+                            <field name="OP">GTE</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v03">總金額</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">200</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO1">
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v03">總金額</field>
+                            <value name="VALUE">
+                              <block type="math_arithmetic">
+                                <field name="OP">MULTIPLY</field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">總金額</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM">0.85</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <value name="IF2">
+                          <block type="logic_compare">
+                            <field name="OP">GTE</field>
+                            <value name="A">
+                              <block type="variables_get">
+                                <field name="VAR" id="v03">總金額</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">100</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO2">
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v03">總金額</field>
+                            <value name="VALUE">
+                              <block type="math_arithmetic">
+                                <field name="OP">MULTIPLY</field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">總金額</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM">0.9</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="javascript_data_output">
+                            <value name="TEXT">
+                              <shadow type="text"><field name="TEXT"/></shadow>
+                              <block type="math_round">
+                                <field name="OP">ROUND</field>
+                                <value name="NUM">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">總金額</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

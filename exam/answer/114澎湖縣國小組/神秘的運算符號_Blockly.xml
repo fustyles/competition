@@ -1,0 +1,187 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">A</variable>
+    <variable id="v02">B</variable>
+    <variable id="v03">大</variable>
+    <variable id="v04">小</variable>
+    <variable id="v05">商</variable>
+    <variable id="v06">餘數</variable>
+    <variable id="v07">結果</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">A</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch">
+            <value name="TEXT">
+              <shadow type="text_noquotes">
+                <field name="TEXT"/>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">B</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch"/>
+                </value>
+                <next>
+                  <block type="controls_if">
+                    <mutation elseif="0" else="1"/>
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">GT</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">A</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get">
+                            <field name="VAR" id="v02">B</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v03">大</field>
+                        <value name="VALUE">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">A</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v04">小</field>
+                            <value name="VALUE">
+                              <block type="variables_get">
+                                <field name="VAR" id="v02">B</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v03">大</field>
+                        <value name="VALUE">
+                          <block type="variables_get">
+                            <field name="VAR" id="v02">B</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v04">小</field>
+                            <value name="VALUE">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">A</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v05">商</field>
+                        <value name="VALUE">
+                          <block type="math_round">
+                            <field name="OP">ROUNDDOWN</field>
+                            <value name="NUM">
+                              <block type="math_arithmetic">
+                                <field name="OP">DIVIDE</field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">大</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v04">小</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v06">餘數</field>
+                            <value name="VALUE">
+                              <block type="math_modulo">
+                                <value name="DIVIDEND">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v03">大</field>
+                                  </block>
+                                </value>
+                                <value name="DIVISOR">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v04">小</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v07">結果</field>
+                                <value name="VALUE">
+                                  <block type="text_join">
+                                    <mutation items="2"/>
+                                    <value name="ADD0">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v05">商</field>
+                                      </block>
+                                    </value>
+                                    <value name="ADD1">
+                                      <block type="text">
+                                        <field name="TEXT"/>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text_join">
+                                        <mutation items="2"/>
+                                        <value name="ADD0">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v07">結果</field>
+                                          </block>
+                                        </value>
+                                        <value name="ADD1">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v06">餘數</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

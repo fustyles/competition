@@ -1,0 +1,353 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="l01">開獎</variable>
+    <variable id="v01">猜中</variable>
+    <variable id="v02">選號</variable>
+    <variable id="v03">獎金</variable>
+  </variables>
+  <block x="20" y="20" type="variables_set_local">
+    <field name="VAR" id="l01">開獎</field>
+    <value name="VALUE">
+      <block type="lists_create_with">
+        <mutation items="0"/>
+      </block>
+    </value>
+    <next>
+      <block type="lists_setIndex">
+        <mutation at="false"/>
+        <field name="MODE">INSERT</field>
+        <field name="WHERE">LAST</field>
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR" id="l01">開獎</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <next>
+          <block type="lists_setIndex">
+            <mutation at="false"/>
+            <field name="MODE">INSERT</field>
+            <field name="WHERE">LAST</field>
+            <value name="LIST">
+              <block type="variables_get">
+                <field name="VAR" id="l01">開獎</field>
+              </block>
+            </value>
+            <value name="TO">
+              <block type="math_number">
+                <field name="NUM">18</field>
+              </block>
+            </value>
+            <next>
+              <block type="lists_setIndex">
+                <mutation at="false"/>
+                <field name="MODE">INSERT</field>
+                <field name="WHERE">LAST</field>
+                <value name="LIST">
+                  <block type="variables_get">
+                    <field name="VAR" id="l01">開獎</field>
+                  </block>
+                </value>
+                <value name="TO">
+                  <block type="math_number">
+                    <field name="NUM">29</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="lists_setIndex">
+                    <mutation at="false"/>
+                    <field name="MODE">INSERT</field>
+                    <field name="WHERE">LAST</field>
+                    <value name="LIST">
+                      <block type="variables_get">
+                        <field name="VAR" id="l01">開獎</field>
+                      </block>
+                    </value>
+                    <value name="TO">
+                      <block type="math_number">
+                        <field name="NUM">31</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="lists_setIndex">
+                        <mutation at="false"/>
+                        <field name="MODE">INSERT</field>
+                        <field name="WHERE">LAST</field>
+                        <value name="LIST">
+                          <block type="variables_get">
+                            <field name="VAR" id="l01">開獎</field>
+                          </block>
+                        </value>
+                        <value name="TO">
+                          <block type="math_number">
+                            <field name="NUM">35</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="lists_setIndex">
+                            <mutation at="false"/>
+                            <field name="MODE">INSERT</field>
+                            <field name="WHERE">LAST</field>
+                            <value name="LIST">
+                              <block type="variables_get">
+                                <field name="VAR" id="l01">開獎</field>
+                              </block>
+                            </value>
+                            <value name="TO">
+                              <block type="math_number">
+                                <field name="NUM">36</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v01">猜中</field>
+                                <value name="VALUE">
+                                  <block type="math_number">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_repeat_ext">
+                                    <value name="TIMES">
+                                      <block type="math_number">
+                                        <field name="NUM">6</field>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="javascript_data_input_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v02">選號</field>
+                                            <value name="VALUE">
+                                              <block type="javascript_data_input_get_scratch"/>
+                                            </value>
+                                            <next>
+                                              <block type="controls_if">
+                                                <value name="IF0">
+                                                  <block type="logic_compare">
+                                                    <field name="OP">GT</field>
+                                                    <value name="A">
+                                                      <block type="lists_indexOf">
+                                                        <field name="END">FIRST</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="l01">開獎</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="FIND">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v02">選號</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="math_number">
+                                                        <field name="NUM">0</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO0">
+                                                  <block type="variables_set_local">
+                                                    <field name="VAR" id="v01">猜中</field>
+                                                    <value name="VALUE">
+                                                      <block type="math_arithmetic">
+                                                        <field name="OP">ADD</field>
+                                                        <value name="A">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v01">猜中</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="math_number">
+                                                            <field name="NUM">1</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </statement>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="controls_if">
+                                        <mutation elseif="3" else="1"/>
+                                        <value name="IF0">
+                                          <block type="logic_compare">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">猜中</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">6</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO0">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">獎金</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">100000</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF1">
+                                          <block type="logic_compare">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">猜中</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">5</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO1">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">獎金</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">10000</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF2">
+                                          <block type="logic_compare">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">猜中</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">4</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO2">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">獎金</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">1000</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF3">
+                                          <block type="logic_compare">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">猜中</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">3</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO3">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">獎金</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">100</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <statement name="ELSE">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">獎金</field>
+                                            <value name="VALUE">
+                                              <block type="math_number">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="javascript_data_output">
+                                            <value name="TEXT">
+                                              <shadow type="text"><field name="TEXT"/></shadow>
+                                              <block type="text_join">
+                                                <mutation items="5"/>
+                                                <value name="ADD0">
+                                                  <block type="text">
+                                                    <field name="TEXT">猜中</field>
+                                                  </block>
+                                                </value>
+                                                <value name="ADD1">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v01">猜中</field>
+                                                  </block>
+                                                </value>
+                                                <value name="ADD2">
+                                                  <block type="text">
+                                                    <field name="TEXT">個號碼，獎金</field>
+                                                  </block>
+                                                </value>
+                                                <value name="ADD3">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v03">獎金</field>
+                                                  </block>
+                                                </value>
+                                                <value name="ADD4">
+                                                  <block type="text">
+                                                    <field name="TEXT">元</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

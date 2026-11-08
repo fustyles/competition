@@ -1,0 +1,265 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">身高</variable>
+    <variable id="v02">體重</variable>
+    <variable id="v03">公尺</variable>
+    <variable id="v04">BMI</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">身高</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch">
+            <value name="TEXT">
+              <shadow type="text_noquotes">
+                <field name="TEXT"/>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">體重</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch"/>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">公尺</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic">
+                        <field name="OP">DIVIDE</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">身高</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">100</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">BMI</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic">
+                            <field name="OP">DIVIDE</field>
+                            <value name="A">
+                              <block type="math_round">
+                                <field name="OP">ROUND</field>
+                                <value name="NUM">
+                                  <block type="math_arithmetic">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <block type="math_arithmetic">
+                                        <field name="OP">DIVIDE</field>
+                                        <value name="A">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v02">體重</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_arithmetic">
+                                            <field name="OP">MULTIPLY</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v03">公尺</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v03">公尺</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">10</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">10</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="javascript_data_output">
+                            <value name="TEXT">
+                              <shadow type="text"><field name="TEXT"/></shadow>
+                              <block type="variables_get">
+                                <field name="VAR" id="v04">BMI</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_if">
+                                <mutation elseif="4" else="1"/>
+                                <value name="IF0">
+                                  <block type="logic_compare">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">BMI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">18.5</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">體重過輕</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <value name="IF1">
+                                  <block type="logic_compare">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">BMI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">25</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO1">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">正常範圍</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <value name="IF2">
+                                  <block type="logic_compare">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">BMI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">30</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO2">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">體重過重</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <value name="IF3">
+                                  <block type="logic_compare">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">BMI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">35</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO3">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">輕度肥胖</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <value name="IF4">
+                                  <block type="logic_compare">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">BMI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">40</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO4">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">中度肥胖</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="ELSE">
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="text">
+                                        <field name="TEXT">重度肥胖</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

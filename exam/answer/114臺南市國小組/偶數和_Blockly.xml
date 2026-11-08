@@ -1,0 +1,128 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">起始</variable>
+    <variable id="v02">結束</variable>
+    <variable id="v03">總和</variable>
+    <variable id="v04">i</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">起始</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch">
+            <value name="TEXT">
+              <shadow type="text_noquotes">
+                <field name="TEXT"/>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">結束</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch"/>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">總和</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_for">
+                        <field name="VAR" id="v04">i</field>
+                        <value name="FROM">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">起始</field>
+                          </block>
+                        </value>
+                        <value name="TO">
+                          <block type="variables_get">
+                            <field name="VAR" id="v02">結束</field>
+                          </block>
+                        </value>
+                        <value name="BY">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                        <statement name="DO">
+                          <block type="controls_if">
+                            <value name="IF0">
+                              <block type="logic_compare">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="math_modulo">
+                                    <value name="DIVIDEND">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">i</field>
+                                      </block>
+                                    </value>
+                                    <value name="DIVISOR">
+                                      <block type="math_number">
+                                        <field name="NUM">2</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v03">總和</field>
+                                <value name="VALUE">
+                                  <block type="math_arithmetic">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v03">總和</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v04">i</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="javascript_data_output">
+                            <value name="TEXT">
+                              <shadow type="text"><field name="TEXT"/></shadow>
+                              <block type="variables_get">
+                                <field name="VAR" id="v03">總和</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

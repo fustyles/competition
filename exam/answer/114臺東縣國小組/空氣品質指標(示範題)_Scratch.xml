@@ -1,0 +1,245 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v01">AQI</variable>
+  </variables>
+  <block type="javascript_start_scratch" x="20" y="20">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v01" variabletype="other">AQI</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="controls_if_2_scratch">
+                <value name="condition">
+                  <block type="logic_compare">
+                    <field name="OP">LTE</field>
+                    <value name="A">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="variables_get_other">
+                        <field name="VAR" id="v01" variabletype="other">AQI</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">50</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </value>
+                <statement name="statement_if">
+                  <block type="javascript_data_output_scratch">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">綠燈</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="javascript_data_output_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">良好</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <statement name="statement_else">
+                  <block type="controls_if_2_scratch">
+                    <value name="condition">
+                      <block type="logic_compare">
+                        <field name="OP">LTE</field>
+                        <value name="A">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                          <block type="variables_get_other">
+                            <field name="VAR" id="v01" variabletype="other">AQI</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">100</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="statement_if">
+                      <block type="javascript_data_output_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">黃燈</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="javascript_data_output_scratch">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">普通</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="statement_else">
+                      <block type="controls_if_2_scratch">
+                        <value name="condition">
+                          <block type="logic_compare">
+                            <field name="OP">LTE</field>
+                            <value name="A">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other">
+                                <field name="VAR" id="v01" variabletype="other">AQI</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">150</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="javascript_data_output_scratch">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">橘燈</field>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="javascript_data_output_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">對敏感族群不健康</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <statement name="statement_else">
+                          <block type="controls_if_2_scratch">
+                            <value name="condition">
+                              <block type="logic_compare">
+                                <field name="OP">LTE</field>
+                                <value name="A">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v01" variabletype="other">AQI</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">200</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="statement_if">
+                              <block type="javascript_data_output_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">紅燈</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">對所有族群不健康</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <statement name="statement_else">
+                              <block type="controls_if_2_scratch">
+                                <value name="condition">
+                                  <block type="logic_compare">
+                                    <field name="OP">LTE</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v01" variabletype="other">AQI</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">300</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">紫燈</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">非常不健康</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="javascript_data_output_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">深紅燈</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_output_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">危害</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                          </block>
+                        </statement>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

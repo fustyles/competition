@@ -1,0 +1,194 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v01">姓名</variable>
+    <variable type="other" id="v02">缺席</variable>
+    <variable type="other" id="v03">狀態</variable>
+  </variables>
+  <block type="javascript_start_scratch" x="20" y="20">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v01" variabletype="other">姓名</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="controls_whileUntil_scratch">
+                <field name="MODE">WHILE</field>
+                <value name="BOOL">
+                  <block type="logic_compare">
+                    <field name="OP">NEQ</field>
+                    <value name="A">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="variables_get_other">
+                        <field name="VAR" id="v01" variabletype="other">姓名</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT"/>
+                      </shadow>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO">
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v02" variabletype="other">缺席</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="controls_repeat_ext_scratch">
+                        <value name="TIMES">
+                          <shadow type="math_number">
+                            <field name="NUM">5</field>
+                          </shadow>
+                        </value>
+                        <statement name="DO">
+                          <block type="javascript_data_input_scratch">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT"/>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="variables_set_other">
+                                <field name="VAR" id="v03" variabletype="other">狀態</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="javascript_data_input_get_scratch"/>
+                                </value>
+                                <next>
+                                  <block type="controls_if_1_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <field name="OP">EQ</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v03" variabletype="other">狀態</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">缺</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="math_change_other">
+                                        <field name="VAR" id="v02" variabletype="other">缺席</field>
+                                        <value name="DELTA">
+                                          <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="javascript_data_output_scratch">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT"/>
+                              </shadow>
+                              <block type="text_join_scratch">
+                                <value name="VALUE1">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v01" variabletype="other">姓名</field>
+                                  </block>
+                                </value>
+                                <value name="VALUE2">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                  <block type="text_join_scratch">
+                                    <value name="VALUE1">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">缺席 </field>
+                                      </shadow>
+                                    </value>
+                                    <value name="VALUE2">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                      <block type="text_join_scratch">
+                                        <value name="VALUE1">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v02" variabletype="other">缺席</field>
+                                          </block>
+                                        </value>
+                                        <value name="VALUE2">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"> 天</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="javascript_data_input_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v01" variabletype="other">姓名</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="javascript_data_input_get_scratch"/>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

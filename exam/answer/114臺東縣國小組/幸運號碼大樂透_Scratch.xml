@@ -1,0 +1,330 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="Array" id="l01">幸運</variable>
+    <variable type="Array" id="l02">獎金</variable>
+    <variable type="other" id="v01">猜中</variable>
+    <variable type="other" id="v02">號碼</variable>
+  </variables>
+  <block type="javascript_start_scratch" x="20" y="20">
+    <next>
+      <block type="list_deletealloflist_scratch">
+        <field name="VAR" id="l01" variabletype="Array">幸運</field>
+        <next>
+          <block type="list_addtolist_scratch">
+            <value name="ITEM">
+              <shadow type="text_noquotes">
+                <field name="TEXT">7</field>
+              </shadow>
+            </value>
+            <field name="VAR" id="l01" variabletype="Array">幸運</field>
+            <next>
+              <block type="list_addtolist_scratch">
+                <value name="ITEM">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT">24</field>
+                  </shadow>
+                </value>
+                <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                <next>
+                  <block type="list_addtolist_scratch">
+                    <value name="ITEM">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">31</field>
+                      </shadow>
+                    </value>
+                    <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                    <next>
+                      <block type="list_addtolist_scratch">
+                        <value name="ITEM">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT">42</field>
+                          </shadow>
+                        </value>
+                        <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                        <next>
+                          <block type="list_addtolist_scratch">
+                            <value name="ITEM">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">45</field>
+                              </shadow>
+                            </value>
+                            <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                            <next>
+                              <block type="list_addtolist_scratch">
+                                <value name="ITEM">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">56</field>
+                                  </shadow>
+                                </value>
+                                <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                <next>
+                                  <block type="list_addtolist_scratch">
+                                    <value name="ITEM">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">63</field>
+                                      </shadow>
+                                    </value>
+                                    <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                    <next>
+                                      <block type="list_addtolist_scratch">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">78</field>
+                                          </shadow>
+                                        </value>
+                                        <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                        <next>
+                                          <block type="list_addtolist_scratch">
+                                            <value name="ITEM">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">80</field>
+                                              </shadow>
+                                            </value>
+                                            <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                            <next>
+                                              <block type="list_addtolist_scratch">
+                                                <value name="ITEM">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">99</field>
+                                                  </shadow>
+                                                </value>
+                                                <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                                <next>
+                                                  <block type="list_deletealloflist_scratch">
+                                                    <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                    <next>
+                                                      <block type="list_addtolist_scratch">
+                                                        <value name="ITEM">
+                                                          <shadow type="text_noquotes">
+                                                            <field name="TEXT">0</field>
+                                                          </shadow>
+                                                        </value>
+                                                        <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                        <next>
+                                                          <block type="list_addtolist_scratch">
+                                                            <value name="ITEM">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">200</field>
+                                                              </shadow>
+                                                            </value>
+                                                            <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                            <next>
+                                                              <block type="list_addtolist_scratch">
+                                                                <value name="ITEM">
+                                                                  <shadow type="text_noquotes">
+                                                                    <field name="TEXT">500</field>
+                                                                  </shadow>
+                                                                </value>
+                                                                <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                                <next>
+                                                                  <block type="list_addtolist_scratch">
+                                                                    <value name="ITEM">
+                                                                      <shadow type="text_noquotes">
+                                                                        <field name="TEXT">2000</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                    <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                                    <next>
+                                                                      <block type="list_addtolist_scratch">
+                                                                        <value name="ITEM">
+                                                                          <shadow type="text_noquotes">
+                                                                            <field name="TEXT">10000</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                        <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                                        <next>
+                                                                          <block type="list_addtolist_scratch">
+                                                                            <value name="ITEM">
+                                                                              <shadow type="text_noquotes">
+                                                                                <field name="TEXT">100000</field>
+                                                                              </shadow>
+                                                                            </value>
+                                                                            <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                                            <next>
+                                                                              <block type="variables_set_other">
+                                                                                <field name="VAR" id="v01" variabletype="other">猜中</field>
+                                                                                <value name="VALUE">
+                                                                                  <shadow type="text_noquotes">
+                                                                                    <field name="TEXT">0</field>
+                                                                                  </shadow>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="controls_repeat_ext_scratch">
+                                                                                    <value name="TIMES">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">5</field>
+                                                                                      </shadow>
+                                                                                    </value>
+                                                                                    <statement name="DO">
+                                                                                      <block type="javascript_data_input_scratch">
+                                                                                        <value name="TEXT">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT"/>
+                                                                                          </shadow>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="variables_set_other">
+                                                                                            <field name="VAR" id="v02" variabletype="other">號碼</field>
+                                                                                            <value name="VALUE">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="javascript_data_input_get_scratch"/>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="controls_if_1_scratch">
+                                                                                                <value name="condition">
+                                                                                                  <block type="list_listcontainsitem_scratch">
+                                                                                                    <field name="VAR" id="l01" variabletype="Array">幸運</field>
+                                                                                                    <value name="ITEM">
+                                                                                                      <shadow type="text_noquotes">
+                                                                                                        <field name="TEXT"/>
+                                                                                                      </shadow>
+                                                                                                      <block type="variables_get_other">
+                                                                                                        <field name="VAR" id="v02" variabletype="other">號碼</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <statement name="statement_if">
+                                                                                                  <block type="math_change_other">
+                                                                                                    <field name="VAR" id="v01" variabletype="other">猜中</field>
+                                                                                                    <value name="DELTA">
+                                                                                                      <shadow type="math_number">
+                                                                                                        <field name="NUM">1</field>
+                                                                                                      </shadow>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </statement>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                    <next>
+                                                                                      <block type="javascript_data_output_scratch">
+                                                                                        <value name="TEXT">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT"/>
+                                                                                          </shadow>
+                                                                                          <block type="text_join_scratch">
+                                                                                            <value name="VALUE1">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">猜中</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                            <value name="VALUE2">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT"/>
+                                                                                              </shadow>
+                                                                                              <block type="text_join_scratch">
+                                                                                                <value name="VALUE1">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT"/>
+                                                                                                  </shadow>
+                                                                                                  <block type="variables_get_other">
+                                                                                                    <field name="VAR" id="v01" variabletype="other">猜中</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="VALUE2">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT"/>
+                                                                                                  </shadow>
+                                                                                                  <block type="text_join_scratch">
+                                                                                                    <value name="VALUE1">
+                                                                                                      <shadow type="text_noquotes">
+                                                                                                        <field name="TEXT">個號碼，獎金</field>
+                                                                                                      </shadow>
+                                                                                                    </value>
+                                                                                                    <value name="VALUE2">
+                                                                                                      <shadow type="text_noquotes">
+                                                                                                        <field name="TEXT"/>
+                                                                                                      </shadow>
+                                                                                                      <block type="text_join_scratch">
+                                                                                                        <value name="VALUE1">
+                                                                                                          <shadow type="text_noquotes">
+                                                                                                            <field name="TEXT"/>
+                                                                                                          </shadow>
+                                                                                                          <block type="list_itemoflist_scratch">
+                                                                                                            <field name="VAR" id="l02" variabletype="Array">獎金</field>
+                                                                                                            <value name="INDEX">
+                                                                                                              <shadow type="math_number">
+                                                                                                                <field name="NUM">1</field>
+                                                                                                              </shadow>
+                                                                                                              <block type="math_arithmetic">
+                                                                                                                <field name="OP">ADD</field>
+                                                                                                                <value name="A">
+                                                                                                                  <shadow type="math_number">
+                                                                                                                    <field name="NUM">0</field>
+                                                                                                                  </shadow>
+                                                                                                                  <block type="variables_get_other">
+                                                                                                                    <field name="VAR" id="v01" variabletype="other">猜中</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                                <value name="B">
+                                                                                                                  <shadow type="math_number">
+                                                                                                                    <field name="NUM">1</field>
+                                                                                                                  </shadow>
+                                                                                                                </value>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="VALUE2">
+                                                                                                          <shadow type="text_noquotes">
+                                                                                                            <field name="TEXT">元</field>
+                                                                                                          </shadow>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
