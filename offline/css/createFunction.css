@@ -317,15 +317,15 @@
     overflow-wrap: break-word;
 }
 
-/* 新增：設定三欄寬度 20% / 40% / 40% */
+/* 設定三欄寬度：名稱 50% / 分類 25% / 序號 25% */
 #importQuestionTable td:nth-child(1) {
-    width: 25%;
+    width: 50%;
 }
 #importQuestionTable td:nth-child(2) {
     width: 25%;
 }
 #importQuestionTable td:nth-child(3) {
-    width: 50%;
+    width: 25%;
 }
 
 /* 3. 處理 tr 的邊框 (通常不需要，因為 td 的邊框會覆蓋 tr 的邊框) */

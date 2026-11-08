@@ -65,8 +65,9 @@ const TD_HL = 'style="padding: 5px 14px; border: 1px solid #c7d2fe; text-align: 
 const BTN_STYLE = 'display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important;';
 // 每格都明確設定四邊框線，避免系統原本的 CSS（黑色直線）混進來
 const CELL = 'padding: 10px 16px; text-align: center; vertical-align: middle; border: 0; color: #374151; background: #fff;';
-const LIST_TH = (first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #dde2ec;'}"`;
-const LIST_TD = (first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #e5e8ef;'}"`;
+// 欄位樣式：btn = 序號按鈕欄（固定寬度、不換行），first = 最左欄（不加左框線）
+const LIST_TH = (btn, first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #dde2ec;'}"`;
+const LIST_TD = (btn, first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #e5e8ef;'}"`;
 const ONCLICK = `document.getElementById("javascript_content").style.display = "block";document.getElementById("question_input").innerHTML = this.getAttribute("data-q");document.getElementById("question_input").scrollTop = 0;window.toggleImportQuestionForm(false);var iframe = document.getElementById("iframe_output");iframe.contentWindow.document.open();iframe.contentWindow.document.write("");iframe.contentWindow.document.close();iframe.focus();loadExam();`;
 
 // =====================================================
@@ -93,9 +94,9 @@ let contest = `
 <table id="importQuestionTable" style="${FONT} border-collapse: separate; border-spacing: 0; table-layout: auto !important; border: 1px solid #d6dbe6; border-radius: 10px; overflow: hidden; font-size: 16px; background: #fff;">
 <tbody>
 <tr>
-<td ${LIST_TH(true)}>序號</td>
-<td ${LIST_TH(false)}>分類</td>
-<td ${LIST_TH(false)}>名稱</td>
+<td ${LIST_TH(false, true)}>名稱</td>
+<td ${LIST_TH(false, false)}>分類</td>
+<td ${LIST_TH(true, false)}>序號</td>
 </tr>
 `;
 
@@ -104,7 +105,9 @@ let contest = `
 // ---------------- 第 1 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】數線上的距離</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -148,15 +151,15 @@ ${sample(5,
  onclick='${ONCLICK}'>1
 </button> ${answerButtons('【七年級】數線上的距離')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】數線上的距離</td>
 </tr>
 `;
 
 // ---------------- 第 2 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】質因數分解</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -195,15 +198,15 @@ ${sample(5,
  onclick='${ONCLICK}'>2
 </button> ${answerButtons('【七年級】質因數分解')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】質因數分解</td>
 </tr>
 `;
 
 // ---------------- 第 3 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】約分成最簡分數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -247,15 +250,15 @@ ${sample(5,
  onclick='${ONCLICK}'>3
 </button> ${answerButtons('【七年級】約分成最簡分數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】約分成最簡分數</td>
 </tr>
 `;
 
 // ---------------- 第 4 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】分數加減</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -314,15 +317,15 @@ ${sample(5,
  onclick='${ONCLICK}'>4
 </button> ${answerButtons('【七年級】分數加減')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】分數加減</td>
 </tr>
 `;
 
 // ---------------- 第 5 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】指數的次方</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -366,15 +369,15 @@ ${sample(5,
  onclick='${ONCLICK}'>5
 </button> ${answerButtons('【七年級】指數的次方')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】指數的次方</td>
 </tr>
 `;
 
 // ---------------- 第 6 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】科學記號</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -413,15 +416,15 @@ ${sample(5,
  onclick='${ONCLICK}'>6
 </button> ${answerButtons('【七年級】科學記號')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】科學記號</td>
 </tr>
 `;
 
 // ---------------- 第 7 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】一元一次方程式</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -470,15 +473,15 @@ ${sample(5,
  onclick='${ONCLICK}'>7
 </button> ${answerButtons('【七年級】一元一次方程式')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】一元一次方程式</td>
 </tr>
 `;
 
 // ---------------- 第 8 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】二元一次聯立方程式</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -544,15 +547,15 @@ ${sample(5,
  onclick='${ONCLICK}'>8
 </button> ${answerButtons('【七年級】二元一次聯立方程式')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】二元一次聯立方程式</td>
 </tr>
 `;
 
 // ---------------- 第 9 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】比例式求未知數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -601,15 +604,15 @@ ${sample(5,
  onclick='${ONCLICK}'>9
 </button> ${answerButtons('【七年級】比例式求未知數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】比例式求未知數</td>
 </tr>
 `;
 
 // ---------------- 第 10 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】正比、反比或都不是</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -663,15 +666,15 @@ ${sample(5,
  onclick='${ONCLICK}'>10
 </button> ${answerButtons('【七年級】正比、反比或都不是')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】正比、反比或都不是</td>
 </tr>
 `;
 
 // ---------------- 第 11 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】顯微鏡的放大倍率</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -725,15 +728,15 @@ ${sample(5,
  onclick='${ONCLICK}'>11
 </button> ${answerButtons('【七年級】顯微鏡的放大倍率')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】顯微鏡的放大倍率</td>
 </tr>
 `;
 
 // ---------------- 第 12 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】孟德爾遺傳</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -777,15 +780,15 @@ Aa`,
  onclick='${ONCLICK}'>12
 </button> ${answerButtons('【七年級】孟德爾遺傳')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】孟德爾遺傳</td>
 </tr>
 `;
 
 // ---------------- 第 13 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】子女可能的血型</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -829,15 +832,15 @@ AB`,
  onclick='${ONCLICK}'>13
 </button> ${answerButtons('【七年級】子女可能的血型')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】子女可能的血型</td>
 </tr>
 `;
 
 // ---------------- 第 14 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】食物鏈的能量傳遞</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -881,15 +884,15 @@ ${sample(5,
  onclick='${ONCLICK}'>14
 </button> ${answerButtons('【七年級】食物鏈的能量傳遞')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】食物鏈的能量傳遞</td>
 </tr>
 `;
 
 // ---------------- 第 15 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】測量心跳</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -938,15 +941,15 @@ ${sample(5,
  onclick='${ONCLICK}'>15
 </button> ${answerButtons('【七年級】測量心跳')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】測量心跳</td>
 </tr>
 `;
 
 // ---------------- 第 16 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】標記重捕法估計族群數量</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -995,15 +998,15 @@ ${sample(5,
  onclick='${ONCLICK}'>16
 </button> ${answerButtons('【七年級】標記重捕法估計族群數量')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】標記重捕法估計族群數量</td>
 </tr>
 `;
 
 // ---------------- 第 17 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】細菌分裂</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1052,15 +1055,15 @@ ${sample(5,
  onclick='${ONCLICK}'>17
 </button> ${answerButtons('【七年級】細菌分裂')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】細菌分裂</td>
 </tr>
 `;
 
 // ---------------- 第 18 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】每分鐘的心輸出量</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1104,15 +1107,15 @@ ${sample(5,
  onclick='${ONCLICK}'>18
 </button> ${answerButtons('【七年級】每分鐘的心輸出量')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】每分鐘的心輸出量</td>
 </tr>
 `;
 
 // ---------------- 第 19 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】攝氏與華氏溫度</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1156,15 +1159,15 @@ F`,
  onclick='${ONCLICK}'>19
 </button> ${answerButtons('【七年級】攝氏與華氏溫度')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】攝氏與華氏溫度</td>
 </tr>
 `;
 
 // ---------------- 第 20 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【七年級】直角坐標的平移</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1225,15 +1228,15 @@ L 50`,
  onclick='${ONCLICK}'>20
 </button> ${answerButtons('【七年級】直角坐標的平移')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【七年級】直角坐標的平移</td>
 </tr>
 `;
 
 // ---------------- 第 21 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】畢氏三元數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1272,15 +1275,15 @@ ${sample(5,
  onclick='${ONCLICK}'>21
 </button> ${answerButtons('【八年級】畢氏三元數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】畢氏三元數</td>
 </tr>
 `;
 
 // ---------------- 第 22 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】平方根的範圍</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1319,15 +1322,15 @@ ${sample(5,
  onclick='${ONCLICK}'>22
 </button> ${answerButtons('【八年級】平方根的範圍')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】平方根的範圍</td>
 </tr>
 `;
 
 // ---------------- 第 23 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】等差數列與等差級數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1376,15 +1379,15 @@ ${sample(5,
  onclick='${ONCLICK}'>23
 </button> ${answerButtons('【八年級】等差數列與等差級數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】等差數列與等差級數</td>
 </tr>
 `;
 
 // ---------------- 第 24 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】等比數列</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1433,15 +1436,15 @@ ${sample(5,
  onclick='${ONCLICK}'>24
 </button> ${answerButtons('【八年級】等比數列')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】等比數列</td>
 </tr>
 `;
 
 // ---------------- 第 25 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】多邊形的內角</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1480,15 +1483,15 @@ ${sample(5,
  onclick='${ONCLICK}'>25
 </button> ${answerButtons('【八年級】多邊形的內角')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】多邊形的內角</td>
 </tr>
 `;
 
 // ---------------- 第 26 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】十字交乘因式分解</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1532,15 +1535,15 @@ ${sample(5,
  onclick='${ONCLICK}'>26
 </button> ${answerButtons('【八年級】十字交乘因式分解')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】十字交乘因式分解</td>
 </tr>
 `;
 
 // ---------------- 第 27 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】一元二次方程式的根</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1589,15 +1592,15 @@ ${sample(5,
  onclick='${ONCLICK}'>27
 </button> ${answerButtons('【八年級】一元二次方程式的根')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】一元二次方程式的根</td>
 </tr>
 `;
 
 // ---------------- 第 28 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】階梯座位要幾排</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1646,15 +1649,15 @@ ${sample(5,
  onclick='${ONCLICK}'>28
 </button> ${answerButtons('【八年級】階梯座位要幾排')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】階梯座位要幾排</td>
 </tr>
 `;
 
 // ---------------- 第 29 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】密度與浮沉</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1698,15 +1701,15 @@ ${sample(5,
  onclick='${ONCLICK}'>29
 </button> ${answerButtons('【八年級】密度與浮沉')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】密度與浮沉</td>
 </tr>
 `;
 
 // ---------------- 第 30 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】溶液的重量百分濃度</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1760,15 +1763,15 @@ ${sample(5,
  onclick='${ONCLICK}'>30
 </button> ${answerButtons('【八年級】溶液的重量百分濃度')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】溶液的重量百分濃度</td>
 </tr>
 `;
 
 // ---------------- 第 31 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】平均速率</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1819,15 +1822,15 @@ ${sample(5,
  onclick='${ONCLICK}'>31
 </button> ${answerButtons('【八年級】平均速率')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】平均速率</td>
 </tr>
 `;
 
 // ---------------- 第 32 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】加速度</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1876,15 +1879,15 @@ ${sample(5,
  onclick='${ONCLICK}'>32
 </button> ${answerButtons('【八年級】加速度')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】加速度</td>
 </tr>
 `;
 
 // ---------------- 第 33 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】冷熱水混合的溫度</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1938,15 +1941,15 @@ ${sample(5,
  onclick='${ONCLICK}'>33
 </button> ${answerButtons('【八年級】冷熱水混合的溫度')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】冷熱水混合的溫度</td>
 </tr>
 `;
 
 // ---------------- 第 34 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】強酸稀釋的 pH 值</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -1990,15 +1993,15 @@ ${sample(5,
  onclick='${ONCLICK}'>34
 </button> ${answerButtons('【八年級】強酸稀釋的 pH 值')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】強酸稀釋的 pH 值</td>
 </tr>
 `;
 
 // ---------------- 第 35 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】兩面鏡子的成像數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2042,15 +2045,15 @@ ${sample(5,
  onclick='${ONCLICK}'>35
 </button> ${answerButtons('【八年級】兩面鏡子的成像數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】兩面鏡子的成像數</td>
 </tr>
 `;
 
 // ---------------- 第 36 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】回聲測距離</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2094,15 +2097,15 @@ ${sample(5,
  onclick='${ONCLICK}'>36
 </button> ${answerButtons('【八年級】回聲測距離')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】回聲測距離</td>
 </tr>
 `;
 
 // ---------------- 第 37 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】原子與離子的粒子數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2151,15 +2154,15 @@ ${sample(5,
  onclick='${ONCLICK}'>37
 </button> ${answerButtons('【八年級】原子與離子的粒子數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】原子與離子的粒子數</td>
 </tr>
 `;
 
 // ---------------- 第 38 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】分子量與莫耳數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2218,15 +2221,15 @@ ${sample(5,
  onclick='${ONCLICK}'>38
 </button> ${answerButtons('【八年級】分子量與莫耳數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】分子量與莫耳數</td>
 </tr>
 `;
 
 // ---------------- 第 39 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】溫度與反應速率</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2275,15 +2278,15 @@ ${sample(5,
  onclick='${ONCLICK}'>39
 </button> ${answerButtons('【八年級】溫度與反應速率')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】溫度與反應速率</td>
 </tr>
 `;
 
 // ---------------- 第 40 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【八年級】週期表的位置</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2325,15 +2328,15 @@ ${sample(5,
  onclick='${ONCLICK}'>40
 </button> ${answerButtons('【八年級】週期表的位置')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【八年級】週期表的位置</td>
 </tr>
 `;
 
 // ---------------- 第 41 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】相似三角形求邊長</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2382,15 +2385,15 @@ ${sample(5,
  onclick='${ONCLICK}'>41
 </button> ${answerButtons('【九年級】相似三角形求邊長')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】相似三角形求邊長</td>
 </tr>
 `;
 
 // ---------------- 第 42 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】扇形的弧長與面積</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2434,15 +2437,15 @@ ${sample(5,
  onclick='${ONCLICK}'>42
 </button> ${answerButtons('【九年級】扇形的弧長與面積')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】扇形的弧長與面積</td>
 </tr>
 `;
 
 // ---------------- 第 43 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】二次函數的頂點</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2491,15 +2494,15 @@ ${sample(5,
  onclick='${ONCLICK}'>43
 </button> ${answerButtons('【九年級】二次函數的頂點')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】二次函數的頂點</td>
 </tr>
 `;
 
 // ---------------- 第 44 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】四分位數與四分位距</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2543,15 +2546,15 @@ ${sample(5,
  onclick='${ONCLICK}'>44
 </button> ${answerButtons('【九年級】四分位數與四分位距')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】四分位數與四分位距</td>
 </tr>
 `;
 
 // ---------------- 第 45 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】擲兩顆骰子的機率</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2590,15 +2593,15 @@ ${sample(5,
  onclick='${ONCLICK}'>45
 </button> ${answerButtons('【九年級】擲兩顆骰子的機率')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】擲兩顆骰子的機率</td>
 </tr>
 `;
 
 // ---------------- 第 46 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】眾數</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2642,15 +2645,15 @@ ${sample(5,
  onclick='${ONCLICK}'>46
 </button> ${answerButtons('【九年級】眾數')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】眾數</td>
 </tr>
 `;
 
 // ---------------- 第 47 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】三角形的重心</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2714,15 +2717,15 @@ ${sample(5,
  onclick='${ONCLICK}'>47
 </button> ${answerButtons('【九年級】三角形的重心')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】三角形的重心</td>
 </tr>
 `;
 
 // ---------------- 第 48 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】用影子測量樹高</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2771,15 +2774,15 @@ ${sample(5,
  onclick='${ONCLICK}'>48
 </button> ${answerButtons('【九年級】用影子測量樹高')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】用影子測量樹高</td>
 </tr>
 `;
 
 // ---------------- 第 49 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】牛頓第二運動定律</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2828,15 +2831,15 @@ ${sample(5,
  onclick='${ONCLICK}'>49
 </button> ${answerButtons('【九年級】牛頓第二運動定律')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】牛頓第二運動定律</td>
 </tr>
 `;
 
 // ---------------- 第 50 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】功與功率</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2885,15 +2888,15 @@ ${sample(5,
  onclick='${ONCLICK}'>50
 </button> ${answerButtons('【九年級】功與功率')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】功與功率</td>
 </tr>
 `;
 
 // ---------------- 第 51 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】重力位能與動能</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2942,15 +2945,15 @@ ${sample(5,
  onclick='${ONCLICK}'>51
 </button> ${answerButtons('【九年級】重力位能與動能')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】重力位能與動能</td>
 </tr>
 `;
 
 // ---------------- 第 52 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】串聯與並聯電阻</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -2999,15 +3002,15 @@ ${sample(5,
  onclick='${ONCLICK}'>52
 </button> ${answerButtons('【九年級】串聯與並聯電阻')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】串聯與並聯電阻</td>
 </tr>
 `;
 
 // ---------------- 第 53 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】家用電路會不會跳電</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3056,15 +3059,15 @@ ${sample(5,
  onclick='${ONCLICK}'>53
 </button> ${answerButtons('【九年級】家用電路會不會跳電')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】家用電路會不會跳電</td>
 </tr>
 `;
 
 // ---------------- 第 54 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】滑輪組省力</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3113,15 +3116,15 @@ ${sample(5,
  onclick='${ONCLICK}'>54
 </button> ${answerButtons('【九年級】滑輪組省力')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】滑輪組省力</td>
 </tr>
 `;
 
 // ---------------- 第 55 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】地震震央距離</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3165,15 +3168,15 @@ ${sample(5,
  onclick='${ONCLICK}'>55
 </button> ${answerButtons('【九年級】地震震央距離')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】地震震央距離</td>
 </tr>
 `;
 
 // ---------------- 第 56 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】滿潮時刻推算</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3221,15 +3224,15 @@ ${sample(5,
  onclick='${ONCLICK}'>56
 </button> ${answerButtons('【九年級】滿潮時刻推算')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】滿潮時刻推算</td>
 </tr>
 `;
 
 // ---------------- 第 57 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】爬山時的氣溫</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3283,15 +3286,15 @@ ${sample(5,
  onclick='${ONCLICK}'>57
 </button> ${answerButtons('【九年級】爬山時的氣溫')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】爬山時的氣溫</td>
 </tr>
 `;
 
 // ---------------- 第 58 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】光從星體傳來要多久</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3330,15 +3333,15 @@ ${sample(5,
  onclick='${ONCLICK}'>58
 </button> ${answerButtons('【九年級】光從星體傳來要多久')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】光從星體傳來要多久</td>
 </tr>
 `;
 
 // ---------------- 第 59 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】組合數：選代表</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3382,15 +3385,15 @@ ${sample(5,
  onclick='${ONCLICK}'>59
 </button> ${answerButtons('【九年級】組合數：選代表')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】組合數：選代表</td>
 </tr>
 `;
 
 // ---------------- 第 60 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>【九年級】地震規模與能量</td>
+<td ${LIST_TD(false, false)}>國中基礎練習</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -3434,8 +3437,6 @@ ${sample(5,
  onclick='${ONCLICK}'>60
 </button> ${answerButtons('【九年級】地震規模與能量')}
 </td>
-<td ${LIST_TD(false)}>國中基礎練習</td>
-<td ${LIST_TD(false)}>【九年級】地震規模與能量</td>
 </tr>
 `;
 

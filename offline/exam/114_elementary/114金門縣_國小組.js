@@ -65,8 +65,9 @@ const TD_HL = 'style="padding: 5px 14px; border: 1px solid #c7d2fe; text-align: 
 const BTN_STYLE = 'display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important;';
 // 每格都明確設定四邊框線，避免系統原本的 CSS（黑色直線）混進來
 const CELL = 'padding: 10px 16px; text-align: center; vertical-align: middle; border: 0; color: #374151; background: #fff;';
-const LIST_TH = (first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #dde2ec;'}"`;
-const LIST_TD = (first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #e5e8ef;'}"`;
+// 欄位樣式：btn = 序號按鈕欄（固定寬度、不換行），first = 最左欄（不加左框線）
+const LIST_TH = (btn, first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #dde2ec;'}"`;
+const LIST_TD = (btn, first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #e5e8ef;'}"`;
 const ONCLICK = `document.getElementById("javascript_content").style.display = "block";document.getElementById("question_input").innerHTML = this.getAttribute("data-q");document.getElementById("question_input").scrollTop = 0;window.toggleImportQuestionForm(false);var iframe = document.getElementById("iframe_output");iframe.contentWindow.document.open();iframe.contentWindow.document.write("");iframe.contentWindow.document.close();iframe.focus();loadExam();`;
 
 // =====================================================
@@ -93,9 +94,9 @@ let contest = `
 <table id="importQuestionTable" style="${FONT} border-collapse: separate; border-spacing: 0; table-layout: auto !important; border: 1px solid #d6dbe6; border-radius: 10px; overflow: hidden; font-size: 16px; background: #fff;">
 <tbody>
 <tr>
-<td ${LIST_TH(true)}>序號</td>
-<td ${LIST_TH(false)}>分類</td>
-<td ${LIST_TH(false)}>名稱</td>
+<td ${LIST_TH(false, true)}>名稱</td>
+<td ${LIST_TH(false, false)}>分類</td>
+<td ${LIST_TH(true, false)}>序號</td>
 </tr>
 `;
 
@@ -104,7 +105,9 @@ let contest = `
 // ---------------- 第 1 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>資訊競賽獎勵統計</td>
+<td ${LIST_TD(false, false)}>114金門縣國小組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -152,15 +155,15 @@ ${sample(2,
  onclick='${ONCLICK}'>1
 </button> ${answerButtons('資訊競賽獎勵統計')}
 </td>
-<td ${LIST_TD(false)}>114金門縣國小組</td>
-<td ${LIST_TD(false)}>資訊競賽獎勵統計</td>
 </tr>
 `;
 
 // ---------------- 第 2 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>台灣星鏈 (T-Starlink) 衛星佈署計畫</td>
+<td ${LIST_TD(false, false)}>114金門縣國小組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -197,15 +200,15 @@ ${sample(2,
  onclick='${ONCLICK}'>2
 </button> ${answerButtons('台灣星鏈 (T-Starlink) 衛星佈署計畫')}
 </td>
-<td ${LIST_TD(false)}>114金門縣國小組</td>
-<td ${LIST_TD(false)}>台灣星鏈 (T-Starlink) 衛星佈署計畫</td>
 </tr>
 `;
 
 // ---------------- 第 3 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>「一杯心情」飲料調製</td>
+<td ${LIST_TD(false, false)}>114金門縣國小組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -246,15 +249,15 @@ T 115`,
  onclick='${ONCLICK}'>3
 </button> ${answerButtons('「一杯心情」飲料調製')}
 </td>
-<td ${LIST_TD(false)}>114金門縣國小組</td>
-<td ${LIST_TD(false)}>「一杯心情」飲料調製</td>
 </tr>
 `;
 
 // ---------------- 第 4 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>風獅爺排排隊</td>
+<td ${LIST_TD(false, false)}>114金門縣國小組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -292,8 +295,6 @@ ${sample(2,
  onclick='${ONCLICK}'>4
 </button> ${answerButtons('風獅爺排排隊')}
 </td>
-<td ${LIST_TD(false)}>114金門縣國小組</td>
-<td ${LIST_TD(false)}>風獅爺排排隊</td>
 </tr>
 `;
 

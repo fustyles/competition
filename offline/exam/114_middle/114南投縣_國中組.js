@@ -65,8 +65,9 @@ const TD_HL = 'style="padding: 5px 14px; border: 1px solid #c7d2fe; text-align: 
 const BTN_STYLE = 'display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important;';
 // 每格都明確設定四邊框線，避免系統原本的 CSS（黑色直線）混進來
 const CELL = 'padding: 10px 16px; text-align: center; vertical-align: middle; border: 0; color: #374151; background: #fff;';
-const LIST_TH = (first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #dde2ec;'}"`;
-const LIST_TD = (first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${first ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : 'border-left: 1px solid #e5e8ef;'}"`;
+// 欄位樣式：btn = 序號按鈕欄（固定寬度、不換行），first = 最左欄（不加左框線）
+const LIST_TH = (btn, first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #dde2ec;'}"`;
+const LIST_TD = (btn, first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #e5e8ef;'}"`;
 const ONCLICK = `document.getElementById("javascript_content").style.display = "block";document.getElementById("question_input").innerHTML = this.getAttribute("data-q");document.getElementById("question_input").scrollTop = 0;window.toggleImportQuestionForm(false);var iframe = document.getElementById("iframe_output");iframe.contentWindow.document.open();iframe.contentWindow.document.write("");iframe.contentWindow.document.close();iframe.focus();loadExam();`;
 
 // =====================================================
@@ -93,9 +94,9 @@ let contest = `
 <table id="importQuestionTable" style="${FONT} border-collapse: separate; border-spacing: 0; table-layout: auto !important; border: 1px solid #d6dbe6; border-radius: 10px; overflow: hidden; font-size: 16px; background: #fff;">
 <tbody>
 <tr>
-<td ${LIST_TH(true)}>序號</td>
-<td ${LIST_TH(false)}>分類</td>
-<td ${LIST_TH(false)}>名稱</td>
+<td ${LIST_TH(false, true)}>名稱</td>
+<td ${LIST_TH(false, false)}>分類</td>
+<td ${LIST_TH(true, false)}>序號</td>
 </tr>
 `;
 
@@ -104,7 +105,9 @@ let contest = `
 // ---------------- 第 1 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>智慧溫室的自動監控</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -169,15 +172,15 @@ ${sample(7,
  onclick='${ONCLICK}'>1
 </button> ${answerButtons('智慧溫室的自動監控')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>智慧溫室的自動監控</td>
 </tr>
 `;
 
 // ---------------- 第 2 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>熱門影片的流量密碼</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -242,15 +245,15 @@ ${sample(7,
  onclick='${ONCLICK}'>2
 </button> ${answerButtons('熱門影片的流量密碼')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>熱門影片的流量密碼</td>
 </tr>
 `;
 
 // ---------------- 第 3 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>神秘的煉金術配對</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -321,15 +324,15 @@ ${sample(8,
  onclick='${ONCLICK}'>3
 </button> ${answerButtons('神秘的煉金術配對')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>神秘的煉金術配對</td>
 </tr>
 `;
 
 // ---------------- 第 4 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>量子訊號的接力傳輸</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -398,15 +401,15 @@ ${sample(8,
  onclick='${ONCLICK}'>4
 </button> ${answerButtons('量子訊號的接力傳輸')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>量子訊號的接力傳輸</td>
 </tr>
 `;
 
 // ---------------- 第 5 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>古文明的能量融合</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -463,15 +466,15 @@ ${sample(7,
  onclick='${ONCLICK}'>5
 </button> ${answerButtons('古文明的能量融合')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>古文明的能量融合</td>
 </tr>
 `;
 
 // ---------------- 第 6 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>星際物資運補任務-神祕的配重</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -542,15 +545,15 @@ ${sample(8,
  onclick='${ONCLICK}'>6
 </button> ${answerButtons('星際物資運補任務-神祕的配重')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>星際物資運補任務-神祕的配重</td>
 </tr>
 `;
 
 // ---------------- 第 7 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>星際物資運補任務-疏散飛船的乘客名單</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -618,15 +621,15 @@ ${sample(7,
  onclick='${ONCLICK}'>7
 </button> ${answerButtons('星際物資運補任務-疏散飛船的乘客名單')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>星際物資運補任務-疏散飛船的乘客名單</td>
 </tr>
 `;
 
 // ---------------- 第 8 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>星際物資運補任務-火星樣本回收</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -687,15 +690,15 @@ ${sample(6,
  onclick='${ONCLICK}'>8
 </button> ${answerButtons('星際物資運補任務-火星樣本回收')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>星際物資運補任務-火星樣本回收</td>
 </tr>
 `;
 
 // ---------------- 第 9 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(true)}>
+<td ${LIST_TD(false, true)}>星際物資運補任務-防禦塔的能量負載</td>
+<td ${LIST_TD(false, false)}>114南投縣國中組</td>
+<td ${LIST_TD(true, false)}>
 <button
  class='test-button'
  style='${BTN_STYLE}'
@@ -768,8 +771,6 @@ ${sample(8,
  onclick='${ONCLICK}'>9
 </button> ${answerButtons('星際物資運補任務-防禦塔的能量負載')}
 </td>
-<td ${LIST_TD(false)}>114南投縣國中組</td>
-<td ${LIST_TD(false)}>星際物資運補任務-防禦塔的能量負載</td>
 </tr>
 `;
 
