@@ -112,10 +112,8 @@ main {
 #javascript_code:has(#iframe_output[style*="display: none"]) #question_splitter {
     display: none;
 }
-/* 拖曳中避免 iframe 攔截滑鼠事件 */
-#javascript_code.splitting iframe {
-    pointer-events: none;
-}
+/* 拖曳中避免 iframe 攔截滑鼠事件：改由 index.js 加上的透明遮罩處理。
+   不可在這裡對 iframe 設 pointer-events: none，Chrome 拖曳結束後 iframe 會收不到滑鼠滾輪。 */
 /* 已有分隔條，關閉 textarea 右下角瀏覽器內建的縮放把手 */
 #question_input {
     resize: none;
