@@ -1,0 +1,276 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">N</variable>
+    <variable id="v02">金</variable>
+    <variable id="v03">銀</variable>
+    <variable id="v04">銅</variable>
+    <variable id="v05">佳作</variable>
+    <variable id="v06">分數</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="v02">金</field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v03">銀</field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v04">銅</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v05">佳作</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_repeat_ext">
+                            <value name="TIMES">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">N</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="javascript_data_input_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_local">
+                                    <field name="VAR" id="v06">分數</field>
+                                    <value name="VALUE">
+                                      <block type="javascript_data_input_get_scratch"/>
+                                    </value>
+                                    <next>
+                                      <block type="controls_if">
+                                        <mutation elseif="3" else="0"/>
+                                        <value name="IF0">
+                                          <block type="logic_compare">
+                                            <field name="OP">GTE</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v06">分數</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">90</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO0">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v02">金</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v02">金</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF1">
+                                          <block type="logic_compare">
+                                            <field name="OP">GTE</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v06">分數</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">80</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO1">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v03">銀</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v03">銀</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF2">
+                                          <block type="logic_compare">
+                                            <field name="OP">GTE</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v06">分數</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">70</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO2">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v04">銅</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v04">銅</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <value name="IF3">
+                                          <block type="logic_compare">
+                                            <field name="OP">GTE</field>
+                                            <value name="A">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v06">分數</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">60</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO3">
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v05">佳作</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v05">佳作</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="javascript_data_output">
+                                <value name="TEXT">
+                                  <shadow type="text"><field name="TEXT"/></shadow>
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v02">金</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="javascript_data_output">
+                                    <value name="TEXT">
+                                      <shadow type="text"><field name="TEXT"/></shadow>
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v03">銀</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_output">
+                                        <value name="TEXT">
+                                          <shadow type="text"><field name="TEXT"/></shadow>
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v04">銅</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="javascript_data_output">
+                                            <value name="TEXT">
+                                              <shadow type="text"><field name="TEXT"/></shadow>
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v05">佳作</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

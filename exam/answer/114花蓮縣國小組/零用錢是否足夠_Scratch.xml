@@ -1,0 +1,243 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v01">零用錢</variable>
+    <variable type="other" id="v02">天數</variable>
+    <variable type="other" id="v03">不夠用</variable>
+    <variable type="other" id="v04">花費</variable>
+  </variables>
+  <block type="javascript_start_scratch" x="20" y="20">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v01" variabletype="other">零用錢</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="variables_set_other">
+                <field name="VAR" id="v02" variabletype="other">天數</field>
+                <value name="VALUE">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT">0</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v03" variabletype="other">不夠用</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="controls_repeat_ext_scratch">
+                        <value name="TIMES">
+                          <shadow type="math_number">
+                            <field name="NUM">4</field>
+                          </shadow>
+                        </value>
+                        <statement name="DO">
+                          <block type="javascript_data_input_scratch">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT"/>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="variables_set_other">
+                                <field name="VAR" id="v04" variabletype="other">花費</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="javascript_data_input_get_scratch"/>
+                                </value>
+                                <next>
+                                  <block type="math_change_other">
+                                    <field name="VAR" id="v02" variabletype="other">天數</field>
+                                    <value name="DELTA">
+                                      <shadow type="math_number">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_other">
+                                        <field name="VAR" id="v01" variabletype="other">零用錢</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic">
+                                            <field name="OP">MINUS</field>
+                                            <value name="A">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v01" variabletype="other">零用錢</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v04" variabletype="other">花費</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="controls_if_1_scratch">
+                                            <value name="condition">
+                                              <block type="logic_operation">
+                                                <field name="OP">AND</field>
+                                                <value name="A">
+                                                  <block type="logic_compare">
+                                                    <field name="OP">LT</field>
+                                                    <value name="A">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v01" variabletype="other">零用錢</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="logic_compare">
+                                                    <field name="OP">EQ</field>
+                                                    <value name="A">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v03" variabletype="other">不夠用</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="statement_if">
+                                              <block type="variables_set_other">
+                                                <field name="VAR" id="v03" variabletype="other">不夠用</field>
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v02" variabletype="other">天數</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </statement>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if_2_scratch">
+                            <value name="condition">
+                              <block type="logic_compare">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v03" variabletype="other">不夠用</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="statement_if">
+                              <block type="javascript_data_output_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">錢剛好或有剩</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </statement>
+                            <statement name="statement_else">
+                              <block type="javascript_data_output_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                  <block type="text_join_scratch">
+                                    <value name="VALUE1">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">第</field>
+                                      </shadow>
+                                    </value>
+                                    <value name="VALUE2">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                      <block type="text_join_scratch">
+                                        <value name="VALUE1">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v03" variabletype="other">不夠用</field>
+                                          </block>
+                                        </value>
+                                        <value name="VALUE2">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">天不夠用</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
