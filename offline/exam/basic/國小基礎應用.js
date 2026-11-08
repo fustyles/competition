@@ -65,7 +65,7 @@ const TD_HL = 'style="padding: 5px 14px; border: 1px solid #c7d2fe; text-align: 
 const BTN_STYLE = 'display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important;';
 // 每格都明確設定四邊框線，避免系統原本的 CSS（黑色直線）混進來
 const CELL = 'padding: 10px 16px; text-align: center; vertical-align: middle; border: 0; color: #374151; background: #fff;';
-// 欄位樣式：btn = 序號按鈕欄（固定寬度、不換行），first = 最左欄（不加左框線）
+// 欄位樣式：btn = 按鈕欄（題目 / Blockly / Scratch 三顆圖示）（固定寬度、不換行），first = 最左欄（不加左框線）
 const LIST_TH = (btn, first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #dde2ec;'}"`;
 const LIST_TD = (btn, first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #e5e8ef;'}"`;
 const ONCLICK = `document.getElementById("javascript_content").style.display = "block";document.getElementById("question_input").innerHTML = this.getAttribute("data-q");document.getElementById("question_input").scrollTop = 0;window.toggleImportQuestionForm(false);var iframe = document.getElementById("iframe_output");iframe.contentWindow.document.open();iframe.contentWindow.document.write("");iframe.contentWindow.document.close();iframe.focus();loadExam();`;
@@ -78,6 +78,7 @@ const ONCLICK = `document.getElementById("javascript_content").style.display = "
 const ANSWER_DIR   = '../exam/answer/';   // 優先查詢的路徑
 const ANSWER_DIR2  = 'exam/answer/';      // 上面找不到時，改查這個路徑
 const ANSWER_GROUP = '國小基礎應用';   // exam/answer/ 底下的資料夾名稱
+const ICON_IMPORT  = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAvCAYAAACc5fiSAAACuUlEQVR42u3Zb0gTYRwH8O/dhGyjV1lbTjM7XTQ5rZDQykGpkRFFwSgGaUQYkYhhQpgvgnyZERVGvYhcmIFaiIQpDvRQZw3BLf/UZOZaWUJv1LWsF7vetDDZblue3tO436txz3PHhx+/53fP7gHkkCO2gwo1kFls2A5AI6Htp8PM9UcMzyw25AK4BWA3AYmdB3DHYeauLh1QLEFnJyZoXs37vFpCKmINgDx1Vop6xu5+sXiAXjLRNP31C3H1rIpXXsgsNuQLwTNIXIjfFnwAsHfxtTihGxpq7mJHOisJ9n5bA+qfPQw5Tv+v7VCGr3bEifUgbtgK16f3gnPysw3YrE4iCz7udgouJgDYqWNFg8s1LsNleCy1Qz/P4+VgN2of3QzsIyKKktqyP79ZRo/r564gNTFl9TJOUxQO5RSguuQSVPHKqO9nGT2una36Z/SySoWmKBzOLYwaH0CnJW2VrsZpikJRTj4umy5GhGcZPapPVywbLcriVNAKHMsrCosPoPWp28jpKuHwYqNFbYcBfLmx9C+8LplBlalMVLSom6wA3njgKADgdvMDaDdsQs2ZSmSlZZC7rQ2G1yUzK4JeEXgAf6rguPzKjzrjN5rqsW6tKuS4Ml6JipPnkbwxuu9H3bZetPa0C84J931HEP7GNRYWYSo8ERXcz/OY+DiJgRGbtKUyOvUOfp6PeL7X58WEZ1L6Gm/v64T784eIs83ZrbAMcdLDnR4XHnc2Y9Y7F3bu2yknnnY/J6cdtva0w7fgQ7mxFIkJmqCZfj02hLqmejg9LrL6eMegBQMjNhzZcxD7d+0Do92C7z8WMD7lRFtfB7hhK7kvoFnvHBq7WtDY1SL/54x5+CiJyN/b5H4h+JNgXQHSn0jcc5g5S8jDqxm7e1qZvr4LAAtAS8ipW53DzFUiVs455Vjt+AXUONVRZTT++QAAAABJRU5ErkJggg==';
 const ICON_BLOCKLY = 'data:image/png;base64,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';
 const ICON_SCRATCH = 'data:image/png;base64,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';
 const ANSWER_BTN_STYLE = 'width:40px !important; height:40px !important; padding:4px !important; margin:2px !important; display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important; vertical-align:middle; cursor:pointer;';
@@ -96,9 +97,10 @@ let contest = `
 <table id="importQuestionTable" style="${FONT} border-collapse: separate; border-spacing: 0; table-layout: auto !important; border: 1px solid #d6dbe6; border-radius: 10px; overflow: hidden; font-size: 16px; background: #fff;">
 <tbody>
 <tr>
-<td ${LIST_TH(false, true)}>名稱</td>
+<td ${LIST_TH(false, true)}>序號</td>
+<td ${LIST_TH(false, false)}>名稱</td>
 <td ${LIST_TH(false, false)}>分類</td>
-<td ${LIST_TH(true, false)}>序號</td>
+<td ${LIST_TH(true, false)}></td>
 </tr>
 `;
 
@@ -107,12 +109,13 @@ let contest = `
 // ---------------- 第 1 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>超商購物點數計算</td>
+<td ${LIST_TD(false, true)}>1</td>
+<td ${LIST_TD(false, false)}>超商購物點數計算</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("1", `超商購物點數計算`, `國小基礎應用`)}
@@ -144,8 +147,9 @@ ${sample(5,
 `消費 999999 元，每滿 100 元換 1 張，999999÷100 取整數為 9999 張。`,
 `{"data": ["0;0", "99;0", "100;1", "250;2", "999999;9999"]}`)}
 '
- onclick='${ONCLICK}'>1
-</button> ${answerButtons('超商購物點數計算')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('超商購物點數計算')}</span>
 </td>
 </tr>
 `;
@@ -153,12 +157,13 @@ ${sample(5,
 // ---------------- 第 2 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>電車票價計算</td>
+<td ${LIST_TD(false, true)}>2</td>
+<td ${LIST_TD(false, false)}>電車票價計算</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("2", `電車票價計算`, `國小基礎應用`)}
@@ -200,8 +205,9 @@ ${sample(4,
 `12歲大人票 200 元；12歲大人票 200 元；12歲大人票 200 元；12歲大人票 200 元；12歲大人票 200 元。<br/>總計 200+200+200+200+200 = 1000 元。`,
 `{"data": ["1;0;100", "2;11;12;300", "4;5;12;30;100;700", "5;12;12;12;12;12;1000"]}`)}
 '
- onclick='${ONCLICK}'>2
-</button> ${answerButtons('電車票價計算')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('電車票價計算')}</span>
 </td>
 </tr>
 `;
@@ -209,12 +215,13 @@ ${sample(4,
 // ---------------- 第 3 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>停車計費</td>
+<td ${LIST_TD(false, true)}>3</td>
+<td ${LIST_TD(false, false)}>停車計費</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("3", `停車計費`, `國小基礎應用`)}
@@ -246,8 +253,9 @@ ${sample(5,
 `停車 500 分鐘，超過 2 小時的部分為 380 分鐘，無條件進位為 7 小時，<br/>費用 30+7×20 = 170 元。`,
 `{"data": ["1;30", "120;30", "121;50", "130;50", "500;170"]}`)}
 '
- onclick='${ONCLICK}'>3
-</button> ${answerButtons('停車計費')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('停車計費')}</span>
 </td>
 </tr>
 `;
@@ -255,12 +263,13 @@ ${sample(5,
 // ---------------- 第 4 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>校園午餐熱量分類</td>
+<td ${LIST_TD(false, true)}>4</td>
+<td ${LIST_TD(false, false)}>校園午餐熱量分類</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("4", `校園午餐熱量分類`, `國小基礎應用`)}
@@ -313,8 +322,9 @@ ${sample(4,
 `1 大卡小於 400 為輕食；400 大卡介於 400～700 為正常；1000 大卡超過 700 為大份量。<br/>輕食 1 份、正常 1 份、大份量 1 份。`,
 `{"data": ["1;399;1;0;0", "2;400;700;0;2;0", "5;350;400;650;700;900;1;3;1", "3;1;1000;400;1;1;1"]}`)}
 '
- onclick='${ONCLICK}'>4
-</button> ${answerButtons('校園午餐熱量分類')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('校園午餐熱量分類')}</span>
 </td>
 </tr>
 `;
@@ -322,12 +332,13 @@ ${sample(4,
 // ---------------- 第 5 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>水費分段計算</td>
+<td ${LIST_TD(false, true)}>5</td>
+<td ${LIST_TD(false, false)}>水費分段計算</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("5", `水費分段計算`, `國小基礎應用`)}
@@ -359,8 +370,9 @@ ${sample(5,
 `用水 999 度：20 度以內 20×10 = 200 元；第 21~50 度 30×15 = 450 元；第 51 度以上 949×20 = 18980 元。<br/>總計 19630 元。`,
 `{"data": ["0;0", "21;215", "50;650", "51;670", "999;19630"]}`)}
 '
- onclick='${ONCLICK}'>5
-</button> ${answerButtons('水費分段計算')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('水費分段計算')}</span>
 </td>
 </tr>
 `;
@@ -368,12 +380,13 @@ ${sample(5,
 // ---------------- 第 6 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>遊樂園門票</td>
+<td ${LIST_TD(false, true)}>6</td>
+<td ${LIST_TD(false, false)}>遊樂園門票</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("6", `遊樂園門票`, `國小基礎應用`)}
@@ -416,8 +429,9 @@ ${sample(4,
 `120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元；120 公分全票 300 元。<br/>總計 300+300+300+300+300+300+300+300 = 2400 元。`,
 `{"data": ["1;119;150", "1;120;300", "3;110;120;150;750", "8;120;120;120;120;120;120;120;120;2400"]}`)}
 '
- onclick='${ONCLICK}'>6
-</button> ${answerButtons('遊樂園門票')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('遊樂園門票')}</span>
 </td>
 </tr>
 `;
@@ -425,12 +439,13 @@ ${sample(4,
 // ---------------- 第 7 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>購物折扣</td>
+<td ${LIST_TD(false, true)}>7</td>
+<td ${LIST_TD(false, false)}>購物折扣</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("7", `購物折扣`, `國小基礎應用`)}
@@ -462,8 +477,9 @@ ${sample(5,
 `消費 1000001 元達 500 元，打 9 折：1000001×0.9 = 900000.9，四捨五入為 900001 元。`,
 `{"data": ["0;0", "499;499", "500;450", "680;612", "1000001;900001"]}`)}
 '
- onclick='${ONCLICK}'>7
-</button> ${answerButtons('購物折扣')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('購物折扣')}</span>
 </td>
 </tr>
 `;
@@ -471,12 +487,13 @@ ${sample(5,
 // ---------------- 第 8 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>商品分類</td>
+<td ${LIST_TD(false, true)}>8</td>
+<td ${LIST_TD(false, false)}>商品分類</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("8", `商品分類`, `國小基礎應用`)}
@@ -528,8 +545,9 @@ ${sample(4,
 `999999 元屬於 C 區。<br/>A 區 0 件、B 區 0 件、C 區 1 件。`,
 `{"data": ["1;0;1;0;0", "4;100;101;500;501;1;2;1", "4;100;250;500;600;1;2;1", "1;999999;0;0;1"]}`)}
 '
- onclick='${ONCLICK}'>8
-</button> ${answerButtons('商品分類')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('商品分類')}</span>
 </td>
 </tr>
 `;
@@ -537,12 +555,13 @@ ${sample(4,
 // ---------------- 第 9 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>社團初選錄取</td>
+<td ${LIST_TD(false, true)}>9</td>
+<td ${LIST_TD(false, false)}>社團初選錄取</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("9", `社團初選錄取`, `國小基礎應用`)}
@@ -586,8 +605,9 @@ ${sample(4,
 `8 位的分數為 100、100、100、100、100、100、100、100，達到 80 以上的有 100、100、100、100、100、100、100、100，共 8 人。`,
 `{"data": ["1;79;0", "1;80;1", "4;75;80;95;60;2", "8;100;100;100;100;100;100;100;100;8"]}`)}
 '
- onclick='${ONCLICK}'>9
-</button> ${answerButtons('社團初選錄取')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('社團初選錄取')}</span>
 </td>
 </tr>
 `;
@@ -595,12 +615,13 @@ ${sample(4,
 // ---------------- 第 10 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>生日派對禮物分配</td>
+<td ${LIST_TD(false, true)}>10</td>
+<td ${LIST_TD(false, false)}>生日派對禮物分配</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("10", `生日派對禮物分配`, `國小基礎應用`)}
@@ -628,8 +649,9 @@ ${sample(4,
 `到場 100000 人，每人 1 份，需準備 100000 份禮物。`,
 `{"data": ["0;0", "1;1", "12;12", "100000;100000"]}`)}
 '
- onclick='${ONCLICK}'>10
-</button> ${answerButtons('生日派對禮物分配')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('生日派對禮物分配')}</span>
 </td>
 </tr>
 `;
@@ -637,12 +659,13 @@ ${sample(4,
 // ---------------- 第 11 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>校園跑步比賽成績</td>
+<td ${LIST_TD(false, true)}>11</td>
+<td ${LIST_TD(false, false)}>校園跑步比賽成績</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("11", `校園跑步比賽成績`, `國小基礎應用`)}
@@ -682,8 +705,9 @@ ${sample(4,
 `2 位的秒數為 999999、1，其中最小（最快）的是 1 秒。`,
 `{"data": ["4;58;45;50;45;45", "1;1;1", "3;100;100;100;100", "2;999999;1;1"]}`)}
 '
- onclick='${ONCLICK}'>11
-</button> ${answerButtons('校園跑步比賽成績')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('校園跑步比賽成績')}</span>
 </td>
 </tr>
 `;
@@ -691,12 +715,13 @@ ${sample(4,
 // ---------------- 第 12 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>動物園門票</td>
+<td ${LIST_TD(false, true)}>12</td>
+<td ${LIST_TD(false, false)}>動物園門票</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("12", `動物園門票`, `國小基礎應用`)}
@@ -737,8 +762,9 @@ ${sample(4,
 `18歲成人票 200 元；18歲成人票 200 元；18歲成人票 200 元；18歲成人票 200 元；18歲成人票 200 元。<br/>總計 200+200+200+200+200 = 1000 元。`,
 `{"data": ["1;0;100", "2;17;18;300", "3;10;18;25;500", "5;18;18;18;18;18;1000"]}`)}
 '
- onclick='${ONCLICK}'>12
-</button> ${answerButtons('動物園門票')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('動物園門票')}</span>
 </td>
 </tr>
 `;
@@ -746,12 +772,13 @@ ${sample(4,
 // ---------------- 第 13 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>遊戲點數累計</td>
+<td ${LIST_TD(false, true)}>13</td>
+<td ${LIST_TD(false, false)}>遊戲點數累計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("13", `遊戲點數累計`, `國小基礎應用`)}
@@ -779,8 +806,9 @@ ${sample(4,
 `完成 1000000 次任務，每次 100 點，共 1000000×100 = 100000000 點。`,
 `{"data": ["0;0", "1;100", "7;700", "1000000;100000000"]}`)}
 '
- onclick='${ONCLICK}'>13
-</button> ${answerButtons('遊戲點數累計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('遊戲點數累計')}</span>
 </td>
 </tr>
 `;
@@ -788,12 +816,13 @@ ${sample(4,
 // ---------------- 第 14 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>學生作業完成率統計</td>
+<td ${LIST_TD(false, true)}>14</td>
+<td ${LIST_TD(false, false)}>學生作業完成率統計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("14", `學生作業完成率統計`, `國小基礎應用`)}
@@ -837,8 +866,9 @@ ${sample(4,
 `8 位的平均分數為 100、100、100、100、100、100、100、100，達到 80 以上的有 100、100、100、100、100、100、100、100，共 8 人。`,
 `{"data": ["1;79.9;0", "1;80;1", "4;79.5;80;88;60;2", "8;100;100;100;100;100;100;100;100;8"]}`)}
 '
- onclick='${ONCLICK}'>14
-</button> ${answerButtons('學生作業完成率統計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('學生作業完成率統計')}</span>
 </td>
 </tr>
 `;
@@ -846,12 +876,13 @@ ${sample(4,
 // ---------------- 第 15 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>公車票價</td>
+<td ${LIST_TD(false, true)}>15</td>
+<td ${LIST_TD(false, false)}>公車票價</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("15", `公車票價`, `國小基礎應用`)}
@@ -890,8 +921,9 @@ ${sample(5,
 `學生票 1000×20 = 20000 元，大人票 1000×50 = 50000 元，<br/>總收入 20000+50000 = 70000 元。`,
 `{"data": ["0;0;0", "5;3;250", "1;0;20", "0;1;50", "1000;1000;70000"]}`)}
 '
- onclick='${ONCLICK}'>15
-</button> ${answerButtons('公車票價')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('公車票價')}</span>
 </td>
 </tr>
 `;
@@ -899,12 +931,13 @@ ${sample(5,
 // ---------------- 第 16 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>停車格使用統計</td>
+<td ${LIST_TD(false, true)}>16</td>
+<td ${LIST_TD(false, false)}>停車格使用統計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("16", `停車格使用統計`, `國小基礎應用`)}
@@ -955,8 +988,9 @@ ${sample(4,
 `8 台車中「小車」有 4 台、「大車」有 4 台。`,
 `{"data": ["1;小車;1;0", "1;大車;0;1", "4;小車;大車;小車;小車;3;1", "8;小車;小車;小車;小車;大車;大車;大車;大車;4;4"]}`)}
 '
- onclick='${ONCLICK}'>16
-</button> ${answerButtons('停車格使用統計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('停車格使用統計')}</span>
 </td>
 </tr>
 `;
@@ -964,12 +998,13 @@ ${sample(4,
 // ---------------- 第 17 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>水上樂園票價</td>
+<td ${LIST_TD(false, true)}>17</td>
+<td ${LIST_TD(false, false)}>水上樂園票價</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("17", `水上樂園票價`, `國小基礎應用`)}
@@ -1012,8 +1047,9 @@ ${sample(4,
 `130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元；130 公分全票 500 元。<br/>總計 500+500+500+500+500+500+500+500 = 4000 元。`,
 `{"data": ["1;129;250", "1;130;500", "3;120;130;150;1250", "8;130;130;130;130;130;130;130;130;4000"]}`)}
 '
- onclick='${ONCLICK}'>17
-</button> ${answerButtons('水上樂園票價')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('水上樂園票價')}</span>
 </td>
 </tr>
 `;
@@ -1021,12 +1057,13 @@ ${sample(4,
 // ---------------- 第 18 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>迷你遊戲積分</td>
+<td ${LIST_TD(false, true)}>18</td>
+<td ${LIST_TD(false, false)}>迷你遊戲積分</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("18", `迷你遊戲積分`, `國小基礎應用`)}
@@ -1054,8 +1091,9 @@ ${sample(4,
 `玩了 999999 次，每次 1 分，共 999999 分。`,
 `{"data": ["0;0", "1;1", "9;9", "999999;999999"]}`)}
 '
- onclick='${ONCLICK}'>18
-</button> ${answerButtons('迷你遊戲積分')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('迷你遊戲積分')}</span>
 </td>
 </tr>
 `;
@@ -1063,12 +1101,13 @@ ${sample(4,
 // ---------------- 第 19 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>書展購書折扣</td>
+<td ${LIST_TD(false, true)}>19</td>
+<td ${LIST_TD(false, false)}>書展購書折扣</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("19", `書展購書折扣`, `國小基礎應用`)}
@@ -1100,8 +1139,9 @@ ${sample(5,
 `買書 100000 元達 300 元，打 9 折：100000×0.9 = 90000 元。`,
 `{"data": ["0;0", "299;299", "300;270", "450;405", "100000;90000"]}`)}
 '
- onclick='${ONCLICK}'>19
-</button> ${answerButtons('書展購書折扣')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('書展購書折扣')}</span>
 </td>
 </tr>
 `;
@@ -1109,12 +1149,13 @@ ${sample(5,
 // ---------------- 第 20 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>學校活動報名統計</td>
+<td ${LIST_TD(false, true)}>20</td>
+<td ${LIST_TD(false, false)}>學校活動報名統計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("20", `學校活動報名統計`, `國小基礎應用`)}
@@ -1156,8 +1197,9 @@ ${sample(4,
 `共 8 筆報名資料（報名者1、報名者2、報名者3、報名者4、報名者5、報名者6、報名者7、報名者8），報名總人數為 8。`,
 `{"data": ["0;0", "1;小明;1", "3;小明;小華;小美;3", "8;報名者1;報名者2;報名者3;報名者4;報名者5;報名者6;報名者7;報名者8;8"]}`)}
 '
- onclick='${ONCLICK}'>20
-</button> ${answerButtons('學校活動報名統計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('學校活動報名統計')}</span>
 </td>
 </tr>
 `;
@@ -1165,12 +1207,13 @@ ${sample(4,
 // ---------------- 第 21 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>校外教學車次</td>
+<td ${LIST_TD(false, true)}>21</td>
+<td ${LIST_TD(false, false)}>校外教學車次</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("21", `校外教學車次`, `國小基礎應用`)}
@@ -1202,8 +1245,9 @@ ${sample(5,
 `每台小巴限乘 20 人，1000000÷20 無條件進位得 50000 台（49999 台只能坐 999980 人，不夠）。`,
 `{"data": ["1;1", "20;1", "21;2", "45;3", "1000000;50000"]}`)}
 '
- onclick='${ONCLICK}'>21
-</button> ${answerButtons('校外教學車次')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('校外教學車次')}</span>
 </td>
 </tr>
 `;
@@ -1211,12 +1255,13 @@ ${sample(5,
 // ---------------- 第 22 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>社團錄取進階</td>
+<td ${LIST_TD(false, true)}>22</td>
+<td ${LIST_TD(false, false)}>社團錄取進階</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("22", `社團錄取進階`, `國小基礎應用`)}
@@ -1255,8 +1300,9 @@ ${sample(4,
 `100 與 100：兩次都達 80 分，錄取；100 與 100：兩次都達 80 分，錄取；100 與 100：兩次都達 80 分，錄取；100 與 100：兩次都達 80 分，錄取。<br/>共錄取 4 人。`,
 `{"data": ["1;79;90;0", "1;80;80;1", "3;85;90;80;75;95;100;2", "4;100;100;100;100;100;100;100;100;4"]}`)}
 '
- onclick='${ONCLICK}'>22
-</button> ${answerButtons('社團錄取進階')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('社團錄取進階')}</span>
 </td>
 </tr>
 `;
@@ -1264,12 +1310,13 @@ ${sample(4,
 // ---------------- 第 23 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>分班排名</td>
+<td ${LIST_TD(false, true)}>23</td>
+<td ${LIST_TD(false, false)}>分班排名</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("23", `分班排名`, `國小基礎應用`)}
@@ -1323,8 +1370,9 @@ ${sample(4,
 `共 9 人。A 組 = floor(9×0.1) = 0 人；B 組 = 9-0 = 9 人。`,
 `{"data": ["1;50;0;1", "3;50;50;50;0;3", "4;50;50;50;50;0;4", "9;50;50;50;50;50;50;50;50;50;0;9"]}`)}
 '
- onclick='${ONCLICK}'>23
-</button> ${answerButtons('分班排名')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('分班排名')}</span>
 </td>
 </tr>
 `;
@@ -1332,12 +1380,13 @@ ${sample(4,
 // ---------------- 第 24 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>園遊會贈品進階</td>
+<td ${LIST_TD(false, true)}>24</td>
+<td ${LIST_TD(false, false)}>園遊會贈品進階</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("24", `園遊會贈品進階`, `國小基礎應用`)}
@@ -1369,8 +1418,9 @@ ${sample(5,
 `消費 999999 元，達到 1000 元，輸出「大娃娃」。`,
 `{"data": ["0;沒有贈品", "499;沒有贈品", "500;小玩具", "1000;大娃娃", "999999;大娃娃"]}`)}
 '
- onclick='${ONCLICK}'>24
-</button> ${answerButtons('園遊會贈品進階')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('園遊會贈品進階')}</span>
 </td>
 </tr>
 `;
@@ -1378,12 +1428,13 @@ ${sample(5,
 // ---------------- 第 25 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>低溫警報</td>
+<td ${LIST_TD(false, true)}>25</td>
+<td ${LIST_TD(false, false)}>低溫警報</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("25", `低溫警報`, `國小基礎應用`)}
@@ -1419,8 +1470,9 @@ ${sample(4,
 `3 天氣溫為 -50、-40、-30，都低於 10 度，輸出「太冷了」。`,
 `{"data": ["8;9;7;太冷了", "10;5;5;正常", "9;9;9;太冷了", "-50;-40;-30;太冷了"]}`)}
 '
- onclick='${ONCLICK}'>25
-</button> ${answerButtons('低溫警報')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('低溫警報')}</span>
 </td>
 </tr>
 `;
@@ -1428,12 +1480,13 @@ ${sample(4,
 // ---------------- 第 26 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>進步獎統計</td>
+<td ${LIST_TD(false, true)}>26</td>
+<td ${LIST_TD(false, false)}>進步獎統計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("26", `進步獎統計`, `國小基礎應用`)}
@@ -1470,8 +1523,9 @@ ${sample(4,
 `50→49（沒有進步）；50→48（沒有進步）。<br/>沒有人進步，輸出 0。`,
 `{"data": ["1;100;100;0", "3;70;85;90;88;60;60;15", "1;0;100;100", "2;50;49;50;48;0"]}`)}
 '
- onclick='${ONCLICK}'>26
-</button> ${answerButtons('進步獎統計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('進步獎統計')}</span>
 </td>
 </tr>
 `;
@@ -1479,12 +1533,13 @@ ${sample(4,
 // ---------------- 第 27 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>退貨退錢</td>
+<td ${LIST_TD(false, true)}>27</td>
+<td ${LIST_TD(false, false)}>退貨退錢</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("27", `退貨退錢`, `國小基礎應用`)}
@@ -1523,8 +1578,9 @@ ${sample(5,
 `第 10 天退貨，在第 8～30 天內，退回一半：1÷2 = 0.5，四捨五入為 1 元。`,
 `{"data": ["7;1000;1000", "8;1000;500", "30;399;200", "31;500;0", "10;1;1"]}`)}
 '
- onclick='${ONCLICK}'>27
-</button> ${answerButtons('退貨退錢')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('退貨退錢')}</span>
 </td>
 </tr>
 `;
@@ -1532,12 +1588,13 @@ ${sample(5,
 // ---------------- 第 28 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>免運費計算</td>
+<td ${LIST_TD(false, true)}>28</td>
+<td ${LIST_TD(false, false)}>免運費計算</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("28", `免運費計算`, `國小基礎應用`)}
@@ -1569,8 +1626,9 @@ ${sample(5,
 `消費 999999 元超過 2000 元，免運費，付 999999 元。`,
 `{"data": ["0;100", "2000;2100", "2001;2001", "1500;1600", "999999;999999"]}`)}
 '
- onclick='${ONCLICK}'>28
-</button> ${answerButtons('免運費計算')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('免運費計算')}</span>
 </td>
 </tr>
 `;
@@ -1578,12 +1636,13 @@ ${sample(5,
 // ---------------- 第 29 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>抽獎機率</td>
+<td ${LIST_TD(false, true)}>29</td>
+<td ${LIST_TD(false, false)}>抽獎機率</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("29", `抽獎機率`, `國小基礎應用`)}
@@ -1620,8 +1679,9 @@ ${sample(4,
 `第 1 人（失敗、失敗、失敗）都沒中；第 2 人（失敗、中獎、失敗）有中獎；第 3 人（中獎、中獎、中獎）有中獎。<br/>共 2 人成功中獎。`,
 `{"data": ["1;失敗;失敗;失敗;0", "1;中獎;中獎;中獎;1", "2;失敗;中獎;失敗;失敗;失敗;失敗;1", "3;失敗;失敗;失敗;失敗;中獎;失敗;中獎;中獎;中獎;2"]}`)}
 '
- onclick='${ONCLICK}'>29
-</button> ${answerButtons('抽獎機率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('抽獎機率')}</span>
 </td>
 </tr>
 `;
@@ -1629,12 +1689,13 @@ ${sample(4,
 // ---------------- 第 30 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>會員折扣累計</td>
+<td ${LIST_TD(false, true)}>30</td>
+<td ${LIST_TD(false, false)}>會員折扣累計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("30", `會員折扣累計`, `國小基礎應用`)}
@@ -1668,8 +1729,9 @@ ${sample(4,
 `VIP 會員先打 9 折：0×0.9 = 0 元，未超過 1000 元，不再折抵，四捨五入後為 0 元。`,
 `{"data": ["是;1000;900", "是;1200;980", "否;1200;1200", "是;0;0"]}`)}
 '
- onclick='${ONCLICK}'>30
-</button> ${answerButtons('會員折扣累計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('會員折扣累計')}</span>
 </td>
 </tr>
 `;
@@ -1677,12 +1739,13 @@ ${sample(4,
 // ---------------- 第 31 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>貨物分大小</td>
+<td ${LIST_TD(false, true)}>31</td>
+<td ${LIST_TD(false, false)}>貨物分大小</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("31", `貨物分大小`, `國小基礎應用`)}
@@ -1733,8 +1796,9 @@ ${sample(4,
 `10、10、10、10、10、10、10、10 公斤達 10 公斤為大箱。<br/>大箱 8 個、小箱 0 個。`,
 `{"data": ["1;9.9;0;1", "1;10;1;0", "4;12;8;10;5;2;2", "8;10;10;10;10;10;10;10;10;8;0"]}`)}
 '
- onclick='${ONCLICK}'>31
-</button> ${answerButtons('貨物分大小')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('貨物分大小')}</span>
 </td>
 </tr>
 `;
@@ -1742,12 +1806,13 @@ ${sample(4,
 // ---------------- 第 32 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>城市找找看</td>
+<td ${LIST_TD(false, true)}>32</td>
+<td ${LIST_TD(false, false)}>城市找找看</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("32", `城市找找看`, `國小基礎應用`)}
@@ -1771,8 +1836,9 @@ ${sample(3,
 `高雄屬於「南部」。`,
 `{"data": ["台北;北部", "台中;中部", "高雄;南部"]}`)}
 '
- onclick='${ONCLICK}'>32
-</button> ${answerButtons('城市找找看')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('城市找找看')}</span>
 </td>
 </tr>
 `;
@@ -1780,12 +1846,13 @@ ${sample(3,
 // ---------------- 第 33 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>零用錢扣款</td>
+<td ${LIST_TD(false, true)}>33</td>
+<td ${LIST_TD(false, false)}>零用錢扣款</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("33", `零用錢扣款`, `國小基礎應用`)}
@@ -1819,8 +1886,9 @@ ${sample(4,
 `餘額 0 元 ≥ 消費 0 元，扣款後剩 0-0 = 0 元。`,
 `{"data": ["100;30;70", "100;100;0", "50;51;錢不夠", "0;0;0"]}`)}
 '
- onclick='${ONCLICK}'>33
-</button> ${answerButtons('零用錢扣款')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('零用錢扣款')}</span>
 </td>
 </tr>
 `;
@@ -1828,12 +1896,13 @@ ${sample(4,
 // ---------------- 第 34 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>比賽等級</td>
+<td ${LIST_TD(false, true)}>34</td>
+<td ${LIST_TD(false, false)}>比賽等級</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("34", `比賽等級`, `國小基礎應用`)}
@@ -1883,8 +1952,9 @@ ${sample(4,
 `100 秒超過 15 秒為加油。<br/>超快 0 人、普通 0 人、加油 1 人。`,
 `{"data": ["1;11.9;1;0;0", "2;12;15;0;2;0", "4;10;12;15;18;1;2;1", "1;100;0;0;1"]}`)}
 '
- onclick='${ONCLICK}'>34
-</button> ${answerButtons('比賽等級')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('比賽等級')}</span>
 </td>
 </tr>
 `;
@@ -1892,12 +1962,13 @@ ${sample(4,
 // ---------------- 第 35 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>買多打折</td>
+<td ${LIST_TD(false, true)}>35</td>
+<td ${LIST_TD(false, false)}>買多打折</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("35", `買多打折`, `國小基礎應用`)}
@@ -1931,8 +2002,9 @@ ${sample(4,
 `購買 1000000 個超過 50 個，打 8 折：1×1000000×0.8 = 800000 元。`,
 `{"data": ["10;50;500", "10;51;408", "10;60;480", "1;1000000;800000"]}`)}
 '
- onclick='${ONCLICK}'>35
-</button> ${answerButtons('買多打折')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('買多打折')}</span>
 </td>
 </tr>
 `;
@@ -1940,12 +2012,13 @@ ${sample(4,
 // ---------------- 第 36 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>教室座位</td>
+<td ${LIST_TD(false, true)}>36</td>
+<td ${LIST_TD(false, false)}>教室座位</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("36", `教室座位`, `國小基礎應用`)}
@@ -1982,8 +2055,9 @@ ${sample(5,
 `每排 8 人，第 125 排為座號 993～1000，<br/>1000 號是這排的第 8 個位置（1000-992 = 8）。`,
 `{"data": ["1;1;1", "8;1;8", "9;2;1", "10;2;2", "1000;125;8"]}`)}
 '
- onclick='${ONCLICK}'>36
-</button> ${answerButtons('教室座位')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('教室座位')}</span>
 </td>
 </tr>
 `;
@@ -1991,12 +2065,13 @@ ${sample(5,
 // ---------------- 第 37 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>寄包裹運費</td>
+<td ${LIST_TD(false, true)}>37</td>
+<td ${LIST_TD(false, false)}>寄包裹運費</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("37", `寄包裹運費`, `國小基礎應用`)}
@@ -2024,8 +2099,9 @@ ${sample(4,
 `重量 100 公斤，超過 1 公斤的部分 99 公斤以 99 公斤計，<br/>運費 80+99×20 = 2060 元。`,
 `{"data": ["1;80", "1.1;100", "3.2;140", "100;2060"]}`)}
 '
- onclick='${ONCLICK}'>37
-</button> ${answerButtons('寄包裹運費')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('寄包裹運費')}</span>
 </td>
 </tr>
 `;
@@ -2033,12 +2109,13 @@ ${sample(4,
 // ---------------- 第 38 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>看病掛號費</td>
+<td ${LIST_TD(false, true)}>38</td>
+<td ${LIST_TD(false, false)}>看病掛號費</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("38", `看病掛號費`, `國小基礎應用`)}
@@ -2077,8 +2154,9 @@ ${sample(4,
 `成人 0×200 = 0 元，小朋友 100×100 = 10000 元，老人 100×100 = 10000 元，<br/>總計 20000 元。`,
 `{"data": ["0;0;0;0", "3;2;1;900", "1;0;0;200", "0;100;100;20000"]}`)}
 '
- onclick='${ONCLICK}'>38
-</button> ${answerButtons('看病掛號費')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('看病掛號費')}</span>
 </td>
 </tr>
 `;
@@ -2086,12 +2164,13 @@ ${sample(4,
 // ---------------- 第 39 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>購物金折價</td>
+<td ${LIST_TD(false, true)}>39</td>
+<td ${LIST_TD(false, false)}>購物金折價</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("39", `購物金折價`, `國小基礎應用`)}
@@ -2125,8 +2204,9 @@ ${sample(4,
 `消費 1000 元達 1000 元，且有折價券，折抵 100 元：1000-100 = 900 元。`,
 `{"data": ["1200;是;1100", "999;是;999", "1000;否;1000", "1000;是;900"]}`)}
 '
- onclick='${ONCLICK}'>39
-</button> ${answerButtons('購物金折價')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('購物金折價')}</span>
 </td>
 </tr>
 `;
@@ -2134,12 +2214,13 @@ ${sample(4,
 // ---------------- 第 40 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>闖關成功嗎？</td>
+<td ${LIST_TD(false, true)}>40</td>
+<td ${LIST_TD(false, false)}>闖關成功嗎？</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("40", `闖關成功嗎？`, `國小基礎應用`)}
@@ -2175,8 +2256,9 @@ ${sample(4,
 `平均 (60+60+60)÷3 = 60，未達 70 分；每關都達 60 分。<br/>條件沒有同時成立，未過關，輸出「否」。`,
 `{"data": ["90;55;80;否", "70;70;70;是", "100;100;0;否", "60;60;60;否"]}`)}
 '
- onclick='${ONCLICK}'>40
-</button> ${answerButtons('闖關成功嗎？')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('闖關成功嗎？')}</span>
 </td>
 </tr>
 `;
@@ -2184,12 +2266,13 @@ ${sample(4,
 // ---------------- 第 41 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>存錢統計</td>
+<td ${LIST_TD(false, true)}>41</td>
+<td ${LIST_TD(false, false)}>存錢統計</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("41", `存錢統計`, `國小基礎應用`)}
@@ -2273,8 +2356,9 @@ ${sample(4,
 `12 個月中最高的月存金額為 12（12 月），最低為 1（1 月），<br/>全年總和 = 78 元。`,
 `{"data": ["0;0;0;0;0;0;0;0;0;0;0;0;0;0;0", "500;300;800;200;600;700;900;100;400;1000;250;350;1000;100;6100", "100;100;100;100;100;100;100;100;100;100;100;100;100;100;1200", "1;2;3;4;5;6;7;8;9;10;11;12;12;1;78"]}`)}
 '
- onclick='${ONCLICK}'>41
-</button> ${answerButtons('存錢統計')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('存錢統計')}</span>
 </td>
 </tr>
 `;
@@ -2282,12 +2366,13 @@ ${sample(4,
 // ---------------- 第 42 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>車位剩多少</td>
+<td ${LIST_TD(false, true)}>42</td>
+<td ${LIST_TD(false, false)}>車位剩多少</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("42", `車位剩多少`, `國小基礎應用`)}
@@ -2321,8 +2406,9 @@ ${sample(4,
 `總車位 100 個，已停 99 輛，剩 100-99 = 1 個車位。`,
 `{"data": ["50;50;車位已滿", "50;0;50", "1;0;1", "100;99;1"]}`)}
 '
- onclick='${ONCLICK}'>42
-</button> ${answerButtons('車位剩多少')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('車位剩多少')}</span>
 </td>
 </tr>
 `;
@@ -2330,12 +2416,13 @@ ${sample(4,
 // ---------------- 第 43 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>加分鼓勵</td>
+<td ${LIST_TD(false, true)}>43</td>
+<td ${LIST_TD(false, false)}>加分鼓勵</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("43", `加分鼓勵`, `國小基礎應用`)}
@@ -2376,8 +2463,9 @@ ${sample(4,
 `原平均 297÷3 = 99 分，已達 60 分，不加分，直接輸出原平均。`,
 `{"data": ["3;40;50;60;55", "2;59;59;64", "3;60;60;60;60", "3;98;99;100;99"]}`)}
 '
- onclick='${ONCLICK}'>43
-</button> ${answerButtons('加分鼓勵')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('加分鼓勵')}</span>
 </td>
 </tr>
 `;
@@ -2385,12 +2473,13 @@ ${sample(4,
 // ---------------- 第 44 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>三戰兩勝排名</td>
+<td ${LIST_TD(false, true)}>44</td>
+<td ${LIST_TD(false, false)}>三戰兩勝排名</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("44", `三戰兩勝排名`, `國小基礎應用`)}
@@ -2424,8 +2513,9 @@ ${sample(4,
 `第 1 回合 100 比 0，第一人勝；第 2 回合 0 比 100，第二人勝；第 3 回合 100 比 0，第一人勝。<br/>第一人贏 2 回合、第二人贏 1 回合，輸出 1。`,
 `{"data": ["90;70;85;80;75;60;1", "50;50;50;50;50;50;0", "10;10;10;20;20;20;2", "100;0;100;0;100;0;1"]}`)}
 '
- onclick='${ONCLICK}'>44
-</button> ${answerButtons('三戰兩勝排名')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('三戰兩勝排名')}</span>
 </td>
 </tr>
 `;
@@ -2433,12 +2523,13 @@ ${sample(4,
 // ---------------- 第 45 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>誰走最快</td>
+<td ${LIST_TD(false, true)}>45</td>
+<td ${LIST_TD(false, false)}>誰走最快</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("45", `誰走最快`, `國小基礎應用`)}
@@ -2478,8 +2569,9 @@ ${sample(4,
 `3 位的秒數為 100、100、100，其中最小（最快）的是 100 秒。`,
 `{"data": ["3;1500;1420;1600;1420", "1;1;1", "3;999999;1;999999;1", "3;100;100;100;100"]}`)}
 '
- onclick='${ONCLICK}'>45
-</button> ${answerButtons('誰走最快')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('誰走最快')}</span>
 </td>
 </tr>
 `;
@@ -2487,12 +2579,13 @@ ${sample(4,
 // ---------------- 第 46 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>超級折扣</td>
+<td ${LIST_TD(false, true)}>46</td>
+<td ${LIST_TD(false, false)}>超級折扣</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("46", `超級折扣`, `國小基礎應用`)}
@@ -2531,8 +2624,9 @@ ${sample(4,
 `原本 999 元，沒有出示學生證，不打折；購買袋子加 1 元 = 1000 元。<br/>應付 1000 元。`,
 `{"data": ["200;是;是;181", "200;否;否;200", "0;是;是;1", "999;否;是;1000"]}`)}
 '
- onclick='${ONCLICK}'>46
-</button> ${answerButtons('超級折扣')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('超級折扣')}</span>
 </td>
 </tr>
 `;
@@ -2540,12 +2634,13 @@ ${sample(4,
 // ---------------- 第 47 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>挑選小隊長</td>
+<td ${LIST_TD(false, true)}>47</td>
+<td ${LIST_TD(false, false)}>挑選小隊長</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("47", `挑選小隊長`, `國小基礎應用`)}
@@ -2588,8 +2683,9 @@ ${sample(4,
 `5 位學生分數為 1、2、3、100、100，最高分 100，最早出現的是第 4 位（並列最高分取最先輸入者）。`,
 `{"data": ["4;80;95;95;70;2", "1;100;1", "3;50;50;50;1", "5;1;2;3;100;100;4"]}`)}
 '
- onclick='${ONCLICK}'>47
-</button> ${answerButtons('挑選小隊長')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('挑選小隊長')}</span>
 </td>
 </tr>
 `;
@@ -2597,12 +2693,13 @@ ${sample(4,
 // ---------------- 第 48 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>電影院位置</td>
+<td ${LIST_TD(false, true)}>48</td>
+<td ${LIST_TD(false, false)}>電影院位置</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("48", `電影院位置`, `國小基礎應用`)}
@@ -2637,8 +2734,9 @@ ${sample(4,
 `買 1 張，不超過 10 張，夠坐；剩下 10-1 = 9 個座位。`,
 `{"data": ["7;是;3", "10;是;0", "11;否;0", "1;是;9"]}`)}
 '
- onclick='${ONCLICK}'>48
-</button> ${answerButtons('電影院位置')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('電影院位置')}</span>
 </td>
 </tr>
 `;
@@ -2646,12 +2744,13 @@ ${sample(4,
 // ---------------- 第 49 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>偏遠加費</td>
+<td ${LIST_TD(false, true)}>49</td>
+<td ${LIST_TD(false, false)}>偏遠加費</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("49", `偏遠加費`, `國小基礎應用`)}
@@ -2685,8 +2784,9 @@ ${sample(4,
 `基本 100 元；超過 5 公斤的 95 公斤以 95 公斤計，加 95×20 = 1900 元；偏遠地區加 50 元。<br/>總運費 2050 元。`,
 `{"data": ["5;否;100", "5.1;否;120", "7.5;是;210", "100;是;2050"]}`)}
 '
- onclick='${ONCLICK}'>49
-</button> ${answerButtons('偏遠加費')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('偏遠加費')}</span>
 </td>
 </tr>
 `;
@@ -2694,12 +2794,13 @@ ${sample(4,
 // ---------------- 第 50 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>門票優惠</td>
+<td ${LIST_TD(false, true)}>50</td>
+<td ${LIST_TD(false, false)}>門票優惠</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("50", `門票優惠`, `國小基礎應用`)}
@@ -2731,8 +2832,9 @@ ${sample(5,
 `101 人可分成 50 組，每組 300 元 = 15000 元；剩 1 人付全票 200 元，共 15200 元。`,
 `{"data": ["0;0", "1;200", "2;300", "5;800", "101;15200"]}`)}
 '
- onclick='${ONCLICK}'>50
-</button> ${answerButtons('門票優惠')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('門票優惠')}</span>
 </td>
 </tr>
 `;
@@ -2740,12 +2842,13 @@ ${sample(5,
 // ---------------- 第 51 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>社團錄取</td>
+<td ${LIST_TD(false, true)}>51</td>
+<td ${LIST_TD(false, false)}>社團錄取</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("51", `社團錄取`, `國小基礎應用`)}
@@ -2779,8 +2882,9 @@ ${sample(4,
 `成績 0 分未達 80 分，沒有特殊才藝，兩個條件都不符合，不錄取，輸出「否」。`,
 `{"data": ["79;否;否", "80;否;是", "75;是;是", "0;否;否"]}`)}
 '
- onclick='${ONCLICK}'>51
-</button> ${answerButtons('社團錄取')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('社團錄取')}</span>
 </td>
 </tr>
 `;
@@ -2788,12 +2892,13 @@ ${sample(4,
 // ---------------- 第 52 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>分段收費</td>
+<td ${LIST_TD(false, true)}>52</td>
+<td ${LIST_TD(false, false)}>分段收費</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("52", `分段收費`, `國小基礎應用`)}
@@ -2821,8 +2926,9 @@ ${sample(4,
 `存入 1 元，在 1000 元（含）以下，手續費 10 元，實際存入 1-10 = -9 元。`,
 `{"data": ["1000;990", "1001;981", "1500;1480", "1;-9"]}`)}
 '
- onclick='${ONCLICK}'>52
-</button> ${answerButtons('分段收費')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('分段收費')}</span>
 </td>
 </tr>
 `;
@@ -2830,12 +2936,13 @@ ${sample(4,
 // ---------------- 第 53 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>點數加倍送</td>
+<td ${LIST_TD(false, true)}>53</td>
+<td ${LIST_TD(false, false)}>點數加倍送</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("53", `點數加倍送`, `國小基礎應用`)}
@@ -2869,8 +2976,9 @@ ${sample(4,
 `消費 1000000 元，每滿 100 元 1 點，得 10000 點；不是促銷品，點數不變。`,
 `{"data": ["0;否;0", "99;是;0", "350;是;9", "1000000;否;10000"]}`)}
 '
- onclick='${ONCLICK}'>53
-</button> ${answerButtons('點數加倍送')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('點數加倍送')}</span>
 </td>
 </tr>
 `;
@@ -2878,12 +2986,13 @@ ${sample(4,
 // ---------------- 第 54 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>天氣怪怪的</td>
+<td ${LIST_TD(false, true)}>54</td>
+<td ${LIST_TD(false, false)}>天氣怪怪的</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("54", `天氣怪怪的`, `國小基礎應用`)}
@@ -2935,8 +3044,9 @@ ${sample(4,
 `第 1～3 天氣溫 -10、10、-10，相鄰溫差 20 與 20 都超過 5 度，天氣不穩定，輸出「是」。`,
 `{"data": ["20;28;15;16;17;18;19;是", "10;10;10;10;10;10;10;否", "0;10;0;10;0;10;0;是", "-10;10;-10;10;-10;10;-10;是"]}`)}
 '
- onclick='${ONCLICK}'>54
-</button> ${answerButtons('天氣怪怪的')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('天氣怪怪的')}</span>
 </td>
 </tr>
 `;
@@ -2944,12 +3054,13 @@ ${sample(4,
 // ---------------- 第 55 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>獎品要準備多少</td>
+<td ${LIST_TD(false, true)}>55</td>
+<td ${LIST_TD(false, false)}>獎品要準備多少</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("55", `獎品要準備多少`, `國小基礎應用`)}
@@ -2992,8 +3103,9 @@ ${sample(4,
 `8 位的營收為 500、500、500、500、500、500、500、500，達到 500 以上的有 500、500、500、500、500、500、500、500，共 8 份。`,
 `{"data": ["1;499;0", "1;500;1", "3;600;400;500;2", "8;500;500;500;500;500;500;500;500;8"]}`)}
 '
- onclick='${ONCLICK}'>55
-</button> ${answerButtons('獎品要準備多少')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('獎品要準備多少')}</span>
 </td>
 </tr>
 `;
@@ -3001,12 +3113,13 @@ ${sample(4,
 // ---------------- 第 56 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>同分怎麼辦</td>
+<td ${LIST_TD(false, true)}>56</td>
+<td ${LIST_TD(false, false)}>同分怎麼辦</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("56", `同分怎麼辦`, `國小基礎應用`)}
@@ -3054,8 +3167,9 @@ ${sample(4,
 `依成績由高到低排序（同分時序號小者在前）：1 號 30 分、2 號 30 分、3 號 20 分、4 號 20 分。`,
 `{"data": ["3;1;80;2;90;3;80;2;1;3", "1;1;50;1", "3;1;50;2;50;3;50;1;2;3", "4;4;20;3;20;2;30;1;30;1;2;3;4"]}`)}
 '
- onclick='${ONCLICK}'>56
-</button> ${answerButtons('同分怎麼辦')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('同分怎麼辦')}</span>
 </td>
 </tr>
 `;
@@ -3063,12 +3177,13 @@ ${sample(4,
 // ---------------- 第 57 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>餐廳排隊</td>
+<td ${LIST_TD(false, true)}>57</td>
+<td ${LIST_TD(false, false)}>餐廳排隊</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("57", `餐廳排隊`, `國小基礎應用`)}
@@ -3114,8 +3229,9 @@ ${sample(4,
 `沒有預約的組別依人數由多到少：第 3 組（10 人）、第 1 組（5 人）、第 2 組（5 人）。<br/>帶位順序為 3 → 1 → 2。`,
 `{"data": ["3;否;4;是;2;否;6;2;3;1", "1;否;1;1", "3;是;1;是;1;是;1;1;2;3", "3;否;5;否;5;否;10;3;1;2"]}`)}
 '
- onclick='${ONCLICK}'>57
-</button> ${answerButtons('餐廳排隊')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('餐廳排隊')}</span>
 </td>
 </tr>
 `;
@@ -3123,12 +3239,13 @@ ${sample(4,
 // ---------------- 第 58 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>買三送一嗎？</td>
+<td ${LIST_TD(false, true)}>58</td>
+<td ${LIST_TD(false, false)}>買三送一嗎？</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("58", `買三送一嗎？`, `國小基礎應用`)}
@@ -3162,8 +3279,9 @@ ${sample(4,
 `金額 0 元未超過 3000 元，且件數 0 未達 3 個，不打折，付 0 元。`,
 `{"data": ["2000;3;1700", "3001;1;2551", "3000;2;3000", "0;0;0"]}`)}
 '
- onclick='${ONCLICK}'>58
-</button> ${answerButtons('買三送一嗎？')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('買三送一嗎？')}</span>
 </td>
 </tr>
 `;
@@ -3171,12 +3289,13 @@ ${sample(4,
 // ---------------- 第 59 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>每日挑戰</td>
+<td ${LIST_TD(false, true)}>59</td>
+<td ${LIST_TD(false, false)}>每日挑戰</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("59", `每日挑戰`, `國小基礎應用`)}
@@ -3220,8 +3339,9 @@ ${sample(4,
 `5 天分別為 0、0、0、0、0，不是每天都超過 50 個；總數 0 個，未超過 300 個。<br/>兩個條件都不符合，輸出「否」。`,
 `{"data": ["51;51;51;51;51;是", "10;10;10;10;310;是", "50;50;50;50;50;否", "0;0;0;0;0;否"]}`)}
 '
- onclick='${ONCLICK}'>59
-</button> ${answerButtons('每日挑戰')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('每日挑戰')}</span>
 </td>
 </tr>
 `;
@@ -3229,12 +3349,13 @@ ${sample(4,
 // ---------------- 第 60 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>超級結帳機</td>
+<td ${LIST_TD(false, true)}>60</td>
+<td ${LIST_TD(false, false)}>超級結帳機</td>
 <td ${LIST_TD(false, false)}>國小基礎應用</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("60", `超級結帳機`, `國小基礎應用`)}
@@ -3273,8 +3394,9 @@ ${sample(4,
 `消費 500 元達 500 元且是會員，打 8 折 = 400 元；沒有優惠券。<br/>應付 400 元。`,
 `{"data": ["800;是;是;620", "499;是;是;479", "0;否;是;0", "500;是;否;400"]}`)}
 '
- onclick='${ONCLICK}'>60
-</button> ${answerButtons('超級結帳機')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('超級結帳機')}</span>
 </td>
 </tr>
 `;

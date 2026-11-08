@@ -65,7 +65,7 @@ const TD_HL = 'style="padding: 5px 14px; border: 1px solid #c7d2fe; text-align: 
 const BTN_STYLE = 'display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important;';
 // 每格都明確設定四邊框線，避免系統原本的 CSS（黑色直線）混進來
 const CELL = 'padding: 10px 16px; text-align: center; vertical-align: middle; border: 0; color: #374151; background: #fff;';
-// 欄位樣式：btn = 序號按鈕欄（固定寬度、不換行），first = 最左欄（不加左框線）
+// 欄位樣式：btn = 按鈕欄（題目 / Blockly / Scratch 三顆圖示）（固定寬度、不換行），first = 最左欄（不加左框線）
 const LIST_TH = (btn, first) => `style="${CELL} background: #eef1f7; color: #3a4a6b; font-weight: bold; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #dde2ec;'}"`;
 const LIST_TD = (btn, first) => `style="${CELL} border-top: 1px solid #e5e8ef; ${btn ? 'width: 190px !important; min-width: 190px !important; white-space: nowrap; padding-left: 12px !important; padding-right: 12px !important; box-sizing: border-box !important;' : ''} ${first ? '' : 'border-left: 1px solid #e5e8ef;'}"`;
 const ONCLICK = `document.getElementById("javascript_content").style.display = "block";document.getElementById("question_input").innerHTML = this.getAttribute("data-q");document.getElementById("question_input").scrollTop = 0;window.toggleImportQuestionForm(false);var iframe = document.getElementById("iframe_output");iframe.contentWindow.document.open();iframe.contentWindow.document.write("");iframe.contentWindow.document.close();iframe.focus();loadExam();`;
@@ -78,6 +78,7 @@ const ONCLICK = `document.getElementById("javascript_content").style.display = "
 const ANSWER_DIR   = '../exam/answer/';   // 優先查詢的路徑
 const ANSWER_DIR2  = 'exam/answer/';      // 上面找不到時，改查這個路徑
 const ANSWER_GROUP = '國中基礎練習';   // exam/answer/ 底下的資料夾名稱
+const ICON_IMPORT  = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAvCAYAAACc5fiSAAACuUlEQVR42u3Zb0gTYRwH8O/dhGyjV1lbTjM7XTQ5rZDQykGpkRFFwSgGaUQYkYhhQpgvgnyZERVGvYhcmIFaiIQpDvRQZw3BLf/UZOZaWUJv1LWsF7vetDDZblue3tO436txz3PHhx+/53fP7gHkkCO2gwo1kFls2A5AI6Htp8PM9UcMzyw25AK4BWA3AYmdB3DHYeauLh1QLEFnJyZoXs37vFpCKmINgDx1Vop6xu5+sXiAXjLRNP31C3H1rIpXXsgsNuQLwTNIXIjfFnwAsHfxtTihGxpq7mJHOisJ9n5bA+qfPQw5Tv+v7VCGr3bEifUgbtgK16f3gnPysw3YrE4iCz7udgouJgDYqWNFg8s1LsNleCy1Qz/P4+VgN2of3QzsIyKKktqyP79ZRo/r564gNTFl9TJOUxQO5RSguuQSVPHKqO9nGT2una36Z/SySoWmKBzOLYwaH0CnJW2VrsZpikJRTj4umy5GhGcZPapPVywbLcriVNAKHMsrCosPoPWp28jpKuHwYqNFbYcBfLmx9C+8LplBlalMVLSom6wA3njgKADgdvMDaDdsQs2ZSmSlZZC7rQ2G1yUzK4JeEXgAf6rguPzKjzrjN5rqsW6tKuS4Ml6JipPnkbwxuu9H3bZetPa0C84J931HEP7GNRYWYSo8ERXcz/OY+DiJgRGbtKUyOvUOfp6PeL7X58WEZ1L6Gm/v64T784eIs83ZrbAMcdLDnR4XHnc2Y9Y7F3bu2yknnnY/J6cdtva0w7fgQ7mxFIkJmqCZfj02hLqmejg9LrL6eMegBQMjNhzZcxD7d+0Do92C7z8WMD7lRFtfB7hhK7kvoFnvHBq7WtDY1SL/54x5+CiJyN/b5H4h+JNgXQHSn0jcc5g5S8jDqxm7e1qZvr4LAAtAS8ipW53DzFUiVs455Vjt+AXUONVRZTT++QAAAABJRU5ErkJggg==';
 const ICON_BLOCKLY = 'data:image/png;base64,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';
 const ICON_SCRATCH = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAe60lEQVR42s17eXiMV/v/55zzzExWIYhsIpYKEYLYt6BULa11UNpS3mrpgqou32pHWtWqpVpvq29La6kiU6r2ohiltHYqliASIhJJZJ/lec65f3/M2Pp2xfv+3nNdzzWTazLnmftz7u1z3/cD3OVau+NAtQB/i/eP5GSNiNjd7pk0ZoyJAXjvk9Vt4xI6ljdrmbzLZDIBAMf/wrou5Pr1e2q1ad8tt058l/WjpyxuKHyi22y2u/ihyRoAdLXaWjVJ7JS37rUwGtC9VcmoGScjb733vVra3Xx56X4Pq65dqzqpd3bv2d/N79K8x4S3ft70/hzGmMe3t/GrrzCbzcYAIC0tjcXHx7O0tEZkt58gmw1ISdnJTcJhPPyPd/qe+SF18eejroS0aAVj0y8lwZtSZzRiwOXBgwdzAPJ/RRPM7Vq2zaBVNYwri8PUcwPiKbH1oJ9fmWlvbfZCy6xWq7BarQKAuA2JW95fVxeNA/cPfm14xzZtKW1eDaJ1EZLWh+uLJ8ZSVFyvNzm7qSH3at2NOjGT2UzxCe33p4481aJ+PSahDFq3V9Nm74jVr6j4qaf2fjaDMSYBwKQBmjkAs5ZdrPne+58FZWacDxzUJ6l2Xn6Be5f94LlJH4ylNV/Z20ca+z5d+tRlVStSg6cU3BwMefwMxJOrkw7s+2FdG8aYAkD/CwBogsOIaXD/ypUjzgxu2Ug39FKumUJIFeYb/K01IfjmZMz++KT7Xzt/4UqIM+9s95gwtKvqV1o7gJcEBmhu+Af7QxoSFWVulKtqIFmG+Y9dQfWqGskKYkIAYCCXh1j3OTWuJQ2fWmfuhH7FAANj9waEu1anqJp19Nzis4AAOCfIEvDQIBO9P6ZU9dp7quW87QVb+kTo6NCxFIk1PYisLGHx54CJEVCgwBhAXFBZIZiJK3DBlNMnPAApwfwqkYoNdYV8983Ohmxi/73x8VYzYPfcCwDu2FsnJydDKqBC187klpkBKBAAIQAyiMliLrq3JLV2Yo6aNSJf9uukG7WjuLKYzaR0AVnOmSw3C1mmCVnOwYQZUIKTDsZ9v4oAGApQ4HgwwcWyzp2YsTh1a0xamt2D5HvjC+4iXHUGAFj8q1zKKTYBdFMjGQMEB2Q5OEnBZbkQRgnTlBuciBj3fS44+V5xw6zZdaMk73tLFQ4uFR/+oAtfP5necdb0GT+NeXlBJ7HLYdwLh3jHAISFpREAuMh0NqdYI0gw9iuXwhkgFSAEgyYYiG7D6Q+iC0ACkCDMXubEmE+qYOzcQFZeWigXDj0anr5n8dZej01/RBMOIznZpv1/ASA+Pp4AQOpBFy8WQpKHCcFvEY8AJgAthIOkByQ9ECEM3I9D/kkUJwAwAU99qiGr5jSMn/s9Hk3ZhJ30hnhnU6ia3OG42cha+1XywNcH7nKkGL4w+98Pgwyg4ZO+Czzx3aST+14rqGk2Q5ECBwFMAyo8BNtyAxnlsWAcqKFlYWw3A43i/SGLlU/1b19KATxQYM+BEsw9MxL2ZR/c9vm2PSfx5uQn1YsdTmDOnnh3VOKQjl/NH3/IZrOxlJQU9V+NAgRg5Yd9yhs3aVeWV5KP6BoMJL2wSgY8+k8zmjz8Hj4ePQBKKWx37MeTc+diyPEfMH5I4G+CoABwE+FwJkenzh2hlIIhJTQhIKVEt/YNUWn+l3zK2IflpM4Z/s+vts8lok6MMfZfNQGr1coBYNQLnyRauDMmwF8pSDBFAA8S+MZRjpAmIzF18mMICw1EeLVgDBvYFVu3rMK2ilGYvrgCojKHVL+nXgxKERjj4IyDcw6TyQSPR0erxFg8/OQM8eNJtzE0qbBDvfbPDQYgk+8gMtwxAHa7nfwsJji2rllo65EdGFpdkDR8JsUUfsrww4C+vSClgmEYICIYhkSgvwnrVszG1qL+WLO1HKLS7SAwAFAMtasZOHc2Hb8+V7PZBAB49omeOMO6sybVrpBfRdqzRCQcDof6rwDgczqqWY9JT3SKOpfUo60uZQmE4NcFUHArPwQFB0MI7+kxxqBpAoYhIQ0Diz6dgdmO2ii7poNrN9M6zgA4CW3iTDhzeAdcHgnOGZTyypZfUIiP5i9A0bVr6NrnUZGd70bHumUdOgz5PAGA+rsOkd8JFbbb7YqIAoyrR9+Y0KWAoLQbFkjwZkMhlnLk5uaBiEC3BAdNExCahlrR1dCu1yh8td0JFnRTCxgDpK4QGu2PJoFHsHjFFnDO4fboAIB33vsIz457Em/P+BDJHVsjs6SKbBVdgLMndvQgm43b8/LYfwoADiRrgwdPNQGgzlZb79YR2bEN6yslK4hzdosKE0OTSDf27N4LxthtIGRdzMbEF6fg1Kl0DB/aD47zoYBu3M4OGaAqCBP7Al/MexOX84rg72eBlAoNGtRBaGg46tWthdAqwSg1gpAYUYzoKnon8/S3FBwO9mf1iOTkZO2uahYmjaNxm/4btrwRpWhjhG6sjCCyey9ljyC1OpKKllajzu1aU8G1UpJSktvjISKi8S9OJQDUq99jZBCRtWcHci+rSrQqipQ9goyV3suzPIJoQzR981IVatHRSgVF5XR9XcjMIiKiA8czacSDcaroq3oqrkGLnJbJA1sIwX73cH3mcZuG/BV7YWazGT0fHjavUpWIIUOsA67t3rP72saVH82Z0CXXX5BgnN30VQyAkoB/NTPyM7NhP1QJD/VoB13XoWleJ71//3GMGDEMLZonYu3XK9A7LhsmP3+AAO5P4H4EYWKArtCgiQUR+kk8N/Mn1KxdH3VjI1E5JAQA8NLLb6BLr6GszdCZqN+gUXBRYfFoYoFxTz4z7pjj+y0FSUljTPXrB/HMzEwGgNLS0sikCTzQa9grXTt3Mx08uO/CX7EXRkQYPnJCYkFB4WipO3vl5lfIaMv5ehtfvsZgYlBl3iT4Vo8tCeB+HL1eL4N18pcYNbwPiAiMMZSVOxEU6I+LV4ox8dEOsD+TA1XhhDBz7DhVBSv3mpBTCuiSwSwISbU56lXOxdqMRFClpqhdqzpOns5ATK0YzJ09FWAM3Od+dv94kM15f35BzcjQIR9+OPP7W3wXHzp8XL+MzEsvM8ZEv/7dRr866flj7A6coF/yA4/MceccfDoqRKoBrQ0xvIvHm8G42Q0FI+IAruFa5FgMeCsfPbu1xOQXxoLzm5o5bvwU1KsVhhfGdIZxYTt44V7EPHoQ2RcFEKgBhgQ0AZSXYsrEB/HWnDk4eOQisi5koHZsDJo2TbhBHqRSIAI0TeiXL+eaBgx58lpIsPnxatVrNNV1o11+3tUGimkVEeHVP1218tMPdd3Ar87sj5fNZuOLFu00Z2Y6XF37vjB9fMKaVxPqOo3Xl/prFTrwzjA34sIVYACMC8BTCIqbCNZ8GpwuFya/8hYuXcxG40YNERgUiMNHjqFS5cr4eN670ASH8tnj/H8txrhxLwF+/jAHBoBzDlfuFazbvAq9eiTfZthKqdsAJSIopUBEatRTk/lP+w7gvnqx6y1+foebNW744zvvvLa5osJ1ozb5N1NnYsnJyX47bDat1+AXPrW/VIdoaw2dNobToudjaNKA2kTfRpCyRxMtr0T0fW8iIlJSv+G8MjKyaMXKb2jB58to308HiYhISklKGkRK974S0Zq1m6hJs64EUxQBVWjEkxOJlCQpDZJSkmF4X39vSSkVEclhjz1TlLpjR9BvOMK7I0OtHnzuxafjNs18om+JgVKuoTIBFQwo5V7fK13A/VuAqkkASRA4lFIQ4vd9rlIKShEUKZhNJng8Huz64Ue43R707tXdR6XJWyMDQfDfj2KGIaFpQr05bS63TZ12f3KHhB+Dg4N5aWmpBwA6d+6srp++9lcSH8YYvfKKrc7BY6f7mDWVt//0OcsuztH4uMZy8wROZnPkFHNMH6rDYpQC1dp4hfdxYgZA+MgMAJw7fwGTX56KpomJ6NihJZKaN0GVKlXglUn4Ul4zut3f+TbqyW6LNX9EUxkOHTmOq1fzqXKwX77D4XDd+rnD4fjrbHDq1KkMAIWEVA32Dwh88PTJNE94cEjI9+mV4Xa6eNUQgdqhCkPa6jBrDOTygFVr40NPennxrXFXCOze8zOioyPRoGF9LFu+Gh9//AUqVa6MmtGRiI2NRkxMFMLDwxDgHwCzyYSAAD8YUsHtdqOoqBjFxcVo3SoJZrP5tw4MQnDs+XE/W71mA2uU2DI1KLDzYZfbmZmTnZPlHxAU2LFTy7R/zp2+wWaz8TsygeAgf9Rt3OvrD3rtG9ipqzRQBM0bBTTAXQgkzQbingbIuA0AKSWEEFi0ZCUKCgswacI4AIDL5caZ9PM4eSod6WfP48qVXJRVOOFx6yAJCMGhyGselSoF4vChI5g48WkMGzLwBlW+FQDGmNJ1yXo+NDwrqVmi7eiJk7XLS0qrBYdUitA0jdWMqr54/rwZ3w6yWoX2N4snIj7eytPS7Hr4fR3fTNmY2X9d3QvQNDMJIubNwgiQ5b9TuvfiHRoaisNHT0BKCcOQ8POzoEnjhmjSuOFv3lhKBcYZuM8EHnn8WcQ3aOBLm/mv/ldC0zT12edfaenpZxd+/93KxX/AaCX/m/UPIy3N7rFarfz7ryYeyxVN3p++rqpmDjEMRT7hGQeKT/iEvX3764QhoVEc0s9mQAgBk0m7Eb6uAyKlvB7OfGbDIQ2v//j4X0sRFBiApomNIKW6sed1oDRNU5eyr4glS1MLXnlx0D+Tk5O1pDFjTL4CqgbcJQ+4pUEpiMgSm9Bn9xfP1yTaWsPjWRFJlBpGtKYekauASEkikr8OUURENGDIk7Rt+24iInK7PX8U0sjj4xE/HzhMLdv3obyrBd7wqdSN/zMMSUSkDMPQBwwZQy3bdO/POcfd1Av/NDECgB079kXXS+xxbvmkKKJtNTyGvSbJL/2Jjk3zSeD5N4GUUnTg4FFq1ronXbyUc5sQum6QrhtkGMZt39uwcSs1b9ODDh355TYglVKk6zoRkayocBrDRjxHEbUSJ5g08Ve5zt2DsPybHbF1E3ocnzO6JtGGMJ3WRCp9eXVSubt/FwQioq+/2UQt2/ehxUtWUklJyW9qwIGDR2jsuJfogd7D6PSZ8zeA8gpuEBEpItKPHT9JPfuOoJr1Wk2weKtG2n+6Knwjs7Lb7ZKIghu3G7ayZZWjPW39ClCrpgQ8gZCtloOFtwUjAoPy+ggwSKkgBMe58xfwwbwFuJh1EVWqhCA8PAIMQGHxNVzNzYfF4ocHe3TBY49aAQAeXYcmBDjnBECWlZVpny1cjqVfrboSHhH+7PZNX61ye3Rxpy10dicDCFZrqgDAAvw4Hnlm9hOJzTvnvzE8VuYsDFO0qQZR5qdEpMggIl0RGYZBShrXVZeIiIpLSmnfTwdo9Tcb6evVG2inYzddyLx0qzIon0PRicjIzs6h+Z8soY5d+5c1atJl3rZte2v4goS4s76AzcZxkxz8ZQSva0CAn4bkoe90vXbu4MgAXOpbWpgdXNlfQ6NonQ1tWYhmLdvCnPQ0ENoNQNDtaTDRjRDnq4xfjzp0awi+lH0FBw4ewa4f9uHnnw9dcrs9a1olNfvgs89mntV1CcAqALu8EwAYALJareLMmbzgY8ccRURgf96HT9YYHMa1oqLQRu2emNYs7OLYpzpcQZeGbgSGCJSXMXy1y4wpq/zRNKoYsVUNxDWMQ0Kz9qjZoA2qRTVAQEgNmP0CYDJpMCTB5TbgdFaguKQUV/MKcCY9A6dPn8G585nyUtal9MtXrmxvcF+9nZs2rdhsMolSw1DwRSTFGPvbLXNmtVrF11/bZddeQzpLD5tbNTQk6siRgzMyzx2eZRjyjzRBaBwyqdcLHfLS938+tuOl+yb2LJVagAmoYEJJ8lZ4KxMGvhmAqQMM5JYzHDjlQVaeCyVOAReC4EQoNEsQClwWGCLEHeiHTE2Yg5zOiqyC/ML0Kzk5p4IrBZ9MTGqa9m3qwgzBmUfRzQOw2W4SmzttjbEZMxYEbd+188zCT2eHR0WG4eXX3sWSpcvHXc0+Pn/AwEHCbv83teJmE1NNu457VeT98OacR65qbRKVgRKhSUXgHNANwFyd8PUWM1J/0pD6coUXSosASAM8gHJJlJR7QFCUnqPooY8iXK07dH9i+9r5qYYEDMPjZYGKbqiiz0eZTRpzG/LetMdp3cZv+/R+sEt4VGSYrpRSb0190UhIaDz34UFPJdjtdnl75mTjZpNQ9ZIefaue2jl90+Qrok08lHGNa4D31JUCzNUIW/dqeHetGe8Od0N5AKNCwChwQ+blQRXngRvFqFzJjCqVLKxVgj9rE1MekH5879I+j9v6uN1uSBnj17FjJz/yOmfetvfzkzp06H6wW8dOJ5p2emI+EQXcbTTjAJB5ISMirkFdAsAMw+Bmk8amvj7BfPbc2QVEJFJSdnIiYt6sKkUNGDWtf4OgtClLnrqih/hrkGXgmvBlwhogKhFmrbDgTbsflk9wok6EBDwaNKqAFhQB0XIWeNtPgMheIFcJSOooLwGr5M9pyYhMc9aBb9Z0H/rWiADLRZfD4XARUVhc8/4bW5g3z1r06C/NVow5Xbd/zK6nE9s8lEpE2t0AoAFAaWmZ9PezMNzk7aJ92xbG0EH9Wrds2+slxhzvdO7cWXM4vHfa/+OuHgsG5ykRaGJGMTFN+Pr+GlDoZBg3zx9+JsKW18vhbyGoCgEOJ+AfAXReCwTFeu9e53HQha/Bjo/HhUsKpS7GWjZltCw4k49fsWZRdNPHk9p06PZ1vaa9P3qhXVrCuL4VOtxCgDT6v8Gl+OHtsw/GNJgaxoDLhL/itH9HA6Kjo1VuXsGN4QTOACkNMXnyM7JWbK2pDz00tPUuh8No08ZtAgC30+Um4gzyZlWRvFkExnzih64NJRa/4IQ/B5STw5uzENDmE6/wyuOtFZABFTsIrO0sfLtfomMcQRnEatfQkDo2S41L/OE5OjHX8e4DxxLG9XVKWayZpAvc0Im7Sxj3INDdITnJQ9d/+J2agCUg+NCBA0e97JJ5i5pMaMxEpWzW28+bL1112dt2eyZy3759TgJE9bqJB9YfD2Dg6t9HQgiIj5KAAqQOcMEBvRiIGQSEdfTWCLjZOz0BDq4kXIE9sSejqhqdXEHk5JA6MT+TiY/vVyaXPJWpBnUylCrmQnCCUoAWqoyPtlrYJXftZasXDcgHwHEHIfAGAAf2bjxy4PDRvLy8PAghFF07Br6zH+T61jw2a5ia1ju95rkzP23r/4/Zbcwa5KHN76f+eDEi/+IFJYSFkbrpojHrMRfGf+mHzGwO7kdQxABlAJUb3zr/4a3dKQLnAus2/YhDF4ifyxNMBClFYJAGwSjlQukmLiuYN+9VDKbqSl+1WZgWHo5P37H2gwluj3FX6bxITk7WRo8e5Y6ueZ+luMR1f6cOrQxjax8h8nd7TaGkiNWvVaHa1HKGrdt5/gkZ0rbKwfPXMgJCanquZKV3Sm5WLqWTc8EBZTCE1iCEmoF5m8wY1EmH8jBvPuDJB2KHeU+fvBNlDCCn00WTJttknQZNxyzY5m5VQysOTrhPN7iZE1feKiAXDDwAipsM9eEqi+nD/S0ypk+f0rNl8/hcm83G76QtflvuzxhjROTXtG3fXTNftSZ1D5mq6zlOkyYYGCdICYhApcqLFV/5UyC+SwumfFnz4qETuTFbX8hGiyZeLTdpvqEoP2DwHH+82d+NBrUllEcD14uAqN5Auy8AzR/S0CE0kzHFNkvbsOn7V48d2PzuWx8sa7Bi2eoFbWqcbj+ibSESogwEWwjlHuCXyxo+dVTF0bJmWzZtmPl4eHB4rs1m43eTBN2In9c3stnejVm++rvv33k4q96ATsU6Ksya4SbGGHxdFxACSaJcaRl5hJ8zLHh/kx9SJ1YgJlJBlnh9gKimMG5uAIa21tGpqQHlZOBceOuFNTpBtVsM7h8mP12wVHz40ZLNvxze2ouxFhpwUCci3vOxaY8UZx4ZWYnlJAYFGgEVTs2d76p6LLhm4sL9m2Z9WVrmwr0Q/rYE4jqpsb27OGbp0qUrBiZktX3ugWLUjIQEMcDDGTzEPJIxzkCaCUCQYlv2mTBznRlTh7jRPs4ABLBkqxmzN5lxdFY5yO2lN15dNkFWXIWo3UotOdSFTZqz8/TVjB3NGGO6zWYjALgulMWsYVu6XmX5uguWbl1j9UeamQvcbv22Uv09nxW+jioRmeu1HP58sH72ufsblMQ80LAcjaPciKjCAPOt490Ml3I4+s0MgJkBdSIU3C7AYvFOeIZXVpg72gW4GZQBcA4oCHDmpLOXXRi9qE5pttbsuUuHv1zi1tX18XpmtVq53W6nW5ghAHCr1cp+Iy2/x8PSPlrMGfCvTb+EvjguJbmaf/mgmKpGZ03PDg4P1v2qBpJR5IZ/UamB/BKBSX3c6NdKx6kLAhoH6sVKgAFPz/fHtXJOXz5fLk2MCekBExxQxMEDGOUXeNiIz6KA2r2nbF/x9tsunW57xuDW2sS9OvG/VBG6rmLMy9VFtepVJRHh2/zCKi8OnP1AYXbapNIrh1v8o10+vdxX8qBgBSpnYL4nZ/QKr+cWNQ05/h2LOJARgHWvFCM0iJF0ggkNXsfqx+haiS5HLozSSkK7Tdm3fs7bLk9HjWin/E8J/KcA+ITHgVOnqj49ZurMMC23v9NgFVrIfT8aFdcqBxunWvRsdC1kWDudKlUHQynzCsO93WwA0IKhpNPA/G2BfN3p2HxPYMJaz6Wdjy8be1WLjeLKKAPXroNgYVRa4ZEjF0RpGbzdlJOOT9526XTH/P4eaECyxtkuo05Cz9lPJJ19YWz3ApSXChy84IewYIlW9+kQQZzgZMzQvYIrXyLOA6DAJLYfFnzutjBc8DT+csJrr9ue7ht3PqHrhIf8i/at+tfw81pCfUFGiRcEJQFuYVTh1uWIT8K0XTlxtoqs9W+WVXjYnU5/3q0JcMa5uq9es727X7ncsnoNRvCAw08pKMbgZFxKr20SAE2AEEAKBvGfTgv2yc4QHLhS58fw+u3+b8/qNxxOtwTi483iZJpnyLhZfdJ/Xrv6o8GnTS0TuDKKvSxSKYCbGQxlGM8uCtU2ZjZelnU0dSRjzACSTMDBWx0iA5KZ1RpGqampd60lv9khEYyBmfzKc4u5gCQmPcRlCdNUGQSImGCAsABakKIKj2Qb9prE4PdD2GOL6u/dX3r/wAuntrfftvw1h9Mthc1m40hL8zRtnmRa8fGL6zv1eaL/6C/rlu89SlyrTMqQvuigEzTStE+eKjRGJhwYXjvx4e1nz54NE/ygzhkMP4tJ+fuZlSaY5HAYdrvd5yfurvHBfmuE7IddDiM6ceC01zsefu0fvcsNo5hrGr85yg4NOHOZ0fJ9gWxXenBpjjt6SzEP+6AobckPTpcHt4Qy+avNNeZwGO36T0y8eHTXxi+eyIns2lJJo4iJ65SaGMCDlfHZerP2niPufNWq0d8WFOYExkRUi+Oa0EpKyjNLXTyzjIL37dm2cHetyqyQYOPAnZkK+61mR0pKirI+tzC+9PC8I+vGZwsOE+c+EmMoQAtRcuw/K/H1Ofcve27soy+/MS75sscjQbckVH8wpKfB4TCGjH234QHH5m2z+52J7JssDeMa17Trj8koQFQi9cMBzjPyLYiprmDmHmgccEmBnGINe89bsCczPAvBdZ4+uP2LTW/co8zwel4oBGe4r/mApUsm1CL6roaur/DOAcrUCKK1EfLY7HBq3bbbKV9ZSvs7Dy4kJ9s0BmDx6p0NGyX1Tl80Pppocw3dSI0kleq7z8oI72Nzm2rotCFcpw0RhvcK12ljuE6bw/RfPgijNknNXSMnzmvsm/vh98QH2GzxJBXxF1+Z+Nq8PbHFF84prgVCSekrljjBGyco+WDdrLi4tqPGMMAAdv7lmzocKcYgq1WMGND55LKFH7R/a2fTn+auDtREsKGTj3dwDqgKcKOEa7KMabIMQpVDyDKmyVKmuQqF1iiBeUa1K7KsWrqyC2eglJ077w0AKSkpymq1sqcHd8wKr995zFPLonl5ma6EPyPdl6cpt8Cg5mVU1XR1kCJif5eS2u12abWmiqZN6+WdPbKux8cHkza//HmQifspg2ne+/x6Q0W+agIBJsEADWQowOOskAwAHPfweQG73S47JSdrm1ekpPLo7tOG/ytay72mM1NVkkJj4AGMLJoOknrwnU6d2+2Dpc1m44yx4uwTa3ouO9lswciPq2hlHp2ZqiqpVVJSCyEpKnkvLYSkFqKkCFYE7sH6rSbLx47KVwc82m+LJDCbrbO614/MMCBZ+Ft2G/XbjnrKUnTo/fHd8vw7xjlxqVDgve8ikSnjHzviWPbloD9zfn/SZU5JSUFggFlFJFjfqMVPvJ7coEyLDFYwC4VAi/foKzwMRW6Bs3kazhVUcp7IrbI1LqHxq5vts9PulB7/1XIS1zhU8uA3m50+svfVxFqsd24RsizVGsw89P0/P69wuu+enhIxMAazBmrRf1rT82ln2xUW5Pg1iY9tYhhuC+cMbrcsvXS16GRAYFRG74EPpi+bPuiE06UDdxEG/x8Zl5ILKUJHZwAAAABJRU5ErkJggg==';
 const ANSWER_BTN_STYLE = 'width:40px !important; height:40px !important; padding:4px !important; margin:2px !important; display:inline-block !important; float:none !important; position:static !important; left:auto !important; right:auto !important; transform:none !important; box-sizing:border-box !important; vertical-align:middle; cursor:pointer;';
@@ -96,9 +97,10 @@ let contest = `
 <table id="importQuestionTable" style="${FONT} border-collapse: separate; border-spacing: 0; table-layout: auto !important; border: 1px solid #d6dbe6; border-radius: 10px; overflow: hidden; font-size: 16px; background: #fff;">
 <tbody>
 <tr>
-<td ${LIST_TH(false, true)}>名稱</td>
+<td ${LIST_TH(false, true)}>序號</td>
+<td ${LIST_TH(false, false)}>名稱</td>
 <td ${LIST_TH(false, false)}>分類</td>
-<td ${LIST_TH(true, false)}>序號</td>
+<td ${LIST_TH(true, false)}></td>
 </tr>
 `;
 
@@ -107,12 +109,13 @@ let contest = `
 // ---------------- 第 1 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】數線上的距離</td>
+<td ${LIST_TD(false, true)}>1</td>
+<td ${LIST_TD(false, false)}>【七年級】數線上的距離</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("1", `【七年級】數線上的距離`, `國中基礎練習`)}
@@ -150,8 +153,9 @@ ${sample(5,
 `距離 = |-15 - (-4)| = 11；中點 = (-15 + (-4)) ÷ 2 = -9.5。`,
 `{"data": ["-3;5;8;1", "-7;2;9;-2.5", "0;0;0;0", "10000;-10000;20000;0", "-15;-4;11;-9.5"]}`)}
 '
- onclick='${ONCLICK}'>1
-</button> ${answerButtons('【七年級】數線上的距離')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】數線上的距離')}</span>
 </td>
 </tr>
 `;
@@ -159,12 +163,13 @@ ${sample(5,
 // ---------------- 第 2 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】質因數分解</td>
+<td ${LIST_TD(false, true)}>2</td>
+<td ${LIST_TD(false, false)}>【七年級】質因數分解</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("2", `【七年級】質因數分解`, `國中基礎練習`)}
@@ -197,8 +202,9 @@ ${sample(5,
 `2 是質數，質因數只有它自己。`,
 `{"data": ["360;2;2;2;3;3;5", "97;97", "1024;2;2;2;2;2;2;2;2;2;2", "999999;3;3;3;7;11;13;37", "2;2"]}`)}
 '
- onclick='${ONCLICK}'>2
-</button> ${answerButtons('【七年級】質因數分解')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】質因數分解')}</span>
 </td>
 </tr>
 `;
@@ -206,12 +212,13 @@ ${sample(5,
 // ---------------- 第 3 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】約分成最簡分數</td>
+<td ${LIST_TD(false, true)}>3</td>
+<td ${LIST_TD(false, false)}>【七年級】約分成最簡分數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("3", `【七年級】約分成最簡分數`, `國中基礎練習`)}
@@ -249,8 +256,9 @@ ${sample(5,
 `-360 和 1024 的最大公因數是 8，分子分母同除以 8，-360/1024 = -45/128。`,
 `{"data": ["18;24;3/4", "-45;15;-3", "7;13;7/13", "0;5;0", "-360;1024;-45/128"]}`)}
 '
- onclick='${ONCLICK}'>3
-</button> ${answerButtons('【七年級】約分成最簡分數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】約分成最簡分數')}</span>
 </td>
 </tr>
 `;
@@ -258,12 +266,13 @@ ${sample(5,
 // ---------------- 第 4 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】分數加減</td>
+<td ${LIST_TD(false, true)}>4</td>
+<td ${LIST_TD(false, false)}>【七年級】分數加減</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("4", `【七年級】分數加減`, `國中基礎練習`)}
@@ -316,8 +325,9 @@ ${sample(5,
 `分母相同，5/6 - 5/6 = 0/6，約分後為 0。`,
 `{"data": ["1;2;+;1;3;5/6", "3;4;-;5;4;-1/2", "2;3;+;1;3;1", "-7;10;-;-1;15;-19/30", "5;6;-;5;6;0"]}`)}
 '
- onclick='${ONCLICK}'>4
-</button> ${answerButtons('【七年級】分數加減')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】分數加減')}</span>
 </td>
 </tr>
 `;
@@ -325,12 +335,13 @@ ${sample(5,
 // ---------------- 第 5 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】指數的次方</td>
+<td ${LIST_TD(false, true)}>5</td>
+<td ${LIST_TD(false, false)}>【七年級】指數的次方</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("5", `【七年級】指數的次方`, `國中基礎練習`)}
@@ -368,8 +379,9 @@ ${sample(5,
 `12 個 20 相乘 = 4096000000000000。`,
 `{"data": ["-2;5;-32", "3;4;81", "7;0;1", "-10;12;1000000000000", "20;12;4096000000000000"]}`)}
 '
- onclick='${ONCLICK}'>5
-</button> ${answerButtons('【七年級】指數的次方')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】指數的次方')}</span>
 </td>
 </tr>
 `;
@@ -377,12 +389,13 @@ ${sample(5,
 // ---------------- 第 6 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】科學記號</td>
+<td ${LIST_TD(false, true)}>6</td>
+<td ${LIST_TD(false, false)}>【七年級】科學記號</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("6", `【七年級】科學記號`, `國中基礎練習`)}
@@ -415,8 +428,9 @@ ${sample(5,
 `100000000000 共 12 位數，小數點要往左移 11 位，100000000000 = 1 × 10 的 11 次方。`,
 `{"data": ["150000000;1.5;8", "7;7;0", "384400;3.844;5", "299792458;2.99792458;8", "100000000000;1;11"]}`)}
 '
- onclick='${ONCLICK}'>6
-</button> ${answerButtons('【七年級】科學記號')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】科學記號')}</span>
 </td>
 </tr>
 `;
@@ -424,12 +438,13 @@ ${sample(5,
 // ---------------- 第 7 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】一元一次方程式</td>
+<td ${LIST_TD(false, true)}>7</td>
+<td ${LIST_TD(false, false)}>【七年級】一元一次方程式</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("7", `【七年級】一元一次方程式`, `國中基礎練習`)}
@@ -472,8 +487,9 @@ ${sample(5,
 `-5x + 100 = -1000，移項得 -5x = -1000 - 100 = -1100，x = -1100 ÷ (-5) = 220。`,
 `{"data": ["3;5;20;5", "4;-1;5;3/2", "-2;7;7;0", "6;0;-9;-3/2", "-5;100;-1000;220"]}`)}
 '
- onclick='${ONCLICK}'>7
-</button> ${answerButtons('【七年級】一元一次方程式')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】一元一次方程式')}</span>
 </td>
 </tr>
 `;
@@ -481,12 +497,13 @@ ${sample(5,
 // ---------------- 第 8 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】二元一次聯立方程式</td>
+<td ${LIST_TD(false, true)}>8</td>
+<td ${LIST_TD(false, false)}>【七年級】二元一次聯立方程式</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("8", `【七年級】二元一次聯立方程式`, `國中基礎練習`)}
@@ -546,8 +563,9 @@ ${sample(5,
 `1x + 2y = 0、2x + 5y = -1，用加減消去法解得 x = 2、y = -1。<br/>驗算：1×2 + 2×-1 = 0，2×2 + 5×-1 = -1。`,
 `{"data": ["1;1;10;1;-1;2;6;4", "2;3;12;1;-1;1;3;2", "3;0;9;0;4;-8;3;-2", "5;-2;-9;3;7;11;-1;2", "1;2;0;2;5;-1;2;-1"]}`)}
 '
- onclick='${ONCLICK}'>8
-</button> ${answerButtons('【七年級】二元一次聯立方程式')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】二元一次聯立方程式')}</span>
 </td>
 </tr>
 `;
@@ -555,12 +573,13 @@ ${sample(5,
 // ---------------- 第 9 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】比例式求未知數</td>
+<td ${LIST_TD(false, true)}>9</td>
+<td ${LIST_TD(false, false)}>【七年級】比例式求未知數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("9", `【七年級】比例式求未知數`, `國中基礎練習`)}
@@ -603,8 +622,9 @@ ${sample(5,
 `9 : 10 = 4 : x，外項乘積等於內項乘積，9 × x = 10 × 4，x = 40 ÷ 9 = 40/9。`,
 `{"data": ["2;3;8;12", "4;5;6;15/2", "1;1;1;1", "7;3;14;6", "9;10;4;40/9"]}`)}
 '
- onclick='${ONCLICK}'>9
-</button> ${answerButtons('【七年級】比例式求未知數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】比例式求未知數')}</span>
 </td>
 </tr>
 `;
@@ -612,12 +632,13 @@ ${sample(5,
 // ---------------- 第 10 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】正比、反比或都不是</td>
+<td ${LIST_TD(false, true)}>10</td>
+<td ${LIST_TD(false, false)}>【七年級】正比、反比或都不是</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("10", `【七年級】正比、反比或都不是`, `國中基礎練習`)}
@@ -665,8 +686,9 @@ ${sample(5,
 `x × y 都等於 60，是反比。`,
 `{"data": ["3;1;5;2;10;4;20;正比", "3;2;30;3;20;6;10;反比", "3;1;2;2;3;3;4;都不是", "2;5;5;10;10;正比", "4;1;60;2;30;4;15;5;12;反比"]}`)}
 '
- onclick='${ONCLICK}'>10
-</button> ${answerButtons('【七年級】正比、反比或都不是')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】正比、反比或都不是')}</span>
 </td>
 </tr>
 `;
@@ -674,12 +696,13 @@ ${sample(5,
 // ---------------- 第 11 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】顯微鏡的放大倍率</td>
+<td ${LIST_TD(false, true)}>11</td>
+<td ${LIST_TD(false, false)}>【七年級】顯微鏡的放大倍率</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("11", `【七年級】顯微鏡的放大倍率`, `國中基礎練習`)}
@@ -727,8 +750,9 @@ ${sample(5,
 `新倍率 10 × 100 = 1000 倍，放大為原來的 10 倍，視野面積變為 1/100，<br/>細胞數 9 ÷ 100 = 0.09，無條件捨去為 0。`,
 `{"data": ["10;10;64;40;400;4", "15;4;100;4;60;100", "10;4;200;40;400;2", "5;10;81;30;150;9", "10;10;9;100;1000;0"]}`)}
 '
- onclick='${ONCLICK}'>11
-</button> ${answerButtons('【七年級】顯微鏡的放大倍率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】顯微鏡的放大倍率')}</span>
 </td>
 </tr>
 `;
@@ -736,12 +760,13 @@ ${sample(5,
 // ---------------- 第 12 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】孟德爾遺傳</td>
+<td ${LIST_TD(false, true)}>12</td>
+<td ${LIST_TD(false, false)}>【七年級】孟德爾遺傳</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("12", `【七年級】孟德爾遺傳`, `國中基礎練習`)}
@@ -779,8 +804,9 @@ Aa`,
 `AA × Aa 的 4 種組合為 AA、Aa、AA、Aa，顯性 4 種、隱性 0 種；AA 2、Aa 2、aa 0。`,
 `{"data": ["Aa;Aa;3;1;1;2;1", "AA;aa;4;0;0;4;0", "Aa;aa;2;2;0;2;2", "aa;aa;0;4;0;0;4", "AA;Aa;4;0;2;2;0"]}`)}
 '
- onclick='${ONCLICK}'>12
-</button> ${answerButtons('【七年級】孟德爾遺傳')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】孟德爾遺傳')}</span>
 </td>
 </tr>
 `;
@@ -788,12 +814,13 @@ Aa`,
 // ---------------- 第 13 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】子女可能的血型</td>
+<td ${LIST_TD(false, true)}>13</td>
+<td ${LIST_TD(false, false)}>【七年級】子女可能的血型</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("13", `【七年級】子女可能的血型`, `國中基礎練習`)}
@@ -831,8 +858,9 @@ AB`,
 `AB 型（I^AI^B）× AB 型（I^AI^B），子女可能的血型為 A、B、AB。`,
 `{"data": ["A;B;A;B;AB;O", "O;O;O", "AB;O;A;B", "A;O;A;O", "AB;AB;A;B;AB"]}`)}
 '
- onclick='${ONCLICK}'>13
-</button> ${answerButtons('【七年級】子女可能的血型')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】子女可能的血型')}</span>
 </td>
 </tr>
 `;
@@ -840,12 +868,13 @@ AB`,
 // ---------------- 第 14 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】食物鏈的能量傳遞</td>
+<td ${LIST_TD(false, true)}>14</td>
+<td ${LIST_TD(false, false)}>【七年級】食物鏈的能量傳遞</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("14", `【七年級】食物鏈的能量傳遞`, `國中基礎練習`)}
@@ -883,8 +912,9 @@ ${sample(5,
 `每往上一個階層能量剩 10%：123 → 12.3 → 1.23。`,
 `{"data": ["100000;4;100000;10000;1000;100", "5000;3;5000;500;50", "1;1;1", "1000000;6;1000000;100000;10000;1000;100;10", "123;3;123;12.3;1.23"]}`)}
 '
- onclick='${ONCLICK}'>14
-</button> ${answerButtons('【七年級】食物鏈的能量傳遞')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】食物鏈的能量傳遞')}</span>
 </td>
 </tr>
 `;
@@ -892,12 +922,13 @@ ${sample(5,
 // ---------------- 第 15 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】測量心跳</td>
+<td ${LIST_TD(false, true)}>15</td>
+<td ${LIST_TD(false, false)}>【七年級】測量心跳</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("15", `【七年級】測量心跳`, `國中基礎練習`)}
@@ -940,8 +971,9 @@ ${sample(5,
 `平均 (15 + 15 + 15) ÷ 3 × 4 = 60，四捨五入為 60，介於 60 ~ 100，為正常。`,
 `{"data": ["20;19;21;80;正常", "27;26;28;108;偏快", "14;15;14;57;偏慢", "25;25;26;101;偏快", "15;15;15;60;正常"]}`)}
 '
- onclick='${ONCLICK}'>15
-</button> ${answerButtons('【七年級】測量心跳')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】測量心跳')}</span>
 </td>
 </tr>
 `;
@@ -949,12 +981,13 @@ ${sample(5,
 // ---------------- 第 16 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】標記重捕法估計族群數量</td>
+<td ${LIST_TD(false, true)}>16</td>
+<td ${LIST_TD(false, false)}>【七年級】標記重捕法估計族群數量</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("16", `【七年級】標記重捕法估計族群數量`, `國中基礎練習`)}
@@ -997,8 +1030,9 @@ ${sample(5,
 `1234 × 567 ÷ 89 = 7861.55，無條件捨去為 7861。`,
 `{"data": ["50;40;10;200", "30;25;7;107", "100;100;100;100", "1;1;1;1", "1234;567;89;7861"]}`)}
 '
- onclick='${ONCLICK}'>16
-</button> ${answerButtons('【七年級】標記重捕法估計族群數量')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】標記重捕法估計族群數量')}</span>
 </td>
 </tr>
 `;
@@ -1006,12 +1040,13 @@ ${sample(5,
 // ---------------- 第 17 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】細菌分裂</td>
+<td ${LIST_TD(false, true)}>17</td>
+<td ${LIST_TD(false, false)}>【七年級】細菌分裂</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("17", `【七年級】細菌分裂`, `國中基礎練習`)}
@@ -1054,8 +1089,9 @@ ${sample(5,
 `49 分鐘內分裂 49 ÷ 1 = 49 次（無條件捨去），數量 1 × 2 的 49 次方 = 562949953421312。`,
 `{"data": ["1;20;60;8", "3;30;100;24", "5;10;0;5", "100;25;1000;109951162777600", "1;1;49;562949953421312"]}`)}
 '
- onclick='${ONCLICK}'>17
-</button> ${answerButtons('【七年級】細菌分裂')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】細菌分裂')}</span>
 </td>
 </tr>
 `;
@@ -1063,12 +1099,13 @@ ${sample(5,
 // ---------------- 第 18 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】每分鐘的心輸出量</td>
+<td ${LIST_TD(false, true)}>18</td>
+<td ${LIST_TD(false, false)}>【七年級】每分鐘的心輸出量</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("18", `【七年級】每分鐘的心輸出量`, `國中基礎練習`)}
@@ -1106,8 +1143,9 @@ ${sample(5,
 `180 × 33 = 5940 毫升 = 5.94 公升；每小時 5.94 × 60 = 356.4 公升。`,
 `{"data": ["72;70;5.04;302.4", "100;50;5;300", "60;100;6;360", "45;120;5.4;324", "180;33;5.94;356.4"]}`)}
 '
- onclick='${ONCLICK}'>18
-</button> ${answerButtons('【七年級】每分鐘的心輸出量')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】每分鐘的心輸出量')}</span>
 </td>
 </tr>
 `;
@@ -1115,12 +1153,13 @@ ${sample(5,
 // ---------------- 第 19 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】攝氏與華氏溫度</td>
+<td ${LIST_TD(false, true)}>19</td>
+<td ${LIST_TD(false, false)}>【七年級】攝氏與華氏溫度</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("19", `【七年級】攝氏與華氏溫度`, `國中基礎練習`)}
@@ -1158,8 +1197,9 @@ F`,
 `(0 - 32) × 5 ÷ 9 = -17.778，四捨五入到小數第 1 位為 -17.8 C。`,
 `{"data": ["100;C;212;F", "98;F;36.7;C", "37;C;98.6;F", "-40;F;-40;C", "0;F;-17.8;C"]}`)}
 '
- onclick='${ONCLICK}'>19
-</button> ${answerButtons('【七年級】攝氏與華氏溫度')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】攝氏與華氏溫度')}</span>
 </td>
 </tr>
 `;
@@ -1167,12 +1207,13 @@ F`,
 // ---------------- 第 20 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【七年級】直角坐標的平移</td>
+<td ${LIST_TD(false, true)}>20</td>
+<td ${LIST_TD(false, false)}>【七年級】直角坐標的平移</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("20", `【七年級】直角坐標的平移`, `國中基礎練習`)}
@@ -1227,8 +1268,9 @@ L 50`,
 `從 (7, 7) 出發：下移 20 → (7, -13)，右移 1 → (8, -13)，下移 1 → (8, -14)，左移 50 → (-42, -14)，<br/>最後在 (-42, -14)，位於第三象限。`,
 `{"data": ["1;2;3;L;5;D;4;R;1;-3;-2;第三象限", "0;0;2;R;3;L;3;0;0;原點", "-5;5;1;U;3;-5;8;第二象限", "10;-10;2;U;10;L;20;-10;0;x軸", "7;7;4;D;20;R;1;D;1;L;50;-42;-14;第三象限"]}`)}
 '
- onclick='${ONCLICK}'>20
-</button> ${answerButtons('【七年級】直角坐標的平移')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【七年級】直角坐標的平移')}</span>
 </td>
 </tr>
 `;
@@ -1236,12 +1278,13 @@ L 50`,
 // ---------------- 第 21 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】畢氏三元數</td>
+<td ${LIST_TD(false, true)}>21</td>
+<td ${LIST_TD(false, false)}>【八年級】畢氏三元數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("21", `【八年級】畢氏三元數`, `國中基礎練習`)}
@@ -1274,8 +1317,9 @@ ${sample(5,
 `斜邊不超過 100 的有 (3, 4, 5)、(6, 8, 10)、(5, 12, 13)、(9, 12, 15)… 共 52 組，<br/>斜邊最大的是 28² + 96² = 100²。`,
 `{"data": ["13;3;5;12;13", "4;0", "5;1;3;4;5", "30;11;18;24;30", "100;52;28;96;100"]}`)}
 '
- onclick='${ONCLICK}'>21
-</button> ${answerButtons('【八年級】畢氏三元數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】畢氏三元數')}</span>
 </td>
 </tr>
 `;
@@ -1283,12 +1327,13 @@ ${sample(5,
 // ---------------- 第 22 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】平方根的範圍</td>
+<td ${LIST_TD(false, true)}>22</td>
+<td ${LIST_TD(false, false)}>【八年級】平方根的範圍</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("22", `【八年級】平方根的範圍`, `國中基礎練習`)}
@@ -1321,8 +1366,9 @@ ${sample(5,
 `31622² = 999950884 &lt; 1000000000 &lt; 1000014129 = 31623²，√1000000000 介於 31622 和 31623 之間。`,
 `{"data": ["20;4;5", "144;12", "2;1;2", "998001;999", "1000000000;31622;31623"]}`)}
 '
- onclick='${ONCLICK}'>22
-</button> ${answerButtons('【八年級】平方根的範圍')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】平方根的範圍')}</span>
 </td>
 </tr>
 `;
@@ -1330,12 +1376,13 @@ ${sample(5,
 // ---------------- 第 23 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】等差數列與等差級數</td>
+<td ${LIST_TD(false, true)}>23</td>
+<td ${LIST_TD(false, false)}>【八年級】等差數列與等差級數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("23", `【八年級】等差數列與等差級數`, `國中基礎練習`)}
@@ -1378,8 +1425,9 @@ ${sample(5,
 `第 40 項 = -50 + (40 - 1) × 3 = 67；前 40 項和 = (-50 + 67) × 40 ÷ 2 = 340。`,
 `{"data": ["3;4;10;39;210", "100;-7;15;2;765", "5;0;1;5;5", "1;1;1000;1000;500500", "-50;3;40;67;340"]}`)}
 '
- onclick='${ONCLICK}'>23
-</button> ${answerButtons('【八年級】等差數列與等差級數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】等差數列與等差級數')}</span>
 </td>
 </tr>
 `;
@@ -1387,12 +1435,13 @@ ${sample(5,
 // ---------------- 第 24 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】等比數列</td>
+<td ${LIST_TD(false, true)}>24</td>
+<td ${LIST_TD(false, false)}>【八年級】等比數列</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("24", `【八年級】等比數列`, `國中基礎練習`)}
@@ -1435,8 +1484,9 @@ ${sample(5,
 `首項 5，每一項乘以公比 -1：5, -5, 5, -5。`,
 `{"data": ["3;2;5;3;6;12;24;48", "1;-3;6;1;-3;9;-27;81;-243", "7;1;3;7;7;7", "-2;10;8;-2;-20;-200;-2000;-20000;-200000;-2000000;-20000000", "5;-1;4;5;-5;5;-5"]}`)}
 '
- onclick='${ONCLICK}'>24
-</button> ${answerButtons('【八年級】等比數列')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】等比數列')}</span>
 </td>
 </tr>
 `;
@@ -1444,12 +1494,13 @@ ${sample(5,
 // ---------------- 第 25 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】多邊形的內角</td>
+<td ${LIST_TD(false, true)}>25</td>
+<td ${LIST_TD(false, false)}>【八年級】多邊形的內角</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("25", `【八年級】多邊形的內角`, `國中基礎練習`)}
@@ -1482,8 +1533,9 @@ ${sample(5,
 `內角和 (12 - 2) × 180 = 1800；一個內角 1800 ÷ 12 = 150；一個外角 360 ÷ 12 = 30。`,
 `{"data": ["6;720;120;60", "7;900;128.6;51.4", "3;180;60;120", "100;17640;176.4;3.6", "12;1800;150;30"]}`)}
 '
- onclick='${ONCLICK}'>25
-</button> ${answerButtons('【八年級】多邊形的內角')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】多邊形的內角')}</span>
 </td>
 </tr>
 `;
@@ -1491,12 +1543,13 @@ ${sample(5,
 // ---------------- 第 26 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】十字交乘因式分解</td>
+<td ${LIST_TD(false, true)}>26</td>
+<td ${LIST_TD(false, false)}>【八年級】十字交乘因式分解</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("26", `【八年級】十字交乘因式分解`, `國中基礎練習`)}
@@ -1534,8 +1587,9 @@ ${sample(5,
 `-10 + (-10) = -20 且 -10 × (-10) = 100，x² + (-20)x + 100 = (x + (-10))(x + (-10))。`,
 `{"data": ["5;6;2;3", "-1;-12;-4;3", "1;1;無法分解", "0;-49;-7;7", "-20;100;-10;-10"]}`)}
 '
- onclick='${ONCLICK}'>26
-</button> ${answerButtons('【八年級】十字交乘因式分解')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】十字交乘因式分解')}</span>
 </td>
 </tr>
 `;
@@ -1543,12 +1597,13 @@ ${sample(5,
 // ---------------- 第 27 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】一元二次方程式的根</td>
+<td ${LIST_TD(false, true)}>27</td>
+<td ${LIST_TD(false, false)}>【八年級】一元二次方程式的根</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("27", `【八年級】一元二次方程式的根`, `國中基礎練習`)}
@@ -1591,8 +1646,9 @@ ${sample(5,
 `D = (0)² - 4 × (-1) × (2) = 8 &gt; 0，x = (0 ± √8) ÷ -2，兩根為 -1.41 與 1.41。`,
 `{"data": ["1;-5;6;相異兩根;2;3", "1;4;4;重根;-2", "1;1;1;無實數根", "2;3;-2;相異兩根;-2;0.5", "-1;0;2;相異兩根;-1.41;1.41"]}`)}
 '
- onclick='${ONCLICK}'>27
-</button> ${answerButtons('【八年級】一元二次方程式的根')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】一元二次方程式的根')}</span>
 </td>
 </tr>
 `;
@@ -1600,12 +1656,13 @@ ${sample(5,
 // ---------------- 第 28 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】階梯座位要幾排</td>
+<td ${LIST_TD(false, true)}>28</td>
+<td ${LIST_TD(false, false)}>【八年級】階梯座位要幾排</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("28", `【八年級】階梯座位要幾排`, `國中基礎練習`)}
@@ -1648,8 +1705,9 @@ ${sample(5,
 `第 1 排 50 個，每排多 10 個。前 28 排共 5180 個座位 ≥ 5000 人；前 27 排只有 4860 個，不夠。`,
 `{"data": ["20;2;100;5;120", "10;0;10;1;10", "1;1;1;1;1", "30;5;1000;16;1080", "50;10;5000;28;5180"]}`)}
 '
- onclick='${ONCLICK}'>28
-</button> ${answerButtons('【八年級】階梯座位要幾排')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】階梯座位要幾排')}</span>
 </td>
 </tr>
 `;
@@ -1657,12 +1715,13 @@ ${sample(5,
 // ---------------- 第 29 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】密度與浮沉</td>
+<td ${LIST_TD(false, true)}>29</td>
+<td ${LIST_TD(false, false)}>【八年級】密度與浮沉</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("29", `【八年級】密度與浮沉`, `國中基礎練習`)}
@@ -1700,8 +1759,9 @@ ${sample(5,
 `密度 = 999 ÷ 1000 = 0.999，四捨五入為 1；實際密度小於 1，浮在水面。`,
 `{"data": ["270;100;2.7;沉", "45;60;0.75;浮", "50;50;1;懸浮", "19300;1000;19.3;沉", "999;1000;1;浮"]}`)}
 '
- onclick='${ONCLICK}'>29
-</button> ${answerButtons('【八年級】密度與浮沉')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】密度與浮沉')}</span>
 </td>
 </tr>
 `;
@@ -1709,12 +1769,13 @@ ${sample(5,
 // ---------------- 第 30 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】溶液的重量百分濃度</td>
+<td ${LIST_TD(false, true)}>30</td>
+<td ${LIST_TD(false, false)}>【八年級】溶液的重量百分濃度</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("30", `【八年級】溶液的重量百分濃度`, `國中基礎練習`)}
@@ -1762,8 +1823,9 @@ ${sample(5,
 `第一杯 500 ÷ 1000 × 100 = 50%；第二杯 1000 ÷ 1001 × 100 = 99.9%；<br/>混合後 (500 + 1000) ÷ (1000 + 1001) × 100 = 1500 ÷ 2001 × 100 = 75%。`,
 `{"data": ["20;80;30;120;20;20;20", "10;90;40;60;10;40;25", "0;100;25;75;0;25;12.5", "1;2;3;4;33.3;42.9;40", "500;500;1000;1;50;99.9;75"]}`)}
 '
- onclick='${ONCLICK}'>30
-</button> ${answerButtons('【八年級】溶液的重量百分濃度')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】溶液的重量百分濃度')}</span>
 </td>
 </tr>
 `;
@@ -1771,12 +1833,13 @@ ${sample(5,
 // ---------------- 第 31 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】平均速率</td>
+<td ${LIST_TD(false, true)}>31</td>
+<td ${LIST_TD(false, false)}>【八年級】平均速率</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("31", `【八年級】平均速率`, `國中基礎練習`)}
@@ -1821,8 +1884,9 @@ ${sample(5,
 `總路程 10000 + 1 = 10001 公尺，總時間 3600 + 1 = 3601 秒，<br/>平均速率 10001 ÷ 3601 = 2.78 公尺/秒。`,
 `{"data": ["3;600;120;900;150;500;130;2000;400;5", "1;100;8;100;8;12.5", "2;1000;300;1000;100;2000;400;5", "4;50;10;50;20;50;30;50;40;200;100;2", "2;10000;3600;1;1;10001;3601;2.78"]}`)}
 '
- onclick='${ONCLICK}'>31
-</button> ${answerButtons('【八年級】平均速率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】平均速率')}</span>
 </td>
 </tr>
 `;
@@ -1830,12 +1894,13 @@ ${sample(5,
 // ---------------- 第 32 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】加速度</td>
+<td ${LIST_TD(false, true)}>32</td>
+<td ${LIST_TD(false, false)}>【八年級】加速度</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("32", `【八年級】加速度`, `國中基礎練習`)}
@@ -1878,8 +1943,9 @@ ${sample(5,
 `a = (0 - 300) ÷ 7 = -42.86 m/s²，小於 0，減速。`,
 `{"data": ["0;20;4;5;加速", "30;10;8;-2.5;減速", "15;15;3;0;等速", "0;100;3;33.33;加速", "300;0;7;-42.86;減速"]}`)}
 '
- onclick='${ONCLICK}'>32
-</button> ${answerButtons('【八年級】加速度')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】加速度')}</span>
 </td>
 </tr>
 `;
@@ -1887,12 +1953,13 @@ ${sample(5,
 // ---------------- 第 33 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】冷熱水混合的溫度</td>
+<td ${LIST_TD(false, true)}>33</td>
+<td ${LIST_TD(false, false)}>【八年級】冷熱水混合的溫度</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("33", `【八年級】冷熱水混合的溫度`, `國中基礎練習`)}
@@ -1940,8 +2007,9 @@ ${sample(5,
 `(333 × 77 + 444 × 11) ÷ (333 + 444) = 30525 ÷ 777 = 39.286，四捨五入為 39.3。`,
 `{"data": ["200;80;300;20;44", "100;90;200;30;50", "50;0;50;100;50", "1;100;5000;0;0", "333;77;444;11;39.3"]}`)}
 '
- onclick='${ONCLICK}'>33
-</button> ${answerButtons('【八年級】冷熱水混合的溫度')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】冷熱水混合的溫度')}</span>
 </td>
 </tr>
 `;
@@ -1949,12 +2017,13 @@ ${sample(5,
 // ---------------- 第 34 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】強酸稀釋的 pH 值</td>
+<td ${LIST_TD(false, true)}>34</td>
+<td ${LIST_TD(false, false)}>【八年級】強酸稀釋的 pH 值</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("34", `【八年級】強酸稀釋的 pH 值`, `國中基礎練習`)}
@@ -1992,8 +2061,9 @@ ${sample(5,
 `pH 3 稀釋 10 倍 3 次，pH 變為 3 + 3 = 6，仍為酸性。`,
 `{"data": ["2;3;5;酸性", "1;10;7;接近中性", "6;0;6;酸性", "0;7;7;接近中性", "3;3;6;酸性"]}`)}
 '
- onclick='${ONCLICK}'>34
-</button> ${answerButtons('【八年級】強酸稀釋的 pH 值')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】強酸稀釋的 pH 值')}</span>
 </td>
 </tr>
 `;
@@ -2001,12 +2071,13 @@ ${sample(5,
 // ---------------- 第 35 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】兩面鏡子的成像數</td>
+<td ${LIST_TD(false, true)}>35</td>
+<td ${LIST_TD(false, false)}>【八年級】兩面鏡子的成像數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("35", `【八年級】兩面鏡子的成像數`, `國中基礎練習`)}
@@ -2044,8 +2115,9 @@ ${sample(5,
 `像的數量 360 ÷ 30 - 1 = 11 個；物體與像相距 25 × 2 = 50 公分。`,
 `{"data": ["90;15;3;30", "60;8;5;16", "180;1;1;2", "45;100;7;200", "30;25;11;50"]}`)}
 '
- onclick='${ONCLICK}'>35
-</button> ${answerButtons('【八年級】兩面鏡子的成像數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】兩面鏡子的成像數')}</span>
 </td>
 </tr>
 `;
@@ -2053,12 +2125,13 @@ ${sample(5,
 // ---------------- 第 36 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】回聲測距離</td>
+<td ${LIST_TD(false, true)}>36</td>
+<td ${LIST_TD(false, false)}>【八年級】回聲測距離</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("36", `【八年級】回聲測距離`, `國中基礎練習`)}
@@ -2096,8 +2169,9 @@ ${sample(5,
 `聲速 v = 331 + 0.6 × (40) = 355 公尺/秒；距離 355 × 0.1 ÷ 2 = 17.75，四捨五入為 17.8 公尺。`,
 `{"data": ["15;2;340;340", "25;1.5;346;259.5", "0;1;331;165.5", "-20;4.2;319;669.9", "40;0.1;355;17.8"]}`)}
 '
- onclick='${ONCLICK}'>36
-</button> ${answerButtons('【八年級】回聲測距離')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】回聲測距離')}</span>
 </td>
 </tr>
 `;
@@ -2105,12 +2179,13 @@ ${sample(5,
 // ---------------- 第 37 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】原子與離子的粒子數</td>
+<td ${LIST_TD(false, true)}>37</td>
+<td ${LIST_TD(false, false)}>【八年級】原子與離子的粒子數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("37", `【八年級】原子與離子的粒子數`, `國中基礎練習`)}
@@ -2153,8 +2228,9 @@ ${sample(5,
 `質子數 = 原子序 26；中子數 = 56 - 26 = 30；電子數 = 26 - (3) = 23。`,
 `{"data": ["11;23;1;11;12;10", "17;35;-1;17;18;18", "6;12;0;6;6;6", "1;1;0;1;0;1", "26;56;3;26;30;23"]}`)}
 '
- onclick='${ONCLICK}'>37
-</button> ${answerButtons('【八年級】原子與離子的粒子數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】原子與離子的粒子數')}</span>
 </td>
 </tr>
 `;
@@ -2162,12 +2238,13 @@ ${sample(5,
 // ---------------- 第 38 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】分子量與莫耳數</td>
+<td ${LIST_TD(false, true)}>38</td>
+<td ${LIST_TD(false, false)}>【八年級】分子量與莫耳數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("38", `【八年級】分子量與莫耳數`, `國中基礎練習`)}
@@ -2220,8 +2297,9 @@ ${sample(5,
 `分子量 = 2 × 12 + 6 × 1 + 1 × 16 = 46；莫耳數 = 1000 ÷ 46 = 21.74。`,
 `{"data": ["0;2;1;0;36;18;2", "1;0;2;0;11;44;0.25", "6;12;6;0;90;180;0.5", "0;3;0;1;100;17;5.88", "2;6;1;0;1000;46;21.74"]}`)}
 '
- onclick='${ONCLICK}'>38
-</button> ${answerButtons('【八年級】分子量與莫耳數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】分子量與莫耳數')}</span>
 </td>
 </tr>
 `;
@@ -2229,12 +2307,13 @@ ${sample(5,
 // ---------------- 第 39 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】溫度與反應速率</td>
+<td ${LIST_TD(false, true)}>39</td>
+<td ${LIST_TD(false, false)}>【八年級】溫度與反應速率</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("39", `【八年級】溫度與反應速率`, `國中基礎練習`)}
@@ -2277,8 +2356,9 @@ ${sample(5,
 `升高 100°C，速率變為 2 的 10 次方 = 1024 倍，時間 1024 ÷ 1024 = 1 秒。`,
 `{"data": ["20;160;50;20", "30;60;10;240", "25;100;25;100", "40;5;60;1.25", "0;1024;100;1"]}`)}
 '
- onclick='${ONCLICK}'>39
-</button> ${answerButtons('【八年級】溫度與反應速率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】溫度與反應速率')}</span>
 </td>
 </tr>
 `;
@@ -2286,12 +2366,13 @@ ${sample(5,
 // ---------------- 第 40 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【八年級】週期表的位置</td>
+<td ${LIST_TD(false, true)}>40</td>
+<td ${LIST_TD(false, false)}>【八年級】週期表的位置</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("40", `【八年級】週期表的位置`, `國中基礎練習`)}
@@ -2327,8 +2408,9 @@ ${sample(5,
 `原子序 20 是 Ca，位於第 4 週期第 2 族，屬於金屬。`,
 `{"data": ["11;3;1;金屬", "17;3;17;非金屬", "2;1;18;鈍氣", "6;2;14;非金屬", "20;4;2;金屬"]}`)}
 '
- onclick='${ONCLICK}'>40
-</button> ${answerButtons('【八年級】週期表的位置')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【八年級】週期表的位置')}</span>
 </td>
 </tr>
 `;
@@ -2336,12 +2418,13 @@ ${sample(5,
 // ---------------- 第 41 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】相似三角形求邊長</td>
+<td ${LIST_TD(false, true)}>41</td>
+<td ${LIST_TD(false, false)}>【九年級】相似三角形求邊長</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("41", `【九年級】相似三角形求邊長`, `國中基礎練習`)}
@@ -2384,8 +2467,9 @@ ${sample(5,
 `邊長比 3 : 5 = 3/5，對應邊 20 × 3/5 = 12；面積比 = (3/5)² = 9/25。`,
 `{"data": ["10;4;15;6;4/25", "9;6;7;14/3;4/9", "100;1;100;1;1/10000", "12;8;9;6;4/9", "5;3;20;12;9/25"]}`)}
 '
- onclick='${ONCLICK}'>41
-</button> ${answerButtons('【九年級】相似三角形求邊長')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】相似三角形求邊長')}</span>
 </td>
 </tr>
 `;
@@ -2393,12 +2477,13 @@ ${sample(5,
 // ---------------- 第 42 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】扇形的弧長與面積</td>
+<td ${LIST_TD(false, true)}>42</td>
+<td ${LIST_TD(false, false)}>【九年級】扇形的弧長與面積</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("42", `【九年級】扇形的弧長與面積`, `國中基礎練習`)}
@@ -2436,8 +2521,9 @@ ${sample(5,
 `弧長 2 × 3.14 × 100 × 1 ÷ 360 = 1.7444 ≈ 1.74；周長 1.7444 + 200 ≈ 201.74；<br/>面積 3.14 × 100² × 1 ÷ 360 = 87.2222 ≈ 87.22。`,
 `{"data": ["6;60;6.28;18.28;18.84", "10;90;15.7;35.7;78.5", "1;360;6.28;8.28;3.14", "7;45;5.5;19.5;19.23", "100;1;1.74;201.74;87.22"]}`)}
 '
- onclick='${ONCLICK}'>42
-</button> ${answerButtons('【九年級】扇形的弧長與面積')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】扇形的弧長與面積')}</span>
 </td>
 </tr>
 `;
@@ -2445,12 +2531,13 @@ ${sample(5,
 // ---------------- 第 43 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】二次函數的頂點</td>
+<td ${LIST_TD(false, true)}>43</td>
+<td ${LIST_TD(false, false)}>【九年級】二次函數的頂點</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("43", `【九年級】二次函數的頂點`, `國中基礎練習`)}
@@ -2493,8 +2580,9 @@ ${sample(5,
 `頂點 x = -(-6) ÷ (2 × -1) = -3，代入 y = -1×(-3)² + (-6)×(-3) + (-9) = 0；a &lt; 0，開口向下。`,
 `{"data": ["1;-4;3;2;-1;開口向上", "-2;4;1;1;3;開口向下", "1;0;0;0;0;開口向上", "2;3;-5;-3/4;-49/8;開口向上", "-1;-6;-9;-3;0;開口向下"]}`)}
 '
- onclick='${ONCLICK}'>43
-</button> ${answerButtons('【九年級】二次函數的頂點')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】二次函數的頂點')}</span>
 </td>
 </tr>
 `;
@@ -2502,12 +2590,13 @@ ${sample(5,
 // ---------------- 第 44 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】四分位數與四分位距</td>
+<td ${LIST_TD(false, true)}>44</td>
+<td ${LIST_TD(false, false)}>【九年級】四分位數與四分位距</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("44", `【九年級】四分位數與四分位距`, `國中基礎練習`)}
@@ -2545,8 +2634,9 @@ ${sample(5,
 `排序後 12 23 34 45 56 66 67 78 89 90，Q₂ = 61；<br/>前半 12 23 34 45 56 的中位數 Q₁ = 34，後半 66 67 78 89 90 的中位數 Q₃ = 78；<br/>四分位距 78 - 34 = 44。`,
 `{"data": ["7;60;72;85;90;55;78;66;60;72;85;25", "8;10;20;30;40;50;60;70;80;25;45;65;40", "4;1;2;3;4;1.5;2.5;3.5;2", "9;100;90;90;80;70;70;70;60;0;65;70;90;25", "10;45;67;89;23;56;78;90;12;34;66;34;61;78;44"]}`)}
 '
- onclick='${ONCLICK}'>44
-</button> ${answerButtons('【九年級】四分位數與四分位距')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】四分位數與四分位距')}</span>
 </td>
 </tr>
 `;
@@ -2554,12 +2644,13 @@ ${sample(5,
 // ---------------- 第 45 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】擲兩顆骰子的機率</td>
+<td ${LIST_TD(false, true)}>45</td>
+<td ${LIST_TD(false, false)}>【九年級】擲兩顆骰子的機率</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("45", `【九年級】擲兩顆骰子的機率`, `國中基礎練習`)}
@@ -2592,8 +2683,9 @@ ${sample(5,
 `點數和為 12 的有 (6,6) 共 1 種，機率 1/36。`,
 `{"data": ["7;1/6", "2;1/36", "13;0", "6;5/36", "12;1/36"]}`)}
 '
- onclick='${ONCLICK}'>45
-</button> ${answerButtons('【九年級】擲兩顆骰子的機率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】擲兩顆骰子的機率')}</span>
 </td>
 </tr>
 `;
@@ -2601,12 +2693,13 @@ ${sample(5,
 // ---------------- 第 46 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】眾數</td>
+<td ${LIST_TD(false, true)}>46</td>
+<td ${LIST_TD(false, false)}>【九年級】眾數</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("46", `【九年級】眾數`, `國中基礎練習`)}
@@ -2644,8 +2737,9 @@ ${sample(5,
 `每個數都只出現 1 次，所以全部都是眾數：1、2、3、4、5、6、7。`,
 `{"data": ["8;12;15;12;18;15;12;20;15;12;15;3", "5;7;3;9;3;1;3;2", "1;100;100;1", "6;5;5;5;5;5;5;5;6", "7;1;2;3;4;5;6;7;1;2;3;4;5;6;7;1"]}`)}
 '
- onclick='${ONCLICK}'>46
-</button> ${answerButtons('【九年級】眾數')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】眾數')}</span>
 </td>
 </tr>
 `;
@@ -2653,12 +2747,13 @@ ${sample(5,
 // ---------------- 第 47 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】三角形的重心</td>
+<td ${LIST_TD(false, true)}>47</td>
+<td ${LIST_TD(false, false)}>【九年級】三角形的重心</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("47", `【九年級】三角形的重心`, `國中基礎練習`)}
@@ -2716,8 +2811,9 @@ ${sample(5,
 `x = (0 + 1 + 0) ÷ 3 = 0.33，y = (0 + 0 + 1) ÷ 3 = 0.33。`,
 `{"data": ["0;0;6;0;0;9;2;3", "1;1;4;2;2;6;2.33;3", "-3;0;3;0;0;6;0;2", "10;20;30;40;50;90;30;50", "0;0;1;0;0;1;0.33;0.33"]}`)}
 '
- onclick='${ONCLICK}'>47
-</button> ${answerButtons('【九年級】三角形的重心')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】三角形的重心')}</span>
 </td>
 </tr>
 `;
@@ -2725,12 +2821,13 @@ ${sample(5,
 // ---------------- 第 48 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】用影子測量樹高</td>
+<td ${LIST_TD(false, true)}>48</td>
+<td ${LIST_TD(false, false)}>【九年級】用影子測量樹高</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("48", `【九年級】用影子測量樹高`, `國中基礎練習`)}
@@ -2773,8 +2870,9 @@ ${sample(5,
 `樹高 1 × 10000 ÷ 10000 = 1 公分 = 0.01 公尺，四捨五入為 0.01 公尺。`,
 `{"data": ["150;120;960;12", "200;300;1000;6.67", "100;100;100;1", "180;75;1234;29.62", "1;10000;10000;0.01"]}`)}
 '
- onclick='${ONCLICK}'>48
-</button> ${answerButtons('【九年級】用影子測量樹高')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】用影子測量樹高')}</span>
 </td>
 </tr>
 `;
@@ -2782,12 +2880,13 @@ ${sample(5,
 // ---------------- 第 49 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】牛頓第二運動定律</td>
+<td ${LIST_TD(false, true)}>49</td>
+<td ${LIST_TD(false, false)}>【九年級】牛頓第二運動定律</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("49", `【九年級】牛頓第二運動定律`, `國中基礎練習`)}
@@ -2830,8 +2929,9 @@ ${sample(5,
 `合力 -1000 - 1000 - 1000 + 1 = -2999 牛頓，大小 2999；a = 2999 ÷ 1000 = 3 m/s²，方向向左。`,
 `{"data": ["5;3;20;-5;10;25;5;向右", "4;2;-30;20;10;2.5;向左", "10;2;50;-50;0;0;靜止或等速", "3;1;10;10;3.33;向右", "1000;4;-1000;-1000;-1000;1;2999;3;向左"]}`)}
 '
- onclick='${ONCLICK}'>49
-</button> ${answerButtons('【九年級】牛頓第二運動定律')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】牛頓第二運動定律')}</span>
 </td>
 </tr>
 `;
@@ -2839,12 +2939,13 @@ ${sample(5,
 // ---------------- 第 50 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】功與功率</td>
+<td ${LIST_TD(false, true)}>50</td>
+<td ${LIST_TD(false, false)}>【九年級】功與功率</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("50", `【九年級】功與功率`, `國中基礎練習`)}
@@ -2887,8 +2988,9 @@ ${sample(5,
 `作功 W = 1 × 1 = 1 焦耳；功率 P = 1 ÷ 3 = 0.33 瓦特。`,
 `{"data": ["50;10;4;500;125", "600;3;7;1800;257.14", "100;0;5;0;0", "10000;10000;3600;100000000;27777.78", "1;1;3;1;0.33"]}`)}
 '
- onclick='${ONCLICK}'>50
-</button> ${answerButtons('【九年級】功與功率')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】功與功率')}</span>
 </td>
 </tr>
 `;
@@ -2896,12 +2998,13 @@ ${sample(5,
 // ---------------- 第 51 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】重力位能與動能</td>
+<td ${LIST_TD(false, true)}>51</td>
+<td ${LIST_TD(false, false)}>【九年級】重力位能與動能</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("51", `【九年級】重力位能與動能`, `國中基礎練習`)}
@@ -2944,8 +3047,9 @@ ${sample(5,
 `起始位能 3 × 9.8 × 7 = 205.8；目前位能 3 × 9.8 × 2 = 58.8；動能 205.8 - 58.8 = 147 焦耳。`,
 `{"data": ["2;10;4;196;78.4;117.6", "5;20;0;980;0;980", "1;1;1;9.8;9.8;0", "100;1000;500;980000;490000;490000", "3;7;2;205.8;58.8;147"]}`)}
 '
- onclick='${ONCLICK}'>51
-</button> ${answerButtons('【九年級】重力位能與動能')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】重力位能與動能')}</span>
 </td>
 </tr>
 `;
@@ -2953,12 +3057,13 @@ ${sample(5,
 // ---------------- 第 52 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】串聯與並聯電阻</td>
+<td ${LIST_TD(false, true)}>52</td>
+<td ${LIST_TD(false, false)}>【九年級】串聯與並聯電阻</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("52", `【九年級】串聯與並聯電阻`, `國中基礎練習`)}
@@ -3001,8 +3106,9 @@ ${sample(5,
 `串聯 10 + 20 + 30 + 40 + 50 = 150 Ω，I = 220 ÷ 150 = 1.47 A；<br/>並聯 1 ÷ (1/10 + 1/20 + 1/30 + 1/40 + 1/50) = 4.38 Ω，I = 220 ÷ 4.3796 = 50.23 A。`,
 `{"data": ["12;2;4;6;10;1.2;2.4;5", "6;3;6;6;6;18;0.33;2;3", "110;2;1000;1000;2000;0.06;500;0.22", "9;2;3;6;9;1;2;4.5", "220;5;10;20;30;40;50;150;1.47;4.38;50.23"]}`)}
 '
- onclick='${ONCLICK}'>52
-</button> ${answerButtons('【九年級】串聯與並聯電阻')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】串聯與並聯電阻')}</span>
 </td>
 </tr>
 `;
@@ -3010,12 +3116,13 @@ ${sample(5,
 // ---------------- 第 53 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】家用電路會不會跳電</td>
+<td ${LIST_TD(false, true)}>53</td>
+<td ${LIST_TD(false, false)}>【九年級】家用電路會不會跳電</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("53", `【九年級】家用電路會不會跳電`, `國中基礎練習`)}
@@ -3058,8 +3165,9 @@ ${sample(5,
 `總功率 3000 + 3000 + 1 = 6001 瓦，I = 6001 ÷ 110 ≈ 54.55 安培，超過 30 安培，會跳電。`,
 `{"data": ["15;3;1200;800;60;18.73;會跳電", "20;2;1100;1100;20;安全", "15;1;1650;15;安全", "10;4;500;300;200;110;10.09;會跳電", "30;3;3000;3000;1;54.55;會跳電"]}`)}
 '
- onclick='${ONCLICK}'>53
-</button> ${answerButtons('【九年級】家用電路會不會跳電')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】家用電路會不會跳電')}</span>
 </td>
 </tr>
 `;
@@ -3067,12 +3175,13 @@ ${sample(5,
 // ---------------- 第 54 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】滑輪組省力</td>
+<td ${LIST_TD(false, true)}>54</td>
+<td ${LIST_TD(false, false)}>【九年級】滑輪組省力</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("54", `【九年級】滑輪組省力`, `國中基礎練習`)}
@@ -3115,8 +3224,9 @@ ${sample(5,
 `施力 9999 ÷ (2 × 5) = 999.9 牛頓，拉繩 100 × 10 = 1000 公尺，作功 999.9 × 1000 = 999900 焦耳。`,
 `{"data": ["600;1;3;300;6;1800", "100;0;5;100;5;500", "1200;3;2;200;12;2400", "7;1;1;3.5;2;7", "9999;5;100;999.9;1000;999900"]}`)}
 '
- onclick='${ONCLICK}'>54
-</button> ${answerButtons('【九年級】滑輪組省力')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】滑輪組省力')}</span>
 </td>
 </tr>
 `;
@@ -3124,12 +3234,13 @@ ${sample(5,
 // ---------------- 第 55 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】地震震央距離</td>
+<td ${LIST_TD(false, true)}>55</td>
+<td ${LIST_TD(false, false)}>【九年級】地震震央距離</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("55", `【九年級】地震震央距離`, `國中基礎練習`)}
@@ -3167,8 +3278,9 @@ ${sample(5,
 `距離 = 時差 × 12：100 × 12 = 1200、0.1 × 12 = 1.2、99.9 × 12 = 1198.8、3 × 12 = 36、3 × 12 = 36 公里，<br/>最近的是第 2 站。`,
 `{"data": ["3;5;2.5;8;60;30;96;2", "1;10;120;1", "2;1.1;1.1;13.2;13.2;1", "4;30;12.4;50;7.5;360;148.8;600;90;4", "5;100;0.1;99.9;3;3;1200;1.2;1198.8;36;36;2"]}`)}
 '
- onclick='${ONCLICK}'>55
-</button> ${answerButtons('【九年級】地震震央距離')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】地震震央距離')}</span>
 </td>
 </tr>
 `;
@@ -3176,12 +3288,13 @@ ${sample(5,
 // ---------------- 第 56 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】滿潮時刻推算</td>
+<td ${LIST_TD(false, true)}>56</td>
+<td ${LIST_TD(false, false)}>【九年級】滿潮時刻推算</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("56", `【九年級】滿潮時刻推算`, `國中基礎練習`)}
@@ -3223,8 +3336,9 @@ ${sample(5,
 `第 2 天延後 50 × 1 = 50 分鐘，23 時 59 分 + 50 分 = 24 時 49 分，超過 24 時減去 24 小時，為 0 時 49 分。`,
 `{"data": ["6;20;3;8;0", "22;30;4;1;0", "0;0;1;0;0", "12;0;30;12;10", "23;59;2;0;49"]}`)}
 '
- onclick='${ONCLICK}'>56
-</button> ${answerButtons('【九年級】滿潮時刻推算')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】滿潮時刻推算')}</span>
 </td>
 </tr>
 `;
@@ -3232,12 +3346,13 @@ ${sample(5,
 // ---------------- 第 57 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】爬山時的氣溫</td>
+<td ${LIST_TD(false, true)}>57</td>
+<td ${LIST_TD(false, false)}>【九年級】爬山時的氣溫</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("57", `【九年級】爬山時的氣溫`, `國中基礎練習`)}
@@ -3285,8 +3400,9 @@ ${sample(5,
 `3000 公尺比山腳高 1000 公尺，降 6 度，5 - 6 = -1 ≈ -1；<br/>3886 公尺比山腳高 1886 公尺，降 11.316 度，5 - 11.316 = -6.316 ≈ -6.3。`,
 `{"data": ["28;100;3;1100;2100;3952;22;16;4.9", "15;0;1;0;15", "20;500;2;550;1234;19.7;15.6", "30;0;1;4000;6", "5;2000;2;3000;3886;-1;-6.3"]}`)}
 '
- onclick='${ONCLICK}'>57
-</button> ${answerButtons('【九年級】爬山時的氣溫')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】爬山時的氣溫')}</span>
 </td>
 </tr>
 `;
@@ -3294,12 +3410,13 @@ ${sample(5,
 // ---------------- 第 58 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】光從星體傳來要多久</td>
+<td ${LIST_TD(false, true)}>58</td>
+<td ${LIST_TD(false, false)}>【九年級】光從星體傳來要多久</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("58", `【九年級】光從星體傳來要多久`, `國中基礎練習`)}
@@ -3332,8 +3449,9 @@ ${sample(5,
 `1000000 萬公里 ÷ 30 萬公里/秒 = 33333.33 秒，四捨五入為 33333 秒 = 555 分 33 秒。`,
 `{"data": ["15000;8;20", "38;0;1", "1;0;0", "22800;12;40", "1000000;555;33"]}`)}
 '
- onclick='${ONCLICK}'>58
-</button> ${answerButtons('【九年級】光從星體傳來要多久')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】光從星體傳來要多久')}</span>
 </td>
 </tr>
 `;
@@ -3341,12 +3459,13 @@ ${sample(5,
 // ---------------- 第 59 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】組合數：選代表</td>
+<td ${LIST_TD(false, true)}>59</td>
+<td ${LIST_TD(false, false)}>【九年級】組合數：選代表</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("59", `【九年級】組合數：選代表`, `國中基礎練習`)}
@@ -3384,8 +3503,9 @@ ${sample(5,
 `C(20, 19) = 20! ÷ (19! × 1!) = 20。`,
 `{"data": ["5;2;10", "10;3;120", "7;0;1", "50;25;126410606437752", "20;19;20"]}`)}
 '
- onclick='${ONCLICK}'>59
-</button> ${answerButtons('【九年級】組合數：選代表')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】組合數：選代表')}</span>
 </td>
 </tr>
 `;
@@ -3393,12 +3513,13 @@ ${sample(5,
 // ---------------- 第 60 題 ----------------
 contest += `
 <tr>
-<td ${LIST_TD(false, true)}>【九年級】地震規模與能量</td>
+<td ${LIST_TD(false, true)}>60</td>
+<td ${LIST_TD(false, false)}>【九年級】地震規模與能量</td>
 <td ${LIST_TD(false, false)}>國中基礎練習</td>
 <td ${LIST_TD(true, false)}>
-<button
- class='test-button'
- style='${BTN_STYLE}'
+<span style="white-space:nowrap;"><button
+ class='answer-button'
+ style='${ANSWER_BTN_STYLE}'
  title="${answerMsg('IMPORTQUESTION_HEADER', '匯入題目與測資數據')}"
  data-q='
 ${qHeader("60", `【九年級】地震規模與能量`, `國中基礎練習`)}
@@ -3436,8 +3557,9 @@ ${sample(5,
 `規模相差 1，能量約為 32 的 1 次方 = 32 倍。`,
 `{"data": ["7.3;5.3;1024", "6;6;1", "4.5;7.5;32768", "9;1;1099511627776", "5.1;6.1;32"]}`)}
 '
- onclick='${ONCLICK}'>60
-</button> ${answerButtons('【九年級】地震規模與能量')}
+ onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
+</button>
+${answerButtons('【九年級】地震規模與能量')}</span>
 </td>
 </tr>
 `;
