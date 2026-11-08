@@ -174,10 +174,10 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 					// A:題號  B:組別  C:題目名稱  D:題目內容  E 之後:評測資料
 					var title = row[1]+" ["+row[0]+"] ："+row[2]+"\n\n"+row[3]+'\n\n\n'+Blockly.Msg["TEST_DATA"]+'\n{"data":["'+(row.slice(4).join('","')+'"').replace(/,""/g, "")+']}';
 					innerData += "<td id='"+task_id+"_"+(i+k)+"_"+j+"' style='text-align:center;'>";
-					innerData += "<button class='test-button' data-value='"+spreadsheetsql_escapeAttr(title)+"' onclick='reloadZoom();document.getElementById(\"javascript_content\").style.display = \"block\";document.getElementById(\"question_input\").value = this.dataset.value;window.toggleImportQuestionForm(false);var iframe = document.getElementById(\"iframe_output\");iframe.contentWindow.document.open();iframe.contentWindow.document.write(\"\");iframe.contentWindow.document.close();iframe.focus();loadExam();'>"+row[j]+"</button>";
+					innerData += "<button class='test-button' title='"+Blockly.Msg["IMPORTQUESTION_HEADER"]+"' data-value='"+spreadsheetsql_escapeAttr(title)+"' onclick='reloadZoom();document.getElementById(\"javascript_content\").style.display = \"block\";document.getElementById(\"question_input\").value = this.dataset.value;window.toggleImportQuestionForm(false);var iframe = document.getElementById(\"iframe_output\");iframe.contentWindow.document.open();iframe.contentWindow.document.write(\"\");iframe.contentWindow.document.close();iframe.focus();loadExam();'>"+row[j]+"</button>";
 					if (row[1] && row[2]) {
-						innerData += "<button class='answer-button' title='Blockly' data-path='"+spreadsheetsql_escapeAttr(spreadsheetsql_answerPath(row[1], row[2], "Blockly"))+"' onclick='showAnswer(this.dataset.path);'><img src='"+spreadsheetsql_icon_blockly+"' alt='Blockly'></button>";
-						innerData += "<button class='answer-button' title='Scratch' data-path='"+spreadsheetsql_escapeAttr(spreadsheetsql_answerPath(row[1], row[2], "Scratch"))+"' onclick='showAnswer(this.dataset.path);'><img src='"+spreadsheetsql_icon_scratch+"' alt='Scratch'></button>";
+						innerData += "<button class='answer-button' title='"+Blockly.Msg["BUTTON_ANSWER_BLOCKLY"]+"' data-path='"+spreadsheetsql_escapeAttr(spreadsheetsql_answerPath(row[1], row[2], "Blockly"))+"' onclick='showAnswer(this.dataset.path);'><img src='"+spreadsheetsql_icon_blockly+"' alt='Blockly'></button>";
+						innerData += "<button class='answer-button' title='"+Blockly.Msg["BUTTON_ANSWER_SCRATCH"]+"' data-path='"+spreadsheetsql_escapeAttr(spreadsheetsql_answerPath(row[1], row[2], "Scratch"))+"' onclick='showAnswer(this.dataset.path);'><img src='"+spreadsheetsql_icon_scratch+"' alt='Scratch'></button>";
 					}
 					innerData += "</td>";
 				}
