@@ -1150,6 +1150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var MIN = 40;   // 每一區最少保留的高度 (px)
 		var startY, startTop, total;
+		var shield = null;   // 拖曳時暫時覆蓋畫面的透明遮罩
 
 		splitter.addEventListener('pointerdown', function (e) {
 			if (e.button !== 0) return;
@@ -1158,7 +1159,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			startTop = topEl.offsetHeight;
 			total    = topEl.offsetHeight + bottomEl.offsetHeight;   // 兩區總高度維持不變
 			splitter.setPointerCapture(e.pointerId);
-			codeDiv.classList.add('splitting');                    // 拖曳中 iframe 不吃滑鼠事件
+			codeDiv.classList.add('splitting');
+			// 拖曳中用透明遮罩蓋住 iframe，避免游標滑進輸出區時事件被 iframe 吃掉。
+			// 注意：不可直接切換 iframe 的 pointer-events，Chrome 在拖曳結束後會讓 iframe 收不到滑鼠滾輪。
+			if (!shield) {
+				shield = document.createElement('div');
+				shield.style.cssText = 'position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2147483647;cursor:row-resize;background:transparent;';
+			}
+			document.body.appendChild(shield);
 		});
 
 		splitter.addEventListener('pointermove', function (e) {
@@ -1175,9 +1183,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		function endDrag(e) {
 			if (splitter.hasPointerCapture(e.pointerId)) splitter.releasePointerCapture(e.pointerId);
 			codeDiv.classList.remove('splitting');
+			if (shield && shield.parentNode) shield.parentNode.removeChild(shield);
 		}
 		splitter.addEventListener('pointerup', endDrag);
 		splitter.addEventListener('pointercancel', endDrag);
+		splitter.addEventListener('lostpointercapture', endDrag);
 
 		splitter.addEventListener('dblclick', function () {
 			topEl.style.height    = '60%';
