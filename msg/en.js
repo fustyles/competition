@@ -116,6 +116,8 @@ Blockly.Msg["GEMINI_PROMPT"] = "Blockly Programming Questions:\n%1\n\nBlockly Pr
 Blockly.Msg["BUTTON_APIKEYS"] = "Get Gemini API key";
 Blockly.Msg["BUTTON_RESOURCE"] = "Learning Resources";
 Blockly.Msg["NOCODE"] = "The user has not yet answered. No code has been generated!";
+Blockly.Msg["SHOWANSWER_QUEST"] = "Loading the reference answer will replace the current blocks in the workspace. Are you sure you want to continue?"; 
+Blockly.Msg["SHOWANSWER_ERROR"] = "No reference answer found for this question:";
 Blockly.Msg["LINEBOT_TOKEN"] = "U2FsdGVkX18ne0lp3bfPrimDAm+KeTFAmq0W7/n47iitzmi4IC4tdA/vY3wKdcwSXPCw6qynjsYoAcoyuBAN18Qlz3PYmvFvOnDjl1YVX8kff38HKfzBgLkJWLChsXfNsfy8t9PD+za1oI8CFFbXIi5ri6AgM73MIPNOxoktYucYCSUAgUq2NBb2fNbBWScwkZlPqnoJuunKmRGN/hARyADirYNNaKypgGpjapSFrf6SGTjr2Rl//3ur2GT2uRxO";
 Blockly.Msg["LINEBOT_USERID"] = "U2FsdGVkX197odduxa/mfJGVcyGhBlh+Dus/av9LMTuoodNG1wxXFSRFVsdu7aEC7jAeb+tqdJwIH0l62iCsvQ==";
 Blockly.Msg["BUGREPORT_HEADER"] = "System problem report"; 
