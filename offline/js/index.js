@@ -1778,8 +1778,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 	// 載入參考答案：path 例如 exam/answer/114南投縣國小組/勇者的挑戰_Blockly.xml（已 URL 編碼）
+	// path 可放多個路徑，用 | 分隔，依序嘗試，前一個找不到才試下一個
+	// 例如 ../exam/answer/113全國賽/飲食兌換券_Blockly.xml|exam/answer/113全國賽/飲食兌換券_Blockly.xml
 	function showAnswer(path) {
 		if (!path) return;
+		var paths = String(path).split("|").filter(function (p) { return p; });
+		if (paths.length == 0) return;
 
 		// 工作區已有積木時先確認，避免覆蓋學生自己的作答
 		if (workspace && workspace.getAllBlocks(false).length > 0) {
@@ -1787,14 +1791,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!ok) return;
 		}
 
-		fetch(path, { cache: "no-cache" })
-			.then(function (response) {
-				if (!response.ok) throw new Error("HTTP " + response.status);
-				return response.text();
-			})
-			.then(function (xmlText) {
-				var blocks = Blockly.utils.xml.textToDom(xmlText);
+		// 依序讀取，回傳第一個讀得到且是有效 XML 的檔案
+		function fetchFirst(i) {
+			return fetch(paths[i], { cache: "no-cache" })
+				.then(function (response) {
+					if (!response.ok) throw new Error("HTTP " + response.status);
+					return response.text();
+				})
+				.then(function (xmlText) {
+					var dom = Blockly.utils.xml.textToDom(xmlText);   // 不是有效 XML 會丟出錯誤
+					return dom;
+				})
+				.catch(function (err) {
+					console.log(paths[i], err);
+					if (i + 1 < paths.length) return fetchFirst(i + 1);
+					throw err;
+				});
+		}
 
+		fetchFirst(0)
+			.then(function (blocks) {
 				// 依 XML 的 platform 屬性切換 Blockly / Scratch 外觀，只在不同時才切換
 				var isScratch = (blocks.getAttribute('platform') == 'scratch');
 				if (isScratch != scratchStyle) {
@@ -1815,12 +1831,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			})
 			.catch(function (err) {
 				console.log(err);
-				var name = path;
-				try { name = decodeURIComponent(path); } catch (e) {}
-				alert((Blockly.Msg["SHOW_ANSWER_ERROR"] || Blockly.Msg["SHOWANSWER_ERROR"]) + "\n" + name);
+				var names = paths.map(function (p) {
+					try { return decodeURIComponent(p); } catch (e) { return p; }
+				});
+				alert((Blockly.Msg["SHOW_ANSWER_ERROR"] || Blockly.Msg["SHOWANSWER_ERROR"]) + "\n" + names.join("\n"));
 			});
 	}
-	window.showAnswer = showAnswer;    
+	window.showAnswer = showAnswer;
 
     const langToggle = document.getElementById("lang-toggle");
     const langPanel  = document.getElementById("lang-panel");
