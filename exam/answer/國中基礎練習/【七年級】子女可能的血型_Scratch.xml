@@ -1,0 +1,878 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v1">父親</variable>
+    <variable type="other" id="v2">母親</variable>
+    <variable type="Array" id="l3">父基因</variable>
+    <variable type="Array" id="l4">母基因</variable>
+    <variable type="Array" id="l5">可能</variable>
+    <variable type="other" id="v6">i</variable>
+    <variable type="other" id="v7">基因1</variable>
+    <variable type="other" id="v8">j</variable>
+    <variable type="other" id="v9">基因2</variable>
+    <variable type="other" id="v10">有A</variable>
+    <variable type="other" id="v11">有B</variable>
+    <variable type="other" id="v12">血型</variable>
+  </variables>
+  <block x="20" y="0" type="javascript_start_scratch">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v1" variabletype="other">父親</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v2" variabletype="other">母親</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="list_deletealloflist_scratch">
+                        <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                        <next>
+                          <block type="controls_if_2_scratch">
+                            <value name="condition">
+                              <block type="logic_compare">
+                                <value name="A">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other">
+                                    <field name="VAR" id="v1" variabletype="other">父親</field>
+                                  </block>
+                                </value>
+                                <field name="OP">EQ</field>
+                                <value name="B">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">A</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="statement_if">
+                              <block type="list_addtolist_scratch">
+                                <value name="ITEM">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT">A</field>
+                                  </shadow>
+                                </value>
+                                <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                <next>
+                                  <block type="list_addtolist_scratch">
+                                    <value name="ITEM">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">O</field>
+                                      </shadow>
+                                    </value>
+                                    <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <statement name="statement_else">
+                              <block type="controls_if_2_scratch">
+                                <value name="condition">
+                                  <block type="logic_compare">
+                                    <value name="A">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other">
+                                        <field name="VAR" id="v1" variabletype="other">父親</field>
+                                      </block>
+                                    </value>
+                                    <field name="OP">EQ</field>
+                                    <value name="B">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">B</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="list_addtolist_scratch">
+                                    <value name="ITEM">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">B</field>
+                                      </shadow>
+                                    </value>
+                                    <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                    <next>
+                                      <block type="list_addtolist_scratch">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">O</field>
+                                          </shadow>
+                                        </value>
+                                        <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="controls_if_2_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v1" variabletype="other">父親</field>
+                                          </block>
+                                        </value>
+                                        <field name="OP">EQ</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">AB</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="list_addtolist_scratch">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">A</field>
+                                          </shadow>
+                                        </value>
+                                        <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                        <next>
+                                          <block type="list_addtolist_scratch">
+                                            <value name="ITEM">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">B</field>
+                                              </shadow>
+                                            </value>
+                                            <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <statement name="statement_else">
+                                      <block type="list_addtolist_scratch">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">O</field>
+                                          </shadow>
+                                        </value>
+                                        <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                        <next>
+                                          <block type="list_addtolist_scratch">
+                                            <value name="ITEM">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">O</field>
+                                              </shadow>
+                                            </value>
+                                            <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="list_deletealloflist_scratch">
+                                <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                <next>
+                                  <block type="controls_if_2_scratch">
+                                    <value name="condition">
+                                      <block type="logic_compare">
+                                        <value name="A">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other">
+                                            <field name="VAR" id="v2" variabletype="other">母親</field>
+                                          </block>
+                                        </value>
+                                        <field name="OP">EQ</field>
+                                        <value name="B">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">A</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="list_addtolist_scratch">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT">A</field>
+                                          </shadow>
+                                        </value>
+                                        <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                        <next>
+                                          <block type="list_addtolist_scratch">
+                                            <value name="ITEM">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">O</field>
+                                              </shadow>
+                                            </value>
+                                            <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <statement name="statement_else">
+                                      <block type="controls_if_2_scratch">
+                                        <value name="condition">
+                                          <block type="logic_compare">
+                                            <value name="A">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other">
+                                                <field name="VAR" id="v2" variabletype="other">母親</field>
+                                              </block>
+                                            </value>
+                                            <field name="OP">EQ</field>
+                                            <value name="B">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">B</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="statement_if">
+                                          <block type="list_addtolist_scratch">
+                                            <value name="ITEM">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">B</field>
+                                              </shadow>
+                                            </value>
+                                            <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                            <next>
+                                              <block type="list_addtolist_scratch">
+                                                <value name="ITEM">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">O</field>
+                                                  </shadow>
+                                                </value>
+                                                <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <statement name="statement_else">
+                                          <block type="controls_if_2_scratch">
+                                            <value name="condition">
+                                              <block type="logic_compare">
+                                                <value name="A">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other">
+                                                    <field name="VAR" id="v2" variabletype="other">母親</field>
+                                                  </block>
+                                                </value>
+                                                <field name="OP">EQ</field>
+                                                <value name="B">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">AB</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="statement_if">
+                                              <block type="list_addtolist_scratch">
+                                                <value name="ITEM">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">A</field>
+                                                  </shadow>
+                                                </value>
+                                                <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                                <next>
+                                                  <block type="list_addtolist_scratch">
+                                                    <value name="ITEM">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">B</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </statement>
+                                            <statement name="statement_else">
+                                              <block type="list_addtolist_scratch">
+                                                <value name="ITEM">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT">O</field>
+                                                  </shadow>
+                                                </value>
+                                                <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                                <next>
+                                                  <block type="list_addtolist_scratch">
+                                                    <value name="ITEM">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">O</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </statement>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="list_deletealloflist_scratch">
+                                        <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                        <next>
+                                          <block type="variables_set_other">
+                                            <field name="VAR" id="v6" variabletype="other">i</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">1</field>
+                                              </shadow>
+                                            </value>
+                                            <next>
+                                              <block type="controls_whileUntil_scratch">
+                                                <field name="MODE">UNTIL</field>
+                                                <value name="BOOL">
+                                                  <block type="logic_compare">
+                                                    <value name="A">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other">
+                                                        <field name="VAR" id="v6" variabletype="other">i</field>
+                                                      </block>
+                                                    </value>
+                                                    <field name="OP">GT</field>
+                                                    <value name="B">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">2</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO">
+                                                  <block type="variables_set_other">
+                                                    <field name="VAR" id="v8" variabletype="other">j</field>
+                                                    <value name="VALUE">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">1</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <next>
+                                                      <block type="controls_whileUntil_scratch">
+                                                        <field name="MODE">UNTIL</field>
+                                                        <value name="BOOL">
+                                                          <block type="logic_compare">
+                                                            <value name="A">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get_other">
+                                                                <field name="VAR" id="v8" variabletype="other">j</field>
+                                                              </block>
+                                                            </value>
+                                                            <field name="OP">GT</field>
+                                                            <value name="B">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">2</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <statement name="DO">
+                                                          <block type="variables_set_other">
+                                                            <field name="VAR" id="v7" variabletype="other">基因1</field>
+                                                            <value name="VALUE">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">0</field>
+                                                              </shadow>
+                                                              <block type="list_itemoflist_scratch">
+                                                                <field name="VAR" id="l3" variabletype="Array">父基因</field>
+                                                                <value name="INDEX">
+                                                                  <shadow type="math_number">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get_other">
+                                                                    <field name="VAR" id="v6" variabletype="other">i</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="variables_set_other">
+                                                                <field name="VAR" id="v9" variabletype="other">基因2</field>
+                                                                <value name="VALUE">
+                                                                  <shadow type="text_noquotes">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="list_itemoflist_scratch">
+                                                                    <field name="VAR" id="l4" variabletype="Array">母基因</field>
+                                                                    <value name="INDEX">
+                                                                      <shadow type="math_number">
+                                                                        <field name="NUM">1</field>
+                                                                      </shadow>
+                                                                      <block type="variables_get_other">
+                                                                        <field name="VAR" id="v8" variabletype="other">j</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="variables_set_other">
+                                                                    <field name="VAR" id="v10" variabletype="other">有A</field>
+                                                                    <value name="VALUE">
+                                                                      <shadow type="text_noquotes">
+                                                                        <field name="TEXT">0</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="variables_set_other">
+                                                                        <field name="VAR" id="v11" variabletype="other">有B</field>
+                                                                        <value name="VALUE">
+                                                                          <shadow type="text_noquotes">
+                                                                            <field name="TEXT">0</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="controls_if_1_scratch">
+                                                                            <value name="condition">
+                                                                              <block type="logic_operation">
+                                                                                <field name="OP">OR</field>
+                                                                                <value name="A">
+                                                                                  <block type="logic_compare">
+                                                                                    <value name="A">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v7" variabletype="other">基因1</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <field name="OP">EQ</field>
+                                                                                    <value name="B">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT">A</field>
+                                                                                      </shadow>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <block type="logic_compare">
+                                                                                    <value name="A">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v9" variabletype="other">基因2</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <field name="OP">EQ</field>
+                                                                                    <value name="B">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT">A</field>
+                                                                                      </shadow>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <statement name="statement_if">
+                                                                              <block type="variables_set_other">
+                                                                                <field name="VAR" id="v10" variabletype="other">有A</field>
+                                                                                <value name="VALUE">
+                                                                                  <shadow type="text_noquotes">
+                                                                                    <field name="TEXT">1</field>
+                                                                                  </shadow>
+                                                                                </value>
+                                                                              </block>
+                                                                            </statement>
+                                                                            <next>
+                                                                              <block type="controls_if_1_scratch">
+                                                                                <value name="condition">
+                                                                                  <block type="logic_operation">
+                                                                                    <field name="OP">OR</field>
+                                                                                    <value name="A">
+                                                                                      <block type="logic_compare">
+                                                                                        <value name="A">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT">0</field>
+                                                                                          </shadow>
+                                                                                          <block type="variables_get_other">
+                                                                                            <field name="VAR" id="v7" variabletype="other">基因1</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <field name="OP">EQ</field>
+                                                                                        <value name="B">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT">B</field>
+                                                                                          </shadow>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="logic_compare">
+                                                                                        <value name="A">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT">0</field>
+                                                                                          </shadow>
+                                                                                          <block type="variables_get_other">
+                                                                                            <field name="VAR" id="v9" variabletype="other">基因2</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <field name="OP">EQ</field>
+                                                                                        <value name="B">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT">B</field>
+                                                                                          </shadow>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <statement name="statement_if">
+                                                                                  <block type="variables_set_other">
+                                                                                    <field name="VAR" id="v11" variabletype="other">有B</field>
+                                                                                    <value name="VALUE">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT">1</field>
+                                                                                      </shadow>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </statement>
+                                                                                <next>
+                                                                                  <block type="controls_if_2_scratch">
+                                                                                    <value name="condition">
+                                                                                      <block type="logic_operation">
+                                                                                        <field name="OP">AND</field>
+                                                                                        <value name="A">
+                                                                                          <block type="logic_compare">
+                                                                                            <value name="A">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v10" variabletype="other">有A</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="B">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">1</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <block type="logic_compare">
+                                                                                            <value name="A">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v11" variabletype="other">有B</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="B">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">1</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <statement name="statement_if">
+                                                                                      <block type="variables_set_other">
+                                                                                        <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                        <value name="VALUE">
+                                                                                          <shadow type="text_noquotes">
+                                                                                            <field name="TEXT">AB</field>
+                                                                                          </shadow>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                    <statement name="statement_else">
+                                                                                      <block type="controls_if_2_scratch">
+                                                                                        <value name="condition">
+                                                                                          <block type="logic_compare">
+                                                                                            <value name="A">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v10" variabletype="other">有A</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="B">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">1</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <statement name="statement_if">
+                                                                                          <block type="variables_set_other">
+                                                                                            <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                            <value name="VALUE">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">A</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                        <statement name="statement_else">
+                                                                                          <block type="controls_if_2_scratch">
+                                                                                            <value name="condition">
+                                                                                              <block type="logic_compare">
+                                                                                                <value name="A">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT">0</field>
+                                                                                                  </shadow>
+                                                                                                  <block type="variables_get_other">
+                                                                                                    <field name="VAR" id="v11" variabletype="other">有B</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <field name="OP">EQ</field>
+                                                                                                <value name="B">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT">1</field>
+                                                                                                  </shadow>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <statement name="statement_if">
+                                                                                              <block type="variables_set_other">
+                                                                                                <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                                <value name="VALUE">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT">B</field>
+                                                                                                  </shadow>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </statement>
+                                                                                            <statement name="statement_else">
+                                                                                              <block type="variables_set_other">
+                                                                                                <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                                <value name="VALUE">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT">O</field>
+                                                                                                  </shadow>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </statement>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                    <next>
+                                                                                      <block type="controls_if_1_scratch">
+                                                                                        <value name="condition">
+                                                                                          <block type="logic_negate">
+                                                                                            <value name="BOOL">
+                                                                                              <block type="list_listcontainsitem_scratch">
+                                                                                                <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                                                                <value name="ITEM">
+                                                                                                  <shadow type="text_noquotes">
+                                                                                                    <field name="TEXT">thing</field>
+                                                                                                  </shadow>
+                                                                                                  <block type="variables_get_other">
+                                                                                                    <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <statement name="statement_if">
+                                                                                          <block type="list_addtolist_scratch">
+                                                                                            <value name="ITEM">
+                                                                                              <shadow type="text_noquotes">
+                                                                                                <field name="TEXT">thing</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v12" variabletype="other">血型</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                        <next>
+                                                                                          <block type="math_change_other">
+                                                                                            <field name="VAR" id="v8" variabletype="other">j</field>
+                                                                                            <value name="DELTA">
+                                                                                              <shadow type="math_number">
+                                                                                                <field name="NUM">1</field>
+                                                                                              </shadow>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </statement>
+                                                        <next>
+                                                          <block type="math_change_other">
+                                                            <field name="VAR" id="v6" variabletype="other">i</field>
+                                                            <value name="DELTA">
+                                                              <shadow type="math_number">
+                                                                <field name="NUM">1</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </statement>
+                                                <next>
+                                                  <block type="controls_if_1_scratch">
+                                                    <value name="condition">
+                                                      <block type="list_listcontainsitem_scratch">
+                                                        <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                        <value name="ITEM">
+                                                          <shadow type="text_noquotes">
+                                                            <field name="TEXT">A</field>
+                                                          </shadow>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="statement_if">
+                                                      <block type="javascript_data_output_scratch">
+                                                        <value name="TEXT">
+                                                          <shadow type="text_noquotes">
+                                                            <field name="TEXT">A</field>
+                                                          </shadow>
+                                                        </value>
+                                                      </block>
+                                                    </statement>
+                                                    <next>
+                                                      <block type="controls_if_1_scratch">
+                                                        <value name="condition">
+                                                          <block type="list_listcontainsitem_scratch">
+                                                            <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                            <value name="ITEM">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">B</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <statement name="statement_if">
+                                                          <block type="javascript_data_output_scratch">
+                                                            <value name="TEXT">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">B</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </statement>
+                                                        <next>
+                                                          <block type="controls_if_1_scratch">
+                                                            <value name="condition">
+                                                              <block type="list_listcontainsitem_scratch">
+                                                                <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                                <value name="ITEM">
+                                                                  <shadow type="text_noquotes">
+                                                                    <field name="TEXT">AB</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <statement name="statement_if">
+                                                              <block type="javascript_data_output_scratch">
+                                                                <value name="TEXT">
+                                                                  <shadow type="text_noquotes">
+                                                                    <field name="TEXT">AB</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </statement>
+                                                            <next>
+                                                              <block type="controls_if_1_scratch">
+                                                                <value name="condition">
+                                                                  <block type="list_listcontainsitem_scratch">
+                                                                    <field name="VAR" id="l5" variabletype="Array">可能</field>
+                                                                    <value name="ITEM">
+                                                                      <shadow type="text_noquotes">
+                                                                        <field name="TEXT">O</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <statement name="statement_if">
+                                                                  <block type="javascript_data_output_scratch">
+                                                                    <value name="TEXT">
+                                                                      <shadow type="text_noquotes">
+                                                                        <field name="TEXT">O</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                  </block>
+                                                                </statement>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
