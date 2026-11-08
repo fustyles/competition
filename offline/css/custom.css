@@ -108,3 +108,36 @@ main .xml_content{height: calc(100vh - 87px); padding: 2ex; color:white; backgro
 }
 /* 拖曳中避免 iframe 攔截滑鼠事件：改由 index.js 加上的透明遮罩處理。
    不可在這裡對 iframe 設 pointer-events: none，Chrome 拖曳結束後 iframe 會收不到滑鼠滾輪。 */
+
+/* ===== 試題內容視窗：捲軸顏色（配合主色系） ===== */
+/* Chrome / Edge / Safari */
+#javascript_content ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+#javascript_content ::-webkit-scrollbar-track {
+    background: var(--brand-soft, #EEF1F8);
+    border-radius: 5px;
+}
+#javascript_content ::-webkit-scrollbar-thumb {
+    background: #B7BFD6;
+    border-radius: 5px;
+    border: 2px solid var(--brand-soft, #EEF1F8);   /* 讓滑塊看起來細一點、與軌道有間隔 */
+}
+#javascript_content ::-webkit-scrollbar-thumb:hover {
+    background: #8E98B8;
+}
+#javascript_content ::-webkit-scrollbar-thumb:active {
+    background: var(--brand, #4C5C8F);
+}
+#javascript_content ::-webkit-scrollbar-corner {
+    background: var(--brand-soft, #EEF1F8);
+}
+/* Firefox（只在不支援 ::-webkit-scrollbar 時套用，
+   因為新版 Chrome 一旦設定 scrollbar-color 就會忽略上面的 webkit 樣式） */
+@supports not selector(::-webkit-scrollbar) {
+    #javascript_content #question_input {
+        scrollbar-color: #B7BFD6 var(--brand-soft, #EEF1F8);
+        scrollbar-width: thin;
+    }
+}

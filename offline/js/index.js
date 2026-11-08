@@ -1213,7 +1213,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	function iframeWrite(iframe_id, iframe_code) {
 		var iframe = document.getElementById(iframe_id);
 		iframe.contentWindow.document.open();
-		iframe.contentWindow.document.write(iframe_code);
+		// 執行結果區是 iframe，外層 CSS 管不到裡面的捲軸，需在 iframe 內另外寫入捲軸樣式
+		var scrollbarStyle = '<style>' +
+			'::-webkit-scrollbar{width:10px;height:10px;}' +
+			'::-webkit-scrollbar-track{background:#EEF1F8;border-radius:5px;}' +
+			'::-webkit-scrollbar-thumb{background:#B7BFD6;border-radius:5px;border:2px solid #EEF1F8;}' +
+			'::-webkit-scrollbar-thumb:hover{background:#8E98B8;}' +
+			'::-webkit-scrollbar-thumb:active{background:#4C5C8F;}' +
+			'::-webkit-scrollbar-corner{background:#EEF1F8;}' +
+			'@supports not selector(::-webkit-scrollbar){html{scrollbar-color:#B7BFD6 #EEF1F8;scrollbar-width:thin;}}' +
+			'</style>';
+		iframe.contentWindow.document.write(scrollbarStyle + iframe_code);
 		iframe.contentWindow.document.close();
 		iframe.focus();
 	}
