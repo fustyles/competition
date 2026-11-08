@@ -1,0 +1,269 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">被加數</variable>
+    <variable id="v02">加數</variable>
+    <variable id="v03">進位</variable>
+    <variable id="v04">次數</variable>
+    <variable id="v05">本位和</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">被加數</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch">
+            <value name="TEXT">
+              <shadow type="text_noquotes">
+                <field name="TEXT"/>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">加數</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch"/>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">進位</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">次數</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_whileUntil">
+                            <field name="MODE">WHILE</field>
+                            <value name="BOOL">
+                              <block type="logic_operation">
+                                <field name="OP">OR</field>
+                                <value name="A">
+                                  <block type="logic_compare">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v01">被加數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="logic_compare">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v02">加數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="variables_set_local">
+                                <field name="VAR" id="v05">本位和</field>
+                                <value name="VALUE">
+                                  <block type="math_arithmetic">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <block type="math_arithmetic">
+                                        <field name="OP">ADD</field>
+                                        <value name="A">
+                                          <block type="math_modulo">
+                                            <value name="DIVIDEND">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v01">被加數</field>
+                                              </block>
+                                            </value>
+                                            <value name="DIVISOR">
+                                              <block type="math_number">
+                                                <field name="NUM">10</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_modulo">
+                                            <value name="DIVIDEND">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v02">加數</field>
+                                              </block>
+                                            </value>
+                                            <value name="DIVISOR">
+                                              <block type="math_number">
+                                                <field name="NUM">10</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v03">進位</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_if">
+                                    <mutation elseif="0" else="1"/>
+                                    <value name="IF0">
+                                      <block type="logic_compare">
+                                        <field name="OP">GTE</field>
+                                        <value name="A">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v05">本位和</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_number">
+                                            <field name="NUM">10</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO0">
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v03">進位</field>
+                                        <value name="VALUE">
+                                          <block type="math_number">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v04">次數</field>
+                                            <value name="VALUE">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v04">次數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <statement name="ELSE">
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v03">進位</field>
+                                        <value name="VALUE">
+                                          <block type="math_number">
+                                            <field name="NUM">0</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v01">被加數</field>
+                                        <value name="VALUE">
+                                          <block type="math_round">
+                                            <field name="OP">ROUNDDOWN</field>
+                                            <value name="NUM">
+                                              <block type="math_arithmetic">
+                                                <field name="OP">DIVIDE</field>
+                                                <value name="A">
+                                                  <block type="variables_get">
+                                                    <field name="VAR" id="v01">被加數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="math_number">
+                                                    <field name="NUM">10</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local">
+                                            <field name="VAR" id="v02">加數</field>
+                                            <value name="VALUE">
+                                              <block type="math_round">
+                                                <field name="OP">ROUNDDOWN</field>
+                                                <value name="NUM">
+                                                  <block type="math_arithmetic">
+                                                    <field name="OP">DIVIDE</field>
+                                                    <value name="A">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v02">加數</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="math_number">
+                                                        <field name="NUM">10</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="javascript_data_output">
+                                <value name="TEXT">
+                                  <shadow type="text"><field name="TEXT"/></shadow>
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v04">次數</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
