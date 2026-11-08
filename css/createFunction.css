@@ -479,9 +479,10 @@
 }
 
 /* 依欄位順序設定寬度：序號/分類/摘要 窄一點，題目給多一點空間 */
-#importQuestionTable td:nth-child(1) { width: 50%; }
-#importQuestionTable td:nth-child(2) { width: 25%; }
+#importQuestionTable td:nth-child(1) { width: 10%; }
+#importQuestionTable td:nth-child(2) { width: 45%; }
 #importQuestionTable td:nth-child(3) { width: 25%; }
+#importQuestionTable td:nth-child(4) { width: 25%; }
 
 /* 測資數據 1/2/3：內容常是不可斷行的長字串，強制斷行避免撐開欄寬 */
 #importQuestionTable td:nth-child(n+5) {
@@ -498,14 +499,6 @@
     overflow-wrap: break-word;
 }
 
-.test-button {
-	width: 60px;
-	height: 40px;
-	padding: 4px;
-	margin: 2px;
-	vertical-align: middle;
-	cursor: pointer;
-}
 /* ===== 題庫列表：載入參考答案的圖示按鈕 ===== */
 .answer-button {
 	width: 40px;
