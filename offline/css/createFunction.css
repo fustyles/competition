@@ -319,13 +319,16 @@
 
 /* 設定三欄寬度：名稱 50% / 分類 25% / 序號 25% */
 #importQuestionTable td:nth-child(1) {
-    width: 50%;
+    width: 10%;
 }
 #importQuestionTable td:nth-child(2) {
-    width: 25%;
+    width: 50%;
 }
 #importQuestionTable td:nth-child(3) {
-    width: 25%;
+    width: 20%;
+}
+#importQuestionTable td:nth-child(3) {
+    width: 20%;
 }
 
 /* 3. 處理 tr 的邊框 (通常不需要，因為 td 的邊框會覆蓋 tr 的邊框) */
@@ -362,14 +365,6 @@
     height: 40px;
 }
 
-.test-button {
-	width: 60px;
-	height: 40px;
-	padding: 4px;
-	margin: 2px;
-	vertical-align: middle;
-	cursor: pointer;
-}
 /* ===== 題庫列表：載入參考答案的圖示按鈕 ===== */
 .answer-button {
 	width: 40px;
