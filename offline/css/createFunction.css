@@ -62,7 +62,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 600px;	
+    max-width: 800px;	
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -72,7 +72,7 @@
 	overflow: auto; /* 核心屬性：內容溢出時自動顯示捲軸 */
 	border: 1px solid #ccc; /* 方便觀察容器邊界 */
 	height: 300px; /* 關鍵：設定固定的高度 */
-	width: 578px; /* 設定寬度，捲軸會影響內容寬度 */
+	width: 778px; /* 設定寬度，捲軸會影響內容寬度 */
 	padding: 10px;
 }
 
@@ -319,10 +319,10 @@
 
 /* 新增：設定三欄寬度 20% / 40% / 40% */
 #importQuestionTable td:nth-child(1) {
-    width: 20%;
+    width: 25%;
 }
 #importQuestionTable td:nth-child(2) {
-    width: 30%;
+    width: 25%;
 }
 #importQuestionTable td:nth-child(3) {
     width: 50%;
@@ -360,6 +360,31 @@
 
 #importQuestionsButton {
     height: 40px;
+}
+
+.test-button {
+	width: 60px;
+	height: 40px;
+	padding: 4px;
+	margin: 2px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+/* ===== 題庫列表：載入參考答案的圖示按鈕 ===== */
+.answer-button {
+	width: 40px;
+	height: 40px;
+	padding: 4px;
+	margin: 2px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.answer-button img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+	pointer-events: none;
 }
 
 .lang-wrap {

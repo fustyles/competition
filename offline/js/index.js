@@ -1775,7 +1775,53 @@ document.addEventListener('DOMContentLoaded', function() {
             examList.forEach(exam => examSelect.add(new Option(exam.name, exam.file)));
         }
         if (examSelect.options.length > 0) showExam();
-    }    
+    }
+
+	// 載入參考答案：path 例如 exam/answer/114南投縣國小組/勇者的挑戰_Blockly.xml（已 URL 編碼）
+	function showAnswer(path) {
+		if (!path) return;
+
+		// 工作區已有積木時先確認，避免覆蓋學生自己的作答
+		if (workspace && workspace.getAllBlocks(false).length > 0) {
+			var ok = confirm(Blockly.Msg["SHOW_ANSWER_CONFIRM"] || Blockly.Msg["SHOWANSWER_QUEST"]);
+			if (!ok) return;
+		}
+
+		fetch(path, { cache: "no-cache" })
+			.then(function (response) {
+				if (!response.ok) throw new Error("HTTP " + response.status);
+				return response.text();
+			})
+			.then(function (xmlText) {
+				var blocks = Blockly.utils.xml.textToDom(xmlText);
+
+				// 依 XML 的 platform 屬性切換 Blockly / Scratch 外觀，只在不同時才切換
+				var isScratch = (blocks.getAttribute('platform') == 'scratch');
+				if (isScratch != scratchStyle) {
+					scratchStyle = isScratch;
+					changeToolboxStyle();
+				}
+
+				workspace.clear(true);
+				Blockly.Xml.domToWorkspace(blocks, workspace);
+
+				workspace.getToolbox().clearSelection();
+				workspace.getToolbox().refreshSelection();
+				workspace.scrollCenter();
+
+				toggleImportQuestionForm(false);
+				reloadZoom();
+				javascriptCode();
+				resetOutput();
+			})
+			.catch(function (err) {
+				console.log(err);
+				var name = path;
+				try { name = decodeURIComponent(path); } catch (e) {}
+				alert((Blockly.Msg["SHOW_ANSWER_ERROR"] || Blockly.Msg["SHOWANSWER_ERROR"]) + "\n" + name);
+			});
+	}
+	window.showAnswer = showAnswer;    
 
     const langToggle = document.getElementById("lang-toggle");
     const langPanel  = document.getElementById("lang-panel");
