@@ -149,13 +149,18 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 	if (spreadsheetsql_response[task_id].length>0) {
 		var innerData = "<table id='importQuestionTable'>";
 
+		// 欄位顯示順序：名稱(C) | 分類(B) | 序號(A)，與離線版題庫一致
+		// 數字是試算表欄位索引：0=A 題號、1=B 組別、2=C 題目名稱
+		var colOrder = [2, 1, 0];
+
 		var k = 0;
 		if (input_column) {
 			for (var i=0;i<spreadsheetsql_head_response[task_id].length;i++) {
 				k++;
 				innerData += "<tr>";
 				//for (var j=0;j<spreadsheetsql_head_response[task_id][i].length;j++) {
-                for (var j=0;j<3;j++) {
+                for (var c=0;c<colOrder.length;c++) {
+					var j = colOrder[c];
 					if (!spreadsheetsql_head_response[task_id][i][j])
 						spreadsheetsql_head_response[task_id][i][j] = "";
 					innerData += "<td id='"+task_id+"_"+i+"_"+j+"' style='font-size: 16px;text-align:center'>"+String(spreadsheetsql_head_response[task_id][i][j]).replace(/\n/g,'<br>')+"</td>";
@@ -165,15 +170,19 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 		}
 		for (var i=0;i<spreadsheetsql_response[task_id].length;i++) {
 			var row = spreadsheetsql_response[task_id][i];
-			innerData += "<tr>";
-			//for (var j=0;j<row.length;j++) {
-            for (var j=0;j<3;j++) {
+			for (var j=0;j<4;j++) {
 				if (row[j]===undefined || row[j]===null)
 					row[j] = "";
+			}
+			// A:題號  B:組別  C:題目名稱  D:題目內容  E 之後:評測資料
+			var title = row[1]+" ["+row[0]+"] ："+row[2]+"\n\n"+row[3]+'\n\n\n'+Blockly.Msg["TEST_DATA"]+'\n{"data":["'+(row.slice(4).join('","')+'"').replace(/,""/g, "")+']}';
+			innerData += "<tr>";
+			//for (var j=0;j<row.length;j++) {
+            for (var c=0;c<colOrder.length;c++) {
+				var j = colOrder[c];
 				if (j==0) {
-					// A:題號  B:組別  C:題目名稱  D:題目內容  E 之後:評測資料
-					var title = row[1]+" ["+row[0]+"] ："+row[2]+"\n\n"+row[3]+'\n\n\n'+Blockly.Msg["TEST_DATA"]+'\n{"data":["'+(row.slice(4).join('","')+'"').replace(/,""/g, "")+']}';
-					innerData += "<td id='"+task_id+"_"+(i+k)+"_"+j+"' style='text-align:center;'>";
+					// 序號欄：序號按鈕 + Blockly / Scratch 參考答案按鈕，排成一排不換行
+					innerData += "<td id='"+task_id+"_"+(i+k)+"_"+j+"' style='text-align:center;white-space:nowrap;'>";
 					innerData += "<button class='test-button' title='"+Blockly.Msg["IMPORTQUESTION_HEADER"]+"' data-value='"+spreadsheetsql_escapeAttr(title)+"' onclick='reloadZoom();document.getElementById(\"javascript_content\").style.display = \"block\";document.getElementById(\"question_input\").value = this.dataset.value;window.toggleImportQuestionForm(false);var iframe = document.getElementById(\"iframe_output\");iframe.contentWindow.document.open();iframe.contentWindow.document.write(\"\");iframe.contentWindow.document.close();iframe.focus();loadExam();'>"+row[j]+"</button>";
 					if (row[1] && row[2]) {
 						innerData += "<button class='answer-button' title='"+Blockly.Msg["BUTTON_ANSWER_BLOCKLY"]+"' data-path='"+spreadsheetsql_escapeAttr(spreadsheetsql_answerPath(row[1], row[2], "Blockly"))+"' onclick='showAnswer(this.dataset.path);'><img src='"+spreadsheetsql_icon_blockly+"' alt='Blockly'></button>";
