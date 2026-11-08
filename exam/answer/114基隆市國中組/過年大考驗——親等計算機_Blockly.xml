@@ -1,0 +1,753 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">N</variable>
+    <variable id="l01">父親們</variable>
+    <variable id="l02">兒子</variable>
+    <variable id="l03">祖先</variable>
+    <variable id="l04">距離</variable>
+    <variable id="v02">代號</variable>
+    <variable id="v03">X</variable>
+    <variable id="v04">Y</variable>
+    <variable id="v05">目前</variable>
+    <variable id="v06">步數</variable>
+    <variable id="v07">有父</variable>
+    <variable id="v08">k</variable>
+    <variable id="v09">父親</variable>
+    <variable id="v10">答案</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="l01">父親們</field>
+            <value name="VALUE">
+              <block type="lists_create_with">
+                <mutation items="0"/>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="l02">兒子</field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="0"/>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="l03">祖先</field>
+                    <value name="VALUE">
+                      <block type="lists_create_with">
+                        <mutation items="0"/>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="l04">距離</field>
+                        <value name="VALUE">
+                          <block type="lists_create_with">
+                            <mutation items="0"/>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_repeat_ext">
+                            <value name="TIMES">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">N</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="javascript_data_input_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_local">
+                                    <field name="VAR" id="v02">代號</field>
+                                    <value name="VALUE">
+                                      <block type="javascript_data_input_get_scratch"/>
+                                    </value>
+                                    <next>
+                                      <block type="lists_setIndex">
+                                        <mutation at="false"/>
+                                        <field name="MODE">INSERT</field>
+                                        <field name="WHERE">LAST</field>
+                                        <value name="LIST">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="l01">父親們</field>
+                                          </block>
+                                        </value>
+                                        <value name="TO">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v02">代號</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_repeat_ext">
+                                <value name="TIMES">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v01">N</field>
+                                  </block>
+                                </value>
+                                <statement name="DO">
+                                  <block type="javascript_data_input_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v02">代號</field>
+                                        <value name="VALUE">
+                                          <block type="javascript_data_input_get_scratch"/>
+                                        </value>
+                                        <next>
+                                          <block type="lists_setIndex">
+                                            <mutation at="false"/>
+                                            <field name="MODE">INSERT</field>
+                                            <field name="WHERE">LAST</field>
+                                            <value name="LIST">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="l02">兒子</field>
+                                              </block>
+                                            </value>
+                                            <value name="TO">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v02">代號</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="javascript_data_input_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v03">X</field>
+                                        <value name="VALUE">
+                                          <block type="javascript_data_input_get_scratch"/>
+                                        </value>
+                                        <next>
+                                          <block type="javascript_data_input_scratch">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT"/>
+                                              </shadow>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_local">
+                                                <field name="VAR" id="v04">Y</field>
+                                                <value name="VALUE">
+                                                  <block type="javascript_data_input_get_scratch"/>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_local">
+                                                    <field name="VAR" id="v05">目前</field>
+                                                    <value name="VALUE">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v03">X</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="variables_set_local">
+                                                        <field name="VAR" id="v06">步數</field>
+                                                        <value name="VALUE">
+                                                          <block type="math_number">
+                                                            <field name="NUM">0</field>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set_local">
+                                                            <field name="VAR" id="v07">有父</field>
+                                                            <value name="VALUE">
+                                                              <block type="math_number">
+                                                                <field name="NUM">1</field>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="controls_whileUntil">
+                                                                <field name="MODE">WHILE</field>
+                                                                <value name="BOOL">
+                                                                  <block type="logic_compare">
+                                                                    <field name="OP">EQ</field>
+                                                                    <value name="A">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v07">有父</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="B">
+                                                                      <block type="math_number">
+                                                                        <field name="NUM">1</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <statement name="DO">
+                                                                  <block type="lists_setIndex">
+                                                                    <mutation at="false"/>
+                                                                    <field name="MODE">INSERT</field>
+                                                                    <field name="WHERE">LAST</field>
+                                                                    <value name="LIST">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="l03">祖先</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="TO">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v05">目前</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="lists_setIndex">
+                                                                        <mutation at="false"/>
+                                                                        <field name="MODE">INSERT</field>
+                                                                        <field name="WHERE">LAST</field>
+                                                                        <value name="LIST">
+                                                                          <block type="variables_get">
+                                                                            <field name="VAR" id="l04">距離</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="TO">
+                                                                          <block type="variables_get">
+                                                                            <field name="VAR" id="v06">步數</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="variables_set_local">
+                                                                            <field name="VAR" id="v07">有父</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="math_number">
+                                                                                <field name="NUM">0</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="controls_for">
+                                                                                <field name="VAR" id="v08">k</field>
+                                                                                <value name="FROM">
+                                                                                  <block type="math_number">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="TO">
+                                                                                  <block type="variables_get">
+                                                                                    <field name="VAR" id="v01">N</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="BY">
+                                                                                  <block type="math_number">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <statement name="DO">
+                                                                                  <block type="controls_if">
+                                                                                    <value name="IF0">
+                                                                                      <block type="logic_compare">
+                                                                                        <field name="OP">EQ</field>
+                                                                                        <value name="A">
+                                                                                          <block type="lists_getIndex">
+                                                                                            <mutation statement="false" at="true"/>
+                                                                                            <field name="MODE">GET</field>
+                                                                                            <field name="WHERE">FROM_START</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="l02">兒子</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="AT">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v08">k</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v05">目前</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <statement name="DO0">
+                                                                                      <block type="variables_set_local">
+                                                                                        <field name="VAR" id="v09">父親</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="lists_getIndex">
+                                                                                            <mutation statement="false" at="true"/>
+                                                                                            <field name="MODE">GET</field>
+                                                                                            <field name="WHERE">FROM_START</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="l01">父親們</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="AT">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v08">k</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="variables_set_local">
+                                                                                            <field name="VAR" id="v07">有父</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">1</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                  </block>
+                                                                                </statement>
+                                                                                <next>
+                                                                                  <block type="controls_if">
+                                                                                    <value name="IF0">
+                                                                                      <block type="logic_compare">
+                                                                                        <field name="OP">EQ</field>
+                                                                                        <value name="A">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v07">有父</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <block type="math_number">
+                                                                                            <field name="NUM">1</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <statement name="DO0">
+                                                                                      <block type="variables_set_local">
+                                                                                        <field name="VAR" id="v05">目前</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v09">父親</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="variables_set_local">
+                                                                                            <field name="VAR" id="v06">步數</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_arithmetic">
+                                                                                                <field name="OP">ADD</field>
+                                                                                                <value name="A">
+                                                                                                  <block type="variables_get">
+                                                                                                    <field name="VAR" id="v06">步數</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="B">
+                                                                                                  <block type="math_number">
+                                                                                                    <field name="NUM">1</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </statement>
+                                                                <next>
+                                                                  <block type="variables_set_local">
+                                                                    <field name="VAR" id="v05">目前</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v04">Y</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="variables_set_local">
+                                                                        <field name="VAR" id="v06">步數</field>
+                                                                        <value name="VALUE">
+                                                                          <block type="math_number">
+                                                                            <field name="NUM">0</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="variables_set_local">
+                                                                            <field name="VAR" id="v07">有父</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="math_number">
+                                                                                <field name="NUM">1</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="variables_set_local">
+                                                                                <field name="VAR" id="v10">答案</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="math_number">
+                                                                                    <field name="NUM">-1</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="controls_whileUntil">
+                                                                                    <field name="MODE">WHILE</field>
+                                                                                    <value name="BOOL">
+                                                                                      <block type="logic_operation">
+                                                                                        <field name="OP">AND</field>
+                                                                                        <value name="A">
+                                                                                          <block type="logic_compare">
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="A">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v07">有父</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">1</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <block type="logic_compare">
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="A">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v10">答案</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">-1</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <statement name="DO">
+                                                                                      <block type="controls_if">
+                                                                                        <mutation elseif="0" else="1"/>
+                                                                                        <value name="IF0">
+                                                                                          <block type="logic_compare">
+                                                                                            <field name="OP">GT</field>
+                                                                                            <value name="A">
+                                                                                              <block type="lists_indexOf">
+                                                                                                <field name="END">FIRST</field>
+                                                                                                <value name="VALUE">
+                                                                                                  <block type="variables_get">
+                                                                                                    <field name="VAR" id="l03">祖先</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="FIND">
+                                                                                                  <block type="variables_get">
+                                                                                                    <field name="VAR" id="v05">目前</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">0</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <statement name="DO0">
+                                                                                          <block type="variables_set_local">
+                                                                                            <field name="VAR" id="v10">答案</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_arithmetic">
+                                                                                                <field name="OP">ADD</field>
+                                                                                                <value name="A">
+                                                                                                  <block type="lists_getIndex">
+                                                                                                    <mutation statement="false" at="true"/>
+                                                                                                    <field name="MODE">GET</field>
+                                                                                                    <field name="WHERE">FROM_START</field>
+                                                                                                    <value name="VALUE">
+                                                                                                      <block type="variables_get">
+                                                                                                        <field name="VAR" id="l04">距離</field>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <value name="AT">
+                                                                                                      <block type="lists_indexOf">
+                                                                                                        <field name="END">FIRST</field>
+                                                                                                        <value name="VALUE">
+                                                                                                          <block type="variables_get">
+                                                                                                            <field name="VAR" id="l03">祖先</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="FIND">
+                                                                                                          <block type="variables_get">
+                                                                                                            <field name="VAR" id="v05">目前</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="B">
+                                                                                                  <block type="variables_get">
+                                                                                                    <field name="VAR" id="v06">步數</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                        <statement name="ELSE">
+                                                                                          <block type="variables_set_local">
+                                                                                            <field name="VAR" id="v07">有父</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">0</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="controls_for">
+                                                                                                <field name="VAR" id="v08">k</field>
+                                                                                                <value name="FROM">
+                                                                                                  <block type="math_number">
+                                                                                                    <field name="NUM">1</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="TO">
+                                                                                                  <block type="variables_get">
+                                                                                                    <field name="VAR" id="v01">N</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <value name="BY">
+                                                                                                  <block type="math_number">
+                                                                                                    <field name="NUM">1</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <statement name="DO">
+                                                                                                  <block type="controls_if">
+                                                                                                    <value name="IF0">
+                                                                                                      <block type="logic_compare">
+                                                                                                        <field name="OP">EQ</field>
+                                                                                                        <value name="A">
+                                                                                                          <block type="lists_getIndex">
+                                                                                                            <mutation statement="false" at="true"/>
+                                                                                                            <field name="MODE">GET</field>
+                                                                                                            <field name="WHERE">FROM_START</field>
+                                                                                                            <value name="VALUE">
+                                                                                                              <block type="variables_get">
+                                                                                                                <field name="VAR" id="l02">兒子</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                            <value name="AT">
+                                                                                                              <block type="variables_get">
+                                                                                                                <field name="VAR" id="v08">k</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="B">
+                                                                                                          <block type="variables_get">
+                                                                                                            <field name="VAR" id="v05">目前</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <statement name="DO0">
+                                                                                                      <block type="variables_set_local">
+                                                                                                        <field name="VAR" id="v09">父親</field>
+                                                                                                        <value name="VALUE">
+                                                                                                          <block type="lists_getIndex">
+                                                                                                            <mutation statement="false" at="true"/>
+                                                                                                            <field name="MODE">GET</field>
+                                                                                                            <field name="WHERE">FROM_START</field>
+                                                                                                            <value name="VALUE">
+                                                                                                              <block type="variables_get">
+                                                                                                                <field name="VAR" id="l01">父親們</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                            <value name="AT">
+                                                                                                              <block type="variables_get">
+                                                                                                                <field name="VAR" id="v08">k</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <next>
+                                                                                                          <block type="variables_set_local">
+                                                                                                            <field name="VAR" id="v07">有父</field>
+                                                                                                            <value name="VALUE">
+                                                                                                              <block type="math_number">
+                                                                                                                <field name="NUM">1</field>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </statement>
+                                                                                                  </block>
+                                                                                                </statement>
+                                                                                                <next>
+                                                                                                  <block type="controls_if">
+                                                                                                    <value name="IF0">
+                                                                                                      <block type="logic_compare">
+                                                                                                        <field name="OP">EQ</field>
+                                                                                                        <value name="A">
+                                                                                                          <block type="variables_get">
+                                                                                                            <field name="VAR" id="v07">有父</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <value name="B">
+                                                                                                          <block type="math_number">
+                                                                                                            <field name="NUM">1</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                      </block>
+                                                                                                    </value>
+                                                                                                    <statement name="DO0">
+                                                                                                      <block type="variables_set_local">
+                                                                                                        <field name="VAR" id="v05">目前</field>
+                                                                                                        <value name="VALUE">
+                                                                                                          <block type="variables_get">
+                                                                                                            <field name="VAR" id="v09">父親</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <next>
+                                                                                                          <block type="variables_set_local">
+                                                                                                            <field name="VAR" id="v06">步數</field>
+                                                                                                            <value name="VALUE">
+                                                                                                              <block type="math_arithmetic">
+                                                                                                                <field name="OP">ADD</field>
+                                                                                                                <value name="A">
+                                                                                                                  <block type="variables_get">
+                                                                                                                    <field name="VAR" id="v06">步數</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                                <value name="B">
+                                                                                                                  <block type="math_number">
+                                                                                                                    <field name="NUM">1</field>
+                                                                                                                  </block>
+                                                                                                                </value>
+                                                                                                              </block>
+                                                                                                            </value>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </statement>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                      </block>
+                                                                                    </statement>
+                                                                                    <next>
+                                                                                      <block type="controls_if">
+                                                                                        <mutation elseif="0" else="1"/>
+                                                                                        <value name="IF0">
+                                                                                          <block type="logic_compare">
+                                                                                            <field name="OP">EQ</field>
+                                                                                            <value name="A">
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v10">答案</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <block type="math_number">
+                                                                                                <field name="NUM">-1</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <statement name="DO0">
+                                                                                          <block type="javascript_data_output">
+                                                                                            <value name="TEXT">
+                                                                                              <shadow type="text"><field name="TEXT"/></shadow>
+                                                                                              <block type="text">
+                                                                                                <field name="TEXT">不是親戚</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                        <statement name="ELSE">
+                                                                                          <block type="javascript_data_output">
+                                                                                            <value name="TEXT">
+                                                                                              <shadow type="text"><field name="TEXT"/></shadow>
+                                                                                              <block type="variables_get">
+                                                                                                <field name="VAR" id="v10">答案</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </statement>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

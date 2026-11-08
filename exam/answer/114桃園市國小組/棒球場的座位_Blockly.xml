@@ -1,0 +1,265 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">座位號碼</variable>
+    <variable id="v02">區</variable>
+    <variable id="v03">區內號碼</variable>
+    <variable id="v04">每排人數</variable>
+    <variable id="v05">排</variable>
+    <variable id="v06">位置</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">座位號碼</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="controls_if">
+            <mutation elseif="1" else="1"/>
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">座位號碼</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">2250</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">區</field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">區內號碼</field>
+                    <value name="VALUE">
+                      <block type="variables_get">
+                        <field name="VAR" id="v01">座位號碼</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">每排人數</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">25</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <value name="IF1">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">座位號碼</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">6750</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO1">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">區</field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">2</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">區內號碼</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic">
+                        <field name="OP">MINUS</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">座位號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">2250</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">每排人數</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">50</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_set_local">
+                <field name="VAR" id="v02">區</field>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">3</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v03">區內號碼</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic">
+                        <field name="OP">MINUS</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v01">座位號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">6750</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">每排人數</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">25</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="v05">排</field>
+                <value name="VALUE">
+                  <block type="math_round">
+                    <field name="OP">ROUNDUP</field>
+                    <value name="NUM">
+                      <block type="math_arithmetic">
+                        <field name="OP">DIVIDE</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v03">區內號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get">
+                            <field name="VAR" id="v04">每排人數</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_local">
+                    <field name="VAR" id="v06">位置</field>
+                    <value name="VALUE">
+                      <block type="math_arithmetic">
+                        <field name="OP">MINUS</field>
+                        <value name="A">
+                          <block type="variables_get">
+                            <field name="VAR" id="v03">區內號碼</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_arithmetic">
+                            <field name="OP">MULTIPLY</field>
+                            <value name="A">
+                              <block type="math_arithmetic">
+                                <field name="OP">MINUS</field>
+                                <value name="A">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v05">排</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="variables_get">
+                                <field name="VAR" id="v04">每排人數</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_output">
+                        <value name="TEXT">
+                          <shadow type="text"><field name="TEXT"/></shadow>
+                          <block type="variables_get">
+                            <field name="VAR" id="v02">區</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="javascript_data_output">
+                            <value name="TEXT">
+                              <shadow type="text"><field name="TEXT"/></shadow>
+                              <block type="variables_get">
+                                <field name="VAR" id="v05">排</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="javascript_data_output">
+                                <value name="TEXT">
+                                  <shadow type="text"><field name="TEXT"/></shadow>
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v06">位置</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,741 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">N</variable>
+    <variable id="l01">跑步</variable>
+    <variable id="l02">接棒</variable>
+    <variable id="v02">r</variable>
+    <variable id="v03">b</variable>
+    <variable id="v04">最短</variable>
+    <variable id="v05">a</variable>
+    <variable id="v06">c</variable>
+    <variable id="v07">d</variable>
+    <variable id="v08">e</variable>
+    <variable id="v09">交1</variable>
+    <variable id="v10">交2</variable>
+    <variable id="v11">交3</variable>
+    <variable id="v12">總時間</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="variables_set_local">
+            <field name="VAR" id="l01">跑步</field>
+            <value name="VALUE">
+              <block type="lists_create_with">
+                <mutation items="0"/>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set_local">
+                <field name="VAR" id="l02">接棒</field>
+                <value name="VALUE">
+                  <block type="lists_create_with">
+                    <mutation items="0"/>
+                  </block>
+                </value>
+                <next>
+                  <block type="controls_repeat_ext">
+                    <value name="TIMES">
+                      <block type="variables_get">
+                        <field name="VAR" id="v01">N</field>
+                      </block>
+                    </value>
+                    <statement name="DO">
+                      <block type="javascript_data_input_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT"/>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_local">
+                            <field name="VAR" id="v02">r</field>
+                            <value name="VALUE">
+                              <block type="javascript_data_input_get_scratch"/>
+                            </value>
+                            <next>
+                              <block type="lists_setIndex">
+                                <mutation at="false"/>
+                                <field name="MODE">INSERT</field>
+                                <field name="WHERE">LAST</field>
+                                <value name="LIST">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="l01">跑步</field>
+                                  </block>
+                                </value>
+                                <value name="TO">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v02">r</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="javascript_data_input_scratch">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT"/>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local">
+                                        <field name="VAR" id="v03">b</field>
+                                        <value name="VALUE">
+                                          <block type="javascript_data_input_get_scratch"/>
+                                        </value>
+                                        <next>
+                                          <block type="lists_setIndex">
+                                            <mutation at="false"/>
+                                            <field name="MODE">INSERT</field>
+                                            <field name="WHERE">LAST</field>
+                                            <value name="LIST">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="l02">接棒</field>
+                                              </block>
+                                            </value>
+                                            <value name="TO">
+                                              <block type="variables_get">
+                                                <field name="VAR" id="v03">b</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="variables_set_local">
+                        <field name="VAR" id="v04">最短</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">-1</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_for">
+                            <field name="VAR" id="v05">a</field>
+                            <value name="FROM">
+                              <block type="math_number">
+                                <field name="NUM">1</field>
+                              </block>
+                            </value>
+                            <value name="TO">
+                              <block type="variables_get">
+                                <field name="VAR" id="v01">N</field>
+                              </block>
+                            </value>
+                            <value name="BY">
+                              <block type="math_number">
+                                <field name="NUM">1</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="controls_for">
+                                <field name="VAR" id="v06">c</field>
+                                <value name="FROM">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                                <value name="TO">
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v01">N</field>
+                                  </block>
+                                </value>
+                                <value name="BY">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                                <statement name="DO">
+                                  <block type="controls_for">
+                                    <field name="VAR" id="v07">d</field>
+                                    <value name="FROM">
+                                      <block type="math_number">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                    <value name="TO">
+                                      <block type="variables_get">
+                                        <field name="VAR" id="v01">N</field>
+                                      </block>
+                                    </value>
+                                    <value name="BY">
+                                      <block type="math_number">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="controls_for">
+                                        <field name="VAR" id="v08">e</field>
+                                        <value name="FROM">
+                                          <block type="math_number">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                        <value name="TO">
+                                          <block type="variables_get">
+                                            <field name="VAR" id="v01">N</field>
+                                          </block>
+                                        </value>
+                                        <value name="BY">
+                                          <block type="math_number">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="controls_if">
+                                            <value name="IF0">
+                                              <block type="logic_operation">
+                                                <field name="OP">AND</field>
+                                                <value name="A">
+                                                  <block type="logic_operation">
+                                                    <field name="OP">AND</field>
+                                                    <value name="A">
+                                                      <block type="logic_operation">
+                                                        <field name="OP">AND</field>
+                                                        <value name="A">
+                                                          <block type="logic_operation">
+                                                            <field name="OP">AND</field>
+                                                            <value name="A">
+                                                              <block type="logic_operation">
+                                                                <field name="OP">AND</field>
+                                                                <value name="A">
+                                                                  <block type="logic_compare">
+                                                                    <field name="OP">NEQ</field>
+                                                                    <value name="A">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v05">a</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="B">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v06">c</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <block type="logic_compare">
+                                                                    <field name="OP">NEQ</field>
+                                                                    <value name="A">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v05">a</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="B">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v07">d</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <block type="logic_compare">
+                                                                <field name="OP">NEQ</field>
+                                                                <value name="A">
+                                                                  <block type="variables_get">
+                                                                    <field name="VAR" id="v05">a</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <block type="variables_get">
+                                                                    <field name="VAR" id="v08">e</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="logic_compare">
+                                                            <field name="OP">NEQ</field>
+                                                            <value name="A">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v06">c</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v07">d</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="logic_compare">
+                                                        <field name="OP">NEQ</field>
+                                                        <value name="A">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v06">c</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v08">e</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <block type="logic_compare">
+                                                    <field name="OP">NEQ</field>
+                                                    <value name="A">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v07">d</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v08">e</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="DO0">
+                                              <block type="variables_set_local">
+                                                <field name="VAR" id="v09">交1</field>
+                                                <value name="VALUE">
+                                                  <block type="lists_getIndex">
+                                                    <mutation statement="false" at="true"/>
+                                                    <field name="MODE">GET</field>
+                                                    <field name="WHERE">FROM_START</field>
+                                                    <value name="VALUE">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="l02">接棒</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="AT">
+                                                      <block type="variables_get">
+                                                        <field name="VAR" id="v05">a</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="controls_if">
+                                                    <value name="IF0">
+                                                      <block type="logic_compare">
+                                                        <field name="OP">GT</field>
+                                                        <value name="A">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l02">接棒</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v06">c</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="variables_get">
+                                                            <field name="VAR" id="v09">交1</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="DO0">
+                                                      <block type="variables_set_local">
+                                                        <field name="VAR" id="v09">交1</field>
+                                                        <value name="VALUE">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l02">接棒</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v06">c</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </statement>
+                                                    <next>
+                                                      <block type="variables_set_local">
+                                                        <field name="VAR" id="v10">交2</field>
+                                                        <value name="VALUE">
+                                                          <block type="lists_getIndex">
+                                                            <mutation statement="false" at="true"/>
+                                                            <field name="MODE">GET</field>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="l02">接棒</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <block type="variables_get">
+                                                                <field name="VAR" id="v06">c</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="controls_if">
+                                                            <value name="IF0">
+                                                              <block type="logic_compare">
+                                                                <field name="OP">GT</field>
+                                                                <value name="A">
+                                                                  <block type="lists_getIndex">
+                                                                    <mutation statement="false" at="true"/>
+                                                                    <field name="MODE">GET</field>
+                                                                    <field name="WHERE">FROM_START</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="l02">接棒</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="AT">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v07">d</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <block type="variables_get">
+                                                                    <field name="VAR" id="v10">交2</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <statement name="DO0">
+                                                              <block type="variables_set_local">
+                                                                <field name="VAR" id="v10">交2</field>
+                                                                <value name="VALUE">
+                                                                  <block type="lists_getIndex">
+                                                                    <mutation statement="false" at="true"/>
+                                                                    <field name="MODE">GET</field>
+                                                                    <field name="WHERE">FROM_START</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="l02">接棒</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="AT">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v07">d</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </statement>
+                                                            <next>
+                                                              <block type="variables_set_local">
+                                                                <field name="VAR" id="v11">交3</field>
+                                                                <value name="VALUE">
+                                                                  <block type="lists_getIndex">
+                                                                    <mutation statement="false" at="true"/>
+                                                                    <field name="MODE">GET</field>
+                                                                    <field name="WHERE">FROM_START</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="l02">接棒</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="AT">
+                                                                      <block type="variables_get">
+                                                                        <field name="VAR" id="v07">d</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="controls_if">
+                                                                    <value name="IF0">
+                                                                      <block type="logic_compare">
+                                                                        <field name="OP">GT</field>
+                                                                        <value name="A">
+                                                                          <block type="lists_getIndex">
+                                                                            <mutation statement="false" at="true"/>
+                                                                            <field name="MODE">GET</field>
+                                                                            <field name="WHERE">FROM_START</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="variables_get">
+                                                                                <field name="VAR" id="l02">接棒</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="AT">
+                                                                              <block type="variables_get">
+                                                                                <field name="VAR" id="v08">e</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <block type="variables_get">
+                                                                            <field name="VAR" id="v11">交3</field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <statement name="DO0">
+                                                                      <block type="variables_set_local">
+                                                                        <field name="VAR" id="v11">交3</field>
+                                                                        <value name="VALUE">
+                                                                          <block type="lists_getIndex">
+                                                                            <mutation statement="false" at="true"/>
+                                                                            <field name="MODE">GET</field>
+                                                                            <field name="WHERE">FROM_START</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="variables_get">
+                                                                                <field name="VAR" id="l02">接棒</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="AT">
+                                                                              <block type="variables_get">
+                                                                                <field name="VAR" id="v08">e</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </statement>
+                                                                    <next>
+                                                                      <block type="variables_set_local">
+                                                                        <field name="VAR" id="v12">總時間</field>
+                                                                        <value name="VALUE">
+                                                                          <block type="math_arithmetic">
+                                                                            <field name="OP">ADD</field>
+                                                                            <value name="A">
+                                                                              <block type="math_arithmetic">
+                                                                                <field name="OP">ADD</field>
+                                                                                <value name="A">
+                                                                                  <block type="math_arithmetic">
+                                                                                    <field name="OP">ADD</field>
+                                                                                    <value name="A">
+                                                                                      <block type="lists_getIndex">
+                                                                                        <mutation statement="false" at="true"/>
+                                                                                        <field name="MODE">GET</field>
+                                                                                        <field name="WHERE">FROM_START</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="l01">跑步</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="AT">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v05">a</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="lists_getIndex">
+                                                                                        <mutation statement="false" at="true"/>
+                                                                                        <field name="MODE">GET</field>
+                                                                                        <field name="WHERE">FROM_START</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="l01">跑步</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="AT">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v06">c</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <block type="math_arithmetic">
+                                                                                    <field name="OP">ADD</field>
+                                                                                    <value name="A">
+                                                                                      <block type="lists_getIndex">
+                                                                                        <mutation statement="false" at="true"/>
+                                                                                        <field name="MODE">GET</field>
+                                                                                        <field name="WHERE">FROM_START</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="l01">跑步</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="AT">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v07">d</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="lists_getIndex">
+                                                                                        <mutation statement="false" at="true"/>
+                                                                                        <field name="MODE">GET</field>
+                                                                                        <field name="WHERE">FROM_START</field>
+                                                                                        <value name="VALUE">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="l01">跑步</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="AT">
+                                                                                          <block type="variables_get">
+                                                                                            <field name="VAR" id="v08">e</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <block type="math_arithmetic">
+                                                                                <field name="OP">ADD</field>
+                                                                                <value name="A">
+                                                                                  <block type="math_arithmetic">
+                                                                                    <field name="OP">ADD</field>
+                                                                                    <value name="A">
+                                                                                      <block type="variables_get">
+                                                                                        <field name="VAR" id="v09">交1</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="variables_get">
+                                                                                        <field name="VAR" id="v10">交2</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <block type="variables_get">
+                                                                                    <field name="VAR" id="v11">交3</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="controls_if">
+                                                                            <value name="IF0">
+                                                                              <block type="logic_operation">
+                                                                                <field name="OP">OR</field>
+                                                                                <value name="A">
+                                                                                  <block type="logic_compare">
+                                                                                    <field name="OP">EQ</field>
+                                                                                    <value name="A">
+                                                                                      <block type="variables_get">
+                                                                                        <field name="VAR" id="v04">最短</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="math_number">
+                                                                                        <field name="NUM">-1</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <block type="logic_compare">
+                                                                                    <field name="OP">LT</field>
+                                                                                    <value name="A">
+                                                                                      <block type="variables_get">
+                                                                                        <field name="VAR" id="v12">總時間</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <block type="variables_get">
+                                                                                        <field name="VAR" id="v04">最短</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <statement name="DO0">
+                                                                              <block type="variables_set_local">
+                                                                                <field name="VAR" id="v04">最短</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="variables_get">
+                                                                                    <field name="VAR" id="v12">總時間</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </statement>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </statement>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="javascript_data_output">
+                                <value name="TEXT">
+                                  <shadow type="text"><field name="TEXT"/></shadow>
+                                  <block type="variables_get">
+                                    <field name="VAR" id="v04">最短</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

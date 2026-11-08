@@ -1,0 +1,415 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v01">Qa</variable>
+    <variable type="other" id="v02">Qb</variable>
+    <variable type="other" id="v03">Qc</variable>
+    <variable type="other" id="v04">N</variable>
+    <variable type="other" id="v05">Pa</variable>
+    <variable type="other" id="v06">Pb</variable>
+    <variable type="other" id="v07">Pc</variable>
+    <variable type="other" id="v08">收入</variable>
+    <variable type="other" id="v09">良級</variable>
+    <variable type="other" id="v10">普級</variable>
+  </variables>
+  <block type="javascript_start_scratch" x="20" y="20">
+    <next>
+      <block type="javascript_data_input_scratch">
+        <value name="TEXT">
+          <shadow type="text_noquotes">
+            <field name="TEXT"/>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other">
+            <field name="VAR" id="v01" variabletype="other">Qa</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch"/>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch">
+                <value name="TEXT">
+                  <shadow type="text_noquotes">
+                    <field name="TEXT"/>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other">
+                    <field name="VAR" id="v02" variabletype="other">Qb</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch"/>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes">
+                            <field name="TEXT"/>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other">
+                            <field name="VAR" id="v03" variabletype="other">Qc</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch"/>
+                            </value>
+                            <next>
+                              <block type="javascript_data_input_scratch">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes">
+                                    <field name="TEXT"/>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other">
+                                    <field name="VAR" id="v04" variabletype="other">N</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="javascript_data_input_get_scratch"/>
+                                    </value>
+                                    <next>
+                                      <block type="javascript_data_input_scratch">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes">
+                                            <field name="TEXT"/>
+                                          </shadow>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_other">
+                                            <field name="VAR" id="v05" variabletype="other">Pa</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="javascript_data_input_get_scratch"/>
+                                            </value>
+                                            <next>
+                                              <block type="javascript_data_input_scratch">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes">
+                                                    <field name="TEXT"/>
+                                                  </shadow>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_other">
+                                                    <field name="VAR" id="v06" variabletype="other">Pb</field>
+                                                    <value name="VALUE">
+                                                      <shadow type="text_noquotes">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="javascript_data_input_get_scratch"/>
+                                                    </value>
+                                                    <next>
+                                                      <block type="javascript_data_input_scratch">
+                                                        <value name="TEXT">
+                                                          <shadow type="text_noquotes">
+                                                            <field name="TEXT"/>
+                                                          </shadow>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set_other">
+                                                            <field name="VAR" id="v07" variabletype="other">Pc</field>
+                                                            <value name="VALUE">
+                                                              <shadow type="text_noquotes">
+                                                                <field name="TEXT">0</field>
+                                                              </shadow>
+                                                              <block type="javascript_data_input_get_scratch"/>
+                                                            </value>
+                                                            <next>
+                                                              <block type="variables_set_other">
+                                                                <field name="VAR" id="v08" variabletype="other">收入</field>
+                                                                <value name="VALUE">
+                                                                  <shadow type="text_noquotes">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="math_arithmetic">
+                                                                    <field name="OP">MULTIPLY</field>
+                                                                    <value name="A">
+                                                                      <shadow type="math_number">
+                                                                        <field name="NUM">0</field>
+                                                                      </shadow>
+                                                                      <block type="math_round">
+                                                                        <field name="OP">ROUNDDOWN</field>
+                                                                        <value name="NUM">
+                                                                          <shadow type="math_number">
+                                                                            <field name="NUM">3.1</field>
+                                                                          </shadow>
+                                                                          <block type="math_arithmetic">
+                                                                            <field name="OP">DIVIDE</field>
+                                                                            <value name="A">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other">
+                                                                                <field name="VAR" id="v01" variabletype="other">Qa</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other">
+                                                                                <field name="VAR" id="v04" variabletype="other">N</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="B">
+                                                                      <shadow type="math_number">
+                                                                        <field name="NUM">0</field>
+                                                                      </shadow>
+                                                                      <block type="variables_get_other">
+                                                                        <field name="VAR" id="v05" variabletype="other">Pa</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="variables_set_other">
+                                                                    <field name="VAR" id="v09" variabletype="other">良級</field>
+                                                                    <value name="VALUE">
+                                                                      <shadow type="text_noquotes">
+                                                                        <field name="TEXT">0</field>
+                                                                      </shadow>
+                                                                      <block type="math_arithmetic">
+                                                                        <field name="OP">ADD</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number">
+                                                                            <field name="NUM">0</field>
+                                                                          </shadow>
+                                                                          <block type="variables_get_other">
+                                                                            <field name="VAR" id="v02" variabletype="other">Qb</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <shadow type="math_number">
+                                                                            <field name="NUM">0</field>
+                                                                          </shadow>
+                                                                          <block type="math_modulo">
+                                                                            <value name="DIVIDEND">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">64</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other">
+                                                                                <field name="VAR" id="v01" variabletype="other">Qa</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="DIVISOR">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">10</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other">
+                                                                                <field name="VAR" id="v04" variabletype="other">N</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="math_change_other">
+                                                                        <field name="VAR" id="v08" variabletype="other">收入</field>
+                                                                        <value name="DELTA">
+                                                                          <shadow type="math_number">
+                                                                            <field name="NUM">1</field>
+                                                                          </shadow>
+                                                                          <block type="math_arithmetic">
+                                                                            <field name="OP">MULTIPLY</field>
+                                                                            <value name="A">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="math_round">
+                                                                                <field name="OP">ROUNDDOWN</field>
+                                                                                <value name="NUM">
+                                                                                  <shadow type="math_number">
+                                                                                    <field name="NUM">3.1</field>
+                                                                                  </shadow>
+                                                                                  <block type="math_arithmetic">
+                                                                                    <field name="OP">DIVIDE</field>
+                                                                                    <value name="A">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v09" variabletype="other">良級</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v04" variabletype="other">N</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <shadow type="math_number">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other">
+                                                                                <field name="VAR" id="v06" variabletype="other">Pb</field>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <next>
+                                                                          <block type="variables_set_other">
+                                                                            <field name="VAR" id="v10" variabletype="other">普級</field>
+                                                                            <value name="VALUE">
+                                                                              <shadow type="text_noquotes">
+                                                                                <field name="TEXT">0</field>
+                                                                              </shadow>
+                                                                              <block type="math_arithmetic">
+                                                                                <field name="OP">ADD</field>
+                                                                                <value name="A">
+                                                                                  <shadow type="math_number">
+                                                                                    <field name="NUM">0</field>
+                                                                                  </shadow>
+                                                                                  <block type="variables_get_other">
+                                                                                    <field name="VAR" id="v03" variabletype="other">Qc</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="B">
+                                                                                  <shadow type="math_number">
+                                                                                    <field name="NUM">0</field>
+                                                                                  </shadow>
+                                                                                  <block type="math_modulo">
+                                                                                    <value name="DIVIDEND">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">64</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v09" variabletype="other">良級</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="DIVISOR">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">10</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v04" variabletype="other">N</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="math_change_other">
+                                                                                <field name="VAR" id="v08" variabletype="other">收入</field>
+                                                                                <value name="DELTA">
+                                                                                  <shadow type="math_number">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </shadow>
+                                                                                  <block type="math_arithmetic">
+                                                                                    <field name="OP">MULTIPLY</field>
+                                                                                    <value name="A">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="math_round">
+                                                                                        <field name="OP">ROUNDDOWN</field>
+                                                                                        <value name="NUM">
+                                                                                          <shadow type="math_number">
+                                                                                            <field name="NUM">3.1</field>
+                                                                                          </shadow>
+                                                                                          <block type="math_arithmetic">
+                                                                                            <field name="OP">DIVIDE</field>
+                                                                                            <value name="A">
+                                                                                              <shadow type="math_number">
+                                                                                                <field name="NUM">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v10" variabletype="other">普級</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="B">
+                                                                                              <shadow type="math_number">
+                                                                                                <field name="NUM">0</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get_other">
+                                                                                                <field name="VAR" id="v04" variabletype="other">N</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <shadow type="math_number">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v07" variabletype="other">Pc</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="javascript_data_output_scratch">
+                                                                                    <value name="TEXT">
+                                                                                      <shadow type="text_noquotes">
+                                                                                        <field name="TEXT"/>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get_other">
+                                                                                        <field name="VAR" id="v08" variabletype="other">收入</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

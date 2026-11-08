@@ -1,0 +1,220 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v01">AQI</variable>
+  </variables>
+  <block x="20" y="20" type="javascript_data_input_scratch">
+    <value name="TEXT">
+      <shadow type="text_noquotes">
+        <field name="TEXT"/>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local">
+        <field name="VAR" id="v01">AQI</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch"/>
+        </value>
+        <next>
+          <block type="controls_if">
+            <mutation elseif="4" else="1"/>
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">AQI</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">50</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">綠燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">良好</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <value name="IF1">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">AQI</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">100</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO1">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">黃燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">普通</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <value name="IF2">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">AQI</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">150</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO2">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">橘燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">對敏感族群不健康</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <value name="IF3">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">AQI</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">200</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO3">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">紅燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">對所有族群不健康</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <value name="IF4">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR" id="v01">AQI</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">300</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO4">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">紫燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">非常不健康</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="javascript_data_output">
+                <value name="TEXT">
+                  <shadow type="text"><field name="TEXT"/></shadow>
+                  <block type="text">
+                    <field name="TEXT">深紅燈</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="javascript_data_output">
+                    <value name="TEXT">
+                      <shadow type="text"><field name="TEXT"/></shadow>
+                      <block type="text">
+                        <field name="TEXT">危害</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
