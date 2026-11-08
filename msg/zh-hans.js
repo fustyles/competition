@@ -68,6 +68,8 @@ Blockly.Msg["BUTTON_LANGUAGE"] = "语系";
 Blockly.Msg["QUESTION_INPUT"] = "输入积木程式试题";
 Blockly.Msg["QUERY_INPUT"] = "输入与AI对话内容，可关于试题内容与目前工作区积木程式的讨论。";
 Blockly.Msg["BUTTON_QUEST"] = "汇入题库";
+Blockly.Msg["SHOWANSWER_QUEST"] = "載入參考答案會取代目前工作區的積木，確定要繼續嗎？";
+Blockly.Msg["SHOWANSWER_ERROR"] = "找不到這題的參考答案：";
 Blockly.Msg["BUTTON_ANSWER_BLOCKLY"] = "汇入 Blockly 参考答案";
 Blockly.Msg["BUTTON_ANSWER_SCRATCH"] = "汇入 Scratch 参考答案";
 Blockly.Msg["IMPORTQUESTION_HEADER"] = "汇入题目与测资数据";
@@ -118,8 +120,6 @@ Blockly.Msg["GEMINI_PROMPT"] = "积木程式试题：\n%1\n\n积木程式程式�
 Blockly.Msg["BUTTON_APIKEYS"] = "查询 Gemini api key";
 Blockly.Msg["BUTTON_RESOURCE"] = "教学资源";
 Blockly.Msg["NOCODE"] = "使用者尚未作答，没有产生程式码！";
-Blockly.Msg["SHOWANSWER_QUEST"] = "載入參考答案會取代目前工作區的積木，確定要繼續嗎？";
-Blockly.Msg["SHOWANSWER_ERROR"] = "找不到這題的參考答案：";
 Blockly.Msg["LINEBOT_TOKEN"] = "U2FsdGVkX18ne0lp3bfPrimDAm+KeTFAmq0W7/n47iitzmi4IC4tdA/vY3wKdcwSXPCw6qynjsYoAcoyuBAN18Qlz3PYmvFvOnDjl1YVX8kff38HKfzBgLkJWLChsXfNsfy8t9PD+za1oI8CFFbXIi5ri6AgM73MIPNOxoktYucYCSUAgUq2NBb2fNbBWScwkZlPqnoJuunKmRGN/hARyADirYNNaKypgGpjapSFrf6SGTjr2Rl//3ur2GT2uRxO";
 Blockly.Msg["LINEBOT_USERID"] = "U2FsdGVkX197odduxa/mfJGVcyGhBlh+Dus/av9LMTuoodNG1wxXFSRFVsdu7aEC7jAeb+tqdJwIH0l62iCsvQ==";
 Blockly.Msg["BUGREPORT_HEADER"] = "系统问题回报";
