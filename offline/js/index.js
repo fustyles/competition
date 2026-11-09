@@ -1898,6 +1898,27 @@ function textareaFocus(id) {
 	}
 }
 
+var tabs = ['code_content','category_content'];
+function displayTab(id) {
+	var div = document.getElementById('javascript_content');
+	for (var i in tabs) {
+		const tab = document.getElementById(tabs[i]);
+		tab.style.display = (tabs[i]==id)?"block":"none";
+		if (id=='code_content') {
+			div.style.display = "none";
+			javascriptCode();
+		}
+		else
+			div.style.display = "block";	
+	}
+}
+
+function javascriptCode() {
+	var code = Blockly.JavaScript.workspaceToCode(workspace);
+	code = js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{"+code+"}main();");
+	document.getElementById('code_content').innerHTML = code.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>").replace(/ /g,"&nbsp;");
+}
+
 function contentZoom(content) {
 	if (!content) content = "javascript";
 	const div_title = document.getElementById(content+"_title");

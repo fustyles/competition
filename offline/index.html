@@ -153,7 +153,8 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		<tr>
 			<td style="width: calc(100vw - 480px);text-align: center;vertical-align: middle;">
 				<ul id="tabs">
-					<li id="tab_category_content"><a id="msg_toolbox">Toolbox</a></li>
+					<li id="tab_category_content"><a id="msg_toolbox" onclick="displayTab('category_content');">Toolbox</a></li>
+					<li id="tab_javascript_content"><a id="msg_code" onclick="displayTab('code_content');">JavaScript</a></li>
 				</ul>
 			</td>			
 			<td style="width: 480px;text-align: left;vertical-align: middle;">
@@ -186,6 +187,8 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		<div id="root"></div>
 		<xml id="toolbox" style="display: none"></xml>
 	</div>
+	<div id="code_content" class="code_content">
+	</div>	
 	<div id="dialog_toolbox" onmousedown="textareaFocus('dialog_toolbox_parent');" ontouchstart="textareaFocus('dialog_toolbox_parent');"></div>
 	
 	<div id="javascript_content" class="ui-widget-content" onmousedown="textareaFocus('javascript_content');" ontouchstart="textareaFocus('javascript_content');">
