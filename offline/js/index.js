@@ -1291,7 +1291,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.body.appendChild(link);
 			link.click();
 			link.remove();
-
+/*
 			var code = Blockly.JavaScript.workspaceToCode(workspace);
 			code = js_beautify(code);
 
@@ -1301,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.body.appendChild(link);
 			link.click();
 			link.remove();	
-			
+*/
 		} catch (e) {
 			alert(e);
 		}
