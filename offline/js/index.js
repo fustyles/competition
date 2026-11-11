@@ -1835,18 +1835,66 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 讀取 exam/xxx.js，取出其中的 contest 變數
+    // 預設線上版：用 fetch 讀取；失敗時（例如本機 file:// 被瀏覽器阻擋）改用離線版 <script> 標籤載入
     async function loadExam(file) {
         if (examCache[file]) return examCache[file];
 
         const url = 'exam/' + file.split('/').map(encodeURIComponent).join('/');
-        const res = await fetch(url, { cache: 'no-cache' });
-        
-        if (!res.ok) throw new Error('讀取 ' + file + ' 失敗：' + res.status);
-        const code = await res.text();
 
-        const contest = new Function(code + '\nreturn contest;')();
+        let contest;
+        try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (!res.ok) throw new Error('讀取 ' + file + ' 失敗：' + res.status);
+            const code = await res.text();
+            contest = new Function(code + '\nreturn contest;')();
+        } catch (err) {
+            console.warn('線上版讀取失敗，改用離線版載入：', err);
+            contest = await loadExamByScript(url, file);
+        }
+
         examCache[file] = contest;
         return contest;
+    }
+
+    // 用 <script> 標籤載入題庫檔（離線版 file:// 使用）。
+    // 每份題庫在獨立的隱藏 iframe 中執行：題庫檔若用 let/const 宣告 contest，
+    // 直接載入到主頁面時，第二份題庫會因「重複宣告」無法執行，又讀到第一份留下的 contest，
+    // 造成切換題庫選單後內容沒有更新。
+    function loadExamByScript(url, file) {
+        return new Promise((resolve, reject) => {
+            const frame = document.createElement('iframe');
+            frame.style.display = 'none';
+            document.body.appendChild(frame);
+            const win = frame.contentWindow;
+            const doc = win.document;
+            doc.open();
+            doc.write('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body></body></html>');
+            doc.close();
+
+            const cleanup = () => { setTimeout(() => frame.remove(), 0); };
+
+            const s = doc.createElement('script');
+            s.src = new URL(url, location.href).href + '?t=' + Date.now();   // 避免快取
+            s.charset = 'utf-8';
+            s.onload = () => {
+                let contest;
+                try {
+                    // 同時支援 var contest 與 let/const contest
+                    contest = win.eval('typeof contest !== "undefined" ? contest : undefined');
+                } catch (e) {}
+                cleanup();
+                if (contest === undefined) {
+                    reject(new Error('題庫檔 ' + file + ' 中找不到 contest 變數，或檔案執行時發生錯誤'));
+                } else {
+                    resolve(contest);
+                }
+            };
+            s.onerror = () => {
+                cleanup();
+                reject(new Error('讀取 ' + file + ' 失敗（找不到檔案）'));
+            };
+            doc.head.appendChild(s);
+        });
     }
 
     async function showExam() {
@@ -1892,13 +1940,74 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!ok) return;
 		}
 
+		var isLocal = (location.protocol === "file:");
+
+		// 讀取單一路徑的文字內容：
+		// 預設線上版 → fetch 讀取 xxx.xml；失敗時改用離線版 → 載入同名的 xxx.xml.js
+		function readText(p) {
+			return readXmlOnline(p).catch(function (err) {
+				console.warn("線上版讀取失敗，改用離線版 " + p + ".js：", err);
+				return readXmlOffline(p);
+			});
+		}
+
+		// 線上版：fetch 讀取 XML
+		function readXmlOnline(p) {
+			return fetch(p, { cache: "no-cache" }).then(function (response) {
+				if (!response.ok) throw new Error("HTTP " + response.status);
+				return response.text();
+			});
+		}
+
+		// 離線版：用 <script> 載入 xxx.xml.js，取出 window.__answerXml
+		function readXmlOffline(p) {
+			return new Promise(function (resolve, reject) {
+				window.__answerXml = undefined;
+				var s = document.createElement("script");
+				s.src = p + ".js?t=" + Date.now();
+				s.charset = "utf-8";
+				s.onload = function () {
+					s.remove();
+					var xml = window.__answerXml;
+					window.__answerXml = undefined;
+					if (typeof xml === "string") resolve(xml);
+					else reject(new Error("檔案內沒有 __answerXml：" + p + ".js"));
+				};
+				s.onerror = function () {
+					s.remove();
+					reject(new Error("找不到 " + p + ".js"));
+				};
+				document.body.appendChild(s);
+			});
+		}
+
+		// 本機模式下 .js 包裝檔都找不到時，讓使用者自己選擇 XML 檔
+		function pickFile() {
+			return new Promise(function (resolve, reject) {
+				var input = document.createElement("input");
+				input.type = "file";
+				input.accept = ".xml";
+				input.style.display = "none";
+				input.onchange = function () {
+					var file = this.files[0];
+					input.remove();
+					if (!file) { reject(new Error("未選擇檔案")); return; }
+					var fr = new FileReader();
+					fr.onload = function (e) {
+						try { resolve(Blockly.utils.xml.textToDom(e.target.result)); }
+						catch (err) { reject(err); }
+					};
+					fr.onerror = function () { reject(fr.error); };
+					fr.readAsText(file, "utf-8");
+				};
+				document.body.appendChild(input);
+				input.click();
+			});
+		}
+
 		// 依序讀取，回傳第一個讀得到且是有效 XML 的檔案
 		function fetchFirst(i) {
-			return fetch(paths[i], { cache: "no-cache" })
-				.then(function (response) {
-					if (!response.ok) throw new Error("HTTP " + response.status);
-					return response.text();
-				})
+			return readText(paths[i])
 				.then(function (xmlText) {
 					var dom = Blockly.utils.xml.textToDom(xmlText);   // 不是有效 XML 會丟出錯誤
 					return dom;
@@ -1911,6 +2020,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		fetchFirst(0)
+			.catch(function (err) {
+				if (!isLocal) throw err;
+				// 本機且沒有 .js 包裝檔：開啟選檔視窗，請使用者選擇答案 XML
+				var name = paths[0];
+				try { name = decodeURIComponent(name); } catch (e) {}
+				console.log("本機模式找不到答案包裝檔，改由使用者選擇檔案：" + name);
+				return pickFile();
+			})
 			.then(function (blocks) {
 				// 依 XML 的 platform 屬性切換 Blockly / Scratch 外觀，只在不同時才切換
 				var isScratch = (blocks.getAttribute('platform') == 'scratch');
