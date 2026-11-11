@@ -26,6 +26,11 @@ var WORKSPACE_STORAGE_KEY = 'francis_blockly_workspace';
 var workspaceSaveTimer;
 var workspaceRestoring = true;   // 還原完成前不寫入，避免啟動時的清空動作蓋掉上次的積木
 
+// ===== 記憶題目欄位 question_input（localStorage）=====
+var QUESTION_STORAGE_KEY = 'francis_blockly_question';
+var questionSaveTimer;
+var questionRestoring = true;    // 還原完成前不寫入，避免語系預設文字蓋掉上次的題目
+
 var sheetNames = [
     "114全國賽國中組","114全國賽國小組","113全國賽","113全國賽範例",
     "國小基礎練習","國小基礎應用","國中基礎練習","國中基礎應用",
@@ -1406,6 +1411,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		updateMsg();
 		newFile();
 		restoreWorkspaceFromStorage();   // 載入上次編輯的積木
+		restoreQuestionFromStorage();    // 載入上次的題目內容（需在 updateMsg 之後，才不會被預設文字蓋掉）
 	}, 1000);
 
 	function addScript(url) {
@@ -1566,10 +1572,81 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	// 關閉或切換分頁時立即再存一次，避免最後 3 秒內的變動遺失
-	window.addEventListener('pagehide', saveWorkspaceToStorage);
-	document.addEventListener('visibilitychange', function () {
-		if (document.visibilityState === 'hidden') saveWorkspaceToStorage();
+	window.addEventListener('pagehide', function () {
+		saveWorkspaceToStorage();
+		saveQuestionToStorage();
 	});
+	document.addEventListener('visibilitychange', function () {
+		if (document.visibilityState === 'hidden') {
+			saveWorkspaceToStorage();
+			saveQuestionToStorage();
+		}
+	});
+
+	// 將題目欄位 question_input 的內容存到 localStorage
+	function saveQuestionToStorage() {
+		clearTimeout(questionSaveTimer);
+		if (questionRestoring) return;
+		var el = document.getElementById('question_input');
+		if (!el) return;
+		try {
+			localStorage.setItem(QUESTION_STORAGE_KEY, el.value);
+		} catch (e) {
+			console.log('saveQuestionToStorage:', e);
+		}
+	}
+	window.saveQuestionToStorage = saveQuestionToStorage;
+
+	function scheduleQuestionSave() {
+		if (questionRestoring) return;
+		clearTimeout(questionSaveTimer);
+		questionSaveTimer = setTimeout(saveQuestionToStorage, 3000);   // 停手 3 秒後儲存
+	}
+
+	// 開啟網頁時還原上次的題目內容
+	function restoreQuestionFromStorage() {
+		questionRestoring = true;
+		try {
+			var el = document.getElementById('question_input');
+			if (!el) return;
+			var saved = localStorage.getItem(QUESTION_STORAGE_KEY);
+			if (saved !== null) {
+				el.value = saved;
+				el.scrollTop = 0;
+			}
+		} catch (e) {
+			console.log('restoreQuestionFromStorage:', e);
+		} finally {
+			questionRestoring = false;
+		}
+	}
+
+	(function () {
+		var el = document.getElementById('question_input');
+		if (!el) return;
+
+		// 自己輸入（打字、貼上、剪下）
+		el.addEventListener('input', scheduleQuestionSave);
+
+		// 匯入題目等程式直接設定 value 時不會觸發 input 事件，
+		// 這裡攔截 value 的寫入，讓程式改寫的內容也會被儲存
+		try {
+			var desc = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+			if (desc && desc.get && desc.set) {
+				Object.defineProperty(el, 'value', {
+					configurable: true,
+					enumerable: desc.enumerable,
+					get: function () { return desc.get.call(this); },
+					set: function (v) {
+						desc.set.call(this, v);
+						scheduleQuestionSave();
+					}
+				});
+			}
+		} catch (e) {
+			console.log('question_input value hook:', e);
+		}
+	})();
 	
 	function iframeWrite(iframe_id, iframe_code) {
 		var iframe = document.getElementById(iframe_id);
