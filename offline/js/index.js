@@ -26,6 +26,11 @@ var WORKSPACE_STORAGE_KEY = 'francis_blockly_workspace_standard';
 var workspaceSaveTimer;
 var workspaceRestoring = true;   // 還原完成前不寫入，避免啟動時的清空動作蓋掉上次的積木
 
+// ===== 記憶題目欄位 question_input（localStorage）=====
+var QUESTION_STORAGE_KEY = 'francis_blockly_question_standard';
+var questionSaveTimer;
+var questionRestoring = true;    // 還原完成前不寫入，避免語系預設文字蓋掉上次的題目
+
 document.addEventListener('DOMContentLoaded', function() {
 
 	function loadToolbox(renderer, categorySystem, scale) {
@@ -1125,6 +1130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		updateMsg();
 		newFile();
 		restoreWorkspaceFromStorage();   // 載入上次編輯的積木
+		restoreQuestionFromStorage();    // 載入上次的題目內容（需在 updateMsg 之後，才不會被預設文字蓋掉）
 	}, 1000);
 
 	function addScript(url) {
@@ -1286,10 +1292,65 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	// 關閉或切換分頁時立即再存一次，避免最後 3 秒內的變動遺失
-	window.addEventListener('pagehide', saveWorkspaceToStorage);
-	document.addEventListener('visibilitychange', function () {
-		if (document.visibilityState === 'hidden') saveWorkspaceToStorage();
+	window.addEventListener('pagehide', function () {
+		saveWorkspaceToStorage();
+		saveQuestionToStorage();
 	});
+	document.addEventListener('visibilitychange', function () {
+		if (document.visibilityState === 'hidden') {
+			saveWorkspaceToStorage();
+			saveQuestionToStorage();
+		}
+	});
+
+	// 將題目欄位 question_input（div）的 HTML 內容存到 localStorage
+	function saveQuestionToStorage() {
+		clearTimeout(questionSaveTimer);
+		if (questionRestoring) return;
+		var el = document.getElementById('question_input');
+		if (!el) return;
+		try {
+			localStorage.setItem(QUESTION_STORAGE_KEY, el.innerHTML);
+		} catch (e) {
+			console.log('saveQuestionToStorage:', e);
+		}
+	}
+	window.saveQuestionToStorage = saveQuestionToStorage;
+
+	function scheduleQuestionSave() {
+		if (questionRestoring) return;
+		clearTimeout(questionSaveTimer);
+		questionSaveTimer = setTimeout(saveQuestionToStorage, 3000);   // 內容停止變動 3 秒後儲存
+	}
+
+	// 開啟網頁時還原上次的題目內容
+	function restoreQuestionFromStorage() {
+		questionRestoring = true;
+		try {
+			var el = document.getElementById('question_input');
+			if (!el) return;
+			var saved = localStorage.getItem(QUESTION_STORAGE_KEY);
+			if (saved !== null) {
+				el.innerHTML = saved;
+				el.scrollTop = 0;
+			}
+		} catch (e) {
+			console.log('restoreQuestionFromStorage:', e);
+		} finally {
+			questionRestoring = false;
+		}
+	}
+
+	// 題目由題庫內容以 innerHTML 寫入，不會觸發 input 事件，改用 MutationObserver 監看內容變動
+	(function () {
+		var el = document.getElementById('question_input');
+		if (!el || typeof MutationObserver === 'undefined') return;
+		new MutationObserver(scheduleQuestionSave).observe(el, {
+			childList: true,
+			subtree: true,
+			characterData: true   // 不監看屬性：拖曳分隔條會一直改 style，不需要因此儲存
+		});
+	})();
 	
 	function iframeWrite(iframe_id, iframe_code) {
 		var iframe = document.getElementById(iframe_id);
