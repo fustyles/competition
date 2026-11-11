@@ -1553,8 +1553,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(savedBlockly), workspace);
 			}
 
-			workspace.getToolbox().clearSelection();
-			workspace.getToolbox().refreshSelection();
+			// 不呼叫 toolbox.refreshSelection()：Scratch 外觀的 ContinuousToolbox 會因此自動打開積木清單
 			workspace.scrollCenter();
 		} catch (e) {
 			// 資料損毀時清除記憶，回到空白工作區
