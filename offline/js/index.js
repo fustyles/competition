@@ -20,6 +20,12 @@ var blockChangeTimer;
 var createFunctionVariable = ["", []];
 var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
+// ===== 記憶工作區積木（localStorage）=====
+// 一般版與進階版在同一網域，使用不同名稱，避免互相覆蓋
+var WORKSPACE_STORAGE_KEY = 'francis_blockly_workspace_standard';
+var workspaceSaveTimer;
+var workspaceRestoring = true;   // 還原完成前不寫入，避免啟動時的清空動作蓋掉上次的積木
+
 document.addEventListener('DOMContentLoaded', function() {
 
 	function loadToolbox(renderer, categorySystem, scale) {
@@ -146,6 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			}			
 		}
 		workspace.addChangeListener(onWorkspaceChanged);
+
+		// 工作區積木有變動時（非 UI 事件），停手 3 秒後自動存到瀏覽器
+		var thisWorkspace = workspace;
+		workspace.addChangeListener(function (event) {
+			if (event.isUiEvent) return;
+			if (thisWorkspace !== workspace) return;   // 已切換外觀、舊工作區不再儲存
+			clearTimeout(workspaceSaveTimer);
+			workspaceSaveTimer = setTimeout(saveWorkspaceToStorage, 3000);
+		});
 		
 		function handleBlockDelete(event) {
 			const deletedXml = event.oldXml;
@@ -1109,6 +1124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		//loadToolbox('zelos', catSystemScratch, 0.9);
 		updateMsg();
 		newFile();
+		restoreWorkspaceFromStorage();   // 載入上次編輯的積木
 	}, 1000);
 
 	function addScript(url) {
@@ -1209,6 +1225,72 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		//Blockly.getMainWorkspace().clearUndo();
 	}
+
+	// 將目前工作區（含 Blockly / Scratch 兩種外觀的積木）存到 localStorage
+	function saveWorkspaceToStorage() {
+		if (workspaceRestoring || !workspace) return;
+		try {
+			var xmlText = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
+			if (scratchStyle)
+				xmlScratch = xmlText;
+			else
+				xmlBlockly = xmlText;
+
+			var data = {
+				version: 1,
+				style: scratchStyle ? 'scratch' : 'blockly',
+				blockly: xmlBlockly || '',
+				scratch: xmlScratch || '',
+				time: Date.now()
+			};
+			localStorage.setItem(WORKSPACE_STORAGE_KEY, JSON.stringify(data));
+		} catch (e) {
+			console.log('saveWorkspaceToStorage:', e);
+		}
+	}
+	window.saveWorkspaceToStorage = saveWorkspaceToStorage;
+
+	// 開啟網頁時還原上次的工作區
+	function restoreWorkspaceFromStorage() {
+		workspaceRestoring = true;
+		try {
+			var raw = localStorage.getItem(WORKSPACE_STORAGE_KEY);
+			if (!raw) return;
+			var data = JSON.parse(raw);
+			var savedBlockly = data.blockly || '';
+			var savedScratch = data.scratch || '';
+
+			if (data.style === 'scratch') {
+				// 切換成 Scratch 外觀：changeToolboxStyle 會自動載入 xmlScratch
+				scratchStyle = true;
+				xmlScratch = savedScratch;
+				changeToolboxStyle();
+				xmlBlockly = savedBlockly;   // changeToolboxStyle 會用空白工作區覆蓋，這裡補回
+			} else {
+				xmlBlockly = savedBlockly;
+				xmlScratch = savedScratch;
+				if (savedBlockly)
+					Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(savedBlockly), workspace);
+			}
+
+			workspace.getToolbox().clearSelection();
+			workspace.getToolbox().refreshSelection();
+			workspace.scrollCenter();
+		} catch (e) {
+			// 資料損毀時清除記憶，回到空白工作區
+			console.log('restoreWorkspaceFromStorage:', e);
+			try { localStorage.removeItem(WORKSPACE_STORAGE_KEY); } catch (e2) {}
+			try { workspace.clear(true); } catch (e3) {}
+		} finally {
+			workspaceRestoring = false;
+		}
+	}
+
+	// 關閉或切換分頁時立即再存一次，避免最後 3 秒內的變動遺失
+	window.addEventListener('pagehide', saveWorkspaceToStorage);
+	document.addEventListener('visibilitychange', function () {
+		if (document.visibilityState === 'hidden') saveWorkspaceToStorage();
+	});
 	
 	function iframeWrite(iframe_id, iframe_code) {
 		var iframe = document.getElementById(iframe_id);
