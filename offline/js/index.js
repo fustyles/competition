@@ -2228,12 +2228,12 @@ function reloadZoom(content) {
 	const questionInput = document.getElementById("question_input");
 
 	questionInput.style.flex = '1';
-	questionInput.style.height = '60%';
+	questionInput.style.height = '95%';
 	questionInput.style.width = '100%';
     questionInput.scrollTop = 0; 
     
     document.getElementById("iframe_output").style.display = "flex";
-    document.getElementById("iframe_output").style.height = "35%";
+    document.getElementById("iframe_output").style.height = "5%";
     document.getElementById("question_splitter").style.display = "";
 }
 
@@ -2241,7 +2241,7 @@ function loadExam() {
 	document.getElementById("question_input").style.height = '95%';
     document.getElementById("question_input").scrollTop = 0;
     document.getElementById("iframe_output").style.display = "block";
-    document.getElementById("iframe_output").style.height = "35%";
+    document.getElementById("iframe_output").style.height = "5%";
 }
 
 if (typeof require !== "undefined") {
