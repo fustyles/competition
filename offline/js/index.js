@@ -2238,7 +2238,7 @@ function reloadZoom(content) {
 }
 
 function loadExam() {
-	document.getElementById("question_input").style.height = '60%';
+	document.getElementById("question_input").style.height = '95%';
     document.getElementById("question_input").scrollTop = 0;
     document.getElementById("iframe_output").style.display = "block";
     document.getElementById("iframe_output").style.height = "35%";
