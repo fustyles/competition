@@ -108,6 +108,12 @@ Main page: https://fustyles.github.io/competition/
 			border: 1px solid #ccc;            
 		}
 		#versionAdvancedButton:hover { background-color: #0056b3; }
+		#versionContestButton {
+			background-color: #28a745;
+			color: #fff;
+			border: 1px solid #28a745;
+		}
+		#versionContestButton:hover { background-color: #1e7e34; }
 	</style>
 </head>
 <body class="root">
@@ -119,6 +125,7 @@ Main page: https://fustyles.github.io/competition/
 		<div id="versionSelect_buttons">
 			<button id="versionStandardButton" class="version-button">一般版</button>
 			<button id="versionAdvancedButton" class="version-button">進階版</button>
+			<button id="versionContestButton" class="version-button">競賽版</button>
 		</div>
 	</div>
 </div>
@@ -128,9 +135,9 @@ Main page: https://fustyles.github.io/competition/
 
 		// 依網址 ?lang= 參數切換視窗文字
 		var texts = {
-			'en':      { title: 'Francis Blockly Problem-Solving Platform', desc: 'Please choose a version', standard: 'Standard', advanced: 'Advanced' },
-			'zh-hans': { title: '法兰斯解题积木平台', desc: '请选择要使用的版本', standard: '普通版', advanced: '进阶版' },
-			'zh-hant': { title: '法蘭斯解題積木平台', desc: '請選擇要使用的版本', standard: '普通版', advanced: '進階版' }
+			'en':      { title: 'Francis Blockly Problem-Solving Platform', desc: 'Please choose a version', standard: 'Standard', advanced: 'Advanced', contest: 'Contest' },
+			'zh-hans': { title: '法兰斯解题积木平台', desc: '请选择要使用的版本', standard: '普通版', advanced: '进阶版', contest: '竞赛版' },
+			'zh-hant': { title: '法蘭斯解題積木平台', desc: '請選擇要使用的版本', standard: '普通版', advanced: '進階版', contest: '競賽版' }
 		};
 		var lang = new URLSearchParams(location.search).get('lang');
 		var t = texts[lang] || texts['zh-hant'];
@@ -138,6 +145,7 @@ Main page: https://fustyles.github.io/competition/
 		document.getElementById('versionSelect_desc').textContent = t.desc;
 		document.getElementById('versionStandardButton').textContent = t.standard;
 		document.getElementById('versionAdvancedButton').textContent = t.advanced;
+		document.getElementById('versionContestButton').textContent = t.contest;
 
 		// 鎖住頁面：攔截視窗外的鍵盤操作（避免 Tab 鍵跳到底下的元素）
 		function blockKeys(e) {
@@ -151,6 +159,11 @@ Main page: https://fustyles.github.io/competition/
 		// 普通版：轉址
 		document.getElementById('versionStandardButton').addEventListener('click', function () {
 			window.location.href = 'offline';
+		});
+
+		// 競賽版：轉址
+		document.getElementById('versionContestButton').addEventListener('click', function () {
+			window.location.href = 'contest/index.html';
 		});
 
 		// 進階版：解鎖，進入目前網頁
