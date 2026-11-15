@@ -84,7 +84,7 @@ Blockly.JavaScript['controls_if_2_scratch'] = function(block) {
   return code;
 };
 
-//Blockly.JavaScript['controls_repeat_ext_scratch'] = Blockly.JavaScript['controls_repeat_ext'];
+//Blockly.JavaScript['controls_repeat_ext_scratch'] = Blockly.JavaScript.forBlock['controls_repeat_ext'] || Blockly.JavaScript['controls_repeat_ext'];
 Blockly.JavaScript['controls_repeat_ext_scratch'] = function(block) {
   var times = Blockly.JavaScript.valueToCode(block, 'TIMES', Blockly.JavaScript.ORDER_FUNCTION_CALL);
   var statements_do = Blockly.JavaScript.statementToCode(block, 'DO');
@@ -218,7 +218,7 @@ Blockly.JavaScript['list_itemnumoflist_scratch'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-//Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = Blockly.JavaScript['procedures_defnoreturn'];
+//Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = Blockly.JavaScript.forBlock['procedures_defnoreturn'] || Blockly.JavaScript['procedures_defnoreturn'];
 
 Blockly.JavaScript['javascript_procedures_defnoreturn_scratch'] = function(block, generator) {
     const functionName = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('NAME'), "PROCEDURE");
