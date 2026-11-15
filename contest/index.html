@@ -98,7 +98,7 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		.lang-wrap { display: inline-flex; align-items: center; }
 
 		/* 工具列按鈕分組 */
-		#tabs.toolbar-buttons { display: inline-flex; align-items: center; justify-content: flex-end; margin: 0; padding: 0; }
+		#tabs.toolbar-buttons { display: flex; align-items: center; justify-content: center; margin: 0; padding: 0; }
 		#tabs .tb-sep {
 			display: inline-block;
 			width: 1px;
@@ -256,7 +256,10 @@ Copyright 2026 Taiwan (ChungYi Fu)
 					<li id="tab_category_content"><a id="msg_toolbox" onclick="displayTab('category_content');">Toolbox</a></li>
 				</ul>
 			</td>
-			<td style="width: 540px;text-align: right;vertical-align: middle;padding-right: 32px;">
+			<!-- 按鈕置中對齊下方試題內容視窗（視窗預設位置 left: calc(100vw - 478px)、寬 450px，中心在 100vw - 252px）：
+			     表格的 width 不含 padding：內容寬 504px＋左邊 padding 36px＝540px，
+			     內容區為 100vw - 504px ～ 100vw，中心＝100vw - 252px -->
+			<td style="width: 504px;text-align: center;vertical-align: middle;padding: 0 0 0 36px;">
 				<ul id="tabs" class="toolbar-buttons">
 					<!-- https://fonts.google.com/icons -->
 					<!-- 題目：匯入題目 -->
