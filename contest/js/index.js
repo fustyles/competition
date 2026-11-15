@@ -2419,8 +2419,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		setTimeout(function () { t.remove(); }, 5000);
 	}
 
-	// 清空工作區積木、試題內容區（題目、執行結果、評分結果）與目前題目的全域變數
-	// 各帳號的評分紀錄保留（只有該帳號登錄後才看得到）
+	// 清空工作區積木、試題內容區（題目、執行結果、正式評分結果與評分紀錄）與目前題目的全域變數
 	function resetSessionData() {
 		newFile();                               // 清空工作區與執行結果
 		try { workspace.clearUndo(); } catch (e) {}   // 不可再「復原」回上一位使用者的積木
@@ -2429,6 +2428,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			localStorage.removeItem(WORKSPACE_STORAGE_KEY);
 			localStorage.removeItem(QUESTION_STORAGE_KEY);
 			localStorage.removeItem(QUESTION_META_KEY);
+			// 評分紀錄：清除此瀏覽器中所有帳號的紀錄
+			Object.keys(localStorage)
+				.filter(function (k) { return k.indexOf(GRADING_STORAGE_PREFIX) === 0; })
+				.forEach(function (k) { localStorage.removeItem(k); });
 		} catch (e) {}
 		document.getElementById('question_input').innerHTML = '';
 		examName = examQuestionNo = examQuestionName = '';
