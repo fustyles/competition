@@ -43,6 +43,7 @@ var examKey          = '';   // 登錄密碼（＝題庫解密金鑰），只存
 
 // ===== 閒置清空：登錄時若距離上次使用超過 90 分鐘，清空工作區積木與試題內容（含評分紀錄）=====
 var LAST_ACTIVE_KEY   = 'francis_last_active_standard';
+var LAST_ACCOUNT_KEY  = 'francis_last_account_standard';   // 上一位登錄的帳號（帳號不同時詢問是否清除資料）
 var INACTIVE_RESET_MS = 90 * 60 * 1000;   // 要改時間只改這裡（分鐘 × 60 × 1000）
 // 在頁面載入時先讀出上次使用時間（登錄前不更新，避免輸入帳號密碼時就被覆蓋）
 var lastActiveAtLoad = (function () {
@@ -69,6 +70,7 @@ var ExamLogin = (function () {
 
 	var unlocked = null;      // [{ name, file, contest }]，登錄成功後才有值
 	var account  = '';
+	var resetReason = '';     // 'account'：與上一位帳號不同且考生同意清除資料
 	var callbacks = [];
 	var overlay, docKeyBlocker;
 
@@ -189,6 +191,14 @@ var ExamLogin = (function () {
 			'#examLoginOverlay button{width:100%;padding:11px;font-size:17px;font-weight:bold;letter-spacing:4px;color:#fff;background:#4a5d85;border:0;border-radius:8px;cursor:pointer;}' +
 			'#examLoginOverlay button:hover:not(:disabled){background:#3b4b6e;}' +
 			'#examLoginOverlay button:disabled{background:#a5afc8;cursor:wait;}' +
+			'#examLoginOverlay .el-confirm{padding:20px 22px 22px;}' +
+			'#examLoginOverlay .el-confirm-text{font-size:15px;line-height:1.8;color:#374151;margin-bottom:14px;}' +
+			'#examLoginOverlay .el-confirm-text b{color:#4a5d85;}' +
+			'#examLoginOverlay .el-confirm-warn{display:block;margin-top:8px;padding:8px 10px;border-radius:6px;background:#fef2f2;color:#b91c1c;font-size:14px;}' +
+			'#examLoginOverlay button.el-danger{background:#dc2626;letter-spacing:1px;margin-bottom:8px;}' +
+			'#examLoginOverlay button.el-danger:hover{background:#b91c1c;}' +
+			'#examLoginOverlay button.el-cancel{background:#fff;color:#4a5d85;border:1px solid #7d8bb0;letter-spacing:1px;}' +
+			'#examLoginOverlay button.el-cancel:hover{background:#eef1f8;}' +
 			'#examLoginBadge{position:fixed;right:10px;bottom:10px;z-index:2147482000;background:rgba(74,93,133,.92);color:#fff;font-size:13px;' +
 			'padding:4px 12px;border-radius:999px;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;pointer-events:none;}';
 		document.head.appendChild(css);
@@ -248,6 +258,20 @@ var ExamLogin = (function () {
 					pwdEl.classList.add('el-bad');
 					return;
 				}
+				var lastAcc = '';
+				try { lastAcc = localStorage.getItem(LAST_ACCOUNT_KEY) || ''; } catch (e2) {}
+				if (lastAcc && lastAcc !== acc) {
+					// 與上一位登錄帳號不同：不論間隔多久都先詢問，同意才清除資料並登錄
+					return askAccountSwitch(lastAcc, acc).then(function (ok) {
+						if (ok) {
+							resetReason = 'account';
+							unlock(acc, list, pwd);
+						} else {
+							setMsg('已取消登錄，請重新輸入登錄帳號與登錄密碼');
+							setTimeout(function () { accEl.focus(); accEl.select(); }, 0);
+						}
+					});
+				}
 				unlock(acc, list, pwd);
 			}, function (err) {
 				console.error(err);
@@ -256,7 +280,7 @@ var ExamLogin = (function () {
 				if (!unlocked) {
 					btnEl.disabled = false; accEl.disabled = false; pwdEl.disabled = false;
 					pwdEl.value = '';
-					pwdEl.focus();
+					if (!resetReason && msgEl.textContent.indexOf('已取消') !== 0) pwdEl.focus();
 				}
 			});
 		});
@@ -264,10 +288,38 @@ var ExamLogin = (function () {
 		setTimeout(function () { accEl.focus(); accEl.select(); }, 0);
 	}
 
+	// 在登錄視窗內顯示「帳號不同」確認畫面；回傳 Promise<boolean>（true＝清除資料並登錄）
+	function askAccountSwitch(lastAcc, acc) {
+		return new Promise(function (resolve) {
+			var form = overlay.querySelector('#examLoginForm');
+			var panel = document.createElement('div');
+			panel.className = 'el-confirm';
+			panel.innerHTML =
+				'<div class="el-confirm-text">此電腦上一位登錄的帳號是 <b class="el-prev"></b>，' +
+				'與本次登錄的帳號 <b class="el-now"></b> 不同。' +
+				'<span class="el-confirm-warn">繼續登錄將清除工作區積木、試題內容與所有評分紀錄，且無法復原。</span></div>' +
+				'<button type="button" class="el-danger">清除資料並登錄</button>' +
+				'<button type="button" class="el-cancel">取消，回到登錄畫面</button>';
+			panel.querySelector('.el-prev').textContent = lastAcc;
+			panel.querySelector('.el-now').textContent = acc;
+			form.style.display = 'none';
+			form.parentNode.appendChild(panel);
+			var done = function (ok) {
+				panel.remove();
+				form.style.display = '';
+				resolve(ok);
+			};
+			panel.querySelector('.el-danger').addEventListener('click', function () { done(true); });
+			panel.querySelector('.el-cancel').addEventListener('click', function () { done(false); });
+			setTimeout(function () { panel.querySelector('.el-cancel').focus(); }, 0);   // 預設焦點在「取消」
+		});
+	}
+
 	function unlock(acc, list, key) {
 		account = acc;
 		examAccount = acc;   // 全域變數：登錄帳號
 		examKey = key;       // 全域變數：登錄密碼（加密／解密積木結構檔用）
+		try { localStorage.setItem(LAST_ACCOUNT_KEY, acc); } catch (e) {}
 		unlocked = list;
 		['keydown', 'keyup', 'keypress'].forEach(function (t) { document.removeEventListener(t, docKeyBlocker, true); });
 		overlay.remove();
@@ -292,7 +344,8 @@ var ExamLogin = (function () {
 		onUnlock: function (cb) { unlocked ? cb(unlocked) : callbacks.push(cb); },
 		getExams: function () { return unlocked ? unlocked.slice() : []; },
 		getAccount: function () { return account; },
-		isUnlocked: function () { return !!unlocked; }
+		isUnlocked: function () { return !!unlocked; },
+		resetReason: function () { return resetReason; }
 	};
 })();
 
@@ -2448,7 +2501,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		renderGradePanel();
 		whenAppReady(function () {
 			var idle = Date.now() - lastActiveAtLoad;
-			if (!lastActiveAtLoad || idle > INACTIVE_RESET_MS || idle < 0) {
+			if (ExamLogin.resetReason() === 'account') {
+				// 與上一位帳號不同，考生已同意清除
+				resetSessionData();
+				showToast('已切換登錄帳號，先前的工作區積木、試題內容與評分紀錄已清除。');
+			} else if (!lastActiveAtLoad || idle > INACTIVE_RESET_MS || idle < 0) {
 				resetSessionData();
 				if (lastActiveAtLoad) showToast('距離上次使用已超過 ' + Math.round(INACTIVE_RESET_MS / 60000) + ' 分鐘，已清空工作區積木與試題內容。');
 			}
