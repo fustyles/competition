@@ -17,7 +17,7 @@
 
 var Blockly = Blockly || { Msg: Object.create(null) };
 
-Blockly.Msg["FSM_TITLE"] = "France Problem Solving Block Platform";
+Blockly.Msg["FSM_TITLE"] = "STEM Education Competitions - IT Category Competition Platform";
 Blockly.Msg["JAVASCRIPT_CREATE_HEADER"] = "Create a block";
 Blockly.Msg["JAVASCRIPT_CREATE_BLOCKNAME_LABEL"] = "Block name";
 Blockly.Msg["JAVASCRIPT_CREATE_VARIABLE_LABEL"] = "Parameter list";
