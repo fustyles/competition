@@ -2023,8 +2023,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function stopCode() {
-	  document.getElementById("iframe_output").src = "about:blank";
-	}		
+	  // 原本設定 src = "about:blank"：本機 file:// 開啟時 iframe 會變成不同來源，之後無法寫入執行結果。
+	  // 改為直接清空內容（效果相同）。
+	  resetOutput();
+	}
 	
 	document.getElementById('button_run').onclick = function () {  
 	  document.getElementById('javascript_content').style.display = "block";
