@@ -23,7 +23,7 @@ Blockly.JavaScript['javascript_data_output'] = function(block) {
 	var code = 'await data_output("'+Blockly.Msg["JAVASCRIPT_DATA_OUTPUT"]+'",'+TEXT+');\n';	
 	return code;
 };
-Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript.forBlock['javascript_data_output'];
+Blockly.JavaScript['javascript_data_output_scratch'] = Blockly.JavaScript.forBlock['javascript_data_output'] || Blockly.JavaScript['javascript_data_output'];
 
 Blockly.JavaScript['javascript_start_scratch'] = function(block) {
 	const nextBlock = block.getNextBlock();
@@ -92,8 +92,8 @@ Blockly.JavaScript['controls_repeat_ext_scratch'] = function(block) {
   var i = "i_"+block.id.replace(/[^a-zA-Z0-9 ]/g, '');
   return "var "+id+" = Number("+times+");\nfor (var "+i+" = 0; "+i+" < "+id+"; "+i+"++) {\n"+statements_do+"await delay(0.01);\n}\n";
 };
-Blockly.JavaScript['controls_whileUntil_scratch'] = Blockly.JavaScript.forBlock['controls_whileUntil'];
-Blockly.JavaScript['controls_flow_statements_scratch'] = Blockly.JavaScript.forBlock['controls_flow_statements'];
+Blockly.JavaScript['controls_whileUntil_scratch'] = Blockly.JavaScript.forBlock['controls_whileUntil'] || Blockly.JavaScript['controls_whileUntil'];
+Blockly.JavaScript['controls_flow_statements_scratch'] = Blockly.JavaScript.forBlock['controls_flow_statements'] || Blockly.JavaScript['controls_flow_statements'];
 
 Blockly.JavaScript['text_join_scratch'] = function(block) {
   var text1 = Blockly.JavaScript.valueToCode(block, 'VALUE1', Blockly.JavaScript.ORDER_FUNCTION_CALL) || "''";	
@@ -140,8 +140,8 @@ Blockly.JavaScript['variables_get_other'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.JavaScript['variables_set_other'] = Blockly.JavaScript.forBlock['variables_set_local'];
-Blockly.JavaScript['math_change_other'] = Blockly.JavaScript.forBlock['math_change'];
+Blockly.JavaScript['variables_set_other'] = Blockly.JavaScript.forBlock['variables_set_local'] || Blockly.JavaScript['variables_set_local'];
+Blockly.JavaScript['math_change_other'] = Blockly.JavaScript.forBlock['math_change'] || Blockly.JavaScript['math_change'];
 
 Blockly.JavaScript['variables_get_array'] = function(block) {
   var VAR = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME); 
@@ -277,10 +277,10 @@ Blockly.JavaScript['javascript_variable_boolean_scratch'] = function(block) {
 };
 
 Blockly.Blocks['variables_set'] = Blockly.Blocks['variables_set_local'];
-Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'];
+Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'] || Blockly.JavaScript['variables_set_local'];
 
-Blockly.JavaScript['text_print'] = Blockly.JavaScript.forBlock['javascript_console_scratch'];
-Blockly.JavaScript['text_prompt_ext'] = Blockly.JavaScript.forBlock['javascript_data_input'];
+Blockly.JavaScript['text_print'] = Blockly.JavaScript.forBlock['javascript_console_scratch'] || Blockly.JavaScript['javascript_console_scratch'];
+Blockly.JavaScript['text_prompt_ext'] = Blockly.JavaScript.forBlock['javascript_data_input'] || Blockly.JavaScript['javascript_data_input'];
 
-Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'];
-Blockly.JavaScript['text_prompt'] = Blockly.JavaScript.forBlock['javascript_data_input'];
+Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'] || Blockly.JavaScript['variables_set_local'];
+Blockly.JavaScript['text_prompt'] = Blockly.JavaScript.forBlock['javascript_data_input'] || Blockly.JavaScript['javascript_data_input'];
