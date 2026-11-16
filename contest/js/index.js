@@ -66,6 +66,15 @@ var RunWatch = (function () {
 	var RING_LEN = 2 * Math.PI * 28;   // 倒數圓環周長（r = 28）
 	var run = null;   // { start, paused, pauseAt, done, onTimeout, timer, el }
 
+	// 執行期間鎖定鍵盤（滑鼠由全螢幕遮罩擋住），避免操作積木或重複按按鈕
+	function keyBlocker(e) { e.stopPropagation(); e.preventDefault(); }
+	function lockKeys(on) {
+		['keydown', 'keyup', 'keypress'].forEach(function (t) {
+			if (on) document.addEventListener(t, keyBlocker, true);
+			else document.removeEventListener(t, keyBlocker, true);
+		});
+	}
+
 	function elapsed() {
 		if (!run) return 0;
 		var paused = run.paused + (run.pauseAt ? Date.now() - run.pauseAt : 0);
@@ -98,6 +107,7 @@ var RunWatch = (function () {
 		run.done = true;
 		clearInterval(run.timer);
 		if (run.el) run.el.remove();
+		lockKeys(false);
 		run = null;
 	}
 
@@ -112,9 +122,12 @@ var RunWatch = (function () {
 	function start(title, onTimeout) {
 		finish();
 		run = { start: Date.now(), paused: 0, pauseAt: 0, done: false, onTimeout: onTimeout, timer: null, el: null };
-		var host = document.getElementById('javascript_code') || document.body;
+		// 全螢幕遮罩：執行期間整個畫面鎖定
+		var host = document.body;
 		var el = document.createElement('div');
 		el.className = 'run-watch';
+		el.setAttribute('role', 'alertdialog');
+		el.setAttribute('aria-live', 'polite');
 		el.innerHTML =
 			'<div class="rw-card">' +
 				'<div class="rw-dial">' +
@@ -129,6 +142,8 @@ var RunWatch = (function () {
 		el.querySelector('.rw-title').textContent = title;
 		host.appendChild(el);
 		run.el = el;
+		lockKeys(true);
+		if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
 		run.timer = setInterval(tick, 200);
 		render();
 	}
