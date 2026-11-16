@@ -48,6 +48,11 @@
   tr:hover td { background:#f8f9fd; }
   .score { font-weight:bold; color:#c2410c; }
   .s-ok { color:var(--ok); } .s-err { color:var(--err); font-weight:bold; } .s-warn { color:var(--warn); }
+  .s-run { color:#7c3aed; font-weight:bold; }
+  .rs { display:inline-block; padding:1px 8px; border-radius:999px; font-size:12px; white-space:nowrap; }
+  .rs-ok { background:#ecfdf5; color:var(--ok); }
+  .rs-bad { background:#f3e8ff; color:#7c3aed; font-weight:bold; }
+  .stat.run { background:#f3e8ff; color:#7c3aed; }
   .empty { padding:24px; text-align:center; color:#6b7280; }
   .sum-tbl td, .sum-tbl th { text-align:center; }
   .sum-tbl td:first-child { text-align:left; font-weight:bold; }
@@ -201,6 +206,8 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
       exam: root.getAttribute('exam') || '',
       question: root.getAttribute('question') || '',
       platform: root.getAttribute('platform') || '',
+      runStatus: root.getAttribute('status') || '',          // success / error（舊檔沒有此屬性）
+      errorType: root.getAttribute('error_type') || '',      // timeout / exception
       graded,
       blocks: root.getElementsByTagName('block').length,
     };
@@ -222,8 +229,11 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
           else {
             Object.assign(row, r);
             row.keyIndex = d.keyIndex;
+            row.runText = r.runStatus === 'success' ? '成功'
+              : r.runStatus === 'error' ? '錯誤（' + (r.errorType === 'timeout' ? '逾時' : '程式錯誤') + '）' : '';
             if (!r.hasRecord) { row.status = 'warn'; row.msg = '檔案中沒有成績紀錄'; }
             else if (r.score === null) { row.status = 'warn'; row.msg = '未評分（儲存時未選題目）'; }
+            else if (r.runStatus === 'error') { row.status = 'run'; row.msg = '執行錯誤，以 0 分計'; }
             else if (d.keyIndex === 0) { row.status = 'warn'; row.msg = '未加密檔案（分數可能被修改）'; }
             else { row.status = 'ok'; row.msg = keys.length > 1 ? `金鑰 ${d.keyIndex}` : '成功'; }
           }
@@ -240,7 +250,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
   // ---------- 顯示 ----------
   const COLS = [
     ['path', '檔案'], ['account', '登錄帳號'], ['exam', '題庫'], ['no', '題號'], ['question', '題目'],
-    ['score', '得分'], ['total', '滿分'], ['graded', '評分時間'], ['msg', '狀態'],
+    ['score', '得分'], ['total', '滿分'], ['runText', '執行狀態'], ['graded', '評分時間'], ['msg', '狀態'],
   ];
   const fmtTime = (t) => {
     if (!t) return '';
@@ -259,7 +269,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
   function visibleRows() {
     let list = rows.slice();
     const f = $('filter').value.trim().toLowerCase();
-    if (f) list = list.filter(r => [r.path, r.account, r.exam, r.no, r.question, r.msg].some(v => String(v || '').toLowerCase().includes(f)));
+    if (f) list = list.filter(r => [r.path, r.account, r.exam, r.no, r.question, r.msg, r.runText].some(v => String(v || '').toLowerCase().includes(f)));
     if ($('latestOnly').checked) {
       const best = new Map();
       for (const r of list) {
@@ -278,6 +288,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
     const n = (s) => rows.filter(r => r.status === s).length;
     $('stats').innerHTML =
       `<span class="stat">檔案 ${rows.length}</span><span class="stat">成功 ${n('ok')}</span>` +
+      (n('run') ? `<span class="stat run">執行錯誤 ${n('run')}</span>` : '') +
       (n('warn') ? `<span class="stat bad">需注意 ${n('warn')}</span>` : '') +
       (n('err') ? `<span class="stat bad">無法讀取 ${n('err')}</span>` : '') +
       `<span class="stat">考生 ${new Set(rows.filter(r => r.account).map(r => r.account)).size} 人</span>` +
@@ -299,6 +310,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
         <td>${esc(r.question)}</td>
         <td class="num score">${r.score == null ? '' : r.score}</td>
         <td class="num">${r.total == null ? '' : r.total}</td>
+        <td>${r.runText ? `<span class="rs ${r.runStatus === 'error' ? 'rs-bad' : 'rs-ok'}">${esc(r.runText)}</span>` : ''}</td>
         <td>${fmtTime(r.graded)}</td>
         <td class="s-${r.status}">${esc(r.msg)}</td></tr>`).join('') +
       '</tbody></table>';
@@ -345,8 +357,8 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
   $('btnCsv').onclick = () => {
     const q = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
     const list = visibleRows();
-    const lines = [['檔案', '登錄帳號', '題庫', '題號', '題目', '得分', '滿分', '評分時間', '狀態'].map(q).join(',')];
-    list.forEach(r => lines.push([r.path, r.account, r.exam, r.no, r.question, r.score, r.total, fmtTime(r.graded), r.msg].map(q).join(',')));
+    const lines = [['檔案', '登錄帳號', '題庫', '題號', '題目', '得分', '滿分', '執行狀態', '評分時間', '狀態'].map(q).join(',')];
+    list.forEach(r => lines.push([r.path, r.account, r.exam, r.no, r.question, r.score, r.total, r.runText, fmtTime(r.graded), r.msg].map(q).join(',')));
     if ($('showSummary').checked) {
       const { nos, people } = summaryData(list);
       if (people.length) {
