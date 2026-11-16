@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>試題檔加密工具</title>
+<style>
+  :root { --main:#4a5d85; --sub:#7d8bb0; --bg:#f4f6fb; --ok:#10b981; --err:#dc2626; --warn:#b45309; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:#1f2937;
+         font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif; }
+  .wrap { max-width:820px; margin:32px auto; padding:0 16px; }
+  h1 { margin:0 0 6px; color:var(--main); font-size:26px; letter-spacing:1px; }
+  .lead { margin:0 0 22px; color:#6b7280; font-size:15px; line-height:1.7; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-left:6px solid var(--sub);
+          border-radius:10px; padding:18px 20px; margin-bottom:18px; }
+  .card h2 { margin:0 0 12px; font-size:18px; color:var(--main); }
+  label { display:block; font-weight:bold; margin:10px 0 6px; font-size:15px; }
+  input[type=password], input[type=text] { width:100%; padding:9px 12px; font-size:16px;
+          border:1px solid #c7d2fe; border-radius:8px; font-family:Consolas,Menlo,monospace; }
+  input:focus { outline:2px solid var(--sub); border-color:transparent; }
+  button { background:var(--main); color:#fff; border:0; border-radius:8px; padding:10px 18px;
+           font-size:15px; font-family:inherit; cursor:pointer; margin:4px 8px 4px 0; }
+  button:hover:not(:disabled) { background:#3b4b6e; }
+  button:disabled { background:#a5afc8; cursor:not-allowed; }
+  button.ghost { background:#fff; color:var(--main); border:1px solid var(--sub); }
+  .hint { font-size:13px; color:#6b7280; margin-top:6px; line-height:1.6; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .chk { font-weight:normal; display:inline-flex; gap:6px; align-items:center; margin:8px 0 0; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin-top:8px; }
+  th { background:var(--sub); color:#fff; padding:6px 10px; text-align:left; }
+  td { padding:6px 10px; border-bottom:1px solid #e5e7eb; vertical-align:top; }
+  .s-ok { color:var(--ok); font-weight:bold; } .s-err { color:var(--err); font-weight:bold; }
+  .s-wait { color:#6b7280; }
+  #keyTbl input { padding:6px 8px; font-size:14px; min-width:120px; }
+  #keyTbl input.bad { border-color:var(--err); background:#fef2f2; }
+  #keyTbl input.good { border-color:var(--ok); }
+  #keyTbl td.msg { font-size:13px; white-space:nowrap; }
+  #log { background:#1f2937; color:#e5e7eb; font-family:Consolas,Menlo,monospace; font-size:13px;
+         border-radius:8px; padding:12px; max-height:240px; overflow:auto; white-space:pre-wrap; margin:0; }
+  .err { color:#fca5a5; } .ok { color:#86efac; } .warn { color:#fcd34d; }
+  pre.code { background:#f3f4f6; border-radius:8px; padding:12px; font-size:13px; overflow:auto;
+             font-family:Consolas,Menlo,monospace; line-height:1.55; }
+  details summary { cursor:pointer; color:var(--main); font-weight:bold; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔐 試題檔加密工具</h1>
+  <p class="lead">選擇放有 <code>list.js</code> 的資料夾、輸入金鑰，工具會依 <code>examList</code> 讀取同資料夾的試題檔，
+    以本頁內嵌的 CryptoJS AES 加密，再由你選擇存放加密檔的資料夾。所有處理都在本機瀏覽器完成，不會上傳任何檔案。</p>
+
+  <div class="card">
+    <h2>① 選擇 list.js 所在資料夾</h2>
+    <div class="row">
+      <button id="btnPickDir">選擇資料夾</button>
+      <button id="btnPickFiles" class="ghost">改為選擇多個檔案</button>
+      <input id="dirInput" type="file" webkitdirectory hidden>
+      <input id="filesInput" type="file" accept=".js" multiple hidden>
+    </div>
+    <div class="hint">
+      只會讀取，不會修改這個資料夾中的任何檔案。<br>
+      「選擇多個檔案」模式：請同時選取 list.js 與所有試題檔。
+    </div>
+    <div id="fileInfo"></div>
+  </div>
+
+  <div class="card">
+    <h2>② 為每個試題檔設定金鑰</h2>
+    <div id="keyEmpty" class="hint">請先選擇資料夾，讀取 list.js 後會列出每個試題檔。</div>
+    <div id="keyArea" hidden>
+      <table id="keyTbl">
+        <thead><tr><th>組別</th><th>檔案</th><th>金鑰</th><th>再輸入一次</th><th>檢查</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="row" style="margin-top:10px;">
+        <label class="chk" style="margin:0 12px 0 0;"><input id="showKey" type="checkbox"> 顯示金鑰</label>
+        <button id="btnGenKeys" class="ghost" type="button">全部隨機產生金鑰</button>
+        <button id="btnExportKeys" class="ghost" type="button" disabled>匯出金鑰清單（CSV）</button>
+      </div>
+      <div id="keySummary" class="hint"></div>
+    </div>
+    <div class="hint">規則：每個檔案都必須有金鑰、兩次輸入一致、前後不可有空白，且<b>所有檔案的金鑰不可相同</b>（大小寫視為不同字元）。<br>
+      請妥善保存每個金鑰；遺失金鑰將無法解密該組試題。匯出的金鑰清單請勿與加密檔放在一起。</div>
+  </div>
+
+  <div class="card">
+    <h2>③ 輸出設定</h2>
+    <label for="varName">加密檔中的變數名稱</label>
+    <input id="varName" type="text" value="encryptedExam">
+    <div class="hint">
+      按「開始加密」後會跳出視窗，請選擇存放加密檔的資料夾（例如網站的 <code>exam</code> 資料夾）。<br>
+      輸出檔名與原試題檔相同，內容為 <code>var 變數名稱 = "密文";</code>。<br>
+      資料夾中若已有同名的<b>舊加密檔</b>會直接取代；若同名檔是<b>未加密的原始試題檔</b>，則不會寫入任何檔案，請改選其他資料夾。<br>
+      不支援選擇資料夾的瀏覽器（Chrome / Edge 以外）會改以下載方式輸出。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>④ 執行</h2>
+    <button id="btnRun" disabled>開始加密</button>
+    <table id="tbl" hidden>
+      <thead><tr><th>組別</th><th>檔案</th><th>原始大小</th><th>加密後</th><th>狀態</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <label>訊息</label>
+    <pre id="log">尚未選擇資料夾。</pre>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>解密載入範例（放在出題頁面使用）</summary>
+      <p class="hint">加密檔載入後會得到密文變數；用該檔專屬的金鑰解密，並以 &lt;script&gt; 方式執行，原本試題檔中的 <code>contest</code> 等變數就會和未加密時一樣可用。</p>
+<pre class="code" id="sample"></pre>
+    </details>
+  </div>
+</div>
+
+<script>
+/* ===== CryptoJS（內嵌 aes.js，不需另外載入） ===== */
+/*
+CryptoJS v3.1.2
+code.google.com/p/crypto-js
+(c) 2009-2013 by Jeff Mott. All rights reserved.
+code.google.com/p/crypto-js/wiki/License
+*/
+var CryptoJS=CryptoJS||function(u,p){var d={},l=d.lib={},s=function(){},t=l.Base={extend:function(a){s.prototype=this;var c=new s;a&&c.mixIn(a);c.hasOwnProperty("init")||(c.init=function(){c.$super.init.apply(this,arguments)});c.init.prototype=c;c.$super=this;return c},create:function(){var a=this.extend();a.init.apply(a,arguments);return a},init:function(){},mixIn:function(a){for(var c in a)a.hasOwnProperty(c)&&(this[c]=a[c]);a.hasOwnProperty("toString")&&(this.toString=a.toString)},clone:function(){return this.init.prototype.extend(this)}},
+r=l.WordArray=t.extend({init:function(a,c){a=this.words=a||[];this.sigBytes=c!=p?c:4*a.length},toString:function(a){return(a||v).stringify(this)},concat:function(a){var c=this.words,e=a.words,j=this.sigBytes;a=a.sigBytes;this.clamp();if(j%4)for(var k=0;k<a;k++)c[j+k>>>2]|=(e[k>>>2]>>>24-8*(k%4)&255)<<24-8*((j+k)%4);else if(65535<e.length)for(k=0;k<a;k+=4)c[j+k>>>2]=e[k>>>2];else c.push.apply(c,e);this.sigBytes+=a;return this},clamp:function(){var a=this.words,c=this.sigBytes;a[c>>>2]&=4294967295<<
+32-8*(c%4);a.length=u.ceil(c/4)},clone:function(){var a=t.clone.call(this);a.words=this.words.slice(0);return a},random:function(a){for(var c=[],e=0;e<a;e+=4)c.push(4294967296*u.random()|0);return new r.init(c,a)}}),w=d.enc={},v=w.Hex={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++){var k=c[j>>>2]>>>24-8*(j%4)&255;e.push((k>>>4).toString(16));e.push((k&15).toString(16))}return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j+=2)e[j>>>3]|=parseInt(a.substr(j,
+2),16)<<24-4*(j%8);return new r.init(e,c/2)}},b=w.Latin1={stringify:function(a){var c=a.words;a=a.sigBytes;for(var e=[],j=0;j<a;j++)e.push(String.fromCharCode(c[j>>>2]>>>24-8*(j%4)&255));return e.join("")},parse:function(a){for(var c=a.length,e=[],j=0;j<c;j++)e[j>>>2]|=(a.charCodeAt(j)&255)<<24-8*(j%4);return new r.init(e,c)}},x=w.Utf8={stringify:function(a){try{return decodeURIComponent(escape(b.stringify(a)))}catch(c){throw Error("Malformed UTF-8 data");}},parse:function(a){return b.parse(unescape(encodeURIComponent(a)))}},
+q=l.BufferedBlockAlgorithm=t.extend({reset:function(){this._data=new r.init;this._nDataBytes=0},_append:function(a){"string"==typeof a&&(a=x.parse(a));this._data.concat(a);this._nDataBytes+=a.sigBytes},_process:function(a){var c=this._data,e=c.words,j=c.sigBytes,k=this.blockSize,b=j/(4*k),b=a?u.ceil(b):u.max((b|0)-this._minBufferSize,0);a=b*k;j=u.min(4*a,j);if(a){for(var q=0;q<a;q+=k)this._doProcessBlock(e,q);q=e.splice(0,a);c.sigBytes-=j}return new r.init(q,j)},clone:function(){var a=t.clone.call(this);
+a._data=this._data.clone();return a},_minBufferSize:0});l.Hasher=q.extend({cfg:t.extend(),init:function(a){this.cfg=this.cfg.extend(a);this.reset()},reset:function(){q.reset.call(this);this._doReset()},update:function(a){this._append(a);this._process();return this},finalize:function(a){a&&this._append(a);return this._doFinalize()},blockSize:16,_createHelper:function(a){return function(b,e){return(new a.init(e)).finalize(b)}},_createHmacHelper:function(a){return function(b,e){return(new n.HMAC.init(a,
+e)).finalize(b)}}});var n=d.algo={};return d}(Math);
+(function(){var u=CryptoJS,p=u.lib.WordArray;u.enc.Base64={stringify:function(d){var l=d.words,p=d.sigBytes,t=this._map;d.clamp();d=[];for(var r=0;r<p;r+=3)for(var w=(l[r>>>2]>>>24-8*(r%4)&255)<<16|(l[r+1>>>2]>>>24-8*((r+1)%4)&255)<<8|l[r+2>>>2]>>>24-8*((r+2)%4)&255,v=0;4>v&&r+0.75*v<p;v++)d.push(t.charAt(w>>>6*(3-v)&63));if(l=t.charAt(64))for(;d.length%4;)d.push(l);return d.join("")},parse:function(d){var l=d.length,s=this._map,t=s.charAt(64);t&&(t=d.indexOf(t),-1!=t&&(l=t));for(var t=[],r=0,w=0;w<
+l;w++)if(w%4){var v=s.indexOf(d.charAt(w-1))<<2*(w%4),b=s.indexOf(d.charAt(w))>>>6-2*(w%4);t[r>>>2]|=(v|b)<<24-8*(r%4);r++}return p.create(t,r)},_map:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="}})();
+(function(u){function p(b,n,a,c,e,j,k){b=b+(n&a|~n&c)+e+k;return(b<<j|b>>>32-j)+n}function d(b,n,a,c,e,j,k){b=b+(n&c|a&~c)+e+k;return(b<<j|b>>>32-j)+n}function l(b,n,a,c,e,j,k){b=b+(n^a^c)+e+k;return(b<<j|b>>>32-j)+n}function s(b,n,a,c,e,j,k){b=b+(a^(n|~c))+e+k;return(b<<j|b>>>32-j)+n}for(var t=CryptoJS,r=t.lib,w=r.WordArray,v=r.Hasher,r=t.algo,b=[],x=0;64>x;x++)b[x]=4294967296*u.abs(u.sin(x+1))|0;r=r.MD5=v.extend({_doReset:function(){this._hash=new w.init([1732584193,4023233417,2562383102,271733878])},
+_doProcessBlock:function(q,n){for(var a=0;16>a;a++){var c=n+a,e=q[c];q[c]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360}var a=this._hash.words,c=q[n+0],e=q[n+1],j=q[n+2],k=q[n+3],z=q[n+4],r=q[n+5],t=q[n+6],w=q[n+7],v=q[n+8],A=q[n+9],B=q[n+10],C=q[n+11],u=q[n+12],D=q[n+13],E=q[n+14],x=q[n+15],f=a[0],m=a[1],g=a[2],h=a[3],f=p(f,m,g,h,c,7,b[0]),h=p(h,f,m,g,e,12,b[1]),g=p(g,h,f,m,j,17,b[2]),m=p(m,g,h,f,k,22,b[3]),f=p(f,m,g,h,z,7,b[4]),h=p(h,f,m,g,r,12,b[5]),g=p(g,h,f,m,t,17,b[6]),m=p(m,g,h,f,w,22,b[7]),
+f=p(f,m,g,h,v,7,b[8]),h=p(h,f,m,g,A,12,b[9]),g=p(g,h,f,m,B,17,b[10]),m=p(m,g,h,f,C,22,b[11]),f=p(f,m,g,h,u,7,b[12]),h=p(h,f,m,g,D,12,b[13]),g=p(g,h,f,m,E,17,b[14]),m=p(m,g,h,f,x,22,b[15]),f=d(f,m,g,h,e,5,b[16]),h=d(h,f,m,g,t,9,b[17]),g=d(g,h,f,m,C,14,b[18]),m=d(m,g,h,f,c,20,b[19]),f=d(f,m,g,h,r,5,b[20]),h=d(h,f,m,g,B,9,b[21]),g=d(g,h,f,m,x,14,b[22]),m=d(m,g,h,f,z,20,b[23]),f=d(f,m,g,h,A,5,b[24]),h=d(h,f,m,g,E,9,b[25]),g=d(g,h,f,m,k,14,b[26]),m=d(m,g,h,f,v,20,b[27]),f=d(f,m,g,h,D,5,b[28]),h=d(h,f,
+m,g,j,9,b[29]),g=d(g,h,f,m,w,14,b[30]),m=d(m,g,h,f,u,20,b[31]),f=l(f,m,g,h,r,4,b[32]),h=l(h,f,m,g,v,11,b[33]),g=l(g,h,f,m,C,16,b[34]),m=l(m,g,h,f,E,23,b[35]),f=l(f,m,g,h,e,4,b[36]),h=l(h,f,m,g,z,11,b[37]),g=l(g,h,f,m,w,16,b[38]),m=l(m,g,h,f,B,23,b[39]),f=l(f,m,g,h,D,4,b[40]),h=l(h,f,m,g,c,11,b[41]),g=l(g,h,f,m,k,16,b[42]),m=l(m,g,h,f,t,23,b[43]),f=l(f,m,g,h,A,4,b[44]),h=l(h,f,m,g,u,11,b[45]),g=l(g,h,f,m,x,16,b[46]),m=l(m,g,h,f,j,23,b[47]),f=s(f,m,g,h,c,6,b[48]),h=s(h,f,m,g,w,10,b[49]),g=s(g,h,f,m,
+E,15,b[50]),m=s(m,g,h,f,r,21,b[51]),f=s(f,m,g,h,u,6,b[52]),h=s(h,f,m,g,k,10,b[53]),g=s(g,h,f,m,B,15,b[54]),m=s(m,g,h,f,e,21,b[55]),f=s(f,m,g,h,v,6,b[56]),h=s(h,f,m,g,x,10,b[57]),g=s(g,h,f,m,t,15,b[58]),m=s(m,g,h,f,D,21,b[59]),f=s(f,m,g,h,z,6,b[60]),h=s(h,f,m,g,C,10,b[61]),g=s(g,h,f,m,j,15,b[62]),m=s(m,g,h,f,A,21,b[63]);a[0]=a[0]+f|0;a[1]=a[1]+m|0;a[2]=a[2]+g|0;a[3]=a[3]+h|0},_doFinalize:function(){var b=this._data,n=b.words,a=8*this._nDataBytes,c=8*b.sigBytes;n[c>>>5]|=128<<24-c%32;var e=u.floor(a/
+4294967296);n[(c+64>>>9<<4)+15]=(e<<8|e>>>24)&16711935|(e<<24|e>>>8)&4278255360;n[(c+64>>>9<<4)+14]=(a<<8|a>>>24)&16711935|(a<<24|a>>>8)&4278255360;b.sigBytes=4*(n.length+1);this._process();b=this._hash;n=b.words;for(a=0;4>a;a++)c=n[a],n[a]=(c<<8|c>>>24)&16711935|(c<<24|c>>>8)&4278255360;return b},clone:function(){var b=v.clone.call(this);b._hash=this._hash.clone();return b}});t.MD5=v._createHelper(r);t.HmacMD5=v._createHmacHelper(r)})(Math);
+(function(){var u=CryptoJS,p=u.lib,d=p.Base,l=p.WordArray,p=u.algo,s=p.EvpKDF=d.extend({cfg:d.extend({keySize:4,hasher:p.MD5,iterations:1}),init:function(d){this.cfg=this.cfg.extend(d)},compute:function(d,r){for(var p=this.cfg,s=p.hasher.create(),b=l.create(),u=b.words,q=p.keySize,p=p.iterations;u.length<q;){n&&s.update(n);var n=s.update(d).finalize(r);s.reset();for(var a=1;a<p;a++)n=s.finalize(n),s.reset();b.concat(n)}b.sigBytes=4*q;return b}});u.EvpKDF=function(d,l,p){return s.create(p).compute(d,
+l)}})();
+CryptoJS.lib.Cipher||function(u){var p=CryptoJS,d=p.lib,l=d.Base,s=d.WordArray,t=d.BufferedBlockAlgorithm,r=p.enc.Base64,w=p.algo.EvpKDF,v=d.Cipher=t.extend({cfg:l.extend(),createEncryptor:function(e,a){return this.create(this._ENC_XFORM_MODE,e,a)},createDecryptor:function(e,a){return this.create(this._DEC_XFORM_MODE,e,a)},init:function(e,a,b){this.cfg=this.cfg.extend(b);this._xformMode=e;this._key=a;this.reset()},reset:function(){t.reset.call(this);this._doReset()},process:function(e){this._append(e);return this._process()},
+finalize:function(e){e&&this._append(e);return this._doFinalize()},keySize:4,ivSize:4,_ENC_XFORM_MODE:1,_DEC_XFORM_MODE:2,_createHelper:function(e){return{encrypt:function(b,k,d){return("string"==typeof k?c:a).encrypt(e,b,k,d)},decrypt:function(b,k,d){return("string"==typeof k?c:a).decrypt(e,b,k,d)}}}});d.StreamCipher=v.extend({_doFinalize:function(){return this._process(!0)},blockSize:1});var b=p.mode={},x=function(e,a,b){var c=this._iv;c?this._iv=u:c=this._prevBlock;for(var d=0;d<b;d++)e[a+d]^=
+c[d]},q=(d.BlockCipherMode=l.extend({createEncryptor:function(e,a){return this.Encryptor.create(e,a)},createDecryptor:function(e,a){return this.Decryptor.create(e,a)},init:function(e,a){this._cipher=e;this._iv=a}})).extend();q.Encryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize;x.call(this,e,a,c);b.encryptBlock(e,a);this._prevBlock=e.slice(a,a+c)}});q.Decryptor=q.extend({processBlock:function(e,a){var b=this._cipher,c=b.blockSize,d=e.slice(a,a+c);b.decryptBlock(e,a);x.call(this,
+e,a,c);this._prevBlock=d}});b=b.CBC=q;q=(p.pad={}).Pkcs7={pad:function(a,b){for(var c=4*b,c=c-a.sigBytes%c,d=c<<24|c<<16|c<<8|c,l=[],n=0;n<c;n+=4)l.push(d);c=s.create(l,c);a.concat(c)},unpad:function(a){a.sigBytes-=a.words[a.sigBytes-1>>>2]&255}};d.BlockCipher=v.extend({cfg:v.cfg.extend({mode:b,padding:q}),reset:function(){v.reset.call(this);var a=this.cfg,b=a.iv,a=a.mode;if(this._xformMode==this._ENC_XFORM_MODE)var c=a.createEncryptor;else c=a.createDecryptor,this._minBufferSize=1;this._mode=c.call(a,
+this,b&&b.words)},_doProcessBlock:function(a,b){this._mode.processBlock(a,b)},_doFinalize:function(){var a=this.cfg.padding;if(this._xformMode==this._ENC_XFORM_MODE){a.pad(this._data,this.blockSize);var b=this._process(!0)}else b=this._process(!0),a.unpad(b);return b},blockSize:4});var n=d.CipherParams=l.extend({init:function(a){this.mixIn(a)},toString:function(a){return(a||this.formatter).stringify(this)}}),b=(p.format={}).OpenSSL={stringify:function(a){var b=a.ciphertext;a=a.salt;return(a?s.create([1398893684,
+1701076831]).concat(a).concat(b):b).toString(r)},parse:function(a){a=r.parse(a);var b=a.words;if(1398893684==b[0]&&1701076831==b[1]){var c=s.create(b.slice(2,4));b.splice(0,4);a.sigBytes-=16}return n.create({ciphertext:a,salt:c})}},a=d.SerializableCipher=l.extend({cfg:l.extend({format:b}),encrypt:function(a,b,c,d){d=this.cfg.extend(d);var l=a.createEncryptor(c,d);b=l.finalize(b);l=l.cfg;return n.create({ciphertext:b,key:c,iv:l.iv,algorithm:a,mode:l.mode,padding:l.padding,blockSize:a.blockSize,formatter:d.format})},
+decrypt:function(a,b,c,d){d=this.cfg.extend(d);b=this._parse(b,d.format);return a.createDecryptor(c,d).finalize(b.ciphertext)},_parse:function(a,b){return"string"==typeof a?b.parse(a,this):a}}),p=(p.kdf={}).OpenSSL={execute:function(a,b,c,d){d||(d=s.random(8));a=w.create({keySize:b+c}).compute(a,d);c=s.create(a.words.slice(b),4*c);a.sigBytes=4*b;return n.create({key:a,iv:c,salt:d})}},c=d.PasswordBasedCipher=a.extend({cfg:a.cfg.extend({kdf:p}),encrypt:function(b,c,d,l){l=this.cfg.extend(l);d=l.kdf.execute(d,
+b.keySize,b.ivSize);l.iv=d.iv;b=a.encrypt.call(this,b,c,d.key,l);b.mixIn(d);return b},decrypt:function(b,c,d,l){l=this.cfg.extend(l);c=this._parse(c,l.format);d=l.kdf.execute(d,b.keySize,b.ivSize,c.salt);l.iv=d.iv;return a.decrypt.call(this,b,c,d.key,l)}})}();
+(function(){for(var u=CryptoJS,p=u.lib.BlockCipher,d=u.algo,l=[],s=[],t=[],r=[],w=[],v=[],b=[],x=[],q=[],n=[],a=[],c=0;256>c;c++)a[c]=128>c?c<<1:c<<1^283;for(var e=0,j=0,c=0;256>c;c++){var k=j^j<<1^j<<2^j<<3^j<<4,k=k>>>8^k&255^99;l[e]=k;s[k]=e;var z=a[e],F=a[z],G=a[F],y=257*a[k]^16843008*k;t[e]=y<<24|y>>>8;r[e]=y<<16|y>>>16;w[e]=y<<8|y>>>24;v[e]=y;y=16843009*G^65537*F^257*z^16843008*e;b[k]=y<<24|y>>>8;x[k]=y<<16|y>>>16;q[k]=y<<8|y>>>24;n[k]=y;e?(e=z^a[a[a[G^z]]],j^=a[a[j]]):e=j=1}var H=[0,1,2,4,8,
+16,32,64,128,27,54],d=d.AES=p.extend({_doReset:function(){for(var a=this._key,c=a.words,d=a.sigBytes/4,a=4*((this._nRounds=d+6)+1),e=this._keySchedule=[],j=0;j<a;j++)if(j<d)e[j]=c[j];else{var k=e[j-1];j%d?6<d&&4==j%d&&(k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255]):(k=k<<8|k>>>24,k=l[k>>>24]<<24|l[k>>>16&255]<<16|l[k>>>8&255]<<8|l[k&255],k^=H[j/d|0]<<24);e[j]=e[j-d]^k}c=this._invKeySchedule=[];for(d=0;d<a;d++)j=a-d,k=d%4?e[j]:e[j-4],c[d]=4>d||4>=j?k:b[l[k>>>24]]^x[l[k>>>16&255]]^q[l[k>>>
+8&255]]^n[l[k&255]]},encryptBlock:function(a,b){this._doCryptBlock(a,b,this._keySchedule,t,r,w,v,l)},decryptBlock:function(a,c){var d=a[c+1];a[c+1]=a[c+3];a[c+3]=d;this._doCryptBlock(a,c,this._invKeySchedule,b,x,q,n,s);d=a[c+1];a[c+1]=a[c+3];a[c+3]=d},_doCryptBlock:function(a,b,c,d,e,j,l,f){for(var m=this._nRounds,g=a[b]^c[0],h=a[b+1]^c[1],k=a[b+2]^c[2],n=a[b+3]^c[3],p=4,r=1;r<m;r++)var q=d[g>>>24]^e[h>>>16&255]^j[k>>>8&255]^l[n&255]^c[p++],s=d[h>>>24]^e[k>>>16&255]^j[n>>>8&255]^l[g&255]^c[p++],t=
+d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j[h>>>8&255]^l[k&255]^c[p++],g=q,h=s,k=t;q=(f[g>>>24]<<24|f[h>>>16&255]<<16|f[k>>>8&255]<<8|f[n&255])^c[p++];s=(f[h>>>24]<<24|f[k>>>16&255]<<16|f[n>>>8&255]<<8|f[g&255])^c[p++];t=(f[k>>>24]<<24|f[n>>>16&255]<<16|f[g>>>8&255]<<8|f[h&255])^c[p++];n=(f[n>>>24]<<24|f[g>>>16&255]<<16|f[h>>>8&255]<<8|f[k&255])^c[p++];a[b]=q;a[b+1]=s;a[b+2]=t;a[b+3]=n},keySize:8});u.AES=p._createHelper(d)})();
+</script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const logEl = $('log');
+  const state = {
+    mode: null,          // 'dir' | 'files'
+    dirHandle: null,     // FileSystemDirectoryHandle
+    files: new Map(),    // name(lowercase) -> File
+    examList: null,
+    CryptoJS: null,
+  };
+
+  const log = (msg, cls) => {
+    const line = document.createElement('span');
+    if (cls) line.className = cls;
+    line.textContent = msg + '\n';
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  };
+  const clearLog = () => { logEl.textContent = ''; };
+  const fmtSize = (n) => n < 1024 ? n + ' B' : (n / 1024).toFixed(1) + ' KB';
+  const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  // ---------- 讀取檔案 ----------
+  async function readText(name) {
+    if (state.mode === 'dir' && state.dirHandle) {
+      // 支援 file 欄位含子路徑，例如 "sub/e.js"
+      const parts = name.split(/[\\/]/).filter(Boolean);
+      let dir = state.dirHandle;
+      for (let i = 0; i < parts.length - 1; i++) dir = await dir.getDirectoryHandle(parts[i]);
+      const fh = await dir.getFileHandle(parts[parts.length - 1]);
+      return (await fh.getFile()).text();
+    }
+    const f = state.files.get(name.toLowerCase()) ||
+              state.files.get(name.split(/[\\/]/).pop().toLowerCase());
+    if (!f) throw new Error('找不到檔案：' + name);
+    return f.text();
+  }
+
+
+  // 執行 list.js，取得 examList
+  function parseList(src) {
+    const fn = new Function(src + '\n;return (typeof examList !== "undefined") ? examList : undefined;');
+    const list = fn();
+    if (!Array.isArray(list)) throw new Error('list.js 中找不到 examList 陣列');
+    list.forEach((it, i) => {
+      if (!it || typeof it.file !== 'string' || !it.file.trim())
+        throw new Error(`examList 第 ${i + 1} 筆缺少 file 欄位`);
+    });
+    return list;
+  }
+
+  async function prepare() {
+    clearLog();
+    state.examList = null;
+    $('btnRun').disabled = true;
+    $('tbl').hidden = true;
+    try {
+      const listSrc = await readText('list.js');
+      state.examList = parseList(listSrc);
+      log(`✔ 讀取 list.js：共 ${state.examList.length} 個試題檔`, 'ok');
+    } catch (e) { log('✘ list.js：' + e.message, 'err'); renderInfo(); return; }
+    state.CryptoJS = CryptoJS;   // 使用本頁內嵌的 CryptoJS
+
+    // 預先檢查試題檔是否存在
+    let missing = 0;
+    for (const it of state.examList) {
+      try { await readText(it.file); }
+      catch { missing++; log(`⚠ 找不到試題檔：${it.file}（${it.name || ''}）`, 'warn'); }
+    }
+    if (!missing) log('✔ 所有試題檔皆存在', 'ok');
+
+    // 同一個輸出檔名出現兩次會互相覆蓋
+    const seen = new Map();
+    state.examList.forEach(it => {
+      const b = it.file.split(/[\\/]/).pop().toLowerCase();
+      seen.set(b, (seen.get(b) || 0) + 1);
+    });
+    state.dupFiles = [...seen].filter(([, n]) => n > 1).map(([b]) => b);
+    state.dupFiles.forEach(b => log(`✘ list.js 中檔名 ${b} 重複，輸出會互相覆蓋，請先修正 list.js`, 'err'));
+
+    renderInfo();
+    renderTable();
+    renderKeyTable();
+    updateRunBtn();
+  }
+
+  function renderInfo() {
+    const where = state.mode === 'dir' ? `資料夾：<b>${esc(state.dirHandle.name)}</b>（只讀取）`
+                                       : `已選 ${state.files.size} 個檔案`;
+    $('fileInfo').innerHTML = `<div class="hint" style="margin-top:10px;">${where}</div>`;
+  }
+
+  function renderTable() {
+    const tb = $('tbl').querySelector('tbody');
+    tb.innerHTML = '';
+    state.examList.forEach((it, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${esc(it.name || '')}</td><td><code>${esc(it.file)}</code></td>
+        <td id="sz${i}">-</td><td id="ez${i}">-</td><td id="st${i}" class="s-wait">待處理</td>`;
+      tb.appendChild(tr);
+    });
+    $('tbl').hidden = false;
+  }
+
+  // ---------- 每檔金鑰 ----------
+  function renderKeyTable() {
+    const tb = $('keyTbl').querySelector('tbody');
+    tb.innerHTML = '';
+    const type = $('showKey').checked ? 'text' : 'password';
+    state.examList.forEach((it, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${esc(it.name || '')}</td><td><code>${esc(it.file)}</code></td>
+        <td><input id="k${i}" class="kin" type="${type}" autocomplete="new-password" placeholder="金鑰"></td>
+        <td><input id="kc${i}" class="kin" type="${type}" autocomplete="new-password" placeholder="再輸入一次"></td>
+        <td id="km${i}" class="msg s-wait">未輸入</td>`;
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll('input').forEach(el => el.addEventListener('input', updateRunBtn));
+    $('keyEmpty').hidden = true;
+    $('keyArea').hidden = false;
+  }
+
+  // 檢查所有金鑰；回傳是否全部合格，並更新每列狀態
+  function validateKeys() {
+    const list = state.examList || [];
+    if (!list.length) return false;
+    const keys = list.map((_, i) => $('k' + i).value);
+    const confs = list.map((_, i) => $('kc' + i).value);
+    const count = new Map();
+    keys.forEach(k => k && count.set(k, (count.get(k) || 0) + 1));
+
+    let allOk = true, dupCount = 0, okN = 0;
+    list.forEach((it, i) => {
+      const k = keys[i], c = confs[i];
+      let msg = '', ok = false, keyBad = false;
+      if (!k)                              msg = '未輸入';
+      else if (k !== k.trim())           { msg = '前後不可有空白'; keyBad = true; }
+      else if (count.get(k) > 1) {
+        keyBad = true;
+        const others = list.map((x, j) => (j !== i && keys[j] === k) ? (x.name || x.file) : null).filter(Boolean);
+        msg = '與「' + others.join('、') + '」相同'; dupCount++;
+      }
+      else if (!c)                         msg = '請再輸入一次';
+      else if (k !== c)                    msg = '兩次輸入不一致';
+      else { msg = '✔ 可用'; ok = true; }
+      if (!ok) allOk = false;
+      const m = $('km' + i);
+      m.textContent = msg;
+      m.className = 'msg ' + (ok ? 's-ok' : (k ? 's-err' : 's-wait'));
+      $('k' + i).className = 'kin ' + (!k ? '' : (keyBad ? 'bad' : 'good'));
+      $('kc' + i).className = 'kin ' + (!c ? '' : (ok ? 'good' : 'bad'));
+      if (ok) okN++;
+    });
+    $('keySummary').innerHTML = `已完成 ${okN} / ${list.length} 個檔案的金鑰設定` +
+      (dupCount ? `　<span class="s-err">有 ${dupCount} 個檔案的金鑰重複，金鑰絕不能相同</span>` : '');
+    $('btnExportKeys').disabled = !allOk;
+    return allOk;
+  }
+
+  function updateRunBtn() {
+    const keysOk = state.examList ? validateKeys() : false;
+    $('btnRun').disabled = !(state.examList && state.CryptoJS && keysOk && !(state.dupFiles || []).length);
+  }
+
+  function randomKey(len = 20) {
+    // 去除易混淆字元 0 O o 1 l I
+    const cs = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+    const out = [], buf = new Uint32Array(len);
+    crypto.getRandomValues(buf);
+    for (const v of buf) out.push(cs[v % cs.length]);
+    return out.join('');
+  }
+
+  $('btnGenKeys').onclick = () => {
+    if (!state.examList) return;
+    const hasInput = state.examList.some((_, i) => $('k' + i).value || $('kc' + i).value);
+    if (hasInput && !window.confirm('將覆蓋已輸入的金鑰，確定要重新產生嗎？')) return;
+    const used = new Set();
+    state.examList.forEach((_, i) => {
+      let k; do { k = randomKey(); } while (used.has(k));
+      used.add(k);
+      $('k' + i).value = k; $('kc' + i).value = k;
+    });
+    $('showKey').checked = true; applyShowKey();
+    updateRunBtn();
+    log('✔ 已為每個檔案產生不同的隨機金鑰，請記得匯出或抄下保存', 'ok');
+  };
+
+  $('btnExportKeys').onclick = () => {
+    if (!validateKeys()) return;
+    const q = (s) => '"' + String(s).replace(/"/g, '""') + '"';
+    const rows = [['組別', '檔案', '金鑰'].map(q).join(',')];
+    state.examList.forEach((it, i) => rows.push([it.name || '', it.file, $('k' + i).value].map(q).join(',')));
+    const blob = new Blob(['﻿' + rows.join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'keys.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    log('✔ 已匯出 keys.csv，請另外妥善保存，勿與加密檔一起發布', 'warn');
+  };
+
+  // ---------- 選擇來源 ----------
+  $('btnPickDir').onclick = async () => {
+    if (window.showDirectoryPicker) {
+      try {
+        state.dirHandle = await window.showDirectoryPicker({ mode: 'read' });
+        state.mode = 'dir'; state.files.clear();
+        await prepare();
+      } catch (e) { if (e.name !== 'AbortError') log('✘ ' + e.message, 'err'); }
+    } else {
+      $('dirInput').click();   // 不支援 File System Access API 的瀏覽器
+    }
+  };
+  $('btnPickFiles').onclick = () => $('filesInput').click();
+
+  function useFileList(fileList, isDir) {
+    state.mode = 'files'; state.dirHandle = null; state.files.clear();
+    // 資料夾模式下以相對於所選資料夾的路徑為 key（同時保留純檔名）
+    for (const f of fileList) {
+      const rel = (f.webkitRelativePath || f.name).split('/').slice(isDir ? 1 : 0).join('/');
+      state.files.set(rel.toLowerCase(), f);
+      if (!state.files.has(f.name.toLowerCase())) state.files.set(f.name.toLowerCase(), f);
+    }
+    prepare();
+  }
+  $('dirInput').onchange = (e) => e.target.files.length && useFileList(e.target.files, true);
+  $('filesInput').onchange = (e) => e.target.files.length && useFileList(e.target.files, false);
+
+  // ---------- 金鑰 ----------
+  function applyShowKey() {
+    const t = $('showKey').checked ? 'text' : 'password';
+    document.querySelectorAll('#keyTbl input.kin').forEach(el => { el.type = t; });
+  }
+  $('showKey').onchange = applyShowKey;
+
+  // ---------- 加密 ----------
+  function buildOutput(cipher, varName, item) {
+    return `// ${item.name || item.file}（已加密，請以此檔專屬的金鑰解密後執行）\n` +
+           `// 產生時間：${new Date().toLocaleString()}\n` +
+           `var ${varName} = "${cipher}";\n`;
+  }
+
+  // 已是本工具產生的加密檔（var 變數 = "U2FsdGVkX1..."）
+  const looksEncrypted = (text) => /var\s+[A-Za-z_$][\w$]*\s*=\s*"U2FsdGVkX1/.test(text);
+
+  // 檢查目標資料夾中同名檔案：舊加密檔可取代，未加密的原始試題檔不可覆蓋。回傳衝突檔名清單
+  async function findConflicts(outDir) {
+    const conflicts = [];
+    for (const it of state.examList) {
+      const base = it.file.split(/[\\/]/).pop();
+      let fh = null;
+      try { fh = await outDir.getFileHandle(base); } catch (e) { continue; }   // 不存在：可寫入
+      const text = await (await fh.getFile()).text();
+      if (!looksEncrypted(text)) conflicts.push(base);
+    }
+    return conflicts;
+  }
+
+  async function writeOutput(fileName, content) {
+    const base = fileName.split(/[\\/]/).pop();
+    if (state.outDir) {
+      const fh = await state.outDir.getFileHandle(base, { create: true });
+      const w = await fh.createWritable();
+      await w.write(content); await w.close();
+      return state.outDir.name + '/' + base;
+    }
+    const url = URL.createObjectURL(new Blob([content], { type: 'text/javascript;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = base;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    await new Promise(r => setTimeout(r, 300));   // 避免瀏覽器擋下連續下載
+    return base + '（下載）';
+  }
+
+  $('btnRun').onclick = async () => {
+    // 執行前再檢查一次：每檔皆有金鑰、兩次一致、彼此不相同
+    if (!validateKeys()) { log('✘ 金鑰設定未通過檢查（需全部填寫、兩次一致且彼此不同）', 'err'); return; }
+    const keys = state.examList.map((_, i) => $('k' + i).value);
+    if (new Set(keys).size !== keys.length) { log('✘ 金鑰不可相同', 'err'); return; }
+    const varName = $('varName').value.trim();
+    if (!/^[A-Za-z_$][\w$]*$/.test(varName)) { log('✘ 變數名稱不合法', 'err'); return; }
+
+    // 跳出視窗選擇存放加密檔的資料夾（不支援的瀏覽器改以下載輸出）
+    state.outDir = null;
+    if (window.showDirectoryPicker) {
+      try {
+        state.outDir = await window.showDirectoryPicker({ mode: 'readwrite', id: 'encryptOut' });
+      } catch (e) {
+        if (e.name === 'AbortError') { log('已取消：未選擇存放加密檔的資料夾', 'warn'); return; }
+        log('✘ 無法開啟資料夾：' + e.message, 'err'); return;
+      }
+      const conflicts = await findConflicts(state.outDir);
+      if (conflicts.length) {
+        log(`✘ 資料夾「${state.outDir.name}」中的 ${conflicts.join('、')} 是未加密的原始試題檔，為避免覆蓋，未寫入任何檔案。請改選其他資料夾（例如網站的 exam 資料夾）。`, 'err');
+        state.outDir = null;
+        return;
+      }
+      log(`存放位置：${state.outDir.name}`);
+    } else {
+      log('此瀏覽器不支援選擇資料夾，改以下載方式輸出', 'warn');
+    }
+
+    $('btnRun').disabled = true;
+    const C = state.CryptoJS;
+    let ok = 0;
+    log('— 開始加密 —');
+    for (let i = 0; i < state.examList.length; i++) {
+      const it = state.examList[i];
+      const st = $('st' + i);
+      st.className = 's-wait'; st.textContent = '處理中…';
+      try {
+        const key = keys[i];
+        const src = await readText(it.file);
+        $('sz' + i).textContent = fmtSize(new Blob([src]).size);
+        const cipher = C.AES.encrypt(src, key).toString();
+        // 立即解密驗證
+        const back = C.AES.decrypt(cipher, key).toString(C.enc.Utf8);
+        if (back !== src) throw new Error('解密驗證失敗');
+        const out = buildOutput(cipher, varName, it);
+        const where = await writeOutput(it.file, out);
+        $('ez' + i).textContent = fmtSize(new Blob([out]).size);
+        st.className = 's-ok'; st.textContent = '完成';
+        log(`✔ ${it.file} → ${where}`, 'ok');
+        ok++;
+      } catch (e) {
+        st.className = 's-err'; st.textContent = '失敗';
+        log(`✘ ${it.file}：${e.message}`, 'err');
+      }
+    }
+    log(`— 完成：${ok} / ${state.examList.length} 個檔案 —`, ok === state.examList.length ? 'ok' : 'warn');
+    updateRunBtn();
+  };
+
+  // ---------- 解密範例 ----------
+  const renderSample = () => {
+    const v = $('varName').value.trim() || 'encryptedExam';
+    $('sample').textContent =
+`<script src="js/aes.js"><\/script>
+<script>
+// 載入加密試題檔並解密執行
+function loadEncryptedExam(file, key) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = file;
+    s.onload = () => {
+      try {
+        const code = CryptoJS.AES.decrypt(window.${v}, key)
+                             .toString(CryptoJS.enc.Utf8);
+        if (!code) throw new Error('金鑰錯誤');
+        const run = document.createElement('script');
+        run.textContent = code;           // 與直接載入原始檔效果相同
+        document.head.appendChild(run);
+        resolve();                        // 之後即可使用 contest 等變數
+      } catch (e) { reject(e); }
+    };
+    s.onerror = () => reject(new Error('無法載入 ' + file));
+    document.head.appendChild(s);
+  });
+}
+
+// 用法（每個檔案使用各自的金鑰）：
+// loadEncryptedExam('e.js', 國小組金鑰).then(() => { ... 使用 contest ... });
+<\/script>`;
+  };
+  $('varName').addEventListener('input', renderSample);
+  renderSample();
+})();
+</script>
+</body>
+</html>
