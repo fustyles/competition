@@ -239,6 +239,51 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		#grade_panel .gp-table td.gp-name { text-align: left; white-space: normal; }
 		#grade_panel .gp-pass { color: #15803D; font-weight: bold; }
 		#grade_panel .gp-fail { color: #B91C1C; font-weight: bold; }
+		#grade_panel .gp-warn { color: #C2410C; font-weight: bold; }
+		#grade_panel .gp-muted { color: #9CA3AF; }
+
+		/* ---------- 執行中倒數動畫（蓋在頁籤下方的內容區） ---------- */
+		#javascript_code { position: relative; }
+		.run-watch {
+			position: absolute;
+			left: 0; right: 0; top: 40px; bottom: 0;
+			z-index: 20;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(246, 247, 251, .9);
+			font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+		}
+		.run-watch .rw-card { text-align: center; color: #1F2A44; }
+		.run-watch .rw-dial { position: relative; width: 120px; height: 120px; margin: 0 auto 14px; }
+		.run-watch svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+		.run-watch .rw-ring-bg { fill: none; stroke: #DDE2EC; stroke-width: 5; }
+		.run-watch .rw-ring-fg {
+			fill: none; stroke: var(--brand); stroke-width: 5; stroke-linecap: round;
+			transition: stroke-dashoffset .2s linear, stroke .3s;
+		}
+		.run-watch .rw-ring-fg.rw-warn { stroke: #DC2626; }
+		.run-watch .rw-spin {           /* 外圈旋轉動畫 */
+			position: absolute; inset: -9px; border-radius: 50%;
+			border: 3px solid transparent; border-top-color: #F0A030; border-right-color: #F0A030;
+			animation: rw-rotate 1s linear infinite;
+		}
+		.run-watch .rw-sec {
+			position: absolute; inset: 0;
+			display: flex; align-items: center; justify-content: center;
+			font-size: 40px; font-weight: bold; color: var(--brand);
+			font-variant-numeric: tabular-nums;
+		}
+		.run-watch .rw-title { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+		.run-watch .rw-title::after {   /* 文字後的跳動省略號 */
+			content: ""; display: inline-block; width: 1.4em; text-align: left;
+			animation: rw-dots 1.2s steps(4) infinite;
+		}
+		.run-watch .rw-sub { margin-top: 6px; font-size: 13px; color: #6B7489; }
+		.run-watch.rw-paused .rw-spin { animation-play-state: paused; border-top-color: #CBD2E1; border-right-color: #CBD2E1; }
+		.run-watch.rw-paused .rw-sub { color: #C2410C; font-weight: bold; }
+		@keyframes rw-rotate { to { transform: rotate(360deg); } }
+		@keyframes rw-dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
 		#grade_panel .gp-records a { color: var(--test); font-weight: bold; }
 		#grade_panel small { color: #6b7280; }
 
