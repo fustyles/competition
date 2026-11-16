@@ -26,7 +26,8 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="js/javascript_compressed.js"></script>
 	<script src="js/custom.js"></script>	
 	<script src="js/aes.js"></script>
-	<script src="js/index.js"></script>
+	<!-- ?v= 為版本號：更新網站檔案時一併修改，讓瀏覽器重新下載而不是使用快取中的舊檔 -->
+	<script src="js/index.js?v=20261116b"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>
 	<script src="js/jquery.min.js"></script>
@@ -39,7 +40,7 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="plugin/ContinuousToolbox/ContinuousFlyout.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousToolbox.js"></script>
 	<script src="plugin/ContinuousToolbox/ContinuousMetricsFlyout.js"></script>
-	<script src="exam/list.js"></script>
+	<script src="exam/list.js?v=20261116"></script>
 
 	<!-- ===== 統一色系（覆寫上方 CSS，需放在所有 link 之後） ===== -->
 	<style>
@@ -292,6 +293,26 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		.run-watch.rw-paused .rw-spin { animation-play-state: paused; border-top-color: #CBD2E1; border-right-color: #CBD2E1; }
 		.run-watch.rw-paused .rw-sub { color: #C2410C; font-weight: bold; }
 		@keyframes rw-rotate { to { transform: rotate(360deg); } }
+
+		/* ---------- Ctrl+Delete 清除暫存資料的確認視窗 ---------- */
+		.clear-confirm {
+			position: fixed; inset: 0; z-index: 2147482600;
+			display: flex; align-items: center; justify-content: center;
+			background: rgba(30, 38, 58, .55);
+			font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+		}
+		.clear-confirm .cc-box { width: min(420px, 92vw); background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+		.clear-confirm .cc-head { background: #B91C1C; color: #fff; padding: 14px 20px; font-size: 18px; font-weight: bold; letter-spacing: 2px; }
+		.clear-confirm .cc-body { padding: 16px 20px 6px; font-size: 15px; line-height: 1.8; color: #374151; }
+		.clear-confirm .cc-body ul { margin: 6px 0 8px; padding-left: 22px; }
+		.clear-confirm .cc-warn { padding: 8px 10px; border-radius: 6px; background: #FEF2F2; color: #B91C1C; font-size: 14px; }
+		.clear-confirm .cc-btns { display: flex; gap: 10px; padding: 14px 20px 18px; }
+		.clear-confirm button { flex: 1; padding: 10px; font-size: 16px; font-weight: bold; font-family: inherit; border-radius: 8px; cursor: pointer; }
+		.clear-confirm .cc-cancel { background: #fff; color: #4a5d85; border: 1px solid #7d8bb0; }
+		.clear-confirm .cc-cancel:hover { background: #eef1f8; }
+		.clear-confirm .cc-ok { background: #DC2626; color: #fff; border: 0; }
+		.clear-confirm .cc-ok:hover { background: #B91C1C; }
+		.clear-confirm button:focus-visible { outline: 3px solid #F0A030; outline-offset: 2px; }
 		@keyframes rw-dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
 		#grade_panel .gp-records a { color: var(--test); font-weight: bold; }
 		#grade_panel small { color: #6b7280; }
