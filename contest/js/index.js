@@ -1763,6 +1763,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 	// 將題目欄位 question_input（div）的 HTML 內容存到 localStorage
+	// 題目內容內含評分測資（隱藏列），並與題庫、題號、題目名稱同時寫入，三者永遠一致
 	function saveQuestionToStorage() {
 		clearTimeout(questionSaveTimer);
 		if (questionRestoring) return;
@@ -1770,6 +1771,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!el) return;
 		try {
 			localStorage.setItem(QUESTION_STORAGE_KEY, el.innerHTML);
+			localStorage.setItem(QUESTION_META_KEY, JSON.stringify({ exam: examName, no: examQuestionNo, name: examQuestionName }));
 		} catch (e) {
 			console.log('saveQuestionToStorage:', e);
 		}
@@ -1835,6 +1837,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			'</style>';
 		iframe.contentWindow.document.write(scrollbarStyle + iframe_code);
 		iframe.contentWindow.document.close();
+		// 執行結果區取得焦點時，Ctrl+Delete 仍可清除暫存資料
+		if (iframe_id === 'iframe_output') {
+			try { iframe.contentWindow.document.addEventListener('keydown', onClearKey, true); } catch (e) {}
+		}
 		iframe.focus();
 	}
 	
@@ -2030,7 +2036,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function runMultipleIframeTests(inputArray, containerId = 'iframeContainer') {
-		if (inputArray.length === 0) return;
+		if (!inputArray || inputArray.length === 0) return;
+		// 相容新格式 ["輸入;…;輸出", 配分]：只取測資字串
+		inputArray = inputArray.map(function (x) { return Array.isArray(x) ? String(x[0] == null ? '' : x[0]) : String(x == null ? '' : x); });
 
 		let outputResult = "";
 		let completedCount = 0;
@@ -2214,14 +2222,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		examName         = exam || ((sel && sel.selectedIndex >= 0) ? sel.options[sel.selectedIndex].text : '');
 		examQuestionNo   = btn.getAttribute('data-no')   || '';
 		examQuestionName = btn.getAttribute('data-name') || '';
-		try {
-			localStorage.setItem(QUESTION_META_KEY, JSON.stringify({ exam: examName, no: examQuestionNo, name: examQuestionName }));
-		} catch (e) {}
 
 		document.getElementById('javascript_content').style.display = 'block';
 		var qi = document.getElementById('question_input');
 		qi.innerHTML = btn.getAttribute('data-q');
 		qi.scrollTop = 0;
+		saveQuestionToStorage();   // 立即儲存題目內容（含測資）與題號，不等 3 秒
 		toggleImportQuestionForm(false);
 		resetOutput();
 		lastGradeResult = null;
@@ -2726,6 +2732,61 @@ document.addEventListener('DOMContentLoaded', function() {
 		renderGradePanel();
 	}
 	window.resetSessionData = resetSessionData;
+
+	// =====================================================
+	//  Ctrl + Delete：確認後清空暫存資料（與閒置清空相同的範圍，登錄狀態保留）
+	// =====================================================
+	var clearConfirmOpen = false;
+
+	function confirmClearStorage() {
+		return new Promise(function (resolve) {
+			clearConfirmOpen = true;
+			var mask = document.createElement('div');
+			mask.className = 'clear-confirm';
+			mask.setAttribute('role', 'alertdialog');
+			mask.innerHTML =
+				'<div class="cc-box">' +
+					'<div class="cc-head">清除暫存資料</div>' +
+					'<div class="cc-body">確定要清除這台電腦上的暫存資料嗎？將清除：' +
+						'<ul><li>工作區積木（含復原紀錄）</li><li>試題內容與測資、題號</li><li>執行結果</li><li>正式評分結果與所有評分紀錄</li></ul>' +
+						'<div class="cc-warn">清除後無法復原。已下載的積木結構檔不受影響。</div></div>' +
+					'<div class="cc-btns"><button type="button" class="cc-cancel">取消</button>' +
+					'<button type="button" class="cc-ok">確定清除</button></div>' +
+				'</div>';
+			document.body.appendChild(mask);
+			var done = function (ok) {
+				document.removeEventListener('keydown', onKey, true);
+				mask.remove();
+				clearConfirmOpen = false;
+				resolve(ok);
+			};
+			var onKey = function (e) {
+				if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); done(false); }
+			};
+			document.addEventListener('keydown', onKey, true);
+			mask.querySelector('.cc-cancel').addEventListener('click', function () { done(false); });
+			mask.querySelector('.cc-ok').addEventListener('click', function () { done(true); });
+			mask.addEventListener('mousedown', function (e) { if (e.target === mask) e.preventDefault(); });
+			setTimeout(function () { mask.querySelector('.cc-cancel').focus(); }, 0);   // 預設焦點在「取消」
+		});
+	}
+
+	document.addEventListener('keydown', onClearKey, true);
+	function onClearKey(e) {
+		if (!(e.ctrlKey && (e.key === 'Delete' || e.key === 'Del'))) return;
+		if (!ExamLogin.isUnlocked() || RunWatch.isActive() || clearConfirmOpen) return;   // 未登錄、執行中或已開啟確認視窗
+		// 正在文字欄位中輸入（含積木欄位編輯框）時保留原本的「刪除一個字」功能
+		var t = e.target;
+		if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+		e.preventDefault();
+		e.stopPropagation();
+		confirmClearStorage().then(function (ok) {
+			if (!ok) return;
+			resetSessionData();
+			markActive();
+			showToast('已清除暫存資料（工作區積木、試題內容、執行結果與評分紀錄）。');
+		});
+	}
 
 	ExamLogin.onUnlock(function () {
 		renderGradePanel();
