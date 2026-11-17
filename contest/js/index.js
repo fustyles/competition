@@ -41,7 +41,7 @@ var examQuestionNo   = '';   // 題號，例如「3」
 var examQuestionName = '';   // 題目名稱，例如「【一年級】撲滿裡的錢」
 var examKey          = '';   // 登錄密碼（＝題庫解密金鑰），只存在記憶體中，用來加密／解密積木結構檔
 
-// ===== 閒置清空：登錄時若距離上次使用超過 90 分鐘，清空工作區積木與試題內容（含評分紀錄）=====
+// ===== 閒置清空：登錄時若距離上次使用超過 10 日，清空工作區積木與試題內容（含評分紀錄）=====
 var LAST_ACTIVE_KEY   = 'francis_last_active_standard';
 var LAST_ACCOUNT_KEY  = 'francis_last_account_standard';   // 上一位登錄的帳號（帳號不同時詢問是否清除資料）
 var INACTIVE_RESET_MS = 14400 * 60 * 1000;   // 要改時間只改這裡（分鐘 × 60 × 1000）
