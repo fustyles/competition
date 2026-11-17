@@ -17,7 +17,6 @@ var xmlScratch = "";
 var workspaceChangeTimer;
 var blockChangeTimer;
 var createFunctionVariable = ["", []];
-var GeminiKey = Blockly.Msg["GEMINI_KEY"];
 
 // ===== 記憶工作區積木（localStorage）=====
 // 一般版與進階版在同一網域，使用不同名稱，避免互相覆蓋
