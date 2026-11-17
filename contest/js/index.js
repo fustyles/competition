@@ -41,10 +41,10 @@ var examQuestionNo   = '';   // 題號，例如「3」
 var examQuestionName = '';   // 題目名稱，例如「【一年級】撲滿裡的錢」
 var examKey          = '';   // 登錄密碼（＝題庫解密金鑰），只存在記憶體中，用來加密／解密積木結構檔
 
-// ===== 閒置清空：登錄時若距離上次使用超過 10 日，清空工作區積木與試題內容（含評分紀錄）=====
+// ===== 閒置清空：登錄時若距離上次使用超過 90 分鐘，清空工作區積木與試題內容（含評分紀錄）=====
 var LAST_ACTIVE_KEY   = 'francis_last_active_standard';
 var LAST_ACCOUNT_KEY  = 'francis_last_account_standard';   // 上一位登錄的帳號（帳號不同時詢問是否清除資料）
-var INACTIVE_RESET_MS = 14400 * 60 * 1000;   // 要改時間只改這裡（分鐘 × 60 × 1000）
+var INACTIVE_RESET_MS = 90 * 60 * 1000;   // 要改時間只改這裡（分鐘 × 60 × 1000）
 // 在頁面載入時先讀出上次使用時間（登錄前不更新，避免輸入帳號密碼時就被覆蓋）
 var lastActiveAtLoad = (function () {
 	try { return Number(localStorage.getItem(LAST_ACTIVE_KEY)) || 0; } catch (e) { return 0; }
@@ -566,9 +566,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				Blockly.Events.FINISHED_LOADING
 			];
 
+			// 只有積木變動才重新計時；點選、捲動等 UI 事件不可取消尚未執行的更新
+			if (allowedTypes.includes(event.type)) {
 			clearTimeout(workspaceChangeTimer);
+			var eventIsScratch = scratchStyle;   // 事件發生當下的外觀
 			workspaceChangeTimer = setTimeout(function(){
-				if (allowedTypes.includes(event.type)) {
+				// 250ms 內已切換外觀：舊工作區的內容不可再寫入暫存變數（否則會存進另一區）
+				if (targetWorkspace !== workspace || eventIsScratch !== scratchStyle) return;
+				{
 					if (scratchStyle) {
 						xmlScratch = Blockly.Xml.workspaceToDom(targetWorkspace);
 						xmlScratch = Blockly.Xml.domToText(xmlScratch);
@@ -578,6 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 			}, 250);
+			}
 		
 			if (event.type === Blockly.Events.MOVE || event.type === Blockly.Events.BLOCK_DRAG) {
 					clearTimeout(blockChangeTimer);
@@ -1582,6 +1588,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		updateMsg();
 		newFile();
 		restoreWorkspaceFromStorage();   // 載入上次編輯的積木
+		hookToolboxToggle();
 		restoreQuestionFromStorage();    // 載入上次的題目內容（需在 updateMsg 之後，才不會被預設文字蓋掉）
 		document.getElementById('button_test').title = '正式評分';
 		// 還原完成後才可進行閒置檢查，否則清空後又會被還原的內容蓋回
@@ -1714,6 +1721,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	window.saveWorkspaceToStorage = saveWorkspaceToStorage;
+
+	// 工作區左下角的 Blockly / Scratch 切換鈕：切換後立即存一次，
+	// 重開網頁時才會回到切換後的外觀（目標外觀若是空的，不會有積木事件觸發自動儲存）
+	function hookToolboxToggle() {
+		try {
+			var zc = workspace && workspace.zoomControls_;
+			var proto = zc && Object.getPrototypeOf(zc);
+			if (!proto || !proto.zoomChangeToolbox || proto.zoomChangeToolbox.__hooked) return;
+			var orig = proto.zoomChangeToolbox;
+			proto.zoomChangeToolbox = function () {
+				var r = orig.apply(this, arguments);
+				clearTimeout(workspaceSaveTimer);
+				setTimeout(saveWorkspaceToStorage, 0);
+				return r;
+			};
+			proto.zoomChangeToolbox.__hooked = true;
+		} catch (e) { console.log('hookToolboxToggle:', e); }
+	}
 
 	// 開啟網頁時還原上次的工作區
 	function restoreWorkspaceFromStorage() {
@@ -2601,13 +2626,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 將 xml 文字載入工作區（開啟檔案與載入評分紀錄共用）
 	function loadWorkspaceXml(text) {
 		var blocks = Blockly.utils.xml.textToDom(text);
-		var platformValue = blocks.getAttribute('platform');
-		if (platformValue == 'scratch'){
-			scratchStyle = true;
-			changeToolboxStyle(true);
-		} else {
-			scratchStyle = false;
-			changeToolboxStyle(false);
+		// 只在外觀不同時才切換。changeToolboxStyle 會把「目前工作區」存進另一個外觀的暫存變數，
+		// 外觀相同時呼叫會把 Scratch 積木誤存進 xmlBlockly（或反之），造成兩區積木錯亂。
+		var isScratch = (blocks.getAttribute('platform') == 'scratch');
+		if (isScratch != scratchStyle) {
+			scratchStyle = isScratch;
+			changeToolboxStyle();
 		}
 
 		workspace.clear(true);
