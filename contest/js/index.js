@@ -3,7 +3,6 @@
 Copyright 2026 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 19/10/2026 00:00 (Taiwan Standard Time)
 */
 
 var mainPath = 'https://fustyles.github.io/competition/';
