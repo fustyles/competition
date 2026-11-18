@@ -90,9 +90,11 @@
 		<div class="btns">
 			<button type="button" class="primary" id="draw">🎲 亂數抽籤</button>
 			<button type="button" id="clearPick">清除勾選</button>
+			<button type="button" id="importNames">📄 匯入題目名稱</button>
 			<button type="button" id="clearNames">清空題目名稱</button>
+			<input type="file" id="importFile" accept=".txt,.csv,text/plain,text/csv" style="display:none">
 		</div>
-		<p class="note">按「亂數抽籤」時會詢問要抽幾題。也可以直接手動勾選題目（題數不限），抽籤後也能再勾選或取消，代碼會立即更新。題目名稱只存在這台電腦的瀏覽器中，方便下次開啟。</p>
+		<p class="note">匯入題目名稱：選擇 txt 或 csv 檔，每行一題，格式為「題號,題目名稱」（第一行若是標題列會自動略過；Excel 存的 csv 也可以）。<br>按「亂數抽籤」時會詢問要抽幾題。也可以直接手動勾選題目（題數不限），抽籤後也能再勾選或取消，代碼會立即更新。題目名稱只存在這台電腦的瀏覽器中，方便下次開啟。</p>
 	</section>
 
 	<div class="side">
@@ -278,6 +280,66 @@ function qcDecode(code, key) {
 			var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
 			try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
 		}
+	});
+
+	// ===== 匯入題目名稱（txt / csv，每行「題號,題目名稱」）=====
+	// 檔案編碼：先以 UTF-8 解讀，失敗時改用 Big5（Windows 中文版 Excel 另存 csv 的預設編碼）
+	function decodeText(buf) {
+		try { return new TextDecoder('utf-8', { fatal: true }).decode(buf); }
+		catch (e) {
+			try { return new TextDecoder('big5').decode(buf); } catch (e2) { return new TextDecoder('utf-8').decode(buf); }
+		}
+	}
+	// 解析一行 csv：支援雙引號包住的欄位（欄位中可含逗號）
+	function splitCsvLine(line) {
+		var out = [], cur = '', q = false;
+		for (var i = 0; i < line.length; i++) {
+			var ch = line[i];
+			if (q) {
+				if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+				else cur += ch;
+			} else if (ch === '"') q = true;
+			else if (ch === ',' || ch === '，' || ch === '\t') { out.push(cur); cur = ''; }
+			else cur += ch;
+		}
+		out.push(cur);
+		return out;
+	}
+	function toHalfDigits(t) { return String(t).replace(/[０-９]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); }); }
+
+	function importNames(text) {
+		var lines = text.replace(/^\uFEFF/, '').split(/\r\n|\r|\n/);
+		var found = {}, skipped = [];
+		lines.forEach(function (line, i) {
+			if (!line.trim()) return;
+			var cols = splitCsvLine(line);
+			var noText = toHalfDigits(cols[0] || '').trim();
+			var name = cols.slice(1).join(',').trim();   // 題目名稱中若有逗號（未加引號）也保留
+			var m = noText.match(/\d+/);
+			if (!m) { if (i > 0 || !/題號|編號|no/i.test(noText)) skipped.push((i + 1) + '：' + line.trim()); return; }   // 第一行標題列略過不提示
+			var no = Number(m[0]);
+			if (no < 1 || no > QC_TOTAL) { skipped.push((i + 1) + '：' + line.trim() + '（題號超出 1～' + QC_TOTAL + '）'); return; }
+			found[no] = name;
+		});
+		var nos = Object.keys(found);
+		if (!nos.length) { alert('檔案中找不到「題號,題目名稱」格式的資料，沒有匯入。'); return; }
+		var filled = nameEls.filter(function (e) { return e.value.trim(); }).length;
+		if (filled && !confirm('將以檔案內容覆蓋 ' + nos.length + ' 題的題目名稱（檔案中沒有的題號維持不變），確定匯入？')) return;
+		nos.forEach(function (no) { nameEls[no - 1].value = found[no]; });
+		saveNames(); update();
+		var msg = '已匯入 ' + nos.length + ' 題題目名稱。';
+		if (skipped.length) msg += '\n\n以下 ' + skipped.length + ' 行格式不符，已略過：\n' + skipped.slice(0, 10).join('\n') + (skipped.length > 10 ? '\n…' : '');
+		alert(msg);
+	}
+	var fileEl = document.getElementById('importFile');
+	document.getElementById('importNames').addEventListener('click', function () { fileEl.value = ''; fileEl.click(); });
+	fileEl.addEventListener('change', function () {
+		var f = fileEl.files && fileEl.files[0];
+		if (!f) return;
+		var fr = new FileReader();
+		fr.onload = function () { importNames(decodeText(new Uint8Array(fr.result))); };
+		fr.onerror = function () { alert('無法讀取檔案。'); };
+		fr.readAsArrayBuffer(f);
 	});
 
 	// 顯示給考生：全螢幕大字顯示競賽代碼與試題代碼（不顯示題號）
