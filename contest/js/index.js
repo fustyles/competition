@@ -54,7 +54,8 @@ var examAccount      = '';   // 登錄帳號
 var examName         = '';   // 題庫名稱，例如「國小組」
 var examQuestionNo   = '';   // 題號，例如「3」
 var examQuestionName = '';   // 題目名稱，例如「【一年級】撲滿裡的錢」
-var examKey          = '';   // 登錄密碼（＝題庫解密金鑰），只存在記憶體中，用來加密／解密積木結構檔
+var examKey          = '';   // 競賽代碼（＝題庫解密金鑰），只存在記憶體中，用來加密／解密積木結構檔
+var examAllowedNos   = [];   // 試題代碼解密後的題號（字串陣列，例如 ["1","2","4","6"]），只有這些題目可匯入
 
 // ===== 閒置清空：登錄時若距離上次使用超過 10 天，清空工作區積木與試題內容（含評分紀錄）=====
 var LAST_ACTIVE_KEY   = 'francis_last_active_standard';
@@ -227,16 +228,20 @@ function runTimeoutHint() {
 
 // =====================================================
 //  考生登錄（鎖定畫面）
-//  開啟首頁即鎖定畫面，考生輸入「登錄帳號」與「登錄密碼」後送出。
-//  登錄密碼 = 加密試題的解密金鑰：系統逐一嘗試解密 list.js 中的每個題庫檔，
-//  能正確解密者加入題庫下拉選單；全部無法解密則提示密碼錯誤。
+//  開啟首頁即鎖定畫面，考生輸入「登錄帳號」、「競賽代碼」與「試題代碼」後送出。
+//  競賽代碼 = 加密試題的解密金鑰：系統逐一嘗試解密 list.js 中的每個題庫檔，
+//  能正確解密者加入題庫下拉選單；全部無法解密則提示競賽代碼錯誤。
+//  試題代碼 = 6 位數字，由「試題抽籤與代碼.html」以競賽代碼產生，記錄 1～12 題中抽中哪幾題：
+//  各題庫只保留這些題號的題目，其他題目不顯示、不能匯入。
 //  加密檔格式（由 exam/encrypt.html 產生）：var encryptedExam = "密文";
 // =====================================================
 var ExamLogin = (function () {
 	var EXAM_DIR      = 'exam/';            // 題庫資料夾（與原本 loadExam 相同）
 	var ENCRYPTED_VAR = 'encryptedExam';    // 加密檔中的密文變數名稱
 	var DEFAULT_ACCOUNT  = 'kh001';         // 登錄畫面預設帳號（不需要時改為 ''）
-	var DEFAULT_PASSWORD = '0000';          // 登錄畫面預設密碼（不需要時改為 ''）
+	var DEFAULT_PASSWORD = '0000';          // 登錄畫面預設競賽代碼（不需要時改為 ''）
+	// 登錄畫面預設試題代碼（此為競賽代碼 0000、第 1～6 題的代碼，不需要時改為 ''）
+	var DEFAULT_QUESTION_CODE = '790180';
 
 	var unlocked = null;      // [{ name, file, contest }]，登錄成功後才有值
 	var account  = '';
@@ -313,6 +318,52 @@ var ExamLogin = (function () {
 		}
 	}
 
+	// ===== 試題代碼（與「試題抽籤與代碼.html」的演算法必須完全相同）=====
+	// 12 題的抽中狀態（12 位元）＋檢查碼，以競賽代碼打亂後成為 6 位數字
+	var QC_TOTAL = 12, QC_CHK = 244;   // 4096 × 244 = 999424 < 1000000
+	function qcHash(str) {
+		var h = 0x811c9dc5, s = unescape(encodeURIComponent(str));
+		for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+		h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b) >>> 0;
+		h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35) >>> 0;
+		h ^= h >>> 16; return h >>> 0;
+	}
+	function qcRound(key, i, x) { return qcHash('QC|' + key + '|' + i + '|' + x) % 1000; }
+	function qcUnmix(v, key) {
+		var L = Math.floor(v / 1000), R = v % 1000;
+		for (var i = 3; i >= 0; i--) { var t = L; L = (R - qcRound(key, i, t) + 1000) % 1000; R = t; }
+		return L * 1000 + R;
+	}
+	function qcCheck(key, m) { return qcHash('CHK|' + key + '|' + m) % QC_CHK; }
+
+	// 以競賽代碼還原試題代碼，回傳題號字串陣列（例如 ["1","2","4","6"]）；代碼錯誤回傳 null
+	function decryptQuestionCode(code, key) {
+		key = String(key).trim();
+		code = String(code).replace(/[０-９]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); })
+			.replace(/\s+/g, '');
+		if (!/^\d{6}$/.test(code)) return null;
+		var v = qcUnmix(Number(code), key);
+		var m = Math.floor(v / QC_CHK), c = v % QC_CHK;
+		if (m <= 0 || m >= (1 << QC_TOTAL) || c !== qcCheck(key, m)) return null;
+		var nos = [];
+		for (var n = 1; n <= QC_TOTAL; n++) if (m & (1 << (n - 1))) nos.push(String(n));
+		return nos;
+	}
+
+	// 題庫內容只保留指定題號的題目列（題目列中含有 data-no 的「匯入題目」按鈕）
+	function filterContest(contest, nos) {
+		var tpl = document.createElement('template');
+		tpl.innerHTML = contest;
+		var kept = 0;
+		tpl.content.querySelectorAll('.import-question-button[data-no]').forEach(function (btn) {
+			var no = String(Number(btn.getAttribute('data-no')));
+			if (nos.indexOf(no) >= 0) { kept++; return; }
+			var row = btn.closest('tr');
+			if (row) row.remove(); else btn.remove();
+		});
+		return { html: tpl.innerHTML, kept: kept };
+	}
+
 	function verify(key) {
 		if (typeof examList === 'undefined' || !Array.isArray(examList) || !examList.length) {
 			return Promise.reject(new Error('找不到題庫清單（exam/list.js）'));
@@ -355,6 +406,7 @@ var ExamLogin = (function () {
 			'#examLoginOverlay label{display:block;font-size:15px;font-weight:bold;color:#374151;margin:10px 0 6px;}' +
 			'#examLoginOverlay input{width:100%;box-sizing:border-box;padding:10px 12px;font-size:16px;border:1px solid #c7d2fe;border-radius:8px;outline:none;}' +
 			'#examLoginOverlay input:focus{border-color:#7d8bb0;box-shadow:0 0 0 3px rgba(125,139,176,.25);}' +
+			'#examLoginOverlay input.el-code{font-family:Consolas,Menlo,"Courier New",monospace;font-size:20px;letter-spacing:6px;}' +
 			'#examLoginOverlay input.el-bad{border-color:#dc2626;background:#fef2f2;}' +
 			'#examLoginOverlay .el-msg{min-height:22px;margin:12px 0 4px;font-size:14px;color:#dc2626;}' +
 			'#examLoginOverlay .el-msg.el-wait{color:#4a5d85;}' +
@@ -379,12 +431,14 @@ var ExamLogin = (function () {
 		overlay.setAttribute('aria-modal', 'true');
 		overlay.innerHTML =
 			'<div class="el-box">' +
-				'<div class="el-head">考生登錄<small>請輸入登錄帳號與登錄密碼後送出</small></div>' +
+				'<div class="el-head">考生登錄<small>請輸入登錄帳號、競賽代碼與試題代碼後送出</small></div>' +
 				'<form id="examLoginForm" autocomplete="off" novalidate>' +
 					'<label for="examLoginAccount">登錄帳號</label>' +
 					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false">' +
-					'<label for="examLoginPassword">登錄密碼</label>' +
-					'<input id="examLoginPassword" type="password" autocomplete="new-password">' +
+					'<label for="examLoginPassword">競賽代碼</label>' +
+					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false">' +
+					'<label for="examLoginQuestionCode">試題代碼</label>' +
+					'<input id="examLoginQuestionCode" type="text" inputmode="numeric" placeholder="6 位數字" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<div class="el-msg" id="examLoginMsg" aria-live="polite"></div>' +
 					'<button type="submit" id="examLoginSubmit">送出</button>' +
 				'</form>' +
@@ -399,13 +453,16 @@ var ExamLogin = (function () {
 
 		var accEl = overlay.querySelector('#examLoginAccount');
 		var pwdEl = overlay.querySelector('#examLoginPassword');
+		var qcEl  = overlay.querySelector('#examLoginQuestionCode');
 		accEl.value = DEFAULT_ACCOUNT;
 		pwdEl.value = DEFAULT_PASSWORD;
+		qcEl.value  = DEFAULT_QUESTION_CODE;
 		var msgEl = overlay.querySelector('#examLoginMsg');
 		var btnEl = overlay.querySelector('#examLoginSubmit');
 		var setMsg = function (t, wait) { msgEl.textContent = t; msgEl.className = 'el-msg' + (wait ? ' el-wait' : ''); };
+		var setDisabled = function (on) { btnEl.disabled = on; accEl.disabled = on; pwdEl.disabled = on; qcEl.disabled = on; };
 
-		[accEl, pwdEl].forEach(function (el) {
+		[accEl, pwdEl, qcEl].forEach(function (el) {
 			el.addEventListener('input', function () { el.classList.remove('el-bad'); setMsg(''); });
 		});
 
@@ -413,19 +470,40 @@ var ExamLogin = (function () {
 			e.preventDefault();
 			var acc = accEl.value.trim();
 			var pwd = pwdEl.value;
+			var qc  = qcEl.value.trim();
 			accEl.classList.toggle('el-bad', !acc);
 			pwdEl.classList.toggle('el-bad', !pwd);
-			if (!acc || !pwd) {
-				setMsg(!acc && !pwd ? '請輸入登錄帳號與登錄密碼' : (!acc ? '請輸入登錄帳號' : '請輸入登錄密碼'));
-				(!acc ? accEl : pwdEl).focus();
+			qcEl.classList.toggle('el-bad', !qc);
+			if (!acc || !pwd || !qc) {
+				var miss = [!acc && '登錄帳號', !pwd && '競賽代碼', !qc && '試題代碼'].filter(Boolean);
+				setMsg('請輸入' + miss.join('、'));
+				(!acc ? accEl : !pwd ? pwdEl : qcEl).focus();
 				return;
 			}
-			btnEl.disabled = true; accEl.disabled = true; pwdEl.disabled = true;
+			setDisabled(true);
 			setMsg('驗證中，請稍候…', true);
+			var badField = null;   // 驗證失敗時要清空並重新輸入的欄位
 			verify(pwd).then(function (list) {
 				if (!list.length) {
-					setMsg('登錄密碼輸入錯誤，請重新輸入');
+					setMsg('競賽代碼輸入錯誤，請重新輸入');
 					pwdEl.classList.add('el-bad');
+					badField = pwdEl;
+					return;
+				}
+				// 試題代碼：以競賽代碼解密取得題號，各題庫只保留這些題目
+				var nos = decryptQuestionCode(qc, pwd);
+				var kept = 0;
+				if (nos) {
+					list = list.map(function (exam) {
+						var f = filterContest(exam.contest, nos);
+						kept += f.kept;
+						return { name: exam.name, file: exam.file, contest: f.html };
+					});
+				}
+				if (!nos || !kept) {
+					setMsg('試題代碼輸入錯誤，請重新輸入');
+					qcEl.classList.add('el-bad');
+					badField = qcEl;
 					return;
 				}
 				var lastAcc = '';
@@ -435,22 +513,22 @@ var ExamLogin = (function () {
 					return askAccountSwitch(lastAcc, acc).then(function (ok) {
 						if (ok) {
 							resetReason = 'account';
-							unlock(acc, list, pwd);
+							unlock(acc, list, pwd, nos);
 						} else {
-							setMsg('已取消登錄，請重新輸入登錄帳號與登錄密碼');
+							setMsg('已取消登錄，請重新輸入登錄帳號、競賽代碼與試題代碼');
 							setTimeout(function () { accEl.focus(); accEl.select(); }, 0);
 						}
 					});
 				}
-				unlock(acc, list, pwd);
+				unlock(acc, list, pwd, nos);
 			}, function (err) {
 				console.error(err);
 				setMsg(err.message || '驗證失敗');
 			}).then(function () {
 				if (!unlocked) {
-					btnEl.disabled = false; accEl.disabled = false; pwdEl.disabled = false;
-					pwdEl.value = '';
-					if (!resetReason && msgEl.textContent.indexOf('已取消') !== 0) pwdEl.focus();
+					setDisabled(false);
+					if (badField) { badField.value = ''; badField.focus(); }
+					else if (!resetReason && msgEl.textContent.indexOf('已取消') !== 0) pwdEl.focus();
 				}
 			});
 		});
@@ -485,10 +563,11 @@ var ExamLogin = (function () {
 		});
 	}
 
-	function unlock(acc, list, key) {
+	function unlock(acc, list, key, nos) {
 		account = acc;
 		examAccount = acc;   // 全域變數：登錄帳號
-		examKey = key;       // 全域變數：登錄密碼（加密／解密積木結構檔用）
+		examKey = key;       // 全域變數：競賽代碼（加密／解密積木結構檔用）
+		examAllowedNos = nos || [];   // 全域變數：試題代碼中的題號
 		try { localStorage.setItem(LAST_ACCOUNT_KEY, acc); } catch (e) {}
 		unlocked = list;
 		['keydown', 'keyup', 'keypress'].forEach(function (t) { document.removeEventListener(t, docKeyBlocker, true); });
@@ -1975,7 +2054,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				return;
 			}
 			var xmlText = result ? result.xml : workspaceXmlText(null);
-			var fileText = encryptWorkspaceFile(xmlText);   // 以登錄密碼（examKey）加密後儲存
+			var fileText = encryptWorkspaceFile(xmlText);   // 以競賽代碼（examKey）加密後儲存
 
 			var link = document.createElement('a');
 			link.download = safeFileName((examAccount || 'account') + '_' + (examQuestionNo || 'none')) + '.xml';
@@ -2741,7 +2820,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	// =====================================================
-	//  積木結構檔加密／解密（金鑰＝登錄密碼，存在全域變數 examKey）
+	//  積木結構檔加密／解密（金鑰＝競賽代碼，存在全域變數 examKey）
 	// =====================================================
 	function encryptWorkspaceFile(xmlText) {
 		if (!examKey || typeof CryptoJS === 'undefined') throw new Error('尚未登錄，無法加密儲存積木結構檔');
@@ -2895,6 +2974,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				resetSessionData();
 				if (lastActiveAtLoad) showToast('距離上次使用已超過 ' + (function (m) { return m % 1440 === 0 ? (m / 1440) + ' 天' : m % 60 === 0 ? (m / 60) + ' 小時' : m + ' 分鐘'; })(Math.round(INACTIVE_RESET_MS / 60000)) + '，已清空工作區積木與試題內容。');
 			}
+			// 上次暫存的題目不在本次試題代碼的題號中：清除題目，避免作答未開放的題目
+			if (examQuestionNo && examAllowedNos.length && examAllowedNos.indexOf(String(Number(examQuestionNo))) < 0) {
+				document.getElementById('question_input').innerHTML = '';
+				examName = examQuestionNo = examQuestionName = '';
+				lastGradeResult = null;
+				saveQuestionToStorage();
+				renderGradePanel();
+			}
 			startActivityTracking();
 		});
 	});
@@ -2996,10 +3083,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (file) {
 					var fr = new FileReader();           
 					fr.onload = function (event) {
-						// 以登錄密碼（examKey）解密後載入；未加密的舊 xml 檔也可直接載入
+						// 以競賽代碼（examKey）解密後載入；未加密的舊 xml 檔也可直接載入
 						var xmlText = decryptWorkspaceFile(event.target.result);
 						if (xmlText === null) {
-							alert('無法開啟：此檔案不是以目前登錄密碼加密的積木結構檔。');
+							alert('無法開啟：此檔案不是以目前競賽代碼加密的積木結構檔。');
 							return;
 						}
 						try {
@@ -3051,7 +3138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}	
     
     // ===== 題庫選單 =====
-    // 題庫檔皆已加密：只有考生登錄成功（以登錄密碼解密成功）的題庫才會出現在選單中
+    // 題庫檔皆已加密：只有考生登錄成功（以競賽代碼解密成功）的題庫才會出現在選單中
     const examSelect  = document.getElementById('importQuestion_list');
     const examListDiv = document.getElementById('importQuestionsList');
     const examCache   = {};
