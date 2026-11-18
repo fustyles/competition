@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>試題抽籤與試題代碼</title>
+<style>
+	:root { --brand:#4C5C8F; --brand-dark:#3B4A78; --soft:#EEF1F8; --line:#E2E6EF; --pick:#F0A030; --ok:#15803D; --bad:#B91C1C; }
+	* { box-sizing: border-box; }
+	body { margin: 0; background: #F5F6FA; color: #1F2A44; font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif; }
+	header { background: linear-gradient(135deg, #4a5d85, #66709a); color: #fff; padding: 18px 28px; }
+	header h1 { margin: 0; font-size: 22px; letter-spacing: 2px; }
+	header p { margin: 6px 0 0; font-size: 14px; opacity: .88; }
+	main { max-width: 1080px; margin: 20px auto; padding: 0 16px; display: grid; grid-template-columns: 1.25fr 1fr; gap: 18px; }
+	@media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+	.card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; box-shadow: 0 2px 8px rgba(40,50,90,.06); }
+	.card h2 { margin: 0 0 12px; font-size: 17px; color: var(--brand); padding-left: 8px; border-left: 4px solid var(--brand); }
+	label.field { display: block; font-size: 14px; font-weight: bold; color: #374151; margin: 0 0 6px; }
+	input[type=text] { width: 100%; padding: 8px 10px; font-size: 15px; border: 1px solid #C9CFDD; border-radius: 8px; outline: none; font-family: inherit; }
+	input[type=text]:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(76,92,143,.18); }
+	.row-key { display: flex; gap: 12px; align-items: end; margin-bottom: 14px; }
+	.row-key > div { flex: 1; }
+	.row-key .count { flex: 0 0 120px; }
+	table { width: 100%; border-collapse: collapse; font-size: 15px; }
+	th { background: #EEF1F7; color: #3A4A6B; padding: 7px; border: 1px solid #DDE2EC; font-size: 14px; }
+	td { padding: 5px 7px; border: 1px solid #E5E8EF; }
+	td.no { width: 64px; text-align: center; font-weight: bold; color: var(--brand); }
+	td.pick { width: 70px; text-align: center; }
+	td input[type=text] { padding: 6px 8px; font-size: 14px; }
+	tr.picked td { background: #FFF6E5; }
+	tr.picked td.no { color: #B45309; }
+	input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--pick); }
+	.btns { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+	button { padding: 10px 18px; font-size: 16px; font-weight: bold; font-family: inherit; border-radius: 8px; cursor: pointer; border: 1px solid var(--brand); background: #fff; color: var(--brand); }
+	button:hover { background: var(--soft); }
+	button.primary { background: var(--brand); color: #fff; }
+	button.primary:hover { background: var(--brand-dark); }
+	.result { text-align: center; padding: 6px 0 2px; }
+	.code { font-size: 46px; font-weight: bold; letter-spacing: 10px; font-family: Consolas, Menlo, "Courier New", monospace; color: var(--brand-dark); margin: 6px 0; }
+	.code.empty { color: #C3C9D8; }
+	.chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 8px 0; min-height: 30px; }
+	.chip { background: #FFF6E5; border: 1px solid #F5C97A; color: #92400E; border-radius: 999px; padding: 3px 12px; font-size: 14px; }
+	.chip b { margin-right: 4px; }
+	.chip b:last-child { margin-right: 0; }
+	.note { font-size: 13px; color: #6B7489; line-height: 1.7; }
+	.msg { margin-top: 10px; padding: 10px 12px; border-radius: 8px; font-size: 15px; line-height: 1.7; }
+	.msg.ok { background: #ECFDF3; color: var(--ok); border: 1px solid #A7E3BE; }
+	.msg.bad { background: #FEF2F2; color: var(--bad); border: 1px solid #FCA5A5; }
+	.msg.warn { background: #FFF7ED; color: #9A3412; border: 1px solid #FDBA74; }
+	.verify-row { display: flex; gap: 10px; }
+	.verify-row button { flex: 0 0 auto; white-space: nowrap; }
+	.verify-row input { font-family: Consolas, Menlo, "Courier New", monospace; font-size: 20px; letter-spacing: 4px; }
+	.side { display: flex; flex-direction: column; gap: 18px; }
+	ol.list { margin: 6px 0 0; padding-left: 22px; }
+	ol.list li { margin: 2px 0; }
+	/* ---------- 顯示給考生（全螢幕投影） ---------- */
+	.present { position: fixed; inset: 0; z-index: 1000; background: #1F2A44; color: #fff;
+		display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4vh; }
+	.present.show { display: flex; }
+	.present .p-title { font-size: 4.2vw; font-weight: bold; letter-spacing: .4vw; opacity: .95; }
+	.present .p-grid { display: grid; grid-template-columns: auto auto; gap: 3vh 4vw; align-items: center; }
+	.present .p-label { font-size: 4vw; font-weight: bold; color: #C9D2EA; text-align: right; }
+	.present .p-value { font-size: 9vw; font-weight: bold; letter-spacing: 1.2vw; line-height: 1.1;
+		font-family: Consolas, Menlo, "Courier New", monospace; background: #fff; color: #1F2A44;
+		padding: .6vh 2.4vw; border-radius: 1.4vw; border-bottom: .6vw solid #F0A030; text-align: center; }
+	.present .p-tip { font-size: 2vw; color: #C9D2EA; }
+	.present .p-close { position: absolute; top: 2vh; right: 2vw; background: transparent; color: #C9D2EA;
+		border: 1px solid #6B7AA6; font-size: 18px; padding: 8px 16px; }
+	.present .p-close:hover { background: rgba(255,255,255,.08); }
+</style>
+</head>
+<body>
+<header>
+	<h1>試題抽籤與試題代碼</h1>
+	<p>從 12 題中抽出指定題數，產生 6 位數字的試題代碼（以競賽代碼加密）；也可輸入代碼驗證是哪幾題。此網頁可離線使用。</p>
+</header>
+<main>
+	<section class="card">
+		<h2>題目與抽籤</h2>
+		<div class="row-key">
+			<div>
+				<label class="field" for="key">競賽代碼（加密金鑰）</label>
+				<input type="text" id="key" value="0000" spellcheck="false" autocomplete="off">
+			</div>
+		</div>
+		<table>
+			<thead><tr><th>題號</th><th>題目名稱</th><th>抽中</th></tr></thead>
+			<tbody id="rows"></tbody>
+		</table>
+		<div class="btns">
+			<button type="button" class="primary" id="draw">🎲 亂數抽籤</button>
+			<button type="button" id="clearPick">清除勾選</button>
+			<button type="button" id="clearNames">清空題目名稱</button>
+		</div>
+		<p class="note">按「亂數抽籤」時會詢問要抽幾題。也可以直接手動勾選題目（題數不限），抽籤後也能再勾選或取消，代碼會立即更新。題目名稱只存在這台電腦的瀏覽器中，方便下次開啟。</p>
+	</section>
+
+	<div class="side">
+		<section class="card">
+			<h2>試題代碼</h2>
+			<div class="result">
+				<div class="code empty" id="code">------</div>
+				<div class="chips" id="chips"></div>
+				<div class="btns" style="justify-content:center;margin-top:6px;">
+					<button type="button" class="primary" id="present">📺 顯示給考生</button>
+					<button type="button" id="copy">複製代碼</button>
+				</div>
+			</div>
+			<div id="genMsg"></div>
+			<p class="note">試題代碼以競賽代碼加密：同一組題目，競賽代碼不同時，試題代碼也不同。國小組與國中組若競賽代碼不同，請分別產生。</p>
+		</section>
+
+		<section class="card">
+			<h2>驗證代碼</h2>
+			<label class="field" for="vkey">競賽代碼</label>
+			<input type="text" id="vkey" value="0000" spellcheck="false" autocomplete="off" style="margin-bottom:10px">
+			<label class="field" for="vcode">試題代碼（6 位數字）</label>
+			<div class="verify-row">
+				<input type="text" id="vcode" maxlength="7" inputmode="numeric" spellcheck="false" autocomplete="off" placeholder="000000">
+				<button type="button" class="primary" id="verify">驗證</button>
+			</div>
+			<div id="verifyMsg"></div>
+		</section>
+	</div>
+</main>
+
+<div class="present" id="presentView" role="dialog" aria-label="競賽代碼與試題代碼">
+	<button type="button" class="p-close" id="presentClose">關閉（Esc）</button>
+	<div class="p-title">請在登錄畫面輸入</div>
+	<div class="p-grid">
+		<div class="p-label">競賽代碼</div><div class="p-value" id="pKey"></div>
+		<div class="p-label">試題代碼</div><div class="p-value" id="pCode"></div>
+	</div>
+	<div class="p-tip">輸入時請仔細核對每一個字</div>
+</div>
+
+<script>
+// ===== 試題代碼（作法 A）：12 題選取狀態 → 6 位數字 =====
+var QC_TOTAL = 12, QC_CHK = 244;   // 4096 × 244 = 999424 < 1000000
+function qcHash(str) {
+	var h = 0x811c9dc5, s = unescape(encodeURIComponent(str));
+	for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+	h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b) >>> 0;
+	h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35) >>> 0;
+	h ^= h >>> 16; return h >>> 0;
+}
+function qcRound(key, i, x) { return qcHash('QC|' + key + '|' + i + '|' + x) % 1000; }
+function qcMix(v, key) {        // 以競賽代碼打亂（4 輪 Feistel，可逆）
+	var L = Math.floor(v / 1000), R = v % 1000;
+	for (var i = 0; i < 4; i++) { var t = (L + qcRound(key, i, R)) % 1000; L = R; R = t; }
+	return L * 1000 + R;
+}
+function qcUnmix(v, key) {
+	var L = Math.floor(v / 1000), R = v % 1000;
+	for (var i = 3; i >= 0; i--) { var t = L; L = (R - qcRound(key, i, t) + 1000) % 1000; R = t; }
+	return L * 1000 + R;
+}
+function qcCheck(key, m) { return qcHash('CHK|' + key + '|' + m) % QC_CHK; }
+// nums：題號陣列（1～12）；回傳 6 位數字字串
+function qcEncode(nums, key) {
+	key = String(key).trim();
+	var m = 0;
+	nums.forEach(function (n) { m |= 1 << (n - 1); });
+	var v = m * QC_CHK + qcCheck(key, m);
+	return String(qcMix(v, key)).padStart(6, '0');
+}
+// 回傳題號陣列（由小到大）；代碼錯誤回傳 null
+function qcDecode(code, key) {
+	key = String(key).trim();
+	code = String(code).replace(/\s+/g, '');
+	if (!/^\d{6}$/.test(code)) return null;
+	var v = qcUnmix(Number(code), key);
+	var m = Math.floor(v / QC_CHK), c = v % QC_CHK;
+	if (m <= 0 || m >= (1 << QC_TOTAL) || c !== qcCheck(key, m)) return null;
+	var nums = [];
+	for (var n = 1; n <= QC_TOTAL; n++) if (m & (1 << (n - 1))) nums.push(n);
+	return nums;
+}
+
+// ===== 畫面 =====
+(function () {
+	var NAME_STORE = 'francis_qcode_tool_names';
+	var rowsEl = document.getElementById('rows');
+	var keyEl = document.getElementById('key');
+	var lastCount = 5;   // 上次抽出的題數（下次詢問時的預設值）
+	var codeEl = document.getElementById('code'), chipsEl = document.getElementById('chips'), genMsg = document.getElementById('genMsg');
+	var names = [];
+	try { names = JSON.parse(localStorage.getItem(NAME_STORE) || '[]'); } catch (e) {}
+
+	for (var n = 1; n <= QC_TOTAL; n++) {
+		var tr = document.createElement('tr');
+		tr.innerHTML = '<td class="no">' + n + '</td>' +
+			'<td><input type="text" class="qname" data-no="' + n + '" placeholder="第 ' + n + ' 題題目名稱"></td>' +
+			'<td class="pick"><input type="checkbox" class="qpick" data-no="' + n + '" aria-label="第 ' + n + ' 題抽中"></td>';
+		tr.querySelector('.qname').value = names[n - 1] || '';
+		rowsEl.appendChild(tr);
+	}
+	var nameEls = [].slice.call(document.querySelectorAll('.qname'));
+	var pickEls = [].slice.call(document.querySelectorAll('.qpick'));
+
+	function nameOf(n) { return nameEls[n - 1].value.trim(); }
+	function picked() { return pickEls.filter(function (c) { return c.checked; }).map(function (c) { return Number(c.dataset.no); }); }
+	// 詢問要抽幾題；取消回傳 0
+	function askCount() {
+		var msg = '要從 ' + QC_TOTAL + ' 題中抽出幾題？（1～' + QC_TOTAL + '）';
+		var v = String(lastCount);
+		while (true) {
+			v = prompt(msg, v);
+			if (v === null) return 0;
+			var c = parseInt(String(v).replace(/[０-９]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); }).trim(), 10);
+			if (c >= 1 && c <= QC_TOTAL) return (lastCount = c);
+			msg = '請輸入 1～' + QC_TOTAL + ' 的數字。\n要從 ' + QC_TOTAL + ' 題中抽出幾題？';
+		}
+	}
+	function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+	function chipHtml(nums) {
+		return nums.map(function (n) { var nm = nameOf(n); return '<span class="chip"><b>' + n + '</b>' + esc(nm) + '</span>'; }).join('');
+	}
+
+	function saveNames() {
+		try { localStorage.setItem(NAME_STORE, JSON.stringify(nameEls.map(function (e) { return e.value; }))); } catch (e) {}
+	}
+
+	function update() {
+		pickEls.forEach(function (c) { c.closest('tr').classList.toggle('picked', c.checked); });
+		var nums = picked(), key = keyEl.value.trim();
+		document.getElementById('vkey').value = keyEl.value;   // 驗證區帶入同一個競賽代碼
+		if (!key) {
+			codeEl.textContent = '------'; codeEl.classList.add('empty'); chipsEl.innerHTML = '';
+			genMsg.innerHTML = '<div class="msg bad">請先輸入競賽代碼。</div>';
+			return;
+		}
+		if (!nums.length) {
+			codeEl.textContent = '------'; codeEl.classList.add('empty'); chipsEl.innerHTML = '';
+			genMsg.innerHTML = '';
+			return;
+		}
+		codeEl.textContent = qcEncode(nums, key);
+		codeEl.classList.remove('empty');
+		chipsEl.innerHTML = chipHtml(nums);
+		genMsg.innerHTML = '<p class="note" style="text-align:center;margin:4px 0 0;">共 ' + nums.length + ' 題</p>';
+	}
+
+	// 亂數抽籤（使用瀏覽器的加密等級亂數）
+	function randInt(max) {
+		var a = new Uint32Array(1), lim = Math.floor(0x100000000 / max) * max;
+		do { crypto.getRandomValues(a); } while (a[0] >= lim);
+		return a[0] % max;
+	}
+	document.getElementById('draw').addEventListener('click', function () {
+		var count = askCount();
+		if (!count) return;
+		var pool = [];
+		for (var n = 1; n <= QC_TOTAL; n++) pool.push(n);
+		for (var i = pool.length - 1; i > 0; i--) { var j = randInt(i + 1); var t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
+		var chosen = pool.slice(0, count);
+		pickEls.forEach(function (c) { c.checked = chosen.indexOf(Number(c.dataset.no)) >= 0; });
+		update();
+	});
+	document.getElementById('clearPick').addEventListener('click', function () {
+		pickEls.forEach(function (c) { c.checked = false; }); update();
+	});
+	document.getElementById('clearNames').addEventListener('click', function () {
+		if (!confirm('確定清空全部題目名稱？')) return;
+		nameEls.forEach(function (e) { e.value = ''; }); saveNames(); update();
+	});
+	pickEls.forEach(function (c) { c.addEventListener('change', update); });
+	keyEl.addEventListener('input', update);
+	nameEls.forEach(function (e) { e.addEventListener('input', function () { saveNames(); update(); }); });
+
+	document.getElementById('copy').addEventListener('click', function () {
+		if (codeEl.classList.contains('empty')) return;
+		var text = codeEl.textContent, btn = this;
+		var done = function () { btn.textContent = '已複製'; setTimeout(function () { btn.textContent = '複製代碼'; }, 1500); };
+		if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
+		else fallback();
+		function fallback() {
+			var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+			try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
+		}
+	});
+
+	// 顯示給考生：全螢幕大字顯示競賽代碼與試題代碼（不顯示題號）
+	var presentEl = document.getElementById('presentView');
+	function openPresent() {
+		var key = keyEl.value.trim();
+		if (!key) { alert('請先輸入競賽代碼。'); keyEl.focus(); return; }
+		if (codeEl.classList.contains('empty')) { alert('請先抽籤或勾選題目，產生試題代碼。'); return; }
+		document.getElementById('pKey').textContent = key;
+		document.getElementById('pCode').textContent = codeEl.textContent;
+		presentEl.classList.add('show');
+		try { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function () {}); } catch (e) {}
+	}
+	function closePresent() {
+		presentEl.classList.remove('show');
+		try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function () {}); } catch (e) {}
+	}
+	document.getElementById('present').addEventListener('click', openPresent);
+	document.getElementById('presentClose').addEventListener('click', closePresent);
+	document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && presentEl.classList.contains('show')) closePresent(); });
+	// 按 Esc 離開瀏覽器全螢幕時，一併關閉顯示畫面
+	document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement) presentEl.classList.remove('show'); });
+
+	// 驗證
+	var vMsg = document.getElementById('verifyMsg');
+	function verify() {
+		var key = document.getElementById('vkey').value.trim();
+		var code = document.getElementById('vcode').value.trim();
+		if (!key) { vMsg.innerHTML = '<div class="msg bad">請輸入競賽代碼。</div>'; return; }
+		if (!/^\d{6}$/.test(code)) { vMsg.innerHTML = '<div class="msg bad">試題代碼必須是 6 位數字。</div>'; return; }
+		var nums = qcDecode(code, key);
+		if (!nums) { vMsg.innerHTML = '<div class="msg bad">代碼錯誤：此代碼與競賽代碼「' + esc(key) + '」不符，或有數字打錯。</div>'; return; }
+		vMsg.innerHTML = '<div class="msg ok">代碼正確，共 ' + nums.length + ' 題：<ol class="list">' +
+			nums.map(function (n) { var nm = nameOf(n); return '<li>第 ' + n + ' 題' + (nm ? '　' + esc(nm) : '') + '</li>'; }).join('') + '</ol></div>';
+	}
+	document.getElementById('verify').addEventListener('click', verify);
+	document.getElementById('vcode').addEventListener('keydown', function (e) { if (e.key === 'Enter') verify(); });
+
+	update();
+})();
+</script>
+</body>
+</html>
