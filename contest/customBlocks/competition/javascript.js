@@ -280,7 +280,7 @@ Blockly.Blocks['variables_set'] = Blockly.Blocks['variables_set_local'];
 Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'] || Blockly.JavaScript['variables_set_local'];
 
 Blockly.JavaScript['text_print'] = Blockly.JavaScript.forBlock['javascript_console_scratch'] || Blockly.JavaScript['javascript_console_scratch'];
-Blockly.JavaScript['text_prompt_ext'] = Blockly.JavaScript.forBlock['javascript_data_input'];
+Blockly.JavaScript['text_prompt_ext'] = Blockly.JavaScript.forBlock['javascript_data_input'] || Blockly.JavaScript['javascript_data_input'];
 
 Blockly.JavaScript['variables_set'] = Blockly.JavaScript.forBlock['variables_set_local'] || Blockly.JavaScript['variables_set_local'];
 Blockly.JavaScript['text_prompt'] = Blockly.JavaScript.forBlock['javascript_data_input'] || Blockly.JavaScript['javascript_data_input'];
