@@ -5,6 +5,22 @@ Copyright 2026 Taiwan (ChungYi Fu)
 @author https://www.facebook.com/francefu/
 */
 
+// 修正 Blockly 10.0.0：拖曳頂層積木時不會移到最上層，會從其他積木底下被拖過去
+(function () {
+	if (!window.Blockly || !Blockly.BlockDragger) return;
+	var proto = Blockly.BlockDragger.prototype;
+	if (proto.__bringToFrontPatched) return;
+	var originalStartDrag = proto.startDrag;
+	proto.startDrag = function (currentDragDeltaXY, healStack) {
+		originalStartDrag.call(this, currentDragDeltaXY, healStack);
+		// 原本只有 mutator 會置頂；這裡在 unplug 之後一律置頂
+		if (this.draggingBlock_ && !this.workspace_.isMutator) {
+			this.draggingBlock_.bringToFront();
+		}
+	};
+	proto.__bringToFrontPatched = true;
+})();
+
 var mainPath = 'https://fustyles.github.io/competition/';
 var workspace;
 var subWorkspace;
@@ -675,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		function checkArgVariableRootBlock(block) {
 			const topBlock = block.getRootBlock(true);
 			if (topBlock) {
-				block.bringToFront();
+				// 不在這裡 bringToFront：會把參數積木所在的整串積木拉到最上層，蓋過剛放下的積木
 				if (topBlock.type == 'javascript_procedures_defnoreturn_scratch') {
 					let argNames = topBlock.arguments_||[];
 					for (let i = 0; i < argNames.length; i++) {
