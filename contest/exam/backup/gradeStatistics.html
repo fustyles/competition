@@ -207,7 +207,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
       question: root.getAttribute('question') || '',
       platform: root.getAttribute('platform') || '',
       runStatus: root.getAttribute('status') || '',          // success / error（舊檔沒有此屬性）
-      errorType: root.getAttribute('error_type') || '',      // timeout / exception
+      errorType: root.getAttribute('error_type') || '',      // timeout / exception / stopped
       graded,
       blocks: root.getElementsByTagName('block').length,
     };
@@ -230,7 +230,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
             Object.assign(row, r);
             row.keyIndex = d.keyIndex;
             row.runText = r.runStatus === 'success' ? '成功'
-              : r.runStatus === 'error' ? '錯誤（' + (r.errorType === 'timeout' ? '逾時' : '程式錯誤') + '）' : '';
+              : r.runStatus === 'error' ? '錯誤（' + (r.errorType === 'timeout' ? '逾時' : r.errorType === 'stopped' ? '手動停止' : '程式錯誤') + '）' : '';
             if (!r.hasRecord) { row.status = 'warn'; row.msg = '檔案中沒有成績紀錄'; }
             else if (r.score === null) { row.status = 'warn'; row.msg = '未評分（儲存時未選題目）'; }
             else if (r.runStatus === 'error') { row.status = 'run'; row.msg = '執行錯誤，以 0 分計'; }
