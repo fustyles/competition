@@ -1,9 +1,9 @@
 /*
 @license
-Copyright 2025 Taiwan (ChungYi Fu)
+Copyright 2026 Taiwan (ChungYi Fu)
 
 @author https://www.facebook.com/francefu/
-@Update 13/10/2025 00:00 (Taiwan Standard Time)
+@version online
 */
 
 // 修正 Blockly 10.0.0：拖曳頂層積木時不會移到最上層，會從其他積木底下被拖過去
