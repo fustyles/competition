@@ -27,7 +27,7 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="js/custom.js"></script>	
 	<script src="js/aes.js"></script>
 	<!-- ?v= 為版本號：更新網站檔案時一併修改，讓瀏覽器重新下載而不是使用快取中的舊檔 -->
-	<script src="js/index.js?v=20261118b"></script>
+	<script src="js/index.js?v=20261118c"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>
 	<script src="js/jquery.min.js"></script>
@@ -290,6 +290,15 @@ Copyright 2026 Taiwan (ChungYi Fu)
 			animation: rw-dots 1.2s steps(4) infinite;
 		}
 		.run-watch .rw-sub { margin-top: 6px; font-size: 13px; color: #6B7489; }
+		.run-watch .rw-stop {           /* 立即停止按鈕 */
+			margin-top: 16px; padding: 9px 26px;
+			border: 0; border-radius: 8px;
+			background: #DC2626; color: #fff;
+			font-size: 16px; font-weight: bold; font-family: inherit; letter-spacing: 1px;
+			cursor: pointer;
+		}
+		.run-watch .rw-stop:hover { background: #B91C1C; }
+		.run-watch .rw-stop small { font-size: 12px; font-weight: normal; opacity: .85; margin-left: 2px; }
 		.run-watch.rw-paused .rw-spin { animation-play-state: paused; border-top-color: #CBD2E1; border-right-color: #CBD2E1; }
 		.run-watch.rw-paused .rw-sub { color: #C2410C; font-weight: bold; }
 		@keyframes rw-rotate { to { transform: rotate(360deg); } }
