@@ -28,7 +28,7 @@ var subWorkspace;
 var category;
 var categoryBlocks = [];
 var categoryExpand = [];
-var scratchStyle = false;
+var scratchStyle = true;
 var xmlBlockly = "";
 var xmlScratch = "";
 var workspaceChangeTimer;
