@@ -66,6 +66,14 @@ var GRADING_MAX_RECORDS = 300;
 // =====================================================
 var RUN_TIMEOUT_MS = 20000;   // 執行時間上限（毫秒）
 
+// 多語系文字：從語系檔 msg/zh-hant.js、zh-hans.js、en.js（Blockly.Msg）讀取。
+// 文字中的 %1、%2… 依序換成後面的參數；語系檔中沒有這個變數時使用 def（繁體中文預設文字）。
+function msgText(key, def) {
+	var t = (window.Blockly && Blockly.Msg && Blockly.Msg[key]) || def || key;
+	for (var i = 2; i < arguments.length; i++) t = String(t).split('%' + (i - 1)).join(arguments[i]);
+	return t;
+}
+
 var RunWatch = (function () {
 	var RING_LEN = 2 * Math.PI * 28;   // 倒數圓環周長（r = 28）
 	var run = null;   // { start, paused, pauseAt, done, onTimeout, onStop, timer, el }
@@ -99,8 +107,8 @@ var RunWatch = (function () {
 		fg.style.strokeDashoffset = String(RING_LEN * (1 - left / RUN_TIMEOUT_MS));
 		fg.classList.toggle('rw-warn', sec <= 5);
 		el.querySelector('.rw-sub').textContent = run.pauseAt
-			? '等待輸入資料中（暫停計時）'
-			: '剩餘 ' + sec + ' 秒，超過 ' + Math.round(RUN_TIMEOUT_MS / 1000) + ' 秒將強制停止';
+			? msgText('RUN_WATCH_PAUSED', '等待輸入資料中（暫停計時）')
+			: msgText('RUN_WATCH_REMAIN', '剩餘 %1 秒，超過 %2 秒將強制停止', sec, Math.round(RUN_TIMEOUT_MS / 1000));
 		el.classList.toggle('rw-paused', !!run.pauseAt);
 	}
 
@@ -155,7 +163,7 @@ var RunWatch = (function () {
 				'</div>' +
 				'<div class="rw-title"></div>' +
 				'<div class="rw-sub"></div>' +
-				'<button type="button" class="rw-stop">■ 立即停止<small>（Esc）</small></button>' +
+				'<button type="button" class="rw-stop">' + msgText('RUN_WATCH_STOP', '■ 立即停止') + '<small>' + msgText('RUN_WATCH_STOP_KEY', '（Esc）') + '</small></button>' +
 			'</div>';
 		el.querySelector('.rw-title').textContent = title;
 		el.querySelector('.rw-stop').addEventListener('click', function () { stop(); });
@@ -200,18 +208,18 @@ Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (window.parent && window.parent.__ru
 // 執行錯誤時給考生的簡單原因提示
 function runErrorHint(msg) {
 	msg = String(msg || '');
-	if (/is not defined/.test(msg))                       return '使用了不存在的變數或函式，請檢查變數名稱是否正確、是否已經設定過值。';
-	if (/Cannot read prop|of undefined|of null/.test(msg)) return '使用了沒有值的資料（例如清單中不存在的項目），請檢查變數是否已設定、清單位置是否超出範圍。';
-	if (/is not a function/.test(msg))                    return '把不是函式的資料當成函式使用，請檢查積木的組合。';
-	if (/call stack/i.test(msg))                          return '函式一直呼叫自己沒有停止（遞迴沒有結束條件）。';
-	if (/Invalid array length/.test(msg))                 return '清單長度設定錯誤（例如負數或太大的數）。';
-	return '請檢查積木的組合、變數的值與資料型態（例如把文字當成數字計算）。';
+	if (/is not defined/.test(msg))                       return msgText('RUN_HINT_NOT_DEFINED', '使用了不存在的變數或函式，請檢查變數名稱是否正確、是否已經設定過值。');
+	if (/Cannot read prop|of undefined|of null/.test(msg)) return msgText('RUN_HINT_UNDEFINED', '使用了沒有值的資料（例如清單中不存在的項目），請檢查變數是否已設定、清單位置是否超出範圍。');
+	if (/is not a function/.test(msg))                    return msgText('RUN_HINT_NOT_FUNCTION', '把不是函式的資料當成函式使用，請檢查積木的組合。');
+	if (/call stack/i.test(msg))                          return msgText('RUN_HINT_STACK', '函式一直呼叫自己沒有停止（遞迴沒有結束條件）。');
+	if (/Invalid array length/.test(msg))                 return msgText('RUN_HINT_ARRAY', '清單長度設定錯誤（例如負數或太大的數）。');
+	return msgText('RUN_HINT_DEFAULT', '請檢查積木的組合、變數的值與資料型態（例如把文字當成數字計算）。');
 }
 function runStoppedHint() {
-	return '程式在執行完成前被停止。若程式一直沒有結束，請檢查迴圈的結束條件，或程式是否在等待輸入資料。';
+	return msgText('RUN_HINT_STOPPED', '程式在執行完成前被停止。若程式一直沒有結束，請檢查迴圈的結束條件，或程式是否在等待輸入資料。');
 }
 function runTimeoutHint() {
-	return '程式在 ' + Math.round(RUN_TIMEOUT_MS / 1000) + ' 秒內沒有執行完成。可能原因：迴圈的結束條件一直不成立（無窮迴圈）、重複次數太多，或等待（延遲）的時間太長。';
+	return msgText('RUN_HINT_TIMEOUT', '程式在 %1 秒內沒有執行完成。可能原因：迴圈的結束條件一直不成立（無窮迴圈）、重複次數太多，或等待（延遲）的時間太長。', Math.round(RUN_TIMEOUT_MS / 1000));
 }
 
 
@@ -1328,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		restoreWorkspaceFromStorage();   // 載入上次編輯的積木
 		hookToolboxToggle();
 		restoreQuestionFromStorage();    // 載入上次的題目內容（需在 updateMsg 之後，才不會被預設文字蓋掉）
-		document.getElementById('button_test').title = '正式評分';
+		document.getElementById('button_test').title = msgText('QTAB_GRADE', '正式評分');
 		appReady = true;
 		appReadyCallbacks.splice(0).forEach(function (cb) { try { cb(); } catch (e) { console.error(e); } });
 	}, 1000);
@@ -1736,7 +1744,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	  };
 
 	  // 逾時：強制停止並提示
-	  RunWatch.start('程式執行中', function () {
+	  RunWatch.start(msgText('RUN_WATCH_RUNNING', '程式執行中'), function () {
 		var out = bodyText();
 		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('timeout'));
 	  }, function () {
@@ -1781,15 +1789,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		var box = 'margin:10px 0;padding:12px 14px;border-radius:8px;font-family:Microsoft JhengHei,PingFang TC,Noto Sans TC,sans-serif;line-height:1.7;font-size:15px;';
 		if (kind === 'stopped') {
 			return '<div style="' + box + 'background:#EEF1F8;border:1px solid #B7BFD6;color:#3B4A78;">' +
-				'<b style="font-size:16px;">⏹ 已手動停止執行</b><br>' + esc(runStoppedHint()) + '</div>';
+				'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_STOPPED', '⏹ 已手動停止執行')) + '</b><br>' + esc(runStoppedHint()) + '</div>';
 		}
 		if (kind === 'timeout') {
 			return '<div style="' + box + 'background:#FFF7ED;border:1px solid #FDBA74;color:#9A3412;">' +
-				'<b style="font-size:16px;">⏱ 執行超過 ' + Math.round(RUN_TIMEOUT_MS / 1000) + ' 秒，已強制停止</b><br>' + esc(runTimeoutHint()) + '</div>';
+				'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_TIMEOUT', '⏱ 執行超過 %1 秒，已強制停止', Math.round(RUN_TIMEOUT_MS / 1000))) + '</b><br>' + esc(runTimeoutHint()) + '</div>';
 		}
 		return '<div style="' + box + 'background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B;">' +
-			'<b style="font-size:16px;">❌ 程式執行發生錯誤，已停止</b><br>' + esc(runErrorHint(detail)) +
-			(detail ? '<br><span style="font-size:13px;color:#7F1D1D;">錯誤訊息：' + esc(detail) + '</span>' : '') + '</div>';
+			'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_ERROR', '❌ 程式執行發生錯誤，已停止')) + '</b><br>' + esc(runErrorHint(detail)) +
+			(detail ? '<br><span style="font-size:13px;color:#7F1D1D;">' + esc(msgText('RUN_MSG_DETAIL', '錯誤訊息：%1', detail)) + '</span>' : '') + '</div>';
 	}
 
 	/*
@@ -2209,23 +2217,23 @@ document.addEventListener('DOMContentLoaded', function() {
 		showQuestionTab('grade');
 		var cur = document.getElementById('grade_current');
 		if (RunWatch.isActive()) {
-			cur.innerHTML = '<div class="gp-msg">程式執行中，請等執行結束後再評分。</div>';
+			cur.innerHTML = '<div class="gp-msg">' + escapeHtml(msgText('GRADE_BUSY_RUN', '程式執行中，請等執行結束後再評分。')) + '</div>';
 			return null;
 		}
 
 		if (!examQuestionNo) {
-			cur.innerHTML = '<div class="gp-msg">' + escapeHtml(gmsg('GRADE_NO_QUESTION', '請先由題庫選擇題目，再進行正式評分。')) + '</div>';
+			cur.innerHTML = '<div class="gp-msg">' + escapeHtml(msgText('GRADE_NO_QUESTION', '請先由題庫選擇題目，再進行正式評分。')) + '</div>';
 			return null;
 		}
 		var cases;
 		try { cases = parseGradingData(); }
 		catch (e) {
-			cur.innerHTML = '<div class="gp-msg gp-err">' + escapeHtml(gmsg('TEST_DATA_JSON_ERROR', '評分資料格式錯誤')) + '</div>';
+			cur.innerHTML = '<div class="gp-msg gp-err">' + escapeHtml(msgText('GRADE_DATA_ERROR', '評分資料格式錯誤')) + '</div>';
 			console.error(e);
 			return null;
 		}
 		if (!cases || !cases.length) {
-			cur.innerHTML = '<div class="gp-msg gp-err">' + escapeHtml(gmsg('GRADE_NO_DATA', '此題沒有評分資料。')) + '</div>';
+			cur.innerHTML = '<div class="gp-msg gp-err">' + escapeHtml(msgText('GRADE_NO_DATA', '此題沒有評分資料。')) + '</div>';
 			return null;
 		}
 
@@ -2239,7 +2247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (pre) {
 				outcomes = cases.map(function () { return { outcome: 'fail' }; });   // 積木不完整：全部不通過
 			} else {
-				cur.innerHTML = '<div class="gp-msg">正式評分執行中…</div>';
+				cur.innerHTML = '<div class="gp-msg">' + escapeHtml(msgText('GRADE_RUNNING', '正式評分執行中…')) + '</div>';
 				toggleConsoleForm(false);
 				var container = document.getElementById('gradingContainer');
 				if (container) container.remove();
@@ -2256,7 +2264,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					stoppers.forEach(function (f) { f(outcome); });
 					container.remove();
 				};
-				RunWatch.start('正式評分中（' + cases.length + ' 組測資）',
+				RunWatch.start(msgText('RUN_WATCH_GRADING', '正式評分中（%1 組測資）', cases.length),
 					function () { stopAll('timeout'); },
 					function () { userStopped = true; stopAll('stopped'); });
 				outcomes = await Promise.all(cases.map(function (c, i) {
@@ -2266,7 +2274,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				container.remove();
 				// 按「正式評分」時手動停止：不計分、不留紀錄（儲存時停止則照常存檔，分數記 0）
 				if (userStopped && source !== 'save') {
-					cur.innerHTML = '<div class="gp-msg">已手動停止正式評分，本次不列入評分紀錄。</div>';
+					cur.innerHTML = '<div class="gp-msg">' + escapeHtml(msgText('GRADE_STOPPED', '已手動停止正式評分，本次不列入評分紀錄。')) + '</div>';
 					return null;
 				}
 			}
@@ -2318,16 +2326,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	window.runOfficialGrading = runOfficialGrading;
 
+	// 每筆測資的結果：[樣式, 語系檔變數, 預設文字]
 	var OUTCOME_LABEL = {
-		pass:    ['gp-pass', '✔ 通過'],
-		fail:    ['gp-fail', '✘ 不通過'],
-		error:   ['gp-fail', '❌ 執行錯誤'],
-		timeout: ['gp-warn', '⏱ 逾時'],
-		stopped: ['gp-muted', '－ 已停止']
+		pass:    ['gp-pass',  'GRADE_PASS',         '✔ 通過'],
+		fail:    ['gp-fail',  'GRADE_FAIL',         '✘ 不通過'],
+		error:   ['gp-fail',  'GRADE_ERROR',        '❌ 執行錯誤'],
+		timeout: ['gp-warn',  'GRADE_TIMEOUT',      '⏱ 逾時'],
+		stopped: ['gp-muted', 'GRADE_CASE_STOPPED', '－ 已停止']
 	};
 
 	function reasonLabel(reason) {
-		return reason === 'timeout' ? '逾時' : reason === 'stopped' ? '手動停止' : '程式錯誤';
+		return reason === 'timeout' ? msgText('GRADE_REASON_TIMEOUT', '逾時')
+			: reason === 'stopped' ? msgText('GRADE_REASON_STOPPED', '手動停止')
+			: msgText('GRADE_REASON_EXCEPTION', '程式錯誤');
 	}
 
 	// 輸出中的 [orange]…[/orange]（讀入的測資）、[blue]…[/blue]（程式輸出）標色
@@ -2344,21 +2355,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			var lab = OUTCOME_LABEL[oc] || OUTCOME_LABEL.fail;
 			var out = (c.output != null && c.output !== '')
 				? colorOutput(c.output)
-				: '<span class="gp-muted">' + (oc === 'fail' && r.note ? '（積木不完整，未執行）' : '—') + '</span>';
+				: '<span class="gp-muted">' + (oc === 'fail' && r.note ? escapeHtml(msgText('GRADE_NOT_RUN', '（積木不完整，未執行）')) : '—') + '</span>';
 			return '<tr><td>' + (i + 1) + '</td>' +
 				'<td class="gp-io">' + escapeHtml(c.input == null ? '' : c.input) + '</td>' +
 				'<td class="gp-io">' + out + '</td>' +
-				'<td class="' + lab[0] + '">' + lab[1] + '</td></tr>';
+				'<td class="' + lab[0] + '">' + escapeHtml(msgText(lab[1], lab[2])) + '</td></tr>';
 		}).join('');
 		var statusBox = !bad ? '' :
-			'<div class="gp-msg gp-err"><b>執行狀態：錯誤（' + reasonLabel(r.reason) + '）。</b><br>' +
+			'<div class="gp-msg gp-err"><b>' + escapeHtml(msgText('GRADE_STATUS_ERROR', '執行狀態：錯誤（%1）。', reasonLabel(r.reason))) + '</b><br>' +
 			escapeHtml(r.reason === 'timeout' ? runTimeoutHint() : r.reason === 'stopped' ? runStoppedHint() : runErrorHint(r.error)) +
-			(r.error ? '<br><small>錯誤訊息：' + escapeHtml(r.error) + '</small>' : '') + '</div>';
-		return '<div class="gp-score">答對 <b>' + r.passed + '</b> / ' + r.count + ' 筆測資' +
+			(r.error ? '<br><small>' + escapeHtml(msgText('RUN_MSG_DETAIL', '錯誤訊息：%1', r.error)) + '</small>' : '') + '</div>';
+		return '<div class="gp-score">' + msgText('GRADE_CORRECT', '答對 %1 / %2 筆測資', '<b>' + r.passed + '</b>', r.count) +
 			'<span>' + formatTime(r.time) + '</span></div>' +
 			statusBox +
 			(r.note ? '<div class="gp-msg gp-err">' + escapeHtml(r.note) + '</div>' : '') +
-			'<table class="gp-table gp-cases"><thead><tr><th>#</th><th>測資</th><th>輸出</th><th>結果</th></tr></thead><tbody>' + rows + '</tbody></table>';
+			'<table class="gp-table gp-cases"><thead><tr><th>#</th><th>' + msgText('GRADE_TH_INPUT', '測資') + '</th><th>' + msgText('GRADE_TH_OUTPUT', '輸出') + '</th><th>' + msgText('GRADE_TH_RESULT', '結果') + '</th></tr></thead><tbody>' + rows + '</tbody></table>';
 	}
 
 	function renderGradePanel() {
@@ -2367,11 +2378,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!document.getElementById('grade_current')) {
 			panel.innerHTML =
 				'<div class="gp-head" id="grade_head"></div>' +
-				'<div class="gp-actions"><button type="button" id="grade_run">開始正式評分</button></div>' +
+				'<div class="gp-actions"><button type="button" id="grade_run">' + escapeHtml(msgText('GRADE_START', '開始正式評分')) + '</button></div>' +
 				'<div id="grade_current"></div>' +
-				'<div class="gp-subtitle">評分紀錄</div>' +
+				'<div class="gp-subtitle">' + escapeHtml(msgText('GRADE_RECORDS', '評分紀錄')) + '</div>' +
 				'<div id="grade_records"></div>' +
-				'<div class="gp-tip">提示：在積木工作區按 <kbd>Ctrl</kbd> + <kbd>Delete</kbd> 可清除評分紀錄與所有暫存資料（工作區積木、試題內容、執行結果）。</div>';
+				'<div class="gp-tip">' + msgText('GRADE_TIP', '提示：在積木工作區按 %1 + %2 可清除評分紀錄與所有暫存資料（工作區積木、試題內容、執行結果）。', '<kbd>Ctrl</kbd>', '<kbd>Delete</kbd>') + '</div>';
 			document.getElementById('grade_run').addEventListener('click', function () { runOfficialGrading('grade'); });
 			document.getElementById('grade_records').addEventListener('click', function (e) {
 				var a = e.target.closest('a[data-rec]');
@@ -2382,36 +2393,36 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		document.getElementById('grade_head').innerHTML =
 			'<span>' + (examQuestionNo
-				? escapeHtml(examName) + ' 第 <b>' + escapeHtml(examQuestionNo) + '</b> 題 ' + escapeHtml(examQuestionName)
-				: '尚未選擇題目') + '</span>';
+				? msgText('GRADE_HEAD_QUESTION', '%1 第 %2 題 %3', escapeHtml(examName), '<b>' + escapeHtml(examQuestionNo) + '</b>', escapeHtml(examQuestionName))
+				: escapeHtml(msgText('GRADE_HEAD_NONE', '尚未選擇題目'))) + '</span>';
 
 		var cur = document.getElementById('grade_current');
 		if (!gradingBusy) {
 			cur.innerHTML = (lastGradeResult && lastGradeResult.no === examQuestionNo && lastGradeResult.exam === examName)
 				? renderCurrentResult(lastGradeResult)
-				: '<div class="gp-msg">按「開始正式評分」或工具列的驗證按鈕進行評分。</div>';
+				: '<div class="gp-msg">' + escapeHtml(msgText('GRADE_HINT', '按「開始正式評分」或工具列的驗證按鈕進行評分。')) + '</div>';
 		}
 
 		var list = loadGradingRecords().slice().reverse();   // 新的在上
 		document.getElementById('grade_records').innerHTML = list.length
-			? '<table class="gp-table gp-records"><thead><tr><th>#</th><th>時間</th><th>題號</th><th>題目</th><th>答對</th><th>積木</th></tr></thead><tbody>' +
+			? '<table class="gp-table gp-records"><thead><tr><th>#</th><th>' + msgText('GRADE_TH_TIME', '時間') + '</th><th>' + msgText('GRADE_TH_NO', '題號') + '</th><th>' + msgText('GRADE_TH_QUESTION', '題目') + '</th><th>' + msgText('GRADE_TH_CORRECT', '答對') + '</th><th>' + msgText('GRADE_TH_BLOCKS', '積木') + '</th></tr></thead><tbody>' +
 				list.map(function (r, i) {
 					return '<tr><td>' + (list.length - i) + '</td>' +
-						'<td>' + formatTime(r.time) + (r.source === 'save' ? '<br><small>存檔</small>' : '') + '</td>' +
+						'<td>' + formatTime(r.time) + (r.source === 'save' ? '<br><small>' + escapeHtml(msgText('GRADE_SAVED', '存檔')) + '</small>' : '') + '</td>' +
 						'<td>' + escapeHtml(r.no) + '</td>' +
 						'<td class="gp-name">' + escapeHtml(r.exam ? r.exam + ' ' : '') + escapeHtml(r.name) + '</td>' +
 						'<td><b>' + r.passed + '</b> / ' + r.count +
-							(r.status === 'error' ? '<br><small class="gp-fail">' + (r.reason === 'stopped' ? '手動停止' : r.reason === 'timeout' ? '逾時' : '執行錯誤') + '</small>' : '') + '</td>' +
-						'<td><a href="#" data-rec="' + escapeHtml(r.id) + '">載入</a></td></tr>';
+							(r.status === 'error' ? '<br><small class="gp-fail">' + escapeHtml(reasonLabel(r.reason)) + '</small>' : '') + '</td>' +
+						'<td><a href="#" data-rec="' + escapeHtml(r.id) + '">' + escapeHtml(msgText('GRADE_LOAD', '載入')) + '</a></td></tr>';
 				}).join('') + '</tbody></table>'
-			: '<div class="gp-msg">尚無評分紀錄。</div>';
+			: '<div class="gp-msg">' + escapeHtml(msgText('GRADE_NO_RECORDS', '尚無評分紀錄。')) + '</div>';
 	}
 	window.renderGradePanel = renderGradePanel;
 
 	async function loadGradingRecord(id) {
 		var rec = loadGradingRecords().filter(function (r) { return r.id === id; })[0];
 		if (!rec) return;
-		if (!confirm('載入 ' + formatTime(rec.time) + ' 評分時的題目與積木（第 ' + rec.no + ' 題，答對 ' + rec.passed + ' / ' + rec.count + ' 筆測資）？\n目前的題目與工作區積木將被取代。')) return;
+		if (!confirm(msgText('GRADE_LOAD_CONFIRM', '載入 %1 評分時的題目與積木（第 %2 題，答對 %3 / %4 筆測資）？\n目前的題目與工作區積木將被取代。', formatTime(rec.time), rec.no, rec.passed, rec.count))) return;
 
 		// 1) 載入對應的題目（題目內容、題號等全域變數），題庫選單也切換到該題庫
 		var found = rec.no ? await findQuestionButton(rec.file, rec.exam, rec.no) : null;
@@ -2426,9 +2437,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (found) {
 			lastGradeResult = rec;
 			renderGradePanel();
-			showToast('已載入第 ' + rec.no + ' 題題目與評分當時的積木。');
+			showToast(msgText('GRADE_LOADED', '已載入第 %1 題題目與評分當時的積木。', rec.no));
 		} else {
-			showToast('已載入積木；找不到對應題目（第 ' + rec.no + ' 題' + (rec.exam ? '，' + rec.exam : '') + '），題目未載入。');
+			showToast(msgText('GRADE_LOADED_NO_Q', '已載入積木；找不到對應題目（%1 第 %2 題），題目未載入。', rec.exam || '', rec.no).replace(/（ /, '（').replace(/\(\s+/, '('));
 		}
 	}
 
@@ -2523,12 +2534,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			mask.setAttribute('role', 'alertdialog');
 			mask.innerHTML =
 				'<div class="cc-box">' +
-					'<div class="cc-head">清除暫存資料</div>' +
-					'<div class="cc-body">確定要清除這台電腦上的暫存資料嗎？將清除：' +
-						'<ul><li>工作區積木（含復原紀錄）</li><li>試題內容與測資、題號</li><li>執行結果</li><li>正式評分結果與所有評分紀錄</li></ul>' +
-						'<div class="cc-warn">清除後無法復原。已下載的積木結構檔不受影響。</div></div>' +
-					'<div class="cc-btns"><button type="button" class="cc-cancel">取消</button>' +
-					'<button type="button" class="cc-ok">確定清除</button></div>' +
+					'<div class="cc-head">' + escapeHtml(msgText('CLEAR_TITLE', '清除暫存資料')) + '</div>' +
+					'<div class="cc-body">' + escapeHtml(msgText('CLEAR_BODY', '確定要清除這台電腦上的暫存資料嗎？將清除：')) +
+						'<ul><li>' + escapeHtml(msgText('CLEAR_ITEM_BLOCKS', '工作區積木（含復原紀錄）')) + '</li>' +
+						'<li>' + escapeHtml(msgText('CLEAR_ITEM_QUESTION', '試題內容與測資、題號')) + '</li>' +
+						'<li>' + escapeHtml(msgText('CLEAR_ITEM_OUTPUT', '執行結果')) + '</li>' +
+						'<li>' + escapeHtml(msgText('CLEAR_ITEM_RECORDS', '正式評分結果與所有評分紀錄')) + '</li></ul>' +
+						'<div class="cc-warn">' + escapeHtml(msgText('CLEAR_WARN', '清除後無法復原。已下載的積木結構檔不受影響。')) + '</div></div>' +
+					'<div class="cc-btns"><button type="button" class="cc-cancel">' + escapeHtml(msgText('CLEAR_CANCEL', '取消')) + '</button>' +
+					'<button type="button" class="cc-ok">' + escapeHtml(msgText('CLEAR_OK', '確定清除')) + '</button></div>' +
 				'</div>';
 			document.body.appendChild(mask);
 			var done = function (ok) {
@@ -2560,7 +2574,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		confirmClearStorage().then(function (ok) {
 			if (!ok) return;
 			resetSessionData();
-			showToast('已清除暫存資料（工作區積木、試題內容、執行結果與評分紀錄）。');
+			showToast(msgText('CLEAR_DONE', '已清除暫存資料（工作區積木、試題內容、執行結果與評分紀錄）。'));
 		});
 	}
 
@@ -2666,7 +2680,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						try {
 							loadWorkspaceXml(String(event.target.result).replace(/^\uFEFF/, ''));
 						} catch (e) {
-							alert('積木結構檔內容錯誤，無法載入。');
+							alert(msgText('XML_LOAD_ERROR', '積木結構檔內容錯誤，無法載入。'));
 							console.error(e);
 							return;
 						}

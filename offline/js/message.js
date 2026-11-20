@@ -36,4 +36,7 @@ var msg = [
 ["importQuestionsButton", "innerHTML", Blockly.Msg["IMPORTQUESTIONSBUTTON"]],
 ["importQuestion_sheet_keyword_title", "innerHTML", Blockly.Msg["IMPORTQUESTION_SHEET_KEYWORD_TITLE"]],
 ["button_page", "title", Blockly.Msg["BUTTON_PAGE"]],
+["qtab_question", "innerHTML", Blockly.Msg["QTAB_QUESTION"]],
+["qtab_output", "innerHTML", Blockly.Msg["QTAB_OUTPUT"]],
+["qtab_grade", "innerHTML", Blockly.Msg["QTAB_GRADE"]],
 ];
