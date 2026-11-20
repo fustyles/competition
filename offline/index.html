@@ -27,7 +27,7 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="js/blocks_compressed.js"></script>
 	<script src="js/javascript_compressed.js"></script>
 	<script src="js/custom.js"></script>	
-	<script src="js/index.js"></script>
+	<script src="js/index.js?v=20261120"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>
 	<script src="js/jquery.min.js"></script>
@@ -144,6 +144,187 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		#importQuestionTable,
 		#importQuestionTable tr,
 		#importQuestionTable td { border-color: #C9CFDD; }
+
+		/* ---------- 試題內容視窗：三個頁籤 ---------- */
+		/* 每次只顯示一個區塊；用 !important 蓋過程式中對高度、顯示的直接設定 */
+		/* 選取中的頁籤：白底深色字＋琥珀色上緣，避免與下方深藍色題目卡混在一起 */
+		#question_tabs {
+			display: flex;
+			gap: 4px;
+			height: 40px;
+			padding: 5px 8px 0;
+			box-sizing: border-box;
+			background: #E4E8F2;
+			border-bottom: 1px solid #CBD2E1;
+		}
+		#question_tabs .qtab {
+			flex: 1;
+			border: 1px solid transparent;
+			border-bottom: none;
+			border-radius: 8px 8px 0 0;
+			background: transparent;
+			color: #6B7489;
+			font-size: 15px;
+			font-weight: bold;
+			font-family: inherit;
+			cursor: pointer;
+		}
+		#question_tabs .qtab:hover { background: rgba(255,255,255,.55); color: var(--brand-dark); }
+		#question_tabs .qtab.active {
+			position: relative;
+			top: 1px;                         /* 蓋住下方分隔線，與內容區連成一體 */
+			background: #fff;
+			border-color: #CBD2E1;
+			border-top: 3px solid #F0A030;
+			color: #1F2A44;
+		}
+		/* 題目區上方留白，讓題目卡與頁籤分開 */
+		#javascript_content #question_input { padding-top: 10px !important; }
+		#javascript_content #question_input,
+		#javascript_content #iframe_output,
+		#javascript_content #grade_panel {
+			display: none !important;
+			width: 100% !important;
+			height: calc(100% - 40px) !important;
+			box-sizing: border-box;
+		}
+		#javascript_content #question_input.qtab-active,
+		#javascript_content #iframe_output.qtab-active,
+		#javascript_content #grade_panel.qtab-active { display: block !important; }
+		#javascript_content #question_splitter { display: none !important; }
+
+		/* ---------- 正式評分頁籤 ---------- */
+		#grade_panel {
+			overflow: auto;
+			padding: 12px 14px;
+			background: #fff;
+			border: 1px solid #ddd;
+			font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+			font-size: 15px;
+			color: #1f2937;
+		}
+		#grade_panel .gp-head {
+			display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px;
+			padding: 8px 12px; border-radius: 8px; background: var(--brand-soft); color: var(--brand);
+		}
+		#grade_panel .gp-actions { margin: 10px 0; }
+		#grade_panel .gp-actions button {
+			width: 100%; padding: 10px; border: 0; border-radius: 8px;
+			background: var(--test); color: #fff; font-size: 16px; font-weight: bold; font-family: inherit; cursor: pointer;
+		}
+		#grade_panel .gp-actions button:disabled { opacity: .55; cursor: wait; }
+		#grade_panel .gp-score { font-size: 18px; margin: 6px 0 8px; }
+		#grade_panel .gp-score b { font-size: 26px; color: #c2410c; }
+		#grade_panel .gp-score span { display: block; font-size: 13px; color: #6b7280; margin-top: 2px; }
+		#grade_panel .gp-msg { padding: 8px 10px; border-radius: 6px; background: #F6F7FB; color: #4b5563; line-height: 1.6; }
+		#grade_panel .gp-err { background: #FEF2F2; color: #B91C1C; margin-bottom: 6px; }
+		#grade_panel .gp-subtitle {
+			margin: 16px 0 6px; padding-left: 8px; border-left: 4px solid var(--brand);
+			font-weight: bold; color: var(--brand);
+		}
+		#grade_panel .gp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+		#grade_panel .gp-table th { background: #EEF1F7; color: #3A4A6B; padding: 6px; border: 1px solid #DDE2EC; }
+		#grade_panel .gp-table td { padding: 6px; border: 1px solid #E5E8EF; text-align: center; }
+		#grade_panel .gp-table th,
+		#grade_panel .gp-table td { white-space: nowrap; }
+		#grade_panel .gp-table td.gp-name { text-align: left; white-space: normal; }
+		#grade_panel .gp-pass { color: #15803D; font-weight: bold; }
+		#grade_panel .gp-fail { color: #B91C1C; font-weight: bold; }
+		#grade_panel .gp-warn { color: #C2410C; font-weight: bold; }
+		#grade_panel .gp-muted { color: #9CA3AF; }
+
+		/* ---------- 執行中倒數動畫（全螢幕鎖定，避免重複按按鈕） ---------- */
+		.run-watch {
+			position: fixed;
+			inset: 0;
+			z-index: 2147482000;          /* 在所有畫面之上（登錄畫面除外） */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(30, 38, 58, .45);
+			cursor: wait;
+			user-select: none;
+			font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+		}
+		.run-watch .rw-card {
+			text-align: center;
+			color: #1F2A44;
+			background: #fff;
+			padding: 30px 46px 26px;
+			border-radius: 16px;
+			box-shadow: 0 16px 48px rgba(0, 0, 0, .3);
+			min-width: 280px;
+		}
+		.run-watch .rw-dial { position: relative; width: 120px; height: 120px; margin: 0 auto 14px; }
+		.run-watch svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+		.run-watch .rw-ring-bg { fill: none; stroke: #DDE2EC; stroke-width: 5; }
+		.run-watch .rw-ring-fg {
+			fill: none; stroke: var(--brand); stroke-width: 5; stroke-linecap: round;
+			transition: stroke-dashoffset .2s linear, stroke .3s;
+		}
+		.run-watch .rw-ring-fg.rw-warn { stroke: #DC2626; }
+		.run-watch .rw-spin {           /* 外圈旋轉動畫 */
+			position: absolute; inset: -9px; border-radius: 50%;
+			border: 3px solid transparent; border-top-color: #F0A030; border-right-color: #F0A030;
+			animation: rw-rotate 1s linear infinite;
+		}
+		.run-watch .rw-sec {
+			position: absolute; inset: 0;
+			display: flex; align-items: center; justify-content: center;
+			font-size: 40px; font-weight: bold; color: var(--brand);
+			font-variant-numeric: tabular-nums;
+		}
+		.run-watch .rw-title { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+		.run-watch .rw-title::after {   /* 文字後的跳動省略號 */
+			content: ""; display: inline-block; width: 1.4em; text-align: left;
+			animation: rw-dots 1.2s steps(4) infinite;
+		}
+		.run-watch .rw-sub { margin-top: 6px; font-size: 13px; color: #6B7489; }
+		.run-watch .rw-stop {           /* 立即停止按鈕 */
+			margin-top: 16px; padding: 9px 26px;
+			border: 0; border-radius: 8px;
+			background: #DC2626; color: #fff;
+			font-size: 16px; font-weight: bold; font-family: inherit; letter-spacing: 1px;
+			cursor: pointer;
+		}
+		.run-watch .rw-stop:hover { background: #B91C1C; }
+		.run-watch .rw-stop small { font-size: 12px; font-weight: normal; opacity: .85; margin-left: 2px; }
+		.run-watch.rw-paused .rw-spin { animation-play-state: paused; border-top-color: #CBD2E1; border-right-color: #CBD2E1; }
+		.run-watch.rw-paused .rw-sub { color: #C2410C; font-weight: bold; }
+		@keyframes rw-rotate { to { transform: rotate(360deg); } }
+
+		/* ---------- Ctrl+Delete 清除暫存資料的確認視窗 ---------- */
+		.clear-confirm {
+			position: fixed; inset: 0; z-index: 2147482600;
+			display: flex; align-items: center; justify-content: center;
+			background: rgba(30, 38, 58, .55);
+			font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+		}
+		.clear-confirm .cc-box { width: min(420px, 92vw); background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+		.clear-confirm .cc-head { background: #B91C1C; color: #fff; padding: 14px 20px; font-size: 18px; font-weight: bold; letter-spacing: 2px; }
+		.clear-confirm .cc-body { padding: 16px 20px 6px; font-size: 15px; line-height: 1.8; color: #374151; }
+		.clear-confirm .cc-body ul { margin: 6px 0 8px; padding-left: 22px; }
+		.clear-confirm .cc-warn { padding: 8px 10px; border-radius: 6px; background: #FEF2F2; color: #B91C1C; font-size: 14px; }
+		.clear-confirm .cc-btns { display: flex; gap: 10px; padding: 14px 20px 18px; }
+		.clear-confirm button { flex: 1; padding: 10px; font-size: 16px; font-weight: bold; font-family: inherit; border-radius: 8px; cursor: pointer; }
+		.clear-confirm .cc-cancel { background: #fff; color: #4a5d85; border: 1px solid #7d8bb0; }
+		.clear-confirm .cc-cancel:hover { background: #eef1f8; }
+		.clear-confirm .cc-ok { background: #DC2626; color: #fff; border: 0; }
+		.clear-confirm .cc-ok:hover { background: #B91C1C; }
+		.clear-confirm button:focus-visible { outline: 3px solid #F0A030; outline-offset: 2px; }
+		@keyframes rw-dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+		#grade_panel .gp-records a { color: var(--test); font-weight: bold; }
+		#grade_panel small { color: #6b7280; }
+
+		/* 正式評分：每筆測資的輸入與輸出 */
+		#grade_panel .gp-cases td.gp-io { text-align: left; white-space: normal; word-break: break-all;
+			font-family: Consolas, Menlo, "Courier New", monospace; font-size: 13px; }
+		#grade_panel .gp-tip { margin-top: 12px; padding: 8px 10px; border-radius: 6px; background: #F6F7FB; color: #6B7489; font-size: 13px; line-height: 1.7; }
+		#grade_panel .gp-tip kbd { display: inline-block; padding: 0 6px; border: 1px solid #C9CFDD; border-bottom-width: 2px; border-radius: 4px;
+			background: #fff; color: #3B4A78; font-family: inherit; font-size: 12px; line-height: 1.6; }
+		#grade_panel .gp-in  { color: #C2410C; }   /* 讀入的測資（原本的橘色） */
+		#grade_panel .gp-out { color: #1D4ED8; }   /* 程式的輸出（原本的藍色） */
+
 	</style>
 </head>
 <body class="root">
@@ -200,9 +381,16 @@ Copyright 2026 Taiwan (ChungYi Fu)
 			<span class="contentzoom_enlarge"><a id="button_enlarge" style="cursor: pointer" title="Enlarge"><i class="material-icons" style="vertical-align: middle; color: white;">aspect_ratio</i></a>	</span>
 		</div>
 		<div id="javascript_code" class="update_code">
-			<div id="question_input" style="border: 1px solid #ddd;width:100%;height:95%;overflow: auto;padding:0px; overflow-y:auto; overflow-x:hidden;"></div>
+			<!-- 三個頁籤：題目 / 執行結果（手動輸入執行） / 正式評分 -->
+			<div id="question_tabs">
+				<button type="button" class="qtab active" data-tab="question">題目</button>
+				<button type="button" class="qtab" data-tab="output">執行結果</button>
+				<button type="button" class="qtab" data-tab="grade">正式評分</button>
+			</div>
+			<div id="question_input" class="qtab-active" style="border: 1px solid #ddd;width:100%;height:95%;overflow: auto;padding:0px; overflow-y:auto; overflow-x:hidden;"></div>
             <div id="question_splitter" title="上下拖曳調整大小（雙擊還原）"></div>
             <iframe id="iframe_output" style="border: 1px solid #ddd;width:100%; height:5%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
+            <div id="grade_panel"></div>
 		</div>       
 	</div>
 	
