@@ -434,9 +434,9 @@ var ExamLogin = (function () {
 				'<div class="el-head">考生登錄<small>請輸入登錄帳號、競賽代碼與試題代碼後送出</small></div>' +
 				'<form id="examLoginForm" autocomplete="off" novalidate>' +
 					'<label for="examLoginAccount">登錄帳號</label>' +
-					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false">' +
+					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<label for="examLoginPassword">競賽代碼</label>' +
-					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false">' +
+					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<label for="examLoginQuestionCode">試題代碼</label>' +
 					'<input id="examLoginQuestionCode" type="text" inputmode="numeric" placeholder="6 位數字" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<div class="el-msg" id="examLoginMsg" aria-live="polite"></div>' +
