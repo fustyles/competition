@@ -72,11 +72,11 @@
 <body>
 <header>
 	<h1>試題抽籤與試題代碼</h1>
-	<p>從 12 題中抽出指定題數，產生 6 位數字的試題代碼（以競賽代碼加密）；也可輸入代碼驗證是哪幾題。此網頁可離線使用。</p>
+	<p>從題庫（最多 12 題）中抽出指定題數，產生 6 位數字的試題代碼（以競賽代碼加密）；也可輸入代碼驗證是哪幾題。此網頁可離線使用。</p>
 </header>
 <main>
 	<section class="card">
-		<h2>題目與抽籤</h2>
+		<h2>題目與抽籤　<small id="totalLabel" style="font-size:14px;color:#6B7489;font-weight:normal;"></small></h2>
 		<div class="row-key">
 			<div>
 				<label class="field" for="key">競賽代碼（加密金鑰）</label>
@@ -89,12 +89,13 @@
 		</table>
 		<div class="btns">
 			<button type="button" class="primary" id="draw">🎲 亂數抽籤</button>
+			<button type="button" id="setTotal">🔢 設定題目數</button>
 			<button type="button" id="clearPick">清除勾選</button>
 			<button type="button" id="importNames">📄 匯入題目名稱</button>
 			<button type="button" id="clearNames">清空題目名稱</button>
 			<input type="file" id="importFile" accept=".txt,.csv,text/plain,text/csv" style="display:none">
 		</div>
-		<p class="note">匯入題目名稱：選擇 txt 或 csv 檔，每行一題，格式為「題號,題目名稱」（第一行若是標題列會自動略過；Excel 存的 csv 也可以）。<br>按「亂數抽籤」時會詢問要抽幾題。也可以直接手動勾選題目（題數不限），抽籤後也能再勾選或取消，代碼會立即更新。題目名稱只存在這台電腦的瀏覽器中，方便下次開啟。</p>
+		<p class="note">匯入題目名稱：選擇 txt 或 csv 檔，每行一題，格式為「題號,題目名稱」（第一行若是標題列會自動略過；Excel 存的 csv 也可以）。<br>按「設定題目數」可調整題庫的題目數（1～12 題，預設 12 題）。按「亂數抽籤」時會詢問要抽幾題。也可以直接手動勾選題目（題數不限），抽籤後也能再勾選或取消，代碼會立即更新。題目名稱只存在這台電腦的瀏覽器中，方便下次開啟。</p>
 	</section>
 
 	<div class="side">
@@ -138,7 +139,7 @@
 
 <script>
 // ===== 試題代碼（作法 A）：12 題選取狀態 → 6 位數字 =====
-var QC_TOTAL = 12, QC_CHK = 244;   // 4096 × 244 = 999424 < 1000000
+var QC_TOTAL = 12, QC_CHK = 244;   // 代碼最多記錄 12 題：4096 × 244 = 999424 < 1000000（競賽網站使用相同設定，勿更改）
 function qcHash(str) {
 	var h = 0x811c9dc5, s = unescape(encodeURIComponent(str));
 	for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
@@ -182,45 +183,79 @@ function qcDecode(code, key) {
 // ===== 畫面 =====
 (function () {
 	var NAME_STORE = 'francis_qcode_tool_names';
+	var TOTAL_STORE = 'francis_qcode_tool_total';
 	var rowsEl = document.getElementById('rows');
+	var total = QC_TOTAL;   // 題庫題目數（1～12），畫面上列出的題數
+	try { var t0 = parseInt(localStorage.getItem(TOTAL_STORE), 10); if (t0 >= 1 && t0 <= QC_TOTAL) total = t0; } catch (e) {}
 	var keyEl = document.getElementById('key');
 	var lastCount = 5;   // 上次抽出的題數（下次詢問時的預設值）
 	var codeEl = document.getElementById('code'), chipsEl = document.getElementById('chips'), genMsg = document.getElementById('genMsg');
 	var names = [];
 	try { names = JSON.parse(localStorage.getItem(NAME_STORE) || '[]'); } catch (e) {}
 
-	for (var n = 1; n <= QC_TOTAL; n++) {
-		var tr = document.createElement('tr');
-		tr.innerHTML = '<td class="no">' + n + '</td>' +
-			'<td><input type="text" class="qname" data-no="' + n + '" placeholder="第 ' + n + ' 題題目名稱"></td>' +
-			'<td class="pick"><input type="checkbox" class="qpick" data-no="' + n + '" aria-label="第 ' + n + ' 題抽中"></td>';
-		tr.querySelector('.qname').value = names[n - 1] || '';
-		rowsEl.appendChild(tr);
-	}
-	var nameEls = [].slice.call(document.querySelectorAll('.qname'));
-	var pickEls = [].slice.call(document.querySelectorAll('.qpick'));
+	var nameEls = [], pickEls = [];
 
-	function nameOf(n) { return nameEls[n - 1].value.trim(); }
+	// 依題目數重新列出題目；保留原本的題目名稱與勾選狀態
+	function buildRows() {
+		var kept = picked();
+		rowsEl.innerHTML = '';
+		for (var n = 1; n <= total; n++) {
+			var tr = document.createElement('tr');
+			tr.innerHTML = '<td class="no">' + n + '</td>' +
+				'<td><input type="text" class="qname" data-no="' + n + '" placeholder="第 ' + n + ' 題題目名稱"></td>' +
+				'<td class="pick"><input type="checkbox" class="qpick" data-no="' + n + '" aria-label="第 ' + n + ' 題抽中"></td>';
+			tr.querySelector('.qname').value = names[n - 1] || '';
+			tr.querySelector('.qpick').checked = kept.indexOf(n) >= 0;
+			rowsEl.appendChild(tr);
+		}
+		nameEls = [].slice.call(rowsEl.querySelectorAll('.qname'));
+		pickEls = [].slice.call(rowsEl.querySelectorAll('.qpick'));
+		pickEls.forEach(function (c) { c.addEventListener('change', update); });
+		nameEls.forEach(function (e) {
+			e.addEventListener('input', function () { names[Number(e.dataset.no) - 1] = e.value; saveNames(); update(); });
+		});
+		document.getElementById('totalLabel').textContent = '共 ' + total + ' 題';
+	}
+
+	function nameOf(n) { return String(names[n - 1] || '').trim(); }
 	function picked() { return pickEls.filter(function (c) { return c.checked; }).map(function (c) { return Number(c.dataset.no); }); }
 	// 詢問要抽幾題；取消回傳 0
-	function askCount() {
-		var msg = '要從 ' + QC_TOTAL + ' 題中抽出幾題？（1～' + QC_TOTAL + '）';
-		var v = String(lastCount);
+	// 詢問 1～max 的數字；取消回傳 0
+	function askNumber(question, max, def) {
+		var msg = question + '（1～' + max + '）';
+		var v = String(def);
 		while (true) {
 			v = prompt(msg, v);
 			if (v === null) return 0;
-			var c = parseInt(String(v).replace(/[０-９]/g, function (d) { return String.fromCharCode(d.charCodeAt(0) - 0xFEE0); }).trim(), 10);
-			if (c >= 1 && c <= QC_TOTAL) return (lastCount = c);
-			msg = '請輸入 1～' + QC_TOTAL + ' 的數字。\n要從 ' + QC_TOTAL + ' 題中抽出幾題？';
+			var c = parseInt(toHalfDigits(v).trim(), 10);
+			if (c >= 1 && c <= max) return c;
+			msg = '請輸入 1～' + max + ' 的數字。\n' + question;
 		}
 	}
+	function askCount() {
+		var c = askNumber('要從 ' + total + ' 題中抽出幾題？', total, Math.min(lastCount, total));
+		if (c) lastCount = c;
+		return c;
+	}
+
+	// 設定題目數：重新列出題目（超出題數的勾選會取消，題目名稱保留）
+	document.getElementById('setTotal').addEventListener('click', function () {
+		var c = askNumber('題庫共有幾題？', QC_TOTAL, total);
+		if (!c || c === total) return;
+		var lost = picked().filter(function (n) { return n > c; });
+		if (lost.length && !confirm('第 ' + lost.join('、') + ' 題目前已勾選，改為 ' + c + ' 題後將取消勾選，確定？')) return;
+		total = c;
+		try { localStorage.setItem(TOTAL_STORE, String(total)); } catch (e) {}
+		buildRows();
+		update();
+	});
 	function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 	function chipHtml(nums) {
 		return nums.map(function (n) { var nm = nameOf(n); return '<span class="chip"><b>' + n + '</b>' + esc(nm) + '</span>'; }).join('');
 	}
 
 	function saveNames() {
-		try { localStorage.setItem(NAME_STORE, JSON.stringify(nameEls.map(function (e) { return e.value; }))); } catch (e) {}
+		try { localStorage.setItem(NAME_STORE, JSON.stringify(names)); } catch (e) {}
 	}
 
 	function update() {
@@ -253,7 +288,7 @@ function qcDecode(code, key) {
 		var count = askCount();
 		if (!count) return;
 		var pool = [];
-		for (var n = 1; n <= QC_TOTAL; n++) pool.push(n);
+		for (var n = 1; n <= total; n++) pool.push(n);
 		for (var i = pool.length - 1; i > 0; i--) { var j = randInt(i + 1); var t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
 		var chosen = pool.slice(0, count);
 		pickEls.forEach(function (c) { c.checked = chosen.indexOf(Number(c.dataset.no)) >= 0; });
@@ -264,11 +299,9 @@ function qcDecode(code, key) {
 	});
 	document.getElementById('clearNames').addEventListener('click', function () {
 		if (!confirm('確定清空全部題目名稱？')) return;
-		nameEls.forEach(function (e) { e.value = ''; }); saveNames(); update();
+		names = []; nameEls.forEach(function (e) { e.value = ''; }); saveNames(); update();
 	});
-	pickEls.forEach(function (c) { c.addEventListener('change', update); });
 	keyEl.addEventListener('input', update);
-	nameEls.forEach(function (e) { e.addEventListener('input', function () { saveNames(); update(); }); });
 
 	document.getElementById('copy').addEventListener('click', function () {
 		if (codeEl.classList.contains('empty')) return;
@@ -318,14 +351,14 @@ function qcDecode(code, key) {
 			var m = noText.match(/\d+/);
 			if (!m) { if (i > 0 || !/題號|編號|no/i.test(noText)) skipped.push((i + 1) + '：' + line.trim()); return; }   // 第一行標題列略過不提示
 			var no = Number(m[0]);
-			if (no < 1 || no > QC_TOTAL) { skipped.push((i + 1) + '：' + line.trim() + '（題號超出 1～' + QC_TOTAL + '）'); return; }
+			if (no < 1 || no > total) { skipped.push((i + 1) + '：' + line.trim() + '（題號超出 1～' + total + '）'); return; }
 			found[no] = name;
 		});
 		var nos = Object.keys(found);
 		if (!nos.length) { alert('檔案中找不到「題號,題目名稱」格式的資料，沒有匯入。'); return; }
-		var filled = nameEls.filter(function (e) { return e.value.trim(); }).length;
+		var filled = names.filter(function (t) { return String(t || '').trim(); }).length;
 		if (filled && !confirm('將以檔案內容覆蓋 ' + nos.length + ' 題的題目名稱（檔案中沒有的題號維持不變），確定匯入？')) return;
-		nos.forEach(function (no) { nameEls[no - 1].value = found[no]; });
+		nos.forEach(function (no) { names[no - 1] = found[no]; nameEls[no - 1].value = found[no]; });
 		saveNames(); update();
 		var msg = '已匯入 ' + nos.length + ' 題題目名稱。';
 		if (skipped.length) msg += '\n\n以下 ' + skipped.length + ' 行格式不符，已略過：\n' + skipped.slice(0, 10).join('\n') + (skipped.length > 10 ? '\n…' : '');
@@ -372,12 +405,15 @@ function qcDecode(code, key) {
 		if (!/^\d{6}$/.test(code)) { vMsg.innerHTML = '<div class="msg bad">試題代碼必須是 6 位數字。</div>'; return; }
 		var nums = qcDecode(code, key);
 		if (!nums) { vMsg.innerHTML = '<div class="msg bad">代碼錯誤：此代碼與競賽代碼「' + esc(key) + '」不符，或有數字打錯。</div>'; return; }
+		var over = nums.filter(function (n) { return n > total; });
 		vMsg.innerHTML = '<div class="msg ok">代碼正確，共 ' + nums.length + ' 題：<ol class="list">' +
-			nums.map(function (n) { var nm = nameOf(n); return '<li>第 ' + n + ' 題' + (nm ? '　' + esc(nm) : '') + '</li>'; }).join('') + '</ol></div>';
+			nums.map(function (n) { var nm = nameOf(n); return '<li>第 ' + n + ' 題' + (nm ? '　' + esc(nm) : '') + '</li>'; }).join('') + '</ol></div>' +
+			(over.length ? '<div class="msg warn">注意：第 ' + over.join('、') + ' 題超出目前設定的題目數（' + total + ' 題）。</div>' : '');
 	}
 	document.getElementById('verify').addEventListener('click', verify);
 	document.getElementById('vcode').addEventListener('keydown', function (e) { if (e.key === 'Enter') verify(); });
 
+	buildRows();
 	update();
 })();
 </script>
