@@ -2711,7 +2711,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				'<div class="gp-actions"><button type="button" id="grade_run">開始正式評分</button></div>' +
 				'<div id="grade_current"></div>' +
 				'<div class="gp-subtitle">評分紀錄</div>' +
-				'<div id="grade_records"></div>';
+				'<div id="grade_records"></div>' +
+				'<div class="gp-tip">提示：在積木工作區按 <kbd>Ctrl</kbd> + <kbd>Delete</kbd> 可清除評分紀錄與所有暫存資料（工作區積木、試題內容、執行結果）。</div>';
 			document.getElementById('grade_run').addEventListener('click', function () { runOfficialGrading('grade'); });
 			document.getElementById('grade_records').addEventListener('click', function (e) {
 				var a = e.target.closest('a[data-rec]');
