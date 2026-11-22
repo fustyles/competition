@@ -62,6 +62,181 @@ var sheetNames = [
     "114臺東縣國中組","114澎湖縣國中組","114苗栗縣國中組"
 ];
 
+// =====================================================
+//  執行計時（「執行」與「驗證」共用）
+//  執行期間顯示全螢幕倒數動畫；超過 RUN_TIMEOUT_MS 仍未完成（也沒有出錯）就強制停止。
+//  考生在輸入視窗（prompt）輸入資料的期間暫停計時。
+//  迴圈積木會插入 __runGuard() 檢查（INFINITE_LOOP_TRAP），無窮迴圈也能在時間到時停止。
+// =====================================================
+var RUN_TIMEOUT_MS = 20000;   // 執行時間上限（毫秒）
+
+// 多語系文字：從語系檔 msg/zh-hant.js、zh-hans.js、en.js（Blockly.Msg）讀取。
+// 文字中的 %1、%2… 依序換成後面的參數；語系檔中沒有這個變數時使用 def（繁體中文預設文字）。
+function msgText(key, def) {
+	var t = (window.Blockly && Blockly.Msg && Blockly.Msg[key]) || def || key;
+	for (var i = 2; i < arguments.length; i++) t = String(t).split('%' + (i - 1)).join(arguments[i]);
+	return t;
+}
+
+var RunWatch = (function () {
+	var RING_LEN = 2 * Math.PI * 28;   // 倒數圓環周長（r = 28）
+	var run = null;   // { start, paused, pauseAt, done, onTimeout, onStop, timer, el }
+
+	// 執行期間鎖定鍵盤（滑鼠由全螢幕遮罩擋住），避免操作積木或重複按按鈕
+	// 例外：Esc 等同按「立即停止」
+	function keyBlocker(e) {
+		e.stopPropagation(); e.preventDefault();
+		if (e.type === 'keydown' && e.key === 'Escape') stop();
+	}
+	function lockKeys(on) {
+		['keydown', 'keyup', 'keypress'].forEach(function (t) {
+			if (on) document.addEventListener(t, keyBlocker, true);
+			else document.removeEventListener(t, keyBlocker, true);
+		});
+	}
+
+	function elapsed() {
+		if (!run) return 0;
+		var paused = run.paused + (run.pauseAt ? Date.now() - run.pauseAt : 0);
+		return Date.now() - run.start - paused;
+	}
+
+	function render() {
+		if (!run || !run.el) return;
+		var left = Math.max(0, RUN_TIMEOUT_MS - elapsed());
+		var sec = Math.ceil(left / 1000);
+		var el = run.el;
+		el.querySelector('.rw-sec').textContent = sec;
+		var fg = el.querySelector('.rw-ring-fg');
+		fg.style.strokeDashoffset = String(RING_LEN * (1 - left / RUN_TIMEOUT_MS));
+		fg.classList.toggle('rw-warn', sec <= 5);
+		el.querySelector('.rw-sub').textContent = run.pauseAt
+			? msgText('RUN_WATCH_PAUSED', '等待輸入資料中（暫停計時）')
+			: msgText('RUN_WATCH_REMAIN', '剩餘 %1 秒，超過 %2 秒將強制停止', sec, Math.round(RUN_TIMEOUT_MS / 1000));
+		el.classList.toggle('rw-paused', !!run.pauseAt);
+	}
+
+	function tick() {
+		if (!run) return;
+		if (!run.pauseAt && elapsed() >= RUN_TIMEOUT_MS) { timeout(); return; }
+		render();
+	}
+
+	function finish() {
+		if (!run) return;
+		run.done = true;
+		clearInterval(run.timer);
+		if (run.el) run.el.remove();
+		lockKeys(false);
+		run = null;
+	}
+
+	// 考生按「立即停止」（或 Esc）：結束倒數並通知（只會觸發一次）
+	function stop() {
+		if (!run || run.done) return;
+		var cb = run.onStop || run.onTimeout;
+		finish();
+		if (cb) { try { cb(); } catch (e) { console.error(e); } }
+	}
+
+	// 時間到：結束倒數並通知（只會觸發一次）
+	function timeout() {
+		if (!run || run.done) return;
+		var cb = run.onTimeout;
+		finish();
+		if (cb) { try { cb(); } catch (e) { console.error(e); } }
+	}
+
+	// 倒數畫面的樣式由程式自行加入，不依賴 index.html 或 css 檔（避免樣式沒載入時畫面擠在左上角）
+	var RW_CSS = ".run-watch { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 2147482000; display: flex; align-items: center; justify-content: center; background: rgba(30, 38, 58, .45); cursor: wait; user-select: none; font-family: \"Microsoft JhengHei\", \"PingFang TC\", \"Noto Sans TC\", sans-serif; } .run-watch .rw-card { text-align: center; color: #1F2A44; background: #fff; padding: 30px 46px 26px; border-radius: 16px; box-shadow: 0 16px 48px rgba(0, 0, 0, .3); min-width: 280px; } .run-watch .rw-dial { position: relative; width: 120px; height: 120px; margin: 0 auto 14px; } .run-watch svg { width: 100%; height: 100%; transform: rotate(-90deg); } .run-watch .rw-ring-bg { fill: none; stroke: #DDE2EC; stroke-width: 5; } .run-watch .rw-ring-fg { fill: none; stroke: #4C5C8F; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .2s linear, stroke .3s; } .run-watch .rw-ring-fg.rw-warn { stroke: #DC2626; } .run-watch .rw-spin { position: absolute; top: -9px; right: -9px; bottom: -9px; left: -9px; border-radius: 50%; border: 3px solid transparent; border-top-color: #F0A030; border-right-color: #F0A030; animation: rw-rotate 1s linear infinite; } .run-watch .rw-sec { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: bold; color: #4C5C8F; font-variant-numeric: tabular-nums; } .run-watch .rw-title { font-size: 18px; font-weight: bold; letter-spacing: 1px; } .run-watch .rw-title::after { content: \"\"; display: inline-block; width: 1.4em; text-align: left; animation: rw-dots 1.2s steps(4) infinite; } .run-watch .rw-sub { margin-top: 6px; font-size: 13px; color: #6B7489; } .run-watch .rw-stop { margin-top: 16px; padding: 9px 26px; border: 0; border-radius: 8px; background: #DC2626; color: #fff; font-size: 16px; font-weight: bold; font-family: inherit; letter-spacing: 1px; cursor: pointer; } .run-watch .rw-stop:hover { background: #B91C1C; } .run-watch .rw-stop small { font-size: 12px; font-weight: normal; opacity: .85; margin-left: 2px; } .run-watch.rw-paused .rw-spin { animation-play-state: paused; border-top-color: #CBD2E1; border-right-color: #CBD2E1; } .run-watch.rw-paused .rw-sub { color: #C2410C; font-weight: bold; } @keyframes rw-rotate { to { transform: rotate(360deg); } } @keyframes rw-dots { 0% { content: \"\"; } 25% { content: \".\"; } 50% { content: \"..\"; } 75% { content: \"...\"; } }";
+	function ensureStyle() {
+		if (document.getElementById('run-watch-style')) return;
+		var st = document.createElement('style');
+		st.id = 'run-watch-style';
+		st.textContent = RW_CSS;
+		(document.head || document.documentElement).appendChild(st);
+	}
+	// onStop：考生按「立即停止」時呼叫（省略時與逾時相同處理）
+	function start(title, onTimeout, onStop) {
+		finish();
+		ensureStyle();
+		run = { start: Date.now(), paused: 0, pauseAt: 0, done: false, onTimeout: onTimeout, onStop: onStop, timer: null, el: null };
+		// 全螢幕遮罩：執行期間整個畫面鎖定
+		var host = document.body;
+		var el = document.createElement('div');
+		el.className = 'run-watch';
+		el.setAttribute('role', 'alertdialog');
+		el.setAttribute('aria-live', 'polite');
+		el.innerHTML =
+			'<div class="rw-card">' +
+				'<div class="rw-dial">' +
+					'<div class="rw-spin"></div>' +
+					'<svg viewBox="0 0 64 64"><circle class="rw-ring-bg" cx="32" cy="32" r="28"></circle>' +
+					'<circle class="rw-ring-fg" cx="32" cy="32" r="28" style="stroke-dasharray:' + RING_LEN + '"></circle></svg>' +
+					'<div class="rw-sec"></div>' +
+				'</div>' +
+				'<div class="rw-title"></div>' +
+				'<div class="rw-sub"></div>' +
+				'<button type="button" class="rw-stop">' + msgText('RUN_WATCH_STOP', '■ 立即停止') + '<small>' + msgText('RUN_WATCH_STOP_KEY', '（Esc）') + '</small></button>' +
+			'</div>';
+		el.querySelector('.rw-title').textContent = title;
+		el.querySelector('.rw-stop').addEventListener('click', function () { stop(); });
+		host.appendChild(el);
+		run.el = el;
+		lockKeys(true);
+		if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+		// 焦點移到「立即停止」按鈕：焦點若留在執行結果區（iframe）內，按 Esc 不會傳到這個頁面
+		try { el.querySelector('.rw-stop').focus({ preventScroll: true }); } catch (e) {}
+		run.timer = setInterval(tick, 200);
+		render();
+	}
+
+	return {
+		start: start,
+		finish: finish,
+		timeout: timeout,
+		stop: stop,
+		isActive: function () { return !!run; },
+		// 考生輸入資料期間暫停計時
+		pause: function (on) {
+			if (!run) return;
+			if (on && !run.pauseAt) run.pauseAt = Date.now();
+			else if (!on && run.pauseAt) { run.paused += Date.now() - run.pauseAt; run.pauseAt = 0; }
+			render();
+		},
+		// 迴圈中呼叫：超過時間就丟出例外結束程式（主執行緒被迴圈佔住時，計時器無法觸發，只能靠這裡檢查）
+		guard: function () {
+			if (run && !run.pauseAt && elapsed() >= RUN_TIMEOUT_MS) {
+				setTimeout(timeout, 0);
+				throw new Error('__RUN_TIMEOUT__');
+			}
+		}
+	};
+})();
+window.__runGuard = function () { RunWatch.guard(); };
+window.__runPause = function (on) { RunWatch.pause(on); };
+
+// 每個迴圈積木（重複、當…重複、計數、清單逐項）產生的程式碼都會加上這一行檢查
+Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (window.parent && window.parent.__runGuard) window.parent.__runGuard();\n';
+
+// 執行錯誤時給考生的簡單原因提示
+function runErrorHint(msg) {
+	msg = String(msg || '');
+	if (/is not defined/.test(msg))                       return msgText('RUN_HINT_NOT_DEFINED', '使用了不存在的變數或函式，請檢查變數名稱是否正確、是否已經設定過值。');
+	if (/Cannot read prop|of undefined|of null/.test(msg)) return msgText('RUN_HINT_UNDEFINED', '使用了沒有值的資料（例如清單中不存在的項目），請檢查變數是否已設定、清單位置是否超出範圍。');
+	if (/is not a function/.test(msg))                    return msgText('RUN_HINT_NOT_FUNCTION', '把不是函式的資料當成函式使用，請檢查積木的組合。');
+	if (/call stack/i.test(msg))                          return msgText('RUN_HINT_STACK', '函式一直呼叫自己沒有停止（遞迴沒有結束條件）。');
+	if (/Invalid array length/.test(msg))                 return msgText('RUN_HINT_ARRAY', '清單長度設定錯誤（例如負數或太大的數）。');
+	return msgText('RUN_HINT_DEFAULT', '請檢查積木的組合、變數的值與資料型態（例如把文字當成數字計算）。');
+}
+function runStoppedHint() {
+	return msgText('RUN_HINT_STOPPED', '程式在執行完成前被停止。若程式一直沒有結束，請檢查迴圈的結束條件，或程式是否在等待輸入資料。');
+}
+function runTimeoutHint() {
+	return msgText('RUN_HINT_TIMEOUT', '程式在 %1 秒內沒有執行完成。可能原因：迴圈的結束條件一直不成立（無窮迴圈）、重複次數太多，或等待（延遲）的時間太長。', Math.round(RUN_TIMEOUT_MS / 1000));
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
 	
 	initialMoveDiv();	
@@ -1669,7 +1844,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		iframe.contentWindow.document.open();
 		iframe.contentWindow.document.write(iframe_code);
 		iframe.contentWindow.document.close();
-		iframe.focus();
+		// 執行或驗證中不搶焦點：焦點須留在「立即停止」按鈕，Esc 才有作用
+		if (!RunWatch.isActive()) iframe.focus();
 	}
 	
 	function resetOutput() {
@@ -1756,63 +1932,107 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	window.gemini_chat_response = gemini_chat_response;
 	
+	// 放在主程式之前的獨立 <script>：主程式有語法錯誤（整段無法執行）或在 main() 之外出錯時，
+	// 也會立即回報錯誤，不必等到 20 秒逾時
+	var IFRAME_ERROR_TRAP = "<script>window.onerror=function(m,s,l,c,e){try{var f=window.frameElement;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(m));f.title='err';}}catch(x){}};window.addEventListener('unhandledrejection',function(ev){try{var f=window.frameElement,e=ev.reason;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(e));f.title='err';}}catch(x){}});<\/script>";
+
+	// 執行：輸出顯示在下方執行結果區；執行中顯示倒數動畫，逾時、出錯或按「立即停止」時停止並提示原因
 	function runCode() {
+	  if (RunWatch.isActive()) return;
 	  var code = Blockly.JavaScript.workspaceToCode(workspace);
-	
+
+	  // 包裝 prompt：考生輸入資料期間通知外層暫停計時
+	  var promptHook = "(function(){var p=window.prompt;window.prompt=function(m,d){try{parent.__runPause(true);}catch(e){}try{return p.call(window,m,d);}finally{try{parent.__runPause(false);}catch(e){}}};})();";
+
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
-	  
-	  iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
-	  
-	  
+
+	  iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+promptHook+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.setAttribute('data-error',(e&&e.message)?e.message:String(e));window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+
+	  var container = document.getElementById('iframeContainer');
+	  if (container) container.remove();
+	  container = document.createElement('div');
+	  container.id = 'iframeContainer';
+	  document.body.appendChild(container);
+
+	  var iframe = document.createElement("iframe");
+	  iframe.id = "iframe_0";
+	  iframe.style.width = "0";
+	  iframe.style.height = "0";
+	  iframe.style.border = "none";
+	  container.appendChild(iframe);
+
+	  var finished = false;
+	  var bodyText = function () {
+		try { return iframe.contentWindow.document.body.innerText; } catch (e) { return ''; }
+	  };
+	  var formatOutput = function (text) {
+		return text.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
+	  };
+	  var end = function (html) {
+		if (finished) return;
+		finished = true;
+		RunWatch.finish();
+		container.remove();               // 清除執行中的 iframe
+		iframeWrite("iframe_output", html);
+	  };
+
+	  // 逾時：強制停止並提示
+	  RunWatch.start(msgText('RUN_WATCH_RUNNING', '程式執行中'), function () {
+		var out = bodyText();
+		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('timeout'));
+	  }, function () {
+		var out = bodyText();
+		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('stopped'));
+	  });
+
+	  var checkFinish = function () {
+		if (finished || !iframe.isConnected) return;
+		var body = null;
+		try { body = iframe.contentWindow.document.body; } catch (e) {}
+		if (body && iframe.title == "ok") {
+		  end(formatOutput(body.innerText));
+		} else if (body && iframe.title == "err") {
+		  var err = iframe.getAttribute('data-error') || '';
+		  if (err === '__RUN_TIMEOUT__') { RunWatch.timeout(); return; }   // 迴圈中的時間檢查已逾時
+		  var out = body.innerText;
+		  end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('error', err));
+		} else {
+		  setTimeout(checkFinish, 100);
+		}
+	  };
+
+	  iframe.onload = function () {
+		iframe.onload = null;
+		checkFinish();
+	  };
+
 	  try {
-			let container = document.getElementById('iframeContainer');
-			if (container) {
-				container.parentNode.removeChild(container);
-			}
-			container = document.createElement('div');
-			container.id = 'iframeContainer';
-			document.body.appendChild(container);			
-		
-			const iframe = document.createElement("iframe");
-			iframe.id = "iframe_0";
-			iframe.style.width = "0";
-			iframe.style.height = "0";
-			iframe.style.border = "none";
-			
-			container.appendChild(iframe);
-
-			iframe.onload = async function() {
-			  iframe.onload = null;
-			  
-			  const checkFinish = async () => {
-				const body = iframe.contentWindow.document.body;
-				if (!body) return;
-
-				if (iframe.title=="ok"||iframe.title=="err") {
-				  const bodyContent = body.innerText;
-				  var output = bodyContent.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
-				  iframeWrite("iframe_output", output);
-				  if (container) container.remove();
-				} else {
-				  setTimeout(checkFinish, 100);
-				}
-			  };
-
-			  checkFinish();
-			};	
-
-			
-			try {
-				iframeWrite("iframe_output", Blockly.Msg["TEST_RUNNING"]);
-				iframeWrite(iframe.id, iframe_code);				
-			} catch (e) {
-				console.log(e);
-			}				
+		iframeWrite("iframe_output", "");
+		iframeWrite(iframe.id, iframe_code);
 	  } catch (e) {
 		console.log(e);
+		end(runMessageHtml('error', e && e.message));
 	  }
+	  setTimeout(checkFinish, 100);   // onload 未觸發時也會檢查
 	}
-	
+
+	// 執行結果區（iframe）中的提示訊息：kind = 'timeout' 或 'error'
+	function runMessageHtml(kind, detail) {
+		var esc = function (t) { return String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+		var box = 'margin:10px 0;padding:12px 14px;border-radius:8px;font-family:Microsoft JhengHei,PingFang TC,Noto Sans TC,sans-serif;line-height:1.7;font-size:15px;';
+		if (kind === 'stopped') {
+			return '<div style="' + box + 'background:#EEF1F8;border:1px solid #B7BFD6;color:#3B4A78;">' +
+				'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_STOPPED', '⏹ 已手動停止執行')) + '</b><br>' + esc(runStoppedHint()) + '</div>';
+		}
+		if (kind === 'timeout') {
+			return '<div style="' + box + 'background:#FFF7ED;border:1px solid #FDBA74;color:#9A3412;">' +
+				'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_TIMEOUT', '⏱ 執行超過 %1 秒，已強制停止', Math.round(RUN_TIMEOUT_MS / 1000))) + '</b><br>' + esc(runTimeoutHint()) + '</div>';
+		}
+		return '<div style="' + box + 'background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B;">' +
+			'<b style="font-size:16px;">' + esc(msgText('RUN_MSG_ERROR', '❌ 程式執行發生錯誤，已停止')) + '</b><br>' + esc(runErrorHint(detail)) +
+			(detail ? '<br><span style="font-size:13px;color:#7F1D1D;">' + esc(msgText('RUN_MSG_DETAIL', '錯誤訊息：%1', detail)) + '</span>' : '') + '</div>';
+	}
+
 	/*
 		Program Validation Function Description:
 
@@ -1824,6 +2044,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		Window input: 12;4;3 → Automatically input 12 and 4, compare whether the output value equals the validation value 3
 	*/
 	document.getElementById('button_test').onclick = function () {
+		if (RunWatch.isActive()) return;   // 執行或驗證中
 		document.getElementById('javascript_content').style.display = "block";
 		reloadZoom();
         document.getElementById("question_input").style.height = "35%";
@@ -1909,7 +2130,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			.replace(/\[orange\]/g, '<span style="color:#1D4ED8;">').replace(/\[\/orange\]/g, '</span>')   // 讀入的測資：藍色
 			.replace(/\[blue\]/g, '<span style="color:#C2410C;">').replace(/\[\/blue\]/g, '</span>');      // 程式輸出：橘紅色
 	}
-	function renderTestResults(results) {
+	// note：'timeout' 或 'stopped' 時在表格上方顯示說明
+	function renderTestResults(results, note) {
 		var passed = results.filter(function (r) { return r.outcome === 'pass'; }).length;
 		var cell = 'padding:6px;border:1px solid #E5E8EF;';
 		var th = 'padding:6px;border:1px solid #DDE2EC;background:#EEF1F7;color:#3A4A6B;white-space:nowrap;';
@@ -1917,6 +2139,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		var rows = results.map(function (r, i) {
 			var lab = r.outcome === 'pass' ? ['#15803D', testMsg('GRADE_PASS', '✔ 通過')]
 				: r.outcome === 'error' ? ['#B91C1C', testMsg('GRADE_ERROR', '❌ 執行錯誤')]
+				: r.outcome === 'timeout' ? ['#C2410C', testMsg('GRADE_TIMEOUT', '⏱ 逾時')]
+				: r.outcome === 'stopped' ? ['#9CA3AF', testMsg('GRADE_CASE_STOPPED', '－ 已停止')]
 				: ['#B91C1C', testMsg('GRADE_FAIL', '✘ 不通過')];
 			var out = (r.output != null && r.output !== '') ? testColorOutput(r.output) : '<span style="color:#9CA3AF;">—</span>';
 			if (r.outcome === 'error' && r.error)
@@ -1935,7 +2159,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_INPUT', '測資')) + '</th>' +
 				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_OUTPUT', '輸出')) + '</th>' +
 				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_RESULT', '結果')) + '</th>' +
-			'</tr></thead><tbody>' + rows + '</tbody></table></div>';
+			'</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+			(note ? runMessageHtml(note) : '');
 	}
 
 	function runMultipleIframeTests(inputArray, containerId = 'iframeContainer') {
@@ -1959,6 +2184,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		container.id = containerId;
 		document.body.appendChild(container);		
 
+		// 全部結束（含逾時、手動停止）：補上未完成的測資並顯示結果
+		var finished = false;
+		var finishAll = function (note) {
+			if (finished) return;
+			finished = true;
+			RunWatch.finish();
+			for (var k = 0; k < results.length; k++) {
+				if (!results[k]) results[k] = { input: cases[k].input, output: null, outcome: note || 'stopped', error: null };
+			}
+			if (container) container.remove();   // 清除執行中的 iframe
+			iframeWrite("iframe_output", renderTestResults(results, note));
+		};
+		RunWatch.start(testMsg('RUN_WATCH_TESTING', '驗證中（%1 組測資）', totalTests),
+			function () { finishAll('timeout'); },
+			function () { finishAll('stopped'); });
+
 		cases.forEach((c, pos) => {
 			const iframe = document.createElement("iframe");
 			iframe.id = "iframe_" + c.index;
@@ -1972,11 +2213,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			  iframe.onload = null;
 			  
 			  const checkFinish = async () => {
+				if (finished || !iframe.isConnected) return;
 				const body = iframe.contentWindow.document.body;
 				if (!body) return;
 
 				if (iframe.title=="ok"||iframe.title=="err") {
 				  var err = iframe.getAttribute('data-error');
+				  if (err === '__RUN_TIMEOUT__') { RunWatch.timeout(); return; }   // 迴圈中的時間檢查已逾時
 				  results[pos] = {
 					  input: c.input,
 					  output: iframe.getAttribute('data-user'),                     // 程式的輸出（含標色記號）
@@ -1984,10 +2227,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					  error: err
 				  };
 				  completedCount++;
-				  if (completedCount === totalTests) {
-					iframeWrite("iframe_output", renderTestResults(results));
-					if (container) container.remove();
-				  }
+				  if (completedCount === totalTests) finishAll(null);
 				} else {
 				  setTimeout(checkFinish, 100);
 				}
@@ -2072,7 +2312,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);try{window.frameElement.setAttribute('data-error',String((e&&e.message)||e));}catch(x){}window.frameElement.title = 'err';return;}window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);try{window.frameElement.setAttribute('data-error',String((e&&e.message)||e));}catch(x){}window.frameElement.title = 'err';return;}window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 		
@@ -2090,6 +2330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	document.getElementById('button_run').onclick = function () {  
+	  if (RunWatch.isActive()) return;   // 執行或驗證中
 	  document.getElementById('javascript_content').style.display = "block";
 		
         if (scratchStyle) {
