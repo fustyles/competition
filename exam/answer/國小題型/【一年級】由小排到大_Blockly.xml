@@ -1,0 +1,240 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_甲">甲</variable>
+    <variable id="v_乙">乙</variable>
+    <variable id="v_丙">丙</variable>
+    <variable id="v_暫存">暫存</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_甲">甲</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_乙">乙</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="javascript_data_input_scratch" id="b10">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s9">
+                        <field name="TEXT"></field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b12">
+                        <field name="VAR" id="v_丙">丙</field>
+                        <value name="VALUE">
+                          <block type="javascript_data_input_get_scratch" id="b11"></block>
+                        </value>
+                        <next>
+                          <block type="controls_if" id="b22">
+                            <value name="IF0">
+                              <block type="logic_compare" id="b15">
+                                <field name="OP">GT</field>
+                                <value name="A">
+                                  <block type="variables_get" id="b13">
+                                    <field name="VAR" id="v_甲">甲</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="variables_get" id="b14">
+                                    <field name="VAR" id="v_乙">乙</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set_local" id="b17">
+                                <field name="VAR" id="v_暫存">暫存</field>
+                                <value name="VALUE">
+                                  <block type="variables_get" id="b16">
+                                    <field name="VAR" id="v_甲">甲</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="variables_set_local" id="b19">
+                                    <field name="VAR" id="v_甲">甲</field>
+                                    <value name="VALUE">
+                                      <block type="variables_get" id="b18">
+                                        <field name="VAR" id="v_乙">乙</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local" id="b21">
+                                        <field name="VAR" id="v_乙">乙</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b20">
+                                            <field name="VAR" id="v_暫存">暫存</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_if" id="b32">
+                                <value name="IF0">
+                                  <block type="logic_compare" id="b25">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <block type="variables_get" id="b23">
+                                        <field name="VAR" id="v_乙">乙</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="variables_get" id="b24">
+                                        <field name="VAR" id="v_丙">丙</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="variables_set_local" id="b27">
+                                    <field name="VAR" id="v_暫存">暫存</field>
+                                    <value name="VALUE">
+                                      <block type="variables_get" id="b26">
+                                        <field name="VAR" id="v_乙">乙</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local" id="b29">
+                                        <field name="VAR" id="v_乙">乙</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b28">
+                                            <field name="VAR" id="v_丙">丙</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local" id="b31">
+                                            <field name="VAR" id="v_丙">丙</field>
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="b30">
+                                                <field name="VAR" id="v_暫存">暫存</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_if" id="b42">
+                                    <value name="IF0">
+                                      <block type="logic_compare" id="b35">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <block type="variables_get" id="b33">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="variables_get" id="b34">
+                                            <field name="VAR" id="v_乙">乙</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO0">
+                                      <block type="variables_set_local" id="b37">
+                                        <field name="VAR" id="v_暫存">暫存</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b36">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local" id="b39">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="b38">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_local" id="b41">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                                <value name="VALUE">
+                                                  <block type="variables_get" id="b40">
+                                                    <field name="VAR" id="v_暫存">暫存</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="javascript_data_output" id="b45">
+                                        <value name="TEXT">
+                                          <shadow type="text" id="s43">
+                                            <field name="TEXT"></field>
+                                          </shadow>
+                                          <block type="variables_get" id="b44">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="javascript_data_output" id="b48">
+                                            <value name="TEXT">
+                                              <shadow type="text" id="s46">
+                                                <field name="TEXT"></field>
+                                              </shadow>
+                                              <block type="variables_get" id="b47">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="javascript_data_output" id="b51">
+                                                <value name="TEXT">
+                                                  <shadow type="text" id="s49">
+                                                    <field name="TEXT"></field>
+                                                  </shadow>
+                                                  <block type="variables_get" id="b50">
+                                                    <field name="VAR" id="v_丙">丙</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
