@@ -1,0 +1,231 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_全班人數">全班人數</variable>
+    <variable type="other" id="v_出席人數">出席人數</variable>
+    <variable type="Array" id="v_出席座號">出席座號</variable>
+    <variable type="other" id="v_座號">座號</variable>
+    <variable type="other" id="v_缺席人數">缺席人數</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b52" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_全班人數" variabletype="other">全班人數</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_出席人數" variabletype="other">出席人數</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="list_deletealloflist_scratch" id="b11">
+                        <field name="VAR" id="v_出席座號" variabletype="Array">出席座號</field>
+                        <next>
+                          <block type="controls_repeat_ext_scratch" id="b22">
+                            <value name="TIMES">
+                              <shadow type="math_number" id="s12">
+                                <field name="NUM">10</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b13">
+                                <field name="VAR" id="v_出席人數" variabletype="other">出席人數</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="javascript_data_input_scratch" id="b15">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes" id="s14">
+                                    <field name="TEXT"></field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other" id="b18">
+                                    <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s16">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="javascript_data_input_get_scratch" id="b17"></block>
+                                    </value>
+                                    <next>
+                                      <block type="list_addtolist_scratch" id="b21">
+                                        <value name="ITEM">
+                                          <shadow type="text_noquotes" id="s19">
+                                            <field name="TEXT">thing</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b20">
+                                            <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                          </block>
+                                        </value>
+                                        <field name="VAR" id="v_出席座號" variabletype="Array">出席座號</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="variables_set_other" id="b24">
+                                <field name="VAR" id="v_缺席人數" variabletype="other">缺席人數</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s23">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other" id="b26">
+                                    <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s25">
+                                        <field name="TEXT">1</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="controls_whileUntil_scratch" id="b44">
+                                        <field name="MODE">UNTIL</field>
+                                        <value name="BOOL">
+                                          <block type="logic_compare" id="b31">
+                                            <field name="OP">GT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s27">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b28">
+                                                <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s29">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b30">
+                                                <field name="VAR" id="v_全班人數" variabletype="other">全班人數</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="controls_if_1_scratch" id="b41">
+                                            <value name="condition">
+                                              <block type="logic_negate" id="b35">
+                                                <value name="BOOL">
+                                                  <block type="list_listcontainsitem_scratch" id="b34">
+                                                    <field name="VAR" id="v_出席座號" variabletype="Array">出席座號</field>
+                                                    <value name="ITEM">
+                                                      <shadow type="text_noquotes" id="s32">
+                                                        <field name="TEXT">thing</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b33">
+                                                        <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="statement_if">
+                                              <block type="javascript_data_output_scratch" id="b38">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes" id="s36">
+                                                    <field name="TEXT"></field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b37">
+                                                    <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="math_change_other" id="b40">
+                                                    <field name="VAR" id="v_缺席人數" variabletype="other">缺席人數</field>
+                                                    <value name="DELTA">
+                                                      <shadow type="math_number" id="s39">
+                                                        <field name="NUM">1</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </statement>
+                                            <next>
+                                              <block type="math_change_other" id="b43">
+                                                <field name="VAR" id="v_座號" variabletype="other">座號</field>
+                                                <value name="DELTA">
+                                                  <shadow type="math_number" id="s42">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="controls_if_1_scratch" id="b51">
+                                            <value name="condition">
+                                              <block type="logic_compare" id="b48">
+                                                <field name="OP">EQ</field>
+                                                <value name="A">
+                                                  <shadow type="text_noquotes" id="s45">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b46">
+                                                    <field name="VAR" id="v_缺席人數" variabletype="other">缺席人數</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="text_noquotes" id="s47">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="statement_if">
+                                              <block type="javascript_data_output_scratch" id="b50">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes" id="s49">
+                                                    <field name="TEXT">全勤</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </statement>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

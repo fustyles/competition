@@ -1,0 +1,326 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_a">a</variable>
+    <variable id="v_b">b</variable>
+    <variable id="v_c">c</variable>
+    <variable id="v_甲">甲</variable>
+    <variable id="v_乙">乙</variable>
+    <variable id="v_餘數">餘數</variable>
+    <variable id="v_公倍數">公倍數</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_a">a</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_b">b</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="javascript_data_input_scratch" id="b10">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s9">
+                        <field name="TEXT"></field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b12">
+                        <field name="VAR" id="v_c">c</field>
+                        <value name="VALUE">
+                          <block type="javascript_data_input_get_scratch" id="b11"></block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b14">
+                            <field name="VAR" id="v_甲">甲</field>
+                            <value name="VALUE">
+                              <block type="variables_get" id="b13">
+                                <field name="VAR" id="v_a">a</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set_local" id="b16">
+                                <field name="VAR" id="v_乙">乙</field>
+                                <value name="VALUE">
+                                  <block type="variables_get" id="b15">
+                                    <field name="VAR" id="v_b">b</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_whileUntil" id="b30">
+                                    <field name="MODE">WHILE</field>
+                                    <value name="BOOL">
+                                      <block type="logic_compare" id="b19">
+                                        <field name="OP">NEQ</field>
+                                        <value name="A">
+                                          <block type="variables_get" id="b17">
+                                            <field name="VAR" id="v_乙">乙</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_number" id="b18">
+                                            <field name="NUM">0</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="variables_set_local" id="b25">
+                                        <field name="VAR" id="v_餘數">餘數</field>
+                                        <value name="VALUE">
+                                          <block type="math_modulo" id="b24">
+                                            <value name="DIVIDEND">
+                                              <shadow type="math_number" id="s20">
+                                                <field name="NUM">64</field>
+                                              </shadow>
+                                              <block type="variables_get" id="b21">
+                                                <field name="VAR" id="v_甲">甲</field>
+                                              </block>
+                                            </value>
+                                            <value name="DIVISOR">
+                                              <shadow type="math_number" id="s22">
+                                                <field name="NUM">10</field>
+                                              </shadow>
+                                              <block type="variables_get" id="b23">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local" id="b27">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="b26">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_local" id="b29">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                                <value name="VALUE">
+                                                  <block type="variables_get" id="b28">
+                                                    <field name="VAR" id="v_餘數">餘數</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="variables_set_local" id="b40">
+                                        <field name="VAR" id="v_公倍數">公倍數</field>
+                                        <value name="VALUE">
+                                          <block type="math_arithmetic" id="b39">
+                                            <field name="OP">DIVIDE</field>
+                                            <value name="A">
+                                              <shadow type="math_number" id="s31">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="math_arithmetic" id="b36">
+                                                <field name="OP">MULTIPLY</field>
+                                                <value name="A">
+                                                  <shadow type="math_number" id="s32">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get" id="b33">
+                                                    <field name="VAR" id="v_a">a</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="math_number" id="s34">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get" id="b35">
+                                                    <field name="VAR" id="v_b">b</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number" id="s37">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="variables_get" id="b38">
+                                                <field name="VAR" id="v_甲">甲</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_local" id="b42">
+                                            <field name="VAR" id="v_甲">甲</field>
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="b41">
+                                                <field name="VAR" id="v_公倍數">公倍數</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_local" id="b44">
+                                                <field name="VAR" id="v_乙">乙</field>
+                                                <value name="VALUE">
+                                                  <block type="variables_get" id="b43">
+                                                    <field name="VAR" id="v_c">c</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="controls_whileUntil" id="b58">
+                                                    <field name="MODE">WHILE</field>
+                                                    <value name="BOOL">
+                                                      <block type="logic_compare" id="b47">
+                                                        <field name="OP">NEQ</field>
+                                                        <value name="A">
+                                                          <block type="variables_get" id="b45">
+                                                            <field name="VAR" id="v_乙">乙</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <block type="math_number" id="b46">
+                                                            <field name="NUM">0</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <statement name="DO">
+                                                      <block type="variables_set_local" id="b53">
+                                                        <field name="VAR" id="v_餘數">餘數</field>
+                                                        <value name="VALUE">
+                                                          <block type="math_modulo" id="b52">
+                                                            <value name="DIVIDEND">
+                                                              <shadow type="math_number" id="s48">
+                                                                <field name="NUM">64</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b49">
+                                                                <field name="VAR" id="v_甲">甲</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="DIVISOR">
+                                                              <shadow type="math_number" id="s50">
+                                                                <field name="NUM">10</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b51">
+                                                                <field name="VAR" id="v_乙">乙</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set_local" id="b55">
+                                                            <field name="VAR" id="v_甲">甲</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get" id="b54">
+                                                                <field name="VAR" id="v_乙">乙</field>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="variables_set_local" id="b57">
+                                                                <field name="VAR" id="v_乙">乙</field>
+                                                                <value name="VALUE">
+                                                                  <block type="variables_get" id="b56">
+                                                                    <field name="VAR" id="v_餘數">餘數</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </statement>
+                                                    <next>
+                                                      <block type="variables_set_local" id="b68">
+                                                        <field name="VAR" id="v_公倍數">公倍數</field>
+                                                        <value name="VALUE">
+                                                          <block type="math_arithmetic" id="b67">
+                                                            <field name="OP">DIVIDE</field>
+                                                            <value name="A">
+                                                              <shadow type="math_number" id="s59">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="math_arithmetic" id="b64">
+                                                                <field name="OP">MULTIPLY</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id="s60">
+                                                                    <field name="NUM">0</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get" id="b61">
+                                                                    <field name="VAR" id="v_公倍數">公倍數</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id="s62">
+                                                                    <field name="NUM">0</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get" id="b63">
+                                                                    <field name="VAR" id="v_c">c</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="math_number" id="s65">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b66">
+                                                                <field name="VAR" id="v_甲">甲</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="javascript_data_output" id="b71">
+                                                            <value name="TEXT">
+                                                              <shadow type="text" id="s69">
+                                                                <field name="TEXT"></field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b70">
+                                                                <field name="VAR" id="v_公倍數">公倍數</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,226 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_目前電量">目前電量</variable>
+    <variable type="other" id="v_充電時間">充電時間</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b51" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_充電時間" variabletype="other">充電時間</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="controls_if_2_scratch" id="b50">
+                        <value name="condition">
+                          <block type="logic_operation" id="b29">
+                            <field name="OP">OR</field>
+                            <value name="A">
+                              <block type="logic_operation" id="b24">
+                                <field name="OP">OR</field>
+                                <value name="A">
+                                  <block type="logic_operation" id="b19">
+                                    <field name="OP">OR</field>
+                                    <value name="A">
+                                      <block type="logic_compare" id="b14">
+                                        <field name="OP">LT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s11">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b12">
+                                            <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s13">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="logic_compare" id="b18">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s15">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b16">
+                                            <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s17">
+                                            <field name="TEXT">100</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="logic_compare" id="b23">
+                                    <field name="OP">LT</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes" id="s20">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b21">
+                                        <field name="VAR" id="v_充電時間" variabletype="other">充電時間</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes" id="s22">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="logic_compare" id="b28">
+                                <field name="OP">GT</field>
+                                <value name="A">
+                                  <shadow type="text_noquotes" id="s25">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other" id="b26">
+                                    <field name="VAR" id="v_充電時間" variabletype="other">充電時間</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="text_noquotes" id="s27">
+                                    <field name="TEXT">300</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="javascript_data_output_scratch" id="b31">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes" id="s30">
+                                <field name="TEXT">ERROR</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </statement>
+                        <statement name="statement_else">
+                          <block type="controls_repeat_ext_scratch" id="b43">
+                            <value name="TIMES">
+                              <shadow type="math_number" id="s32">
+                                <field name="NUM">10</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b33">
+                                <field name="VAR" id="v_充電時間" variabletype="other">充電時間</field>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="math_change_other" id="b35">
+                                <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                <value name="DELTA">
+                                  <shadow type="math_number" id="s34">
+                                    <field name="NUM">2</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="controls_if_1_scratch" id="b42">
+                                    <value name="condition">
+                                      <block type="logic_compare" id="b39">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s36">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b37">
+                                            <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s38">
+                                            <field name="TEXT">100</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="variables_set_other" id="b41">
+                                        <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes" id="s40">
+                                            <field name="TEXT">100</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="javascript_data_output_scratch" id="b49">
+                                <value name="TEXT">
+                                  <shadow type="text_noquotes" id="s44">
+                                    <field name="TEXT"></field>
+                                  </shadow>
+                                  <block type="text_join_scratch" id="b48">
+                                    <value name="VALUE1">
+                                      <shadow type="text_noquotes" id="s45">
+                                        <field name="TEXT">abc</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b46">
+                                        <field name="VAR" id="v_目前電量" variabletype="other">目前電量</field>
+                                      </block>
+                                    </value>
+                                    <value name="VALUE2">
+                                      <shadow type="text_noquotes" id="s47">
+                                        <field name="TEXT">%</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

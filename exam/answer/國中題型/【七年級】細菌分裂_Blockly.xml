@@ -1,0 +1,138 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_初始數量">初始數量</variable>
+    <variable id="v_分裂時間">分裂時間</variable>
+    <variable id="v_經過時間">經過時間</variable>
+    <variable id="v_細菌數量">細菌數量</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_初始數量">初始數量</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_分裂時間">分裂時間</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="javascript_data_input_scratch" id="b10">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s9">
+                        <field name="TEXT"></field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b12">
+                        <field name="VAR" id="v_經過時間">經過時間</field>
+                        <value name="VALUE">
+                          <block type="javascript_data_input_get_scratch" id="b11"></block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b14">
+                            <field name="VAR" id="v_細菌數量">細菌數量</field>
+                            <value name="VALUE">
+                              <block type="variables_get" id="b13">
+                                <field name="VAR" id="v_初始數量">初始數量</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_repeat_ext" id="b28">
+                                <value name="TIMES">
+                                  <shadow type="math_number" id="s15">
+                                    <field name="NUM">10</field>
+                                  </shadow>
+                                  <block type="math_round" id="b22">
+                                    <field name="OP">ROUNDDOWN</field>
+                                    <value name="NUM">
+                                      <shadow type="math_number" id="s16">
+                                        <field name="NUM">3.1</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b21">
+                                        <field name="OP">DIVIDE</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s17">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b18">
+                                            <field name="VAR" id="v_經過時間">經過時間</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s19">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b20">
+                                            <field name="VAR" id="v_分裂時間">分裂時間</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO">
+                                  <block type="variables_set_local" id="b27">
+                                    <field name="VAR" id="v_細菌數量">細菌數量</field>
+                                    <value name="VALUE">
+                                      <block type="math_arithmetic" id="b26">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s23">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b24">
+                                            <field name="VAR" id="v_細菌數量">細菌數量</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s25">
+                                            <field name="NUM">2</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="javascript_data_output" id="b31">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s29">
+                                        <field name="TEXT"></field>
+                                      </shadow>
+                                      <block type="variables_get" id="b30">
+                                        <field name="VAR" id="v_細菌數量">細菌數量</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

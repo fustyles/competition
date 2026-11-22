@@ -1,0 +1,91 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_及格科數">及格科數</variable>
+    <variable type="other" id="v_成績">成績</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b20" x="30" y="30">
+    <next>
+      <block type="variables_set_other" id="b2">
+        <field name="VAR" id="v_及格科數" variabletype="other">及格科數</field>
+        <value name="VALUE">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT">0</field>
+          </shadow>
+        </value>
+        <next>
+          <block type="controls_repeat_ext_scratch" id="b16">
+            <value name="TIMES">
+              <shadow type="math_number" id="s3">
+                <field name="NUM">5</field>
+              </shadow>
+            </value>
+            <statement name="DO">
+              <block type="javascript_data_input_scratch" id="b5">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s4">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b8">
+                    <field name="VAR" id="v_成績" variabletype="other">成績</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s6">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b7"></block>
+                    </value>
+                    <next>
+                      <block type="controls_if_1_scratch" id="b15">
+                        <value name="condition">
+                          <block type="logic_compare" id="b12">
+                            <field name="OP">GTE</field>
+                            <value name="A">
+                              <shadow type="text_noquotes" id="s9">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b10">
+                                <field name="VAR" id="v_成績" variabletype="other">成績</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="text_noquotes" id="s11">
+                                <field name="TEXT">60</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="math_change_other" id="b14">
+                            <field name="VAR" id="v_及格科數" variabletype="other">及格科數</field>
+                            <value name="DELTA">
+                              <shadow type="math_number" id="s13">
+                                <field name="NUM">1</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="javascript_data_output_scratch" id="b19">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s17">
+                    <field name="TEXT"></field>
+                  </shadow>
+                  <block type="variables_get_other" id="b18">
+                    <field name="VAR" id="v_及格科數" variabletype="other">及格科數</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

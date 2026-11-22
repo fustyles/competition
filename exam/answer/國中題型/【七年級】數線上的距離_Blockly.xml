@@ -1,0 +1,115 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_A">A</variable>
+    <variable id="v_B">B</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_A">A</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_B">B</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="javascript_data_output" id="b17">
+                    <value name="TEXT">
+                      <shadow type="text" id="s9">
+                        <field name="TEXT"></field>
+                      </shadow>
+                      <block type="math_single" id="b16">
+                        <field name="OP">ABS</field>
+                        <value name="NUM">
+                          <shadow type="math_number" id="s10">
+                            <field name="NUM">9</field>
+                          </shadow>
+                          <block type="math_arithmetic" id="b15">
+                            <field name="OP">MINUS</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s11">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="variables_get" id="b12">
+                                <field name="VAR" id="v_A">A</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s13">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="variables_get" id="b14">
+                                <field name="VAR" id="v_B">B</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_output" id="b27">
+                        <value name="TEXT">
+                          <shadow type="text" id="s18">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="math_arithmetic" id="b26">
+                            <field name="OP">DIVIDE</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s19">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="math_arithmetic" id="b24">
+                                <field name="OP">ADD</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s20">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="variables_get" id="b21">
+                                    <field name="VAR" id="v_A">A</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s22">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="variables_get" id="b23">
+                                    <field name="VAR" id="v_B">B</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s25">
+                                <field name="NUM">2</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

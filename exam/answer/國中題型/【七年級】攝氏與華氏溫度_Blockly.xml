@@ -1,0 +1,236 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_溫度">溫度</variable>
+    <variable id="v_單位">單位</variable>
+    <variable id="v_換算溫度">換算溫度</variable>
+    <variable id="v_新單位">新單位</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_溫度">溫度</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_單位">單位</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="controls_if" id="b38">
+                    <mutation else="1"></mutation>
+                    <value name="IF0">
+                      <block type="logic_compare" id="b11">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_get" id="b9">
+                            <field name="VAR" id="v_單位">單位</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="text" id="b10">
+                            <field name="TEXT">C</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_set_local" id="b22">
+                        <field name="VAR" id="v_換算溫度">換算溫度</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic" id="b21">
+                            <field name="OP">ADD</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s12">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="math_arithmetic" id="b19">
+                                <field name="OP">DIVIDE</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s13">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b17">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s14">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b15">
+                                        <field name="VAR" id="v_溫度">溫度</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s16">
+                                        <field name="NUM">9</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s18">
+                                    <field name="NUM">5</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s20">
+                                <field name="NUM">32</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b24">
+                            <field name="VAR" id="v_新單位">新單位</field>
+                            <value name="VALUE">
+                              <block type="text" id="b23">
+                                <field name="TEXT">F</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="variables_set_local" id="b35">
+                        <field name="VAR" id="v_換算溫度">換算溫度</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic" id="b34">
+                            <field name="OP">DIVIDE</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s25">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="math_arithmetic" id="b32">
+                                <field name="OP">MULTIPLY</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s26">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b30">
+                                    <field name="OP">MINUS</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s27">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b28">
+                                        <field name="VAR" id="v_溫度">溫度</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s29">
+                                        <field name="NUM">32</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s31">
+                                    <field name="NUM">5</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s33">
+                                <field name="NUM">9</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b37">
+                            <field name="VAR" id="v_新單位">新單位</field>
+                            <value name="VALUE">
+                              <block type="text" id="b36">
+                                <field name="TEXT">C</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="javascript_data_output" id="b49">
+                        <value name="TEXT">
+                          <shadow type="text" id="s39">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="math_arithmetic" id="b48">
+                            <field name="OP">DIVIDE</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s40">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="math_round" id="b46">
+                                <field name="OP">ROUND</field>
+                                <value name="NUM">
+                                  <shadow type="math_number" id="s41">
+                                    <field name="NUM">3.1</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b45">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s42">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b43">
+                                        <field name="VAR" id="v_換算溫度">換算溫度</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s44">
+                                        <field name="NUM">10</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s47">
+                                <field name="NUM">10</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="javascript_data_output" id="b52">
+                            <value name="TEXT">
+                              <shadow type="text" id="s50">
+                                <field name="TEXT"></field>
+                              </shadow>
+                              <block type="variables_get" id="b51">
+                                <field name="VAR" id="v_新單位">新單位</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

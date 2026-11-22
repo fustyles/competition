@@ -1,0 +1,536 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_書本價格">書本價格</variable>
+    <variable id="v_付款金額">付款金額</variable>
+    <variable id="v_面額">面額</variable>
+    <variable id="v_零錢數量">零錢數量</variable>
+    <variable id="v_使用數量">使用數量</variable>
+    <variable id="v_數量">數量</variable>
+    <variable id="v_找零金額">找零金額</variable>
+    <variable id="v_第幾種">第幾種</variable>
+    <variable id="v_需要枚數">需要枚數</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_書本價格">書本價格</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_付款金額">付款金額</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="variables_set_local" id="b10">
+                    <field name="VAR" id="v_面額">面額</field>
+                    <value name="VALUE">
+                      <block type="lists_create_with" id="b9">
+                        <mutation items="0"></mutation>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b12">
+                        <field name="VAR" id="v_零錢數量">零錢數量</field>
+                        <value name="VALUE">
+                          <block type="lists_create_with" id="b11">
+                            <mutation items="0"></mutation>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b14">
+                            <field name="VAR" id="v_使用數量">使用數量</field>
+                            <value name="VALUE">
+                              <block type="lists_create_with" id="b13">
+                                <mutation items="0"></mutation>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="lists_setIndex" id="b17">
+                                <mutation at="false"></mutation>
+                                <field name="MODE">INSERT</field>
+                                <field name="WHERE">LAST</field>
+                                <value name="LIST">
+                                  <block type="variables_get" id="b15">
+                                    <field name="VAR" id="v_面額">面額</field>
+                                  </block>
+                                </value>
+                                <value name="TO">
+                                  <block type="math_number" id="b16">
+                                    <field name="NUM">100</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="lists_setIndex" id="b20">
+                                    <mutation at="false"></mutation>
+                                    <field name="MODE">INSERT</field>
+                                    <field name="WHERE">LAST</field>
+                                    <value name="LIST">
+                                      <block type="variables_get" id="b18">
+                                        <field name="VAR" id="v_面額">面額</field>
+                                      </block>
+                                    </value>
+                                    <value name="TO">
+                                      <block type="math_number" id="b19">
+                                        <field name="NUM">50</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="lists_setIndex" id="b23">
+                                        <mutation at="false"></mutation>
+                                        <field name="MODE">INSERT</field>
+                                        <field name="WHERE">LAST</field>
+                                        <value name="LIST">
+                                          <block type="variables_get" id="b21">
+                                            <field name="VAR" id="v_面額">面額</field>
+                                          </block>
+                                        </value>
+                                        <value name="TO">
+                                          <block type="math_number" id="b22">
+                                            <field name="NUM">10</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="lists_setIndex" id="b26">
+                                            <mutation at="false"></mutation>
+                                            <field name="MODE">INSERT</field>
+                                            <field name="WHERE">LAST</field>
+                                            <value name="LIST">
+                                              <block type="variables_get" id="b24">
+                                                <field name="VAR" id="v_面額">面額</field>
+                                              </block>
+                                            </value>
+                                            <value name="TO">
+                                              <block type="math_number" id="b25">
+                                                <field name="NUM">5</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="lists_setIndex" id="b29">
+                                                <mutation at="false"></mutation>
+                                                <field name="MODE">INSERT</field>
+                                                <field name="WHERE">LAST</field>
+                                                <value name="LIST">
+                                                  <block type="variables_get" id="b27">
+                                                    <field name="VAR" id="v_面額">面額</field>
+                                                  </block>
+                                                </value>
+                                                <value name="TO">
+                                                  <block type="math_number" id="b28">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="controls_repeat_ext" id="b38">
+                                                    <value name="TIMES">
+                                                      <shadow type="math_number" id="s30">
+                                                        <field name="NUM">5</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <statement name="DO">
+                                                      <block type="javascript_data_input_scratch" id="b32">
+                                                        <value name="TEXT">
+                                                          <shadow type="text_noquotes" id="s31">
+                                                            <field name="TEXT"></field>
+                                                          </shadow>
+                                                        </value>
+                                                        <next>
+                                                          <block type="variables_set_local" id="b34">
+                                                            <field name="VAR" id="v_數量">數量</field>
+                                                            <value name="VALUE">
+                                                              <block type="javascript_data_input_get_scratch" id="b33"></block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="lists_setIndex" id="b37">
+                                                                <mutation at="false"></mutation>
+                                                                <field name="MODE">INSERT</field>
+                                                                <field name="WHERE">LAST</field>
+                                                                <value name="LIST">
+                                                                  <block type="variables_get" id="b35">
+                                                                    <field name="VAR" id="v_零錢數量">零錢數量</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="TO">
+                                                                  <block type="variables_get" id="b36">
+                                                                    <field name="VAR" id="v_數量">數量</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </statement>
+                                                    <next>
+                                                      <block type="variables_set_local" id="b44">
+                                                        <field name="VAR" id="v_找零金額">找零金額</field>
+                                                        <value name="VALUE">
+                                                          <block type="math_arithmetic" id="b43">
+                                                            <field name="OP">MINUS</field>
+                                                            <value name="A">
+                                                              <shadow type="math_number" id="s39">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b40">
+                                                                <field name="VAR" id="v_付款金額">付款金額</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="math_number" id="s41">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b42">
+                                                                <field name="VAR" id="v_書本價格">書本價格</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="controls_if" id="b109">
+                                                            <mutation else="1"></mutation>
+                                                            <value name="IF0">
+                                                              <block type="logic_compare" id="b47">
+                                                                <field name="OP">EQ</field>
+                                                                <value name="A">
+                                                                  <block type="variables_get" id="b45">
+                                                                    <field name="VAR" id="v_找零金額">找零金額</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <block type="math_number" id="b46">
+                                                                    <field name="NUM">0</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <statement name="DO0">
+                                                              <block type="javascript_data_output" id="b49">
+                                                                <value name="TEXT">
+                                                                  <shadow type="text" id="s48">
+                                                                    <field name="TEXT">不須找零</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </statement>
+                                                            <statement name="ELSE">
+                                                              <block type="controls_for" id="b92">
+                                                                <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                <value name="FROM">
+                                                                  <shadow type="math_number" id="s50">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                                <value name="TO">
+                                                                  <shadow type="math_number" id="s51">
+                                                                    <field name="NUM">5</field>
+                                                                  </shadow>
+                                                                </value>
+                                                                <value name="BY">
+                                                                  <shadow type="math_number" id="s52">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                                <statement name="DO">
+                                                                  <block type="variables_set_local" id="b63">
+                                                                    <field name="VAR" id="v_需要枚數">需要枚數</field>
+                                                                    <value name="VALUE">
+                                                                      <block type="math_round" id="b62">
+                                                                        <field name="OP">ROUNDDOWN</field>
+                                                                        <value name="NUM">
+                                                                          <shadow type="math_number" id="s53">
+                                                                            <field name="NUM">3.1</field>
+                                                                          </shadow>
+                                                                          <block type="math_arithmetic" id="b61">
+                                                                            <field name="OP">DIVIDE</field>
+                                                                            <value name="A">
+                                                                              <shadow type="math_number" id="s54">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get" id="b55">
+                                                                                <field name="VAR" id="v_找零金額">找零金額</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <shadow type="math_number" id="s56">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="lists_getIndex" id="b60">
+                                                                                <mutation statement="false" at="true"></mutation>
+                                                                                <field name="MODE">GET</field>
+                                                                                <field name="WHERE">FROM_START</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="variables_get" id="b57">
+                                                                                    <field name="VAR" id="v_面額">面額</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="AT">
+                                                                                  <shadow type="math_number" id="s58">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </shadow>
+                                                                                  <block type="variables_get" id="b59">
+                                                                                    <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="controls_if" id="b75">
+                                                                        <value name="IF0">
+                                                                          <block type="logic_compare" id="b69">
+                                                                            <field name="OP">GT</field>
+                                                                            <value name="A">
+                                                                              <block type="variables_get" id="b64">
+                                                                                <field name="VAR" id="v_需要枚數">需要枚數</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <block type="lists_getIndex" id="b68">
+                                                                                <mutation statement="false" at="true"></mutation>
+                                                                                <field name="MODE">GET</field>
+                                                                                <field name="WHERE">FROM_START</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="variables_get" id="b65">
+                                                                                    <field name="VAR" id="v_零錢數量">零錢數量</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="AT">
+                                                                                  <shadow type="math_number" id="s66">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </shadow>
+                                                                                  <block type="variables_get" id="b67">
+                                                                                    <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <statement name="DO0">
+                                                                          <block type="variables_set_local" id="b74">
+                                                                            <field name="VAR" id="v_需要枚數">需要枚數</field>
+                                                                            <value name="VALUE">
+                                                                              <block type="lists_getIndex" id="b73">
+                                                                                <mutation statement="false" at="true"></mutation>
+                                                                                <field name="MODE">GET</field>
+                                                                                <field name="WHERE">FROM_START</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="variables_get" id="b70">
+                                                                                    <field name="VAR" id="v_零錢數量">零錢數量</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="AT">
+                                                                                  <shadow type="math_number" id="s71">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </shadow>
+                                                                                  <block type="variables_get" id="b72">
+                                                                                    <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </statement>
+                                                                        <next>
+                                                                          <block type="lists_setIndex" id="b78">
+                                                                            <mutation at="false"></mutation>
+                                                                            <field name="MODE">INSERT</field>
+                                                                            <field name="WHERE">LAST</field>
+                                                                            <value name="LIST">
+                                                                              <block type="variables_get" id="b76">
+                                                                                <field name="VAR" id="v_使用數量">使用數量</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="TO">
+                                                                              <block type="variables_get" id="b77">
+                                                                                <field name="VAR" id="v_需要枚數">需要枚數</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="variables_set_local" id="b91">
+                                                                                <field name="VAR" id="v_找零金額">找零金額</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="math_arithmetic" id="b90">
+                                                                                    <field name="OP">MINUS</field>
+                                                                                    <value name="A">
+                                                                                      <shadow type="math_number" id="s79">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="variables_get" id="b80">
+                                                                                        <field name="VAR" id="v_找零金額">找零金額</field>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                    <value name="B">
+                                                                                      <shadow type="math_number" id="s81">
+                                                                                        <field name="NUM">0</field>
+                                                                                      </shadow>
+                                                                                      <block type="math_arithmetic" id="b89">
+                                                                                        <field name="OP">MULTIPLY</field>
+                                                                                        <value name="A">
+                                                                                          <shadow type="math_number" id="s82">
+                                                                                            <field name="NUM">0</field>
+                                                                                          </shadow>
+                                                                                          <block type="variables_get" id="b83">
+                                                                                            <field name="VAR" id="v_需要枚數">需要枚數</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <value name="B">
+                                                                                          <shadow type="math_number" id="s84">
+                                                                                            <field name="NUM">0</field>
+                                                                                          </shadow>
+                                                                                          <block type="lists_getIndex" id="b88">
+                                                                                            <mutation statement="false" at="true"></mutation>
+                                                                                            <field name="MODE">GET</field>
+                                                                                            <field name="WHERE">FROM_START</field>
+                                                                                            <value name="VALUE">
+                                                                                              <block type="variables_get" id="b85">
+                                                                                                <field name="VAR" id="v_面額">面額</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                            <value name="AT">
+                                                                                              <shadow type="math_number" id="s86">
+                                                                                                <field name="NUM">1</field>
+                                                                                              </shadow>
+                                                                                              <block type="variables_get" id="b87">
+                                                                                                <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                                              </block>
+                                                                                            </value>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                      </block>
+                                                                                    </value>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </statement>
+                                                                <next>
+                                                                  <block type="controls_if" id="b108">
+                                                                    <mutation else="1"></mutation>
+                                                                    <value name="IF0">
+                                                                      <block type="logic_compare" id="b95">
+                                                                        <field name="OP">EQ</field>
+                                                                        <value name="A">
+                                                                          <block type="variables_get" id="b93">
+                                                                            <field name="VAR" id="v_找零金額">找零金額</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <block type="math_number" id="b94">
+                                                                            <field name="NUM">0</field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <statement name="DO0">
+                                                                      <block type="controls_for" id="b105">
+                                                                        <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                        <value name="FROM">
+                                                                          <shadow type="math_number" id="s96">
+                                                                            <field name="NUM">1</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                        <value name="TO">
+                                                                          <shadow type="math_number" id="s97">
+                                                                            <field name="NUM">5</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                        <value name="BY">
+                                                                          <shadow type="math_number" id="s98">
+                                                                            <field name="NUM">1</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                        <statement name="DO">
+                                                                          <block type="javascript_data_output" id="b104">
+                                                                            <value name="TEXT">
+                                                                              <shadow type="text" id="s99">
+                                                                                <field name="TEXT"></field>
+                                                                              </shadow>
+                                                                              <block type="lists_getIndex" id="b103">
+                                                                                <mutation statement="false" at="true"></mutation>
+                                                                                <field name="MODE">GET</field>
+                                                                                <field name="WHERE">FROM_START</field>
+                                                                                <value name="VALUE">
+                                                                                  <block type="variables_get" id="b100">
+                                                                                    <field name="VAR" id="v_使用數量">使用數量</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <value name="AT">
+                                                                                  <shadow type="math_number" id="s101">
+                                                                                    <field name="NUM">1</field>
+                                                                                  </shadow>
+                                                                                  <block type="variables_get" id="b102">
+                                                                                    <field name="VAR" id="v_第幾種">第幾種</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                              </block>
+                                                                            </value>
+                                                                          </block>
+                                                                        </statement>
+                                                                      </block>
+                                                                    </statement>
+                                                                    <statement name="ELSE">
+                                                                      <block type="javascript_data_output" id="b107">
+                                                                        <value name="TEXT">
+                                                                          <shadow type="text" id="s106">
+                                                                            <field name="TEXT">無法找零</field>
+                                                                          </shadow>
+                                                                        </value>
+                                                                      </block>
+                                                                    </statement>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </statement>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

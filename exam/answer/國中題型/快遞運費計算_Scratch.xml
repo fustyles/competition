@@ -1,0 +1,98 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_重量">重量</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b22" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_重量" variabletype="other">重量</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="controls_if_2_scratch" id="b21">
+                <value name="condition">
+                  <block type="logic_compare" id="b9">
+                    <field name="OP">LTE</field>
+                    <value name="A">
+                      <shadow type="text_noquotes" id="s6">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="variables_get_other" id="b7">
+                        <field name="VAR" id="v_重量" variabletype="other">重量</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">5</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </value>
+                <statement name="statement_if">
+                  <block type="javascript_data_output_scratch" id="b11">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s10">
+                        <field name="TEXT">50</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </statement>
+                <statement name="statement_else">
+                  <block type="controls_if_2_scratch" id="b20">
+                    <value name="condition">
+                      <block type="logic_compare" id="b15">
+                        <field name="OP">LTE</field>
+                        <value name="A">
+                          <shadow type="text_noquotes" id="s12">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                          <block type="variables_get_other" id="b13">
+                            <field name="VAR" id="v_重量" variabletype="other">重量</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <shadow type="text_noquotes" id="s14">
+                            <field name="TEXT">10</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="statement_if">
+                      <block type="javascript_data_output_scratch" id="b17">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s16">
+                            <field name="TEXT">80</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </statement>
+                    <statement name="statement_else">
+                      <block type="javascript_data_output_scratch" id="b19">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s18">
+                            <field name="TEXT">100</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

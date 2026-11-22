@@ -1,0 +1,309 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_資料個數">資料個數</variable>
+    <variable id="v_出現次數">出現次數</variable>
+    <variable id="v_高度">高度</variable>
+    <variable id="v_最多次數">最多次數</variable>
+    <variable id="v_數值">數值</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_資料個數">資料個數</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="variables_set_local" id="b6">
+            <field name="VAR" id="v_出現次數">出現次數</field>
+            <value name="VALUE">
+              <block type="lists_create_with" id="b5">
+                <mutation items="0"></mutation>
+              </block>
+            </value>
+            <next>
+              <block type="controls_repeat_ext" id="b11">
+                <value name="TIMES">
+                  <shadow type="math_number" id="s7">
+                    <field name="NUM">1000</field>
+                  </shadow>
+                </value>
+                <statement name="DO">
+                  <block type="lists_setIndex" id="b10">
+                    <mutation at="false"></mutation>
+                    <field name="MODE">INSERT</field>
+                    <field name="WHERE">LAST</field>
+                    <value name="LIST">
+                      <block type="variables_get" id="b8">
+                        <field name="VAR" id="v_出現次數">出現次數</field>
+                      </block>
+                    </value>
+                    <value name="TO">
+                      <block type="math_number" id="b9">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_repeat_ext" id="b29">
+                    <value name="TIMES">
+                      <shadow type="math_number" id="s12">
+                        <field name="NUM">10</field>
+                      </shadow>
+                      <block type="variables_get" id="b13">
+                        <field name="VAR" id="v_資料個數">資料個數</field>
+                      </block>
+                    </value>
+                    <statement name="DO">
+                      <block type="javascript_data_input_scratch" id="b15">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s14">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b17">
+                            <field name="VAR" id="v_高度">高度</field>
+                            <value name="VALUE">
+                              <block type="javascript_data_input_get_scratch" id="b16"></block>
+                            </value>
+                            <next>
+                              <block type="lists_setIndex" id="b28">
+                                <mutation at="true"></mutation>
+                                <field name="MODE">SET</field>
+                                <field name="WHERE">FROM_START</field>
+                                <value name="LIST">
+                                  <block type="variables_get" id="b18">
+                                    <field name="VAR" id="v_出現次數">出現次數</field>
+                                  </block>
+                                </value>
+                                <value name="AT">
+                                  <shadow type="math_number" id="s19">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                  <block type="variables_get" id="b20">
+                                    <field name="VAR" id="v_高度">高度</field>
+                                  </block>
+                                </value>
+                                <value name="TO">
+                                  <block type="math_arithmetic" id="b27">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s21">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="lists_getIndex" id="b25">
+                                        <mutation statement="false" at="true"></mutation>
+                                        <field name="MODE">GET</field>
+                                        <field name="WHERE">FROM_START</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b22">
+                                            <field name="VAR" id="v_出現次數">出現次數</field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <shadow type="math_number" id="s23">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b24">
+                                            <field name="VAR" id="v_高度">高度</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s26">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="variables_set_local" id="b31">
+                        <field name="VAR" id="v_最多次數">最多次數</field>
+                        <value name="VALUE">
+                          <block type="math_number" id="b30">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_for" id="b47">
+                            <field name="VAR" id="v_數值">數值</field>
+                            <value name="FROM">
+                              <shadow type="math_number" id="s32">
+                                <field name="NUM">1</field>
+                              </shadow>
+                            </value>
+                            <value name="TO">
+                              <shadow type="math_number" id="s33">
+                                <field name="NUM">1000</field>
+                              </shadow>
+                            </value>
+                            <value name="BY">
+                              <shadow type="math_number" id="s34">
+                                <field name="NUM">1</field>
+                              </shadow>
+                            </value>
+                            <statement name="DO">
+                              <block type="controls_if" id="b46">
+                                <value name="IF0">
+                                  <block type="logic_compare" id="b40">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <block type="lists_getIndex" id="b38">
+                                        <mutation statement="false" at="true"></mutation>
+                                        <field name="MODE">GET</field>
+                                        <field name="WHERE">FROM_START</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b35">
+                                            <field name="VAR" id="v_出現次數">出現次數</field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <shadow type="math_number" id="s36">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b37">
+                                            <field name="VAR" id="v_數值">數值</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="variables_get" id="b39">
+                                        <field name="VAR" id="v_最多次數">最多次數</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="variables_set_local" id="b45">
+                                    <field name="VAR" id="v_最多次數">最多次數</field>
+                                    <value name="VALUE">
+                                      <block type="lists_getIndex" id="b44">
+                                        <mutation statement="false" at="true"></mutation>
+                                        <field name="MODE">GET</field>
+                                        <field name="WHERE">FROM_START</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b41">
+                                            <field name="VAR" id="v_出現次數">出現次數</field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <shadow type="math_number" id="s42">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b43">
+                                            <field name="VAR" id="v_數值">數值</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_for" id="b61">
+                                <field name="VAR" id="v_數值">數值</field>
+                                <value name="FROM">
+                                  <shadow type="math_number" id="s48">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                                <value name="TO">
+                                  <shadow type="math_number" id="s49">
+                                    <field name="NUM">1000</field>
+                                  </shadow>
+                                </value>
+                                <value name="BY">
+                                  <shadow type="math_number" id="s50">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                                <statement name="DO">
+                                  <block type="controls_if" id="b60">
+                                    <value name="IF0">
+                                      <block type="logic_compare" id="b56">
+                                        <field name="OP">EQ</field>
+                                        <value name="A">
+                                          <block type="lists_getIndex" id="b54">
+                                            <mutation statement="false" at="true"></mutation>
+                                            <field name="MODE">GET</field>
+                                            <field name="WHERE">FROM_START</field>
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="b51">
+                                                <field name="VAR" id="v_出現次數">出現次數</field>
+                                              </block>
+                                            </value>
+                                            <value name="AT">
+                                              <shadow type="math_number" id="s52">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get" id="b53">
+                                                <field name="VAR" id="v_數值">數值</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="variables_get" id="b55">
+                                            <field name="VAR" id="v_最多次數">最多次數</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO0">
+                                      <block type="javascript_data_output" id="b59">
+                                        <value name="TEXT">
+                                          <shadow type="text" id="s57">
+                                            <field name="TEXT"></field>
+                                          </shadow>
+                                          <block type="variables_get" id="b58">
+                                            <field name="VAR" id="v_數值">數值</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="javascript_data_output" id="b64">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s62">
+                                        <field name="TEXT"></field>
+                                      </shadow>
+                                      <block type="variables_get" id="b63">
+                                        <field name="VAR" id="v_最多次數">最多次數</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

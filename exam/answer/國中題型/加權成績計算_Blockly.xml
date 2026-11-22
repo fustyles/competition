@@ -1,0 +1,176 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_平時成績">平時成績</variable>
+    <variable id="v_期中成績">期中成績</variable>
+    <variable id="v_期末成績">期末成績</variable>
+    <variable id="v_總分">總分</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_平時成績">平時成績</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_期中成績">期中成績</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="javascript_data_input_scratch" id="b10">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s9">
+                        <field name="TEXT"></field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b12">
+                        <field name="VAR" id="v_期末成績">期末成績</field>
+                        <value name="VALUE">
+                          <block type="javascript_data_input_get_scratch" id="b11"></block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b31">
+                            <field name="VAR" id="v_總分">總分</field>
+                            <value name="VALUE">
+                              <block type="math_arithmetic" id="b30">
+                                <field name="OP">ADD</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s13">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b24">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s14">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b18">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s15">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b16">
+                                            <field name="VAR" id="v_平時成績">平時成績</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s17">
+                                            <field name="NUM">0.3</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s19">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b23">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s20">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b21">
+                                            <field name="VAR" id="v_期中成績">期中成績</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s22">
+                                            <field name="NUM">0.3</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s25">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b29">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s26">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b27">
+                                        <field name="VAR" id="v_期末成績">期末成績</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s28">
+                                        <field name="NUM">0.4</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_if" id="b39">
+                                <mutation else="1"></mutation>
+                                <value name="IF0">
+                                  <block type="logic_compare" id="b34">
+                                    <field name="OP">GTE</field>
+                                    <value name="A">
+                                      <block type="variables_get" id="b32">
+                                        <field name="VAR" id="v_總分">總分</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="math_number" id="b33">
+                                        <field name="NUM">60</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="DO0">
+                                  <block type="javascript_data_output" id="b36">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s35">
+                                        <field name="TEXT">及格</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="ELSE">
+                                  <block type="javascript_data_output" id="b38">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s37">
+                                        <field name="TEXT">不及格</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
