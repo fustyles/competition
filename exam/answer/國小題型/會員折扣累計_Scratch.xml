@@ -1,0 +1,162 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_是否會員">是否會員</variable>
+    <variable type="other" id="v_消費金額">消費金額</variable>
+    <variable type="other" id="v_應付金額">應付金額</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b37" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_是否會員" variabletype="other">是否會員</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_消費金額" variabletype="other">消費金額</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="controls_if_2_scratch" id="b33">
+                        <value name="condition">
+                          <block type="logic_compare" id="b14">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <shadow type="text_noquotes" id="s11">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b12">
+                                <field name="VAR" id="v_是否會員" variabletype="other">是否會員</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">是</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="variables_set_other" id="b22">
+                            <field name="VAR" id="v_應付金額" variabletype="other">應付金額</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s15">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="math_round" id="b21">
+                                <field name="OP">ROUND</field>
+                                <value name="NUM">
+                                  <shadow type="math_number" id="s16">
+                                    <field name="NUM">3.1</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b20">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s17">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b18">
+                                        <field name="VAR" id="v_消費金額" variabletype="other">消費金額</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s19">
+                                        <field name="NUM">0.9</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_if_1_scratch" id="b29">
+                                <value name="condition">
+                                  <block type="logic_compare" id="b26">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes" id="s23">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b24">
+                                        <field name="VAR" id="v_應付金額" variabletype="other">應付金額</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes" id="s25">
+                                        <field name="TEXT">1000</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="math_change_other" id="b28">
+                                    <field name="VAR" id="v_應付金額" variabletype="other">應付金額</field>
+                                    <value name="DELTA">
+                                      <shadow type="math_number" id="s27">
+                                        <field name="NUM">-100</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <statement name="statement_else">
+                          <block type="variables_set_other" id="b32">
+                            <field name="VAR" id="v_應付金額" variabletype="other">應付金額</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s30">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b31">
+                                <field name="VAR" id="v_消費金額" variabletype="other">消費金額</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="javascript_data_output_scratch" id="b36">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes" id="s34">
+                                <field name="TEXT"></field>
+                              </shadow>
+                              <block type="variables_get_other" id="b35">
+                                <field name="VAR" id="v_應付金額" variabletype="other">應付金額</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

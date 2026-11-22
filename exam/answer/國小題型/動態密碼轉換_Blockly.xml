@@ -1,0 +1,331 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_位移值">位移值</variable>
+    <variable id="v_原文">原文</variable>
+    <variable id="v_字母表">字母表</variable>
+    <variable id="v_密文">密文</variable>
+    <variable id="v_第幾個字">第幾個字</variable>
+    <variable id="v_字元">字元</variable>
+    <variable id="v_字母位置">字母位置</variable>
+    <variable id="v_查找位置">查找位置</variable>
+    <variable id="v_新位置">新位置</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_位移值">位移值</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_原文">原文</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="variables_set_local" id="b12">
+                    <field name="VAR" id="v_原文">原文</field>
+                    <value name="VALUE">
+                      <block type="text_join" id="b11">
+                        <mutation items="1"></mutation>
+                        <value name="ADD0">
+                          <shadow type="text" id="s9">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="variables_get" id="b10">
+                            <field name="VAR" id="v_原文">原文</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set_local" id="b14">
+                        <field name="VAR" id="v_字母表">字母表</field>
+                        <value name="VALUE">
+                          <block type="text" id="b13">
+                            <field name="TEXT">abcdefghijklmnopqrstuvwxyz</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b16">
+                            <field name="VAR" id="v_密文">密文</field>
+                            <value name="VALUE">
+                              <block type="text" id="b15">
+                                <field name="TEXT"></field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="controls_for" id="b68">
+                                <field name="VAR" id="v_第幾個字">第幾個字</field>
+                                <value name="FROM">
+                                  <shadow type="math_number" id="s17">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                                <value name="TO">
+                                  <shadow type="math_number" id="s18">
+                                    <field name="NUM">10</field>
+                                  </shadow>
+                                  <block type="text_length" id="b21">
+                                    <value name="VALUE">
+                                      <shadow type="text" id="s19">
+                                        <field name="TEXT">abc</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b20">
+                                        <field name="VAR" id="v_原文">原文</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="BY">
+                                  <shadow type="math_number" id="s22">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                                <statement name="DO">
+                                  <block type="variables_set_local" id="b27">
+                                    <field name="VAR" id="v_字元">字元</field>
+                                    <value name="VALUE">
+                                      <block type="text_charAt" id="b26">
+                                        <mutation at="true"></mutation>
+                                        <field name="WHERE">FROM_START</field>
+                                        <value name="VALUE">
+                                          <block type="variables_get" id="b23">
+                                            <field name="VAR" id="v_原文">原文</field>
+                                          </block>
+                                        </value>
+                                        <value name="AT">
+                                          <shadow type="math_number" id="s24">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b25">
+                                            <field name="VAR" id="v_第幾個字">第幾個字</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_local" id="b29">
+                                        <field name="VAR" id="v_字母位置">字母位置</field>
+                                        <value name="VALUE">
+                                          <block type="math_number" id="b28">
+                                            <field name="NUM">0</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="controls_for" id="b43">
+                                            <field name="VAR" id="v_查找位置">查找位置</field>
+                                            <value name="FROM">
+                                              <shadow type="math_number" id="s30">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                            </value>
+                                            <value name="TO">
+                                              <shadow type="math_number" id="s31">
+                                                <field name="NUM">26</field>
+                                              </shadow>
+                                            </value>
+                                            <value name="BY">
+                                              <shadow type="math_number" id="s32">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                            </value>
+                                            <statement name="DO">
+                                              <block type="controls_if" id="b42">
+                                                <value name="IF0">
+                                                  <block type="logic_compare" id="b38">
+                                                    <field name="OP">EQ</field>
+                                                    <value name="A">
+                                                      <block type="text_charAt" id="b36">
+                                                        <mutation at="true"></mutation>
+                                                        <field name="WHERE">FROM_START</field>
+                                                        <value name="VALUE">
+                                                          <block type="variables_get" id="b33">
+                                                            <field name="VAR" id="v_字母表">字母表</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="AT">
+                                                          <shadow type="math_number" id="s34">
+                                                            <field name="NUM">1</field>
+                                                          </shadow>
+                                                          <block type="variables_get" id="b35">
+                                                            <field name="VAR" id="v_查找位置">查找位置</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <block type="variables_get" id="b37">
+                                                        <field name="VAR" id="v_字元">字元</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <statement name="DO0">
+                                                  <block type="variables_set_local" id="b40">
+                                                    <field name="VAR" id="v_字母位置">字母位置</field>
+                                                    <value name="VALUE">
+                                                      <block type="variables_get" id="b39">
+                                                        <field name="VAR" id="v_查找位置">查找位置</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="controls_flow_statements" id="b41">
+                                                        <field name="FLOW">BREAK</field>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </statement>
+                                              </block>
+                                            </statement>
+                                            <next>
+                                              <block type="variables_set_local" id="b58">
+                                                <field name="VAR" id="v_新位置">新位置</field>
+                                                <value name="VALUE">
+                                                  <block type="math_arithmetic" id="b57">
+                                                    <field name="OP">ADD</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number" id="s44">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="math_modulo" id="b55">
+                                                        <value name="DIVIDEND">
+                                                          <shadow type="math_number" id="s45">
+                                                            <field name="NUM">64</field>
+                                                          </shadow>
+                                                          <block type="math_arithmetic" id="b53">
+                                                            <field name="OP">ADD</field>
+                                                            <value name="A">
+                                                              <shadow type="math_number" id="s46">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="math_arithmetic" id="b50">
+                                                                <field name="OP">MINUS</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id="s47">
+                                                                    <field name="NUM">0</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get" id="b48">
+                                                                    <field name="VAR" id="v_字母位置">字母位置</field>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id="s49">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="math_number" id="s51">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b52">
+                                                                <field name="VAR" id="v_位移值">位移值</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <value name="DIVISOR">
+                                                          <shadow type="math_number" id="s54">
+                                                            <field name="NUM">26</field>
+                                                          </shadow>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number" id="s56">
+                                                        <field name="NUM">1</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_local" id="b67">
+                                                    <field name="VAR" id="v_密文">密文</field>
+                                                    <value name="VALUE">
+                                                      <block type="text_join" id="b66">
+                                                        <mutation items="2"></mutation>
+                                                        <value name="ADD0">
+                                                          <shadow type="text" id="s59">
+                                                            <field name="TEXT"></field>
+                                                          </shadow>
+                                                          <block type="variables_get" id="b60">
+                                                            <field name="VAR" id="v_密文">密文</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="ADD1">
+                                                          <shadow type="text" id="s61">
+                                                            <field name="TEXT"></field>
+                                                          </shadow>
+                                                          <block type="text_charAt" id="b65">
+                                                            <mutation at="true"></mutation>
+                                                            <field name="WHERE">FROM_START</field>
+                                                            <value name="VALUE">
+                                                              <block type="variables_get" id="b62">
+                                                                <field name="VAR" id="v_字母表">字母表</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="AT">
+                                                              <shadow type="math_number" id="s63">
+                                                                <field name="NUM">1</field>
+                                                              </shadow>
+                                                              <block type="variables_get" id="b64">
+                                                                <field name="VAR" id="v_新位置">新位置</field>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="javascript_data_output" id="b71">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s69">
+                                        <field name="TEXT"></field>
+                                      </shadow>
+                                      <block type="variables_get" id="b70">
+                                        <field name="VAR" id="v_密文">密文</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

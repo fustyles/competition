@@ -1,0 +1,228 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_找零金額">找零金額</variable>
+    <variable type="Array" id="v_幣值">幣值</variable>
+    <variable type="other" id="v_第幾種">第幾種</variable>
+    <variable type="other" id="v_硬幣數">硬幣數</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b51" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_找零金額" variabletype="other">找零金額</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="list_deletealloflist_scratch" id="b6">
+                <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                <next>
+                  <block type="list_addtolist_scratch" id="b8">
+                    <value name="ITEM">
+                      <shadow type="text_noquotes" id="s7">
+                        <field name="TEXT">50</field>
+                      </shadow>
+                    </value>
+                    <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                    <next>
+                      <block type="list_addtolist_scratch" id="b10">
+                        <value name="ITEM">
+                          <shadow type="text_noquotes" id="s9">
+                            <field name="TEXT">10</field>
+                          </shadow>
+                        </value>
+                        <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                        <next>
+                          <block type="list_addtolist_scratch" id="b12">
+                            <value name="ITEM">
+                              <shadow type="text_noquotes" id="s11">
+                                <field name="TEXT">5</field>
+                              </shadow>
+                            </value>
+                            <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                            <next>
+                              <block type="list_addtolist_scratch" id="b14">
+                                <value name="ITEM">
+                                  <shadow type="text_noquotes" id="s13">
+                                    <field name="TEXT">1</field>
+                                  </shadow>
+                                </value>
+                                <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                                <next>
+                                  <block type="variables_set_other" id="b16">
+                                    <field name="VAR" id="v_第幾種" variabletype="other">第幾種</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s15">
+                                        <field name="TEXT">1</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="controls_whileUntil_scratch" id="b50">
+                                        <field name="MODE">UNTIL</field>
+                                        <value name="BOOL">
+                                          <block type="logic_compare" id="b20">
+                                            <field name="OP">GT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s17">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b18">
+                                                <field name="VAR" id="v_第幾種" variabletype="other">第幾種</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s19">
+                                                <field name="TEXT">4</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="variables_set_other" id="b31">
+                                            <field name="VAR" id="v_硬幣數" variabletype="other">硬幣數</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes" id="s21">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="math_round" id="b30">
+                                                <field name="OP">ROUNDDOWN</field>
+                                                <value name="NUM">
+                                                  <shadow type="math_number" id="s22">
+                                                    <field name="NUM">3.1</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic" id="b29">
+                                                    <field name="OP">DIVIDE</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number" id="s23">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b24">
+                                                        <field name="VAR" id="v_找零金額" variabletype="other">找零金額</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number" id="s25">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="list_itemoflist_scratch" id="b28">
+                                                        <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                                                        <value name="INDEX">
+                                                          <shadow type="math_number" id="s26">
+                                                            <field name="NUM">1</field>
+                                                          </shadow>
+                                                          <block type="variables_get_other" id="b27">
+                                                            <field name="VAR" id="v_第幾種" variabletype="other">第幾種</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="javascript_data_output_scratch" id="b34">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes" id="s32">
+                                                    <field name="TEXT"></field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b33">
+                                                    <field name="VAR" id="v_硬幣數" variabletype="other">硬幣數</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_other" id="b47">
+                                                    <field name="VAR" id="v_找零金額" variabletype="other">找零金額</field>
+                                                    <value name="VALUE">
+                                                      <shadow type="text_noquotes" id="s35">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="math_arithmetic" id="b46">
+                                                        <field name="OP">MINUS</field>
+                                                        <value name="A">
+                                                          <shadow type="math_number" id="s36">
+                                                            <field name="NUM">0</field>
+                                                          </shadow>
+                                                          <block type="variables_get_other" id="b37">
+                                                            <field name="VAR" id="v_找零金額" variabletype="other">找零金額</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <shadow type="math_number" id="s38">
+                                                            <field name="NUM">0</field>
+                                                          </shadow>
+                                                          <block type="math_arithmetic" id="b45">
+                                                            <field name="OP">MULTIPLY</field>
+                                                            <value name="A">
+                                                              <shadow type="math_number" id="s39">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get_other" id="b40">
+                                                                <field name="VAR" id="v_硬幣數" variabletype="other">硬幣數</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="math_number" id="s41">
+                                                                <field name="NUM">0</field>
+                                                              </shadow>
+                                                              <block type="list_itemoflist_scratch" id="b44">
+                                                                <field name="VAR" id="v_幣值" variabletype="Array">幣值</field>
+                                                                <value name="INDEX">
+                                                                  <shadow type="math_number" id="s42">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get_other" id="b43">
+                                                                    <field name="VAR" id="v_第幾種" variabletype="other">第幾種</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="math_change_other" id="b49">
+                                                        <field name="VAR" id="v_第幾種" variabletype="other">第幾種</field>
+                                                        <value name="DELTA">
+                                                          <shadow type="math_number" id="s48">
+                                                            <field name="NUM">1</field>
+                                                          </shadow>
+                                                        </value>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

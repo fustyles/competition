@@ -1,0 +1,402 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_位移值">位移值</variable>
+    <variable type="other" id="v_原文">原文</variable>
+    <variable type="other" id="v_字母表">字母表</variable>
+    <variable type="other" id="v_密文">密文</variable>
+    <variable type="other" id="v_第幾個字">第幾個字</variable>
+    <variable type="other" id="v_字元">字元</variable>
+    <variable type="other" id="v_字母位置">字母位置</variable>
+    <variable type="other" id="v_查找位置">查找位置</variable>
+    <variable type="other" id="v_新位置">新位置</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b92" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_位移值" variabletype="other">位移值</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_原文" variabletype="other">原文</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="variables_set_other" id="b13">
+                        <field name="VAR" id="v_原文" variabletype="other">原文</field>
+                        <value name="VALUE">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                          <block type="variables_get_other" id="b12">
+                            <field name="VAR" id="v_原文" variabletype="other">原文</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_字母表" variabletype="other">字母表</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s14">
+                                <field name="TEXT">abcdefghijklmnopqrstuvwxyz</field>
+                              </shadow>
+                            </value>
+                            <next>
+                              <block type="variables_set_other" id="b17">
+                                <field name="VAR" id="v_密文" variabletype="other">密文</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s16">
+                                    <field name="TEXT"></field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other" id="b19">
+                                    <field name="VAR" id="v_第幾個字" variabletype="other">第幾個字</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s18">
+                                        <field name="TEXT">1</field>
+                                      </shadow>
+                                    </value>
+                                    <next>
+                                      <block type="controls_whileUntil_scratch" id="b88">
+                                        <field name="MODE">UNTIL</field>
+                                        <value name="BOOL">
+                                          <block type="logic_compare" id="b26">
+                                            <field name="OP">GT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s20">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b21">
+                                                <field name="VAR" id="v_第幾個字" variabletype="other">第幾個字</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s22">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="text_length_scratch" id="b25">
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s23">
+                                                    <field name="TEXT">abc</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b24">
+                                                    <field name="VAR" id="v_原文" variabletype="other">原文</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="variables_set_other" id="b33">
+                                            <field name="VAR" id="v_字元" variabletype="other">字元</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes" id="s27">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="text_charAt_scratch" id="b32">
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s28">
+                                                    <field name="TEXT">abc</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b29">
+                                                    <field name="VAR" id="v_原文" variabletype="other">原文</field>
+                                                  </block>
+                                                </value>
+                                                <value name="WHERE">
+                                                  <shadow type="math_number" id="s30">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b31">
+                                                    <field name="VAR" id="v_第幾個字" variabletype="other">第幾個字</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_other" id="b35">
+                                                <field name="VAR" id="v_字母位置" variabletype="other">字母位置</field>
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s34">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_other" id="b37">
+                                                    <field name="VAR" id="v_查找位置" variabletype="other">查找位置</field>
+                                                    <value name="VALUE">
+                                                      <shadow type="text_noquotes" id="s36">
+                                                        <field name="TEXT">1</field>
+                                                      </shadow>
+                                                    </value>
+                                                    <next>
+                                                      <block type="controls_whileUntil_scratch" id="b58">
+                                                        <field name="MODE">UNTIL</field>
+                                                        <value name="BOOL">
+                                                          <block type="logic_compare" id="b41">
+                                                            <field name="OP">GT</field>
+                                                            <value name="A">
+                                                              <shadow type="text_noquotes" id="s38">
+                                                                <field name="TEXT">0</field>
+                                                              </shadow>
+                                                              <block type="variables_get_other" id="b39">
+                                                                <field name="VAR" id="v_查找位置" variabletype="other">查找位置</field>
+                                                              </block>
+                                                            </value>
+                                                            <value name="B">
+                                                              <shadow type="text_noquotes" id="s40">
+                                                                <field name="TEXT">26</field>
+                                                              </shadow>
+                                                            </value>
+                                                          </block>
+                                                        </value>
+                                                        <statement name="DO">
+                                                          <block type="controls_if_1_scratch" id="b55">
+                                                            <value name="condition">
+                                                              <block type="logic_compare" id="b50">
+                                                                <field name="OP">EQ</field>
+                                                                <value name="A">
+                                                                  <shadow type="text_noquotes" id="s42">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="text_charAt_scratch" id="b47">
+                                                                    <value name="VALUE">
+                                                                      <shadow type="text_noquotes" id="s43">
+                                                                        <field name="TEXT">abc</field>
+                                                                      </shadow>
+                                                                      <block type="variables_get_other" id="b44">
+                                                                        <field name="VAR" id="v_字母表" variabletype="other">字母表</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="WHERE">
+                                                                      <shadow type="math_number" id="s45">
+                                                                        <field name="NUM">1</field>
+                                                                      </shadow>
+                                                                      <block type="variables_get_other" id="b46">
+                                                                        <field name="VAR" id="v_查找位置" variabletype="other">查找位置</field>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="text_noquotes" id="s48">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get_other" id="b49">
+                                                                    <field name="VAR" id="v_字元" variabletype="other">字元</field>
+                                                                  </block>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <statement name="statement_if">
+                                                              <block type="variables_set_other" id="b53">
+                                                                <field name="VAR" id="v_字母位置" variabletype="other">字母位置</field>
+                                                                <value name="VALUE">
+                                                                  <shadow type="text_noquotes" id="s51">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="variables_get_other" id="b52">
+                                                                    <field name="VAR" id="v_查找位置" variabletype="other">查找位置</field>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="controls_flow_statements_scratch" id="b54">
+                                                                    <field name="FLOW">BREAK</field>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </statement>
+                                                            <next>
+                                                              <block type="math_change_other" id="b57">
+                                                                <field name="VAR" id="v_查找位置" variabletype="other">查找位置</field>
+                                                                <value name="DELTA">
+                                                                  <shadow type="math_number" id="s56">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </statement>
+                                                        <next>
+                                                          <block type="variables_set_other" id="b74">
+                                                            <field name="VAR" id="v_新位置" variabletype="other">新位置</field>
+                                                            <value name="VALUE">
+                                                              <shadow type="text_noquotes" id="s59">
+                                                                <field name="TEXT">0</field>
+                                                              </shadow>
+                                                              <block type="math_arithmetic" id="b73">
+                                                                <field name="OP">ADD</field>
+                                                                <value name="A">
+                                                                  <shadow type="math_number" id="s60">
+                                                                    <field name="NUM">0</field>
+                                                                  </shadow>
+                                                                  <block type="math_modulo" id="b71">
+                                                                    <value name="DIVIDEND">
+                                                                      <shadow type="math_number" id="s61">
+                                                                        <field name="NUM">64</field>
+                                                                      </shadow>
+                                                                      <block type="math_arithmetic" id="b69">
+                                                                        <field name="OP">ADD</field>
+                                                                        <value name="A">
+                                                                          <shadow type="math_number" id="s62">
+                                                                            <field name="NUM">0</field>
+                                                                          </shadow>
+                                                                          <block type="math_arithmetic" id="b66">
+                                                                            <field name="OP">MINUS</field>
+                                                                            <value name="A">
+                                                                              <shadow type="math_number" id="s63">
+                                                                                <field name="NUM">0</field>
+                                                                              </shadow>
+                                                                              <block type="variables_get_other" id="b64">
+                                                                                <field name="VAR" id="v_字母位置" variabletype="other">字母位置</field>
+                                                                              </block>
+                                                                            </value>
+                                                                            <value name="B">
+                                                                              <shadow type="math_number" id="s65">
+                                                                                <field name="NUM">1</field>
+                                                                              </shadow>
+                                                                            </value>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="B">
+                                                                          <shadow type="math_number" id="s67">
+                                                                            <field name="NUM">0</field>
+                                                                          </shadow>
+                                                                          <block type="variables_get_other" id="b68">
+                                                                            <field name="VAR" id="v_位移值" variabletype="other">位移值</field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="DIVISOR">
+                                                                      <shadow type="math_number" id="s70">
+                                                                        <field name="NUM">26</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <value name="B">
+                                                                  <shadow type="math_number" id="s72">
+                                                                    <field name="NUM">1</field>
+                                                                  </shadow>
+                                                                </value>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="variables_set_other" id="b85">
+                                                                <field name="VAR" id="v_密文" variabletype="other">密文</field>
+                                                                <value name="VALUE">
+                                                                  <shadow type="text_noquotes" id="s75">
+                                                                    <field name="TEXT">0</field>
+                                                                  </shadow>
+                                                                  <block type="text_join_scratch" id="b84">
+                                                                    <value name="VALUE1">
+                                                                      <shadow type="text_noquotes" id="s76">
+                                                                        <field name="TEXT">abc</field>
+                                                                      </shadow>
+                                                                      <block type="variables_get_other" id="b77">
+                                                                        <field name="VAR" id="v_密文" variabletype="other">密文</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <value name="VALUE2">
+                                                                      <shadow type="text_noquotes" id="s78">
+                                                                        <field name="TEXT">def</field>
+                                                                      </shadow>
+                                                                      <block type="text_charAt_scratch" id="b83">
+                                                                        <value name="VALUE">
+                                                                          <shadow type="text_noquotes" id="s79">
+                                                                            <field name="TEXT">abc</field>
+                                                                          </shadow>
+                                                                          <block type="variables_get_other" id="b80">
+                                                                            <field name="VAR" id="v_字母表" variabletype="other">字母表</field>
+                                                                          </block>
+                                                                        </value>
+                                                                        <value name="WHERE">
+                                                                          <shadow type="math_number" id="s81">
+                                                                            <field name="NUM">1</field>
+                                                                          </shadow>
+                                                                          <block type="variables_get_other" id="b82">
+                                                                            <field name="VAR" id="v_新位置" variabletype="other">新位置</field>
+                                                                          </block>
+                                                                        </value>
+                                                                      </block>
+                                                                    </value>
+                                                                  </block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="math_change_other" id="b87">
+                                                                    <field name="VAR" id="v_第幾個字" variabletype="other">第幾個字</field>
+                                                                    <value name="DELTA">
+                                                                      <shadow type="math_number" id="s86">
+                                                                        <field name="NUM">1</field>
+                                                                      </shadow>
+                                                                    </value>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="javascript_data_output_scratch" id="b91">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s89">
+                                                <field name="TEXT"></field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b90">
+                                                <field name="VAR" id="v_密文" variabletype="other">密文</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
