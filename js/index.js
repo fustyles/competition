@@ -2483,6 +2483,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 載入參考答案：path 例如 exam/answer/114南投縣國小組/勇者的挑戰_Blockly.xml（已 URL 編碼）
 	function showAnswer(path) {
 		if (!path) return;
+        
+        path = decodeURIComponent(path).split(";");
+        //path = "exam/answer/" + path[0] + "/" + path[1] + "_" + path[2] + ".xml");
+        path = "exam/answer/" + document.getElementById("importQuestion_sheet_name").value + "/" + path[1] + "_" + path[2] + ".xml";
 
 		// 工作區已有積木時先確認，避免覆蓋學生自己的作答
 		if (workspace && workspace.getAllBlocks(false).length > 0) {

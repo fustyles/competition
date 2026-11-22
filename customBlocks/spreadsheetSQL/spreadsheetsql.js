@@ -141,7 +141,7 @@ Author: Chung-Yi Fu (Kaohsiung, Taiwan)   https://www.facebook.com/francefu
 
   // 參考答案路徑：exam/answer/組別/題目_Blockly.xml、exam/answer/組別/題目_Scratch.xml
   function spreadsheetsql_answerPath(group, title, platform) {
-	return "exam/answer/" + encodeURIComponent(String(group).trim()) + "/" + encodeURIComponent(String(title).trim() + "_" + platform + ".xml");
+	return encodeURIComponent(String(group).trim()) + ";" + encodeURIComponent(String(title).trim()) + ";" + platform;
   }
 
   function spreadsheetsql_getQuestionsList(div_id, task_id, input_column) {
