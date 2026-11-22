@@ -114,6 +114,16 @@ Main page: https://fustyles.github.io/competition/
 			border: 1px solid #28a745;
 		}
 		#versionContestButton:hover { background-color: #1e7e34; }
+
+		/* ===== 上方工具列：執行按鈕底色、群組分隔線（與普通版、競賽版一致） ===== */
+		#tabs.toolbar-buttons { display: flex; align-items: center; justify-content: flex-end; }
+		#tabs.toolbar-buttons > a { display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; margin: 0 1px; }
+		#tabs.toolbar-buttons > a:hover { background: #ECEFF1; }
+		#tabs.toolbar-buttons > #button_run { background: #4CA35A; }          /* 執行：實心綠色 */
+		#tabs.toolbar-buttons > #button_run:hover { background: #3D8A4A; }
+		#tabs.toolbar-buttons > #button_run .material-icons { color: #fff; }
+		#tabs.toolbar-buttons > #button_test .material-icons { color: #3F82C4; }   /* 驗證：藍色 */
+		#tabs.toolbar-buttons .tb-sep { display: inline-block; width: 1px; height: 26px; margin: 0 6px; background: #D5DAE3; flex: none; }
 	</style>
 </head>
 <body class="root">
@@ -189,17 +199,26 @@ Main page: https://fustyles.github.io/competition/
 				</ul>
 			</td>			
 			<td style="width: 530px">
-				<ul id="tabs">
+				<ul id="tabs" class="toolbar-buttons">
 					<!-- https://fonts.google.com/icons -->
+					<!-- 題目：匯入題庫 -->
+					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
+					<span class="tb-sep"></span>
+					<!-- 程式：執行、驗證 -->
 					<a href="#" id="button_run" title="Import your blocks"><i class="material-icons md-dark">play_arrow</i></a>
 					<a href="#" id="button_test" title="Verification Program"><i class="material-icons md-dark">done</i></a>
+					<span class="tb-sep"></span>
+					<!-- 檔案：開啟、儲存、清空工作區、下載圖片 -->
 					<a href="#" id="button_open_xml" title="Open xml file"><i class="material-icons md-dark">folder_open</i></a>
 					<a href="#" id="button_save_xml" title="Save xml"><i class="material-icons md-dark">save</i></a>
 					<a href="#" id="button_reset" title="Reset Workspace"><i class="material-icons md-dark">create</i></a>					
 					<a href="#" id="button_png" title="Download PNG"><i class="material-icons md-dark">image</i></a>						
-					<a href="#" id="button_question" title="Import Question"><i class="material-icons md-dark">view_list</i></a>
+					<span class="tb-sep"></span>
+					<!-- 協助：AI 解題助手、問題回報 -->
                     <a href="#" id="button_ai" title="Chat with AI"><i class="material-icons md-dark">face_retouching_natural</i></a>	
                     <a href="#" id="button_report" title="Bug report"><i class="material-icons md-dark">feedback</i></a>
+					<span class="tb-sep"></span>
+					<!-- 畫面：普通版、顯示／隱藏試題內容、語言 -->
 					<a href="#" id="button_standardpage" title="Standard Page"><i class="material-icons md-dark">meeting_room</i></a>                    
 					<a href="#" id="button_code" title="Show/Hide Output"><i class="material-icons md-dark">unfold_more</i></a>
                     <span class="lang-wrap">
