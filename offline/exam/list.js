@@ -1,4 +1,6 @@
 let examList = [
+  { name: "國小題型",         file: "type/題型_國小組.js" },
+  { name: "國中題型",         file: "type/題型_國中組.js" },
   { name: "國小基礎練習",         file: "basic/國小基礎練習.js" },
   { name: "國小基礎應用",         file: "basic/國小基礎應用.js" },
   { name: "國中基礎練習",         file: "basic/國中基礎練習.js" },   
