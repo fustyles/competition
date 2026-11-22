@@ -1887,13 +1887,69 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 	
+	// 驗證結果以表格呈現（與普通版的正式評分相同格式）：
+	//   答對 5 / 5 筆測資
+	//   2026/11/22 13:10:01
+	//   # | 測資 | 輸出 | 結果
+	function testMsg(key, def) {
+		var t = (Blockly.Msg && Blockly.Msg[key]) || def;
+		for (var i = 2; i < arguments.length; i++) t = String(t).split('%' + (i - 1)).join(arguments[i]);
+		return t;
+	}
+	function testEscape(t) {
+		return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+	}
+	function testTime(d) {
+		var p = function (n) { return (n < 10 ? '0' : '') + n; };
+		return d.getFullYear() + '/' + p(d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+	}
+	// 輸出中的 [orange]…[/orange]（讀入的測資，顯示藍色）、[blue]…[/blue]（程式輸出，顯示橘紅色）標色
+	function testColorOutput(text) {
+		return testEscape(text)
+			.replace(/\[orange\]/g, '<span style="color:#1D4ED8;">').replace(/\[\/orange\]/g, '</span>')   // 讀入的測資：藍色
+			.replace(/\[blue\]/g, '<span style="color:#C2410C;">').replace(/\[\/blue\]/g, '</span>');      // 程式輸出：橘紅色
+	}
+	function renderTestResults(results) {
+		var passed = results.filter(function (r) { return r.outcome === 'pass'; }).length;
+		var cell = 'padding:6px;border:1px solid #E5E8EF;';
+		var th = 'padding:6px;border:1px solid #DDE2EC;background:#EEF1F7;color:#3A4A6B;white-space:nowrap;';
+		var io = cell + 'text-align:left;word-break:break-all;font-family:Consolas,Menlo,"Courier New",monospace;font-size:13px;';
+		var rows = results.map(function (r, i) {
+			var lab = r.outcome === 'pass' ? ['#15803D', testMsg('GRADE_PASS', '✔ 通過')]
+				: r.outcome === 'error' ? ['#B91C1C', testMsg('GRADE_ERROR', '❌ 執行錯誤')]
+				: ['#B91C1C', testMsg('GRADE_FAIL', '✘ 不通過')];
+			var out = (r.output != null && r.output !== '') ? testColorOutput(r.output) : '<span style="color:#9CA3AF;">—</span>';
+			if (r.outcome === 'error' && r.error)
+				out += '<div style="color:#B91C1C;font-family:inherit;font-size:12px;">' + testEscape(r.error) + '</div>';
+			return '<tr><td style="' + cell + 'text-align:center;">' + (i + 1) + '</td>' +
+				'<td style="' + io + '">' + testEscape(r.input) + '</td>' +
+				'<td style="' + io + '">' + out + '</td>' +
+				'<td style="' + cell + 'text-align:center;white-space:nowrap;font-weight:bold;color:' + lab[0] + ';">' + testEscape(lab[1]) + '</td></tr>';
+		}).join('');
+		return '<div style="font-family:\'Microsoft JhengHei\',\'PingFang TC\',\'Noto Sans TC\',sans-serif;color:#1f2937;padding:4px 2px;">' +
+			'<div style="font-size:18px;margin:2px 0 8px;">' +
+				testMsg('GRADE_CORRECT', '答對 %1 / %2 筆測資', '<b style="font-size:26px;color:#C2410C;">' + passed + '</b>', results.length) +
+				'<span style="display:block;font-size:13px;color:#6b7280;margin-top:2px;">' + testTime(new Date()) + '</span></div>' +
+			'<table style="width:100%;border-collapse:collapse;font-size:14px;"><thead><tr>' +
+				'<th style="' + th + '">#</th>' +
+				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_INPUT', '測資')) + '</th>' +
+				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_OUTPUT', '輸出')) + '</th>' +
+				'<th style="' + th + '">' + testEscape(testMsg('GRADE_TH_RESULT', '結果')) + '</th>' +
+			'</tr></thead><tbody>' + rows + '</tbody></table></div>';
+	}
+
 	function runMultipleIframeTests(inputArray, containerId = 'iframeContainer') {
 		if (inputArray.length === 0) return;
 
-		let outputResult = "";
+		// 每筆測資的結果依原本順序記錄（各 iframe 完成的先後不一定）
+		var cases = [];
+		inputArray.forEach(function (testCode, index) {
+			if (testCode != "") cases.push({ index: index, input: String(testCode).trim() });
+		});
+		var results = new Array(cases.length);
 		let completedCount = 0;
-		let rightCount = 0;
-		let totalTests = inputArray.length;
+		let totalTests = cases.length;
+		if (totalTests === 0) return;
 
 		let container = document.getElementById(containerId);
 		if (container) {
@@ -1903,56 +1959,44 @@ document.addEventListener('DOMContentLoaded', function() {
 		container.id = containerId;
 		document.body.appendChild(container);		
 
-		inputArray.forEach((testCode, index) => {
-			if (testCode=="")
-				totalTests--;
-			else {
-				const iframe = document.createElement("iframe");
-				iframe.id = "iframe_" + index;
-				iframe.style.width = "0";
-				iframe.style.height = "0";
-				iframe.style.border = "none";
-				
-				container.appendChild(iframe);
+		cases.forEach((c, pos) => {
+			const iframe = document.createElement("iframe");
+			iframe.id = "iframe_" + c.index;
+			iframe.style.width = "0";
+			iframe.style.height = "0";
+			iframe.style.border = "none";
+			
+			container.appendChild(iframe);
 
-				iframe.onload = async function() {
-				  iframe.onload = null;
-				  
-				  const checkFinish = async () => {
-					const body = iframe.contentWindow.document.body;
-					if (!body) return;
+			iframe.onload = async function() {
+			  iframe.onload = null;
+			  
+			  const checkFinish = async () => {
+				const body = iframe.contentWindow.document.body;
+				if (!body) return;
 
-					if (iframe.title=="ok"||iframe.title=="err") {
-						
-					  const bodyContent = body.innerText;
-					  outputResult += "【 "+ Blockly.Msg["TEST_CODE_TEST"].replace("%1", completedCount+1) +" 】"+bodyContent + "\n\n";
-					  completedCount++;
-					  if (iframe.title=="ok")
-						  rightCount++;
-					  if (completedCount === totalTests) {
-						outputResult += "\n" + Blockly.Msg["TEST_CODE_CORRECT_COUNT"] + "： [red]" + rightCount + "[/red] / " + completedCount;
-                        var output = outputResult
-                            .replace(/ /g, "&nbsp;")
-                            .replace(/\n/g, "<br>")
-                            .replace(/\[orange\]/g, "<span style='color: orange;'>")
-                            .replace(/\[\/orange\]/g, "</span>")
-                            .replace(/\[blue\]/g, "<span style='color: blue;'>")
-                            .replace(/\[\/blue\]/g, "</span>")
-                            .replace(/\[red\]/g, "<span style='color: red;'>")
-                            .replace(/\[\/red\]/g, "</span>");                            
-						iframeWrite("iframe_output", output);
-						if (container) container.remove();
-					  }
-					} else {
-					  setTimeout(checkFinish, 100);
-					}
+				if (iframe.title=="ok"||iframe.title=="err") {
+				  var err = iframe.getAttribute('data-error');
+				  results[pos] = {
+					  input: c.input,
+					  output: iframe.getAttribute('data-user'),                     // 程式的輸出（含標色記號）
+					  outcome: iframe.title == "ok" ? 'pass' : (err ? 'error' : 'fail'),
+					  error: err
 				  };
+				  completedCount++;
+				  if (completedCount === totalTests) {
+					iframeWrite("iframe_output", renderTestResults(results));
+					if (container) container.remove();
+				  }
+				} else {
+				  setTimeout(checkFinish, 100);
+				}
+			  };
 
-				  checkFinish();
-				};
+			  checkFinish();
+			};
 
-				runTest(iframe, testCode.trim());
-			}
+			runTest(iframe, c.input);
 		});
 	}	
 
@@ -2017,6 +2061,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			'}\n';
 
 		code += ''+		
+			'try { window.frameElement.setAttribute("data-user", userAnswerHTML); } catch (e) {}\n'+
 			'if (userAnswer.trim()==systemAnswer.trim()) {\n'+		
 			'  document.body.insertAdjacentHTML("beforeend", "<BR><BR>"+"'+Blockly.Msg["TEST_CODE_TEST"]+'".replace("%1", systemAnswer.trim()));\n'+					
 			'  document.body.insertAdjacentHTML("beforeend", "<BR>"+"'+Blockly.Msg["TEST_CODE_CORRECT"]+'".replace("%1", userAnswerHTML));\n'+            
@@ -2027,7 +2072,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.title = 'err';return;}window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+		iframe_code += "\<\/head\>\<body\>\<script\>"+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);try{window.frameElement.setAttribute('data-error',String((e&&e.message)||e));}catch(x){}window.frameElement.title = 'err';return;}window.frameElement.title = ((document.body.innerText.indexOf('🔴')!=-1)?'err':'ok');}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 		output_result = "";
 		
