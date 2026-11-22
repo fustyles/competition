@@ -1,0 +1,116 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_甲">甲</variable>
+    <variable id="v_乙">乙</variable>
+    <variable id="v_餘數">餘數</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_甲">甲</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_乙">乙</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="controls_whileUntil" id="b22">
+                    <field name="MODE">WHILE</field>
+                    <value name="BOOL">
+                      <block type="logic_compare" id="b11">
+                        <field name="OP">NEQ</field>
+                        <value name="A">
+                          <block type="variables_get" id="b9">
+                            <field name="VAR" id="v_乙">乙</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="b10">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO">
+                      <block type="variables_set_local" id="b17">
+                        <field name="VAR" id="v_餘數">餘數</field>
+                        <value name="VALUE">
+                          <block type="math_modulo" id="b16">
+                            <value name="DIVIDEND">
+                              <shadow type="math_number" id="s12">
+                                <field name="NUM">64</field>
+                              </shadow>
+                              <block type="variables_get" id="b13">
+                                <field name="VAR" id="v_甲">甲</field>
+                              </block>
+                            </value>
+                            <value name="DIVISOR">
+                              <shadow type="math_number" id="s14">
+                                <field name="NUM">10</field>
+                              </shadow>
+                              <block type="variables_get" id="b15">
+                                <field name="VAR" id="v_乙">乙</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set_local" id="b19">
+                            <field name="VAR" id="v_甲">甲</field>
+                            <value name="VALUE">
+                              <block type="variables_get" id="b18">
+                                <field name="VAR" id="v_乙">乙</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set_local" id="b21">
+                                <field name="VAR" id="v_乙">乙</field>
+                                <value name="VALUE">
+                                  <block type="variables_get" id="b20">
+                                    <field name="VAR" id="v_餘數">餘數</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="javascript_data_output" id="b25">
+                        <value name="TEXT">
+                          <shadow type="text" id="s23">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="variables_get" id="b24">
+                            <field name="VAR" id="v_甲">甲</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

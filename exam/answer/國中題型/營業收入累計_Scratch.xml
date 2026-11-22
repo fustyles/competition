@@ -1,0 +1,158 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_天數">天數</variable>
+    <variable type="other" id="v_總收入">總收入</variable>
+    <variable type="other" id="v_營業額">營業額</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b37" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_天數" variabletype="other">天數</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="variables_set_other" id="b7">
+                <field name="VAR" id="v_總收入" variabletype="other">總收入</field>
+                <value name="VALUE">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT">0</field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="controls_repeat_ext_scratch" id="b18">
+                    <value name="TIMES">
+                      <shadow type="math_number" id="s8">
+                        <field name="NUM">10</field>
+                      </shadow>
+                      <block type="variables_get_other" id="b9">
+                        <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                      </block>
+                    </value>
+                    <statement name="DO">
+                      <block type="javascript_data_input_scratch" id="b11">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s10">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b14">
+                            <field name="VAR" id="v_營業額" variabletype="other">營業額</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s12">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b13"></block>
+                            </value>
+                            <next>
+                              <block type="math_change_other" id="b17">
+                                <field name="VAR" id="v_總收入" variabletype="other">總收入</field>
+                                <value name="DELTA">
+                                  <shadow type="math_number" id="s15">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                  <block type="variables_get_other" id="b16">
+                                    <field name="VAR" id="v_營業額" variabletype="other">營業額</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="javascript_data_output_scratch" id="b21">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s19">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="variables_get_other" id="b20">
+                            <field name="VAR" id="v_總收入" variabletype="other">總收入</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="javascript_data_output_scratch" id="b36">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes" id="s22">
+                                <field name="TEXT"></field>
+                              </shadow>
+                              <block type="math_arithmetic" id="b35">
+                                <field name="OP">DIVIDE</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s23">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_round" id="b33">
+                                    <field name="OP">ROUND</field>
+                                    <value name="NUM">
+                                      <shadow type="math_number" id="s24">
+                                        <field name="NUM">3.1</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b32">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s25">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic" id="b30">
+                                            <field name="OP">DIVIDE</field>
+                                            <value name="A">
+                                              <shadow type="math_number" id="s26">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b27">
+                                                <field name="VAR" id="v_總收入" variabletype="other">總收入</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number" id="s28">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b29">
+                                                <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s31">
+                                            <field name="NUM">10</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s34">
+                                    <field name="NUM">10</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

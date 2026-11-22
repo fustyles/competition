@@ -1,0 +1,219 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_N">N</variable>
+    <variable id="v_是質數">是質數</variable>
+    <variable id="v_除數">除數</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_N">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="variables_set_local" id="b6">
+            <field name="VAR" id="v_是質數">是質數</field>
+            <value name="VALUE">
+              <block type="math_number" id="b5">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_if" id="b12">
+                <value name="IF0">
+                  <block type="logic_compare" id="b9">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <block type="variables_get" id="b7">
+                        <field name="VAR" id="v_N">N</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="b8">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_set_local" id="b11">
+                    <field name="VAR" id="v_是質數">是質數</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="b10">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="variables_set_local" id="b14">
+                    <field name="VAR" id="v_除數">除數</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="b13">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_whileUntil" id="b38">
+                        <field name="MODE">WHILE</field>
+                        <value name="BOOL">
+                          <block type="logic_operation" id="b25">
+                            <field name="OP">AND</field>
+                            <value name="A">
+                              <block type="logic_compare" id="b21">
+                                <field name="OP">LTE</field>
+                                <value name="A">
+                                  <block type="math_arithmetic" id="b19">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s15">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b16">
+                                        <field name="VAR" id="v_除數">除數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s17">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b18">
+                                        <field name="VAR" id="v_除數">除數</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="variables_get" id="b20">
+                                    <field name="VAR" id="v_N">N</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="logic_compare" id="b24">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="variables_get" id="b22">
+                                    <field name="VAR" id="v_是質數">是質數</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="b23">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO">
+                          <block type="controls_if" id="b35">
+                            <value name="IF0">
+                              <block type="logic_compare" id="b32">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="math_modulo" id="b30">
+                                    <value name="DIVIDEND">
+                                      <shadow type="math_number" id="s26">
+                                        <field name="NUM">64</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b27">
+                                        <field name="VAR" id="v_N">N</field>
+                                      </block>
+                                    </value>
+                                    <value name="DIVISOR">
+                                      <shadow type="math_number" id="s28">
+                                        <field name="NUM">10</field>
+                                      </shadow>
+                                      <block type="variables_get" id="b29">
+                                        <field name="VAR" id="v_除數">除數</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="b31">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="variables_set_local" id="b34">
+                                <field name="VAR" id="v_是質數">是質數</field>
+                                <value name="VALUE">
+                                  <block type="math_number" id="b33">
+                                    <field name="NUM">0</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="math_change" id="b37">
+                                <field name="VAR" id="v_除數">除數</field>
+                                <value name="DELTA">
+                                  <shadow type="math_number" id="s36">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if" id="b46">
+                            <mutation else="1"></mutation>
+                            <value name="IF0">
+                              <block type="logic_compare" id="b41">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="variables_get" id="b39">
+                                    <field name="VAR" id="v_是質數">是質數</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="math_number" id="b40">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="javascript_data_output" id="b43">
+                                <value name="TEXT">
+                                  <shadow type="text" id="s42">
+                                    <field name="TEXT">YES</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </statement>
+                            <statement name="ELSE">
+                              <block type="javascript_data_output" id="b45">
+                                <value name="TEXT">
+                                  <shadow type="text" id="s44">
+                                    <field name="TEXT">NO</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

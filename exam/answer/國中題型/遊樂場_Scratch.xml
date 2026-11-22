@@ -1,0 +1,370 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_兒童人數">兒童人數</variable>
+    <variable type="other" id="v_成人人數">成人人數</variable>
+    <variable type="other" id="v_最多套票">最多套票</variable>
+    <variable type="other" id="v_最低價格">最低價格</variable>
+    <variable type="other" id="v_套票數">套票數</variable>
+    <variable type="other" id="v_價格">價格</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b86" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_兒童人數" variabletype="other">兒童人數</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_成人人數" variabletype="other">成人人數</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="controls_if_2_scratch" id="b22">
+                        <value name="condition">
+                          <block type="logic_compare" id="b15">
+                            <field name="OP">LT</field>
+                            <value name="A">
+                              <shadow type="text_noquotes" id="s11">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b12">
+                                <field name="VAR" id="v_兒童人數" variabletype="other">兒童人數</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b14">
+                                <field name="VAR" id="v_成人人數" variabletype="other">成人人數</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="variables_set_other" id="b18">
+                            <field name="VAR" id="v_最多套票" variabletype="other">最多套票</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s16">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b17">
+                                <field name="VAR" id="v_兒童人數" variabletype="other">兒童人數</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <statement name="statement_else">
+                          <block type="variables_set_other" id="b21">
+                            <field name="VAR" id="v_最多套票" variabletype="other">最多套票</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s19">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b20">
+                                <field name="VAR" id="v_成人人數" variabletype="other">成人人數</field>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="variables_set_other" id="b35">
+                            <field name="VAR" id="v_最低價格" variabletype="other">最低價格</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s23">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="math_arithmetic" id="b34">
+                                <field name="OP">ADD</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s24">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b28">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s25">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b26">
+                                        <field name="VAR" id="v_兒童人數" variabletype="other">兒童人數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s27">
+                                        <field name="NUM">400</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s29">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="math_arithmetic" id="b33">
+                                    <field name="OP">MULTIPLY</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s30">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b31">
+                                        <field name="VAR" id="v_成人人數" variabletype="other">成人人數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s32">
+                                        <field name="NUM">500</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="variables_set_other" id="b37">
+                                <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s36">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="controls_whileUntil_scratch" id="b82">
+                                    <field name="MODE">UNTIL</field>
+                                    <value name="BOOL">
+                                      <block type="logic_compare" id="b42">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s38">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b39">
+                                            <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s40">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b41">
+                                            <field name="VAR" id="v_最多套票" variabletype="other">最多套票</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="variables_set_other" id="b70">
+                                        <field name="VAR" id="v_價格" variabletype="other">價格</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes" id="s43">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="math_arithmetic" id="b69">
+                                            <field name="OP">ADD</field>
+                                            <value name="A">
+                                              <shadow type="math_number" id="s44">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="math_arithmetic" id="b59">
+                                                <field name="OP">ADD</field>
+                                                <value name="A">
+                                                  <shadow type="math_number" id="s45">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic" id="b49">
+                                                    <field name="OP">MULTIPLY</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number" id="s46">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b47">
+                                                        <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number" id="s48">
+                                                        <field name="NUM">800</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="math_number" id="s50">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic" id="b58">
+                                                    <field name="OP">MULTIPLY</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number" id="s51">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="math_arithmetic" id="b56">
+                                                        <field name="OP">MINUS</field>
+                                                        <value name="A">
+                                                          <shadow type="math_number" id="s52">
+                                                            <field name="NUM">0</field>
+                                                          </shadow>
+                                                          <block type="variables_get_other" id="b53">
+                                                            <field name="VAR" id="v_兒童人數" variabletype="other">兒童人數</field>
+                                                          </block>
+                                                        </value>
+                                                        <value name="B">
+                                                          <shadow type="math_number" id="s54">
+                                                            <field name="NUM">0</field>
+                                                          </shadow>
+                                                          <block type="variables_get_other" id="b55">
+                                                            <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                                          </block>
+                                                        </value>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number" id="s57">
+                                                        <field name="NUM">400</field>
+                                                      </shadow>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="math_number" id="s60">
+                                                <field name="NUM">0</field>
+                                              </shadow>
+                                              <block type="math_arithmetic" id="b68">
+                                                <field name="OP">MULTIPLY</field>
+                                                <value name="A">
+                                                  <shadow type="math_number" id="s61">
+                                                    <field name="NUM">0</field>
+                                                  </shadow>
+                                                  <block type="math_arithmetic" id="b66">
+                                                    <field name="OP">MINUS</field>
+                                                    <value name="A">
+                                                      <shadow type="math_number" id="s62">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b63">
+                                                        <field name="VAR" id="v_成人人數" variabletype="other">成人人數</field>
+                                                      </block>
+                                                    </value>
+                                                    <value name="B">
+                                                      <shadow type="math_number" id="s64">
+                                                        <field name="NUM">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b65">
+                                                        <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="math_number" id="s67">
+                                                    <field name="NUM">500</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="controls_if_1_scratch" id="b79">
+                                            <value name="condition">
+                                              <block type="logic_compare" id="b75">
+                                                <field name="OP">LT</field>
+                                                <value name="A">
+                                                  <shadow type="text_noquotes" id="s71">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b72">
+                                                    <field name="VAR" id="v_價格" variabletype="other">價格</field>
+                                                  </block>
+                                                </value>
+                                                <value name="B">
+                                                  <shadow type="text_noquotes" id="s73">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b74">
+                                                    <field name="VAR" id="v_最低價格" variabletype="other">最低價格</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </value>
+                                            <statement name="statement_if">
+                                              <block type="variables_set_other" id="b78">
+                                                <field name="VAR" id="v_最低價格" variabletype="other">最低價格</field>
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s76">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b77">
+                                                    <field name="VAR" id="v_價格" variabletype="other">價格</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </statement>
+                                            <next>
+                                              <block type="math_change_other" id="b81">
+                                                <field name="VAR" id="v_套票數" variabletype="other">套票數</field>
+                                                <value name="DELTA">
+                                                  <shadow type="math_number" id="s80">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="javascript_data_output_scratch" id="b85">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes" id="s83">
+                                            <field name="TEXT"></field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b84">
+                                            <field name="VAR" id="v_最低價格" variabletype="other">最低價格</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
