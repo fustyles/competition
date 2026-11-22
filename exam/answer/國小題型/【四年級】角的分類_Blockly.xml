@@ -1,0 +1,106 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_角度">角度</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_角度">角度</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="controls_if" id="b22">
+            <mutation elseif="2" else="1"></mutation>
+            <value name="IF0">
+              <block type="logic_compare" id="b7">
+                <field name="OP">LT</field>
+                <value name="A">
+                  <block type="variables_get" id="b5">
+                    <field name="VAR" id="v_角度">角度</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="b6">
+                    <field name="NUM">90</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="javascript_data_output" id="b9">
+                <value name="TEXT">
+                  <shadow type="text" id="s8">
+                    <field name="TEXT">銳角</field>
+                  </shadow>
+                </value>
+              </block>
+            </statement>
+            <value name="IF1">
+              <block type="logic_compare" id="b12">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get" id="b10">
+                    <field name="VAR" id="v_角度">角度</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="b11">
+                    <field name="NUM">90</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO1">
+              <block type="javascript_data_output" id="b14">
+                <value name="TEXT">
+                  <shadow type="text" id="s13">
+                    <field name="TEXT">直角</field>
+                  </shadow>
+                </value>
+              </block>
+            </statement>
+            <value name="IF2">
+              <block type="logic_compare" id="b17">
+                <field name="OP">LT</field>
+                <value name="A">
+                  <block type="variables_get" id="b15">
+                    <field name="VAR" id="v_角度">角度</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="b16">
+                    <field name="NUM">180</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO2">
+              <block type="javascript_data_output" id="b19">
+                <value name="TEXT">
+                  <shadow type="text" id="s18">
+                    <field name="TEXT">鈍角</field>
+                  </shadow>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="javascript_data_output" id="b21">
+                <value name="TEXT">
+                  <shadow type="text" id="s20">
+                    <field name="TEXT">平角</field>
+                  </shadow>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

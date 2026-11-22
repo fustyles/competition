@@ -1,0 +1,129 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_角度">角度</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b29" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_角度" variabletype="other">角度</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="controls_if_2_scratch" id="b28">
+                <value name="condition">
+                  <block type="logic_compare" id="b9">
+                    <field name="OP">LT</field>
+                    <value name="A">
+                      <shadow type="text_noquotes" id="s6">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="variables_get_other" id="b7">
+                        <field name="VAR" id="v_角度" variabletype="other">角度</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">90</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </value>
+                <statement name="statement_if">
+                  <block type="javascript_data_output_scratch" id="b11">
+                    <value name="TEXT">
+                      <shadow type="text_noquotes" id="s10">
+                        <field name="TEXT">銳角</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </statement>
+                <statement name="statement_else">
+                  <block type="controls_if_2_scratch" id="b27">
+                    <value name="condition">
+                      <block type="logic_compare" id="b15">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <shadow type="text_noquotes" id="s12">
+                            <field name="TEXT">0</field>
+                          </shadow>
+                          <block type="variables_get_other" id="b13">
+                            <field name="VAR" id="v_角度" variabletype="other">角度</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <shadow type="text_noquotes" id="s14">
+                            <field name="TEXT">90</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="statement_if">
+                      <block type="javascript_data_output_scratch" id="b17">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s16">
+                            <field name="TEXT">直角</field>
+                          </shadow>
+                        </value>
+                      </block>
+                    </statement>
+                    <statement name="statement_else">
+                      <block type="controls_if_2_scratch" id="b26">
+                        <value name="condition">
+                          <block type="logic_compare" id="b21">
+                            <field name="OP">LT</field>
+                            <value name="A">
+                              <shadow type="text_noquotes" id="s18">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="variables_get_other" id="b19">
+                                <field name="VAR" id="v_角度" variabletype="other">角度</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="text_noquotes" id="s20">
+                                <field name="TEXT">180</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="statement_if">
+                          <block type="javascript_data_output_scratch" id="b23">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes" id="s22">
+                                <field name="TEXT">鈍角</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </statement>
+                        <statement name="statement_else">
+                          <block type="javascript_data_output_scratch" id="b25">
+                            <value name="TEXT">
+                              <shadow type="text_noquotes" id="s24">
+                                <field name="TEXT">平角</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </statement>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

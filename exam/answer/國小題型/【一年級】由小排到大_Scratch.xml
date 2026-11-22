@@ -1,0 +1,298 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_甲">甲</variable>
+    <variable type="other" id="v_乙">乙</variable>
+    <variable type="other" id="v_丙">丙</variable>
+    <variable type="other" id="v_暫存">暫存</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b70" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_甲" variabletype="other">甲</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch" id="b12">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_丙" variabletype="other">丙</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b14"></block>
+                            </value>
+                            <next>
+                              <block type="controls_if_1_scratch" id="b30">
+                                <value name="condition">
+                                  <block type="logic_compare" id="b20">
+                                    <field name="OP">GT</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes" id="s16">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b17">
+                                        <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes" id="s18">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b19">
+                                        <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="variables_set_other" id="b23">
+                                    <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s21">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b22">
+                                        <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="variables_set_other" id="b26">
+                                        <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes" id="s24">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b25">
+                                            <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_other" id="b29">
+                                            <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes" id="s27">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b28">
+                                                <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="controls_if_1_scratch" id="b45">
+                                    <value name="condition">
+                                      <block type="logic_compare" id="b35">
+                                        <field name="OP">GT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s31">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b32">
+                                            <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s33">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b34">
+                                            <field name="VAR" id="v_丙" variabletype="other">丙</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="variables_set_other" id="b38">
+                                        <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes" id="s36">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b37">
+                                            <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="variables_set_other" id="b41">
+                                            <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes" id="s39">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b40">
+                                                <field name="VAR" id="v_丙" variabletype="other">丙</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_other" id="b44">
+                                                <field name="VAR" id="v_丙" variabletype="other">丙</field>
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s42">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b43">
+                                                    <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="controls_if_1_scratch" id="b60">
+                                        <value name="condition">
+                                          <block type="logic_compare" id="b50">
+                                            <field name="OP">GT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s46">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b47">
+                                                <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s48">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b49">
+                                                <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="statement_if">
+                                          <block type="variables_set_other" id="b53">
+                                            <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                            <value name="VALUE">
+                                              <shadow type="text_noquotes" id="s51">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b52">
+                                                <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="variables_set_other" id="b56">
+                                                <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                                <value name="VALUE">
+                                                  <shadow type="text_noquotes" id="s54">
+                                                    <field name="TEXT">0</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b55">
+                                                    <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="variables_set_other" id="b59">
+                                                    <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                                    <value name="VALUE">
+                                                      <shadow type="text_noquotes" id="s57">
+                                                        <field name="TEXT">0</field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b58">
+                                                        <field name="VAR" id="v_暫存" variabletype="other">暫存</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="javascript_data_output_scratch" id="b63">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s61">
+                                                <field name="TEXT"></field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b62">
+                                                <field name="VAR" id="v_甲" variabletype="other">甲</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="javascript_data_output_scratch" id="b66">
+                                                <value name="TEXT">
+                                                  <shadow type="text_noquotes" id="s64">
+                                                    <field name="TEXT"></field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b65">
+                                                    <field name="VAR" id="v_乙" variabletype="other">乙</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="javascript_data_output_scratch" id="b69">
+                                                    <value name="TEXT">
+                                                      <shadow type="text_noquotes" id="s67">
+                                                        <field name="TEXT"></field>
+                                                      </shadow>
+                                                      <block type="variables_get_other" id="b68">
+                                                        <field name="VAR" id="v_丙" variabletype="other">丙</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

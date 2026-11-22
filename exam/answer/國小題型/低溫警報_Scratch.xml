@@ -1,0 +1,155 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_第一天氣溫">第一天氣溫</variable>
+    <variable type="other" id="v_第二天氣溫">第二天氣溫</variable>
+    <variable type="other" id="v_第三天氣溫">第三天氣溫</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b35" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_第一天氣溫" variabletype="other">第一天氣溫</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_第二天氣溫" variabletype="other">第二天氣溫</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch" id="b12">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_第三天氣溫" variabletype="other">第三天氣溫</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b14"></block>
+                            </value>
+                            <next>
+                              <block type="controls_if_2_scratch" id="b34">
+                                <value name="condition">
+                                  <block type="logic_operation" id="b29">
+                                    <field name="OP">AND</field>
+                                    <value name="A">
+                                      <block type="logic_operation" id="b24">
+                                        <field name="OP">AND</field>
+                                        <value name="A">
+                                          <block type="logic_compare" id="b19">
+                                            <field name="OP">LT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s16">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b17">
+                                                <field name="VAR" id="v_第一天氣溫" variabletype="other">第一天氣溫</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s18">
+                                                <field name="TEXT">10</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="logic_compare" id="b23">
+                                            <field name="OP">LT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s20">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b21">
+                                                <field name="VAR" id="v_第二天氣溫" variabletype="other">第二天氣溫</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s22">
+                                                <field name="TEXT">10</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="logic_compare" id="b28">
+                                        <field name="OP">LT</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s25">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b26">
+                                            <field name="VAR" id="v_第三天氣溫" variabletype="other">第三天氣溫</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s27">
+                                            <field name="TEXT">10</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="javascript_data_output_scratch" id="b31">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes" id="s30">
+                                        <field name="TEXT">太冷了</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="javascript_data_output_scratch" id="b33">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes" id="s32">
+                                        <field name="TEXT">正常</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

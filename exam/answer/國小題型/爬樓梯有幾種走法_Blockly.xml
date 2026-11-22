@@ -1,0 +1,205 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_階數">階數</variable>
+    <variable id="v_走法數">走法數</variable>
+    <variable id="v_第幾階">第幾階</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_階數">階數</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="variables_set_local" id="b6">
+            <field name="VAR" id="v_走法數">走法數</field>
+            <value name="VALUE">
+              <block type="lists_create_with" id="b5">
+                <mutation items="0"></mutation>
+              </block>
+            </value>
+            <next>
+              <block type="lists_setIndex" id="b9">
+                <mutation at="false"></mutation>
+                <field name="MODE">INSERT</field>
+                <field name="WHERE">LAST</field>
+                <value name="LIST">
+                  <block type="variables_get" id="b7">
+                    <field name="VAR" id="v_走法數">走法數</field>
+                  </block>
+                </value>
+                <value name="TO">
+                  <block type="math_number" id="b8">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="lists_setIndex" id="b12">
+                    <mutation at="false"></mutation>
+                    <field name="MODE">INSERT</field>
+                    <field name="WHERE">LAST</field>
+                    <value name="LIST">
+                      <block type="variables_get" id="b10">
+                        <field name="VAR" id="v_走法數">走法數</field>
+                      </block>
+                    </value>
+                    <value name="TO">
+                      <block type="math_number" id="b11">
+                        <field name="NUM">2</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="controls_for" id="b36">
+                        <field name="VAR" id="v_第幾階">第幾階</field>
+                        <value name="FROM">
+                          <shadow type="math_number" id="s13">
+                            <field name="NUM">3</field>
+                          </shadow>
+                        </value>
+                        <value name="TO">
+                          <shadow type="math_number" id="s14">
+                            <field name="NUM">10</field>
+                          </shadow>
+                          <block type="variables_get" id="b15">
+                            <field name="VAR" id="v_階數">階數</field>
+                          </block>
+                        </value>
+                        <value name="BY">
+                          <shadow type="math_number" id="s16">
+                            <field name="NUM">1</field>
+                          </shadow>
+                        </value>
+                        <statement name="DO">
+                          <block type="lists_setIndex" id="b35">
+                            <mutation at="false"></mutation>
+                            <field name="MODE">INSERT</field>
+                            <field name="WHERE">LAST</field>
+                            <value name="LIST">
+                              <block type="variables_get" id="b17">
+                                <field name="VAR" id="v_走法數">走法數</field>
+                              </block>
+                            </value>
+                            <value name="TO">
+                              <block type="math_arithmetic" id="b34">
+                                <field name="OP">ADD</field>
+                                <value name="A">
+                                  <shadow type="math_number" id="s18">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="lists_getIndex" id="b25">
+                                    <mutation statement="false" at="true"></mutation>
+                                    <field name="MODE">GET</field>
+                                    <field name="WHERE">FROM_START</field>
+                                    <value name="VALUE">
+                                      <block type="variables_get" id="b19">
+                                        <field name="VAR" id="v_走法數">走法數</field>
+                                      </block>
+                                    </value>
+                                    <value name="AT">
+                                      <shadow type="math_number" id="s20">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b24">
+                                        <field name="OP">MINUS</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s21">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b22">
+                                            <field name="VAR" id="v_第幾階">第幾階</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s23">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="math_number" id="s26">
+                                    <field name="NUM">0</field>
+                                  </shadow>
+                                  <block type="lists_getIndex" id="b33">
+                                    <mutation statement="false" at="true"></mutation>
+                                    <field name="MODE">GET</field>
+                                    <field name="WHERE">FROM_START</field>
+                                    <value name="VALUE">
+                                      <block type="variables_get" id="b27">
+                                        <field name="VAR" id="v_走法數">走法數</field>
+                                      </block>
+                                    </value>
+                                    <value name="AT">
+                                      <shadow type="math_number" id="s28">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b32">
+                                        <field name="OP">MINUS</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s29">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b30">
+                                            <field name="VAR" id="v_第幾階">第幾階</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s31">
+                                            <field name="NUM">2</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="javascript_data_output" id="b42">
+                            <value name="TEXT">
+                              <shadow type="text" id="s37">
+                                <field name="TEXT"></field>
+                              </shadow>
+                              <block type="lists_getIndex" id="b41">
+                                <mutation statement="false" at="true"></mutation>
+                                <field name="MODE">GET</field>
+                                <field name="WHERE">FROM_START</field>
+                                <value name="VALUE">
+                                  <block type="variables_get" id="b38">
+                                    <field name="VAR" id="v_走法數">走法數</field>
+                                  </block>
+                                </value>
+                                <value name="AT">
+                                  <shadow type="math_number" id="s39">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                  <block type="variables_get" id="b40">
+                                    <field name="VAR" id="v_階數">階數</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

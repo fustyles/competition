@@ -1,0 +1,123 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_N">N</variable>
+    <variable id="v_因數個數">因數個數</variable>
+    <variable id="v_除數">除數</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_N">N</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="variables_set_local" id="b6">
+            <field name="VAR" id="v_因數個數">因數個數</field>
+            <value name="VALUE">
+              <block type="math_number" id="b5">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_for" id="b24">
+                <field name="VAR" id="v_除數">除數</field>
+                <value name="FROM">
+                  <shadow type="math_number" id="s7">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <value name="TO">
+                  <shadow type="math_number" id="s8">
+                    <field name="NUM">10</field>
+                  </shadow>
+                  <block type="variables_get" id="b9">
+                    <field name="VAR" id="v_N">N</field>
+                  </block>
+                </value>
+                <value name="BY">
+                  <shadow type="math_number" id="s10">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+                <statement name="DO">
+                  <block type="controls_if" id="b23">
+                    <value name="IF0">
+                      <block type="logic_compare" id="b17">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="math_modulo" id="b15">
+                            <value name="DIVIDEND">
+                              <shadow type="math_number" id="s11">
+                                <field name="NUM">64</field>
+                              </shadow>
+                              <block type="variables_get" id="b12">
+                                <field name="VAR" id="v_N">N</field>
+                              </block>
+                            </value>
+                            <value name="DIVISOR">
+                              <shadow type="math_number" id="s13">
+                                <field name="NUM">10</field>
+                              </shadow>
+                              <block type="variables_get" id="b14">
+                                <field name="VAR" id="v_除數">除數</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="b16">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="javascript_data_output" id="b20">
+                        <value name="TEXT">
+                          <shadow type="text" id="s18">
+                            <field name="TEXT"></field>
+                          </shadow>
+                          <block type="variables_get" id="b19">
+                            <field name="VAR" id="v_除數">除數</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="math_change" id="b22">
+                            <field name="VAR" id="v_因數個數">因數個數</field>
+                            <value name="DELTA">
+                              <shadow type="math_number" id="s21">
+                                <field name="NUM">1</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+                <next>
+                  <block type="javascript_data_output" id="b27">
+                    <value name="TEXT">
+                      <shadow type="text" id="s25">
+                        <field name="TEXT"></field>
+                      </shadow>
+                      <block type="variables_get" id="b26">
+                        <field name="VAR" id="v_因數個數">因數個數</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

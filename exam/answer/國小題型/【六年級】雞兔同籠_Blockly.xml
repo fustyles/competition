@@ -1,0 +1,179 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="blockly">
+  <variables>
+    <variable id="v_頭數">頭數</variable>
+    <variable id="v_腳數">腳數</variable>
+    <variable id="v_雞">雞</variable>
+    <variable id="v_兔">兔</variable>
+  </variables>
+  <block type="javascript_data_input_scratch" id="b2" x="30" y="30">
+    <value name="TEXT">
+      <shadow type="text_noquotes" id="s1">
+        <field name="TEXT"></field>
+      </shadow>
+    </value>
+    <next>
+      <block type="variables_set_local" id="b4">
+        <field name="VAR" id="v_頭數">頭數</field>
+        <value name="VALUE">
+          <block type="javascript_data_input_get_scratch" id="b3"></block>
+        </value>
+        <next>
+          <block type="javascript_data_input_scratch" id="b6">
+            <value name="TEXT">
+              <shadow type="text_noquotes" id="s5">
+                <field name="TEXT"></field>
+              </shadow>
+            </value>
+            <next>
+              <block type="variables_set_local" id="b8">
+                <field name="VAR" id="v_腳數">腳數</field>
+                <value name="VALUE">
+                  <block type="javascript_data_input_get_scratch" id="b7"></block>
+                </value>
+                <next>
+                  <block type="controls_for" id="b40">
+                    <field name="VAR" id="v_雞">雞</field>
+                    <value name="FROM">
+                      <shadow type="math_number" id="s9">
+                        <field name="NUM">0</field>
+                      </shadow>
+                    </value>
+                    <value name="TO">
+                      <shadow type="math_number" id="s10">
+                        <field name="NUM">10</field>
+                      </shadow>
+                      <block type="variables_get" id="b11">
+                        <field name="VAR" id="v_頭數">頭數</field>
+                      </block>
+                    </value>
+                    <value name="BY">
+                      <shadow type="math_number" id="s12">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                    <statement name="DO">
+                      <block type="variables_set_local" id="b18">
+                        <field name="VAR" id="v_兔">兔</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic" id="b17">
+                            <field name="OP">MINUS</field>
+                            <value name="A">
+                              <shadow type="math_number" id="s13">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="variables_get" id="b14">
+                                <field name="VAR" id="v_頭數">頭數</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <shadow type="math_number" id="s15">
+                                <field name="NUM">0</field>
+                              </shadow>
+                              <block type="variables_get" id="b16">
+                                <field name="VAR" id="v_雞">雞</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="controls_if" id="b39">
+                            <value name="IF0">
+                              <block type="logic_compare" id="b31">
+                                <field name="OP">EQ</field>
+                                <value name="A">
+                                  <block type="math_arithmetic" id="b29">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <shadow type="math_number" id="s19">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b23">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s20">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b21">
+                                            <field name="VAR" id="v_雞">雞</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s22">
+                                            <field name="NUM">2</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="math_number" id="s24">
+                                        <field name="NUM">0</field>
+                                      </shadow>
+                                      <block type="math_arithmetic" id="b28">
+                                        <field name="OP">MULTIPLY</field>
+                                        <value name="A">
+                                          <shadow type="math_number" id="s25">
+                                            <field name="NUM">0</field>
+                                          </shadow>
+                                          <block type="variables_get" id="b26">
+                                            <field name="VAR" id="v_兔">兔</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="math_number" id="s27">
+                                            <field name="NUM">4</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <block type="variables_get" id="b30">
+                                    <field name="VAR" id="v_腳數">腳數</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="javascript_data_output" id="b34">
+                                <value name="TEXT">
+                                  <shadow type="text" id="s32">
+                                    <field name="TEXT"></field>
+                                  </shadow>
+                                  <block type="variables_get" id="b33">
+                                    <field name="VAR" id="v_雞">雞</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="javascript_data_output" id="b37">
+                                    <value name="TEXT">
+                                      <shadow type="text" id="s35">
+                                        <field name="TEXT"></field>
+                                      </shadow>
+                                      <block type="variables_get" id="b36">
+                                        <field name="VAR" id="v_兔">兔</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="controls_flow_statements" id="b38">
+                                        <field name="FLOW">BREAK</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

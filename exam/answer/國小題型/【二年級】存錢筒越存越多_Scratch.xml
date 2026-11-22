@@ -1,0 +1,144 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_第一天存的錢">第一天存的錢</variable>
+    <variable type="other" id="v_每天多存">每天多存</variable>
+    <variable type="other" id="v_天數">天數</variable>
+    <variable type="other" id="v_總金額">總金額</variable>
+    <variable type="other" id="v_今天存的錢">今天存的錢</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b33" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_第一天存的錢" variabletype="other">第一天存的錢</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_每天多存" variabletype="other">每天多存</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch" id="b12">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b14"></block>
+                            </value>
+                            <next>
+                              <block type="variables_set_other" id="b17">
+                                <field name="VAR" id="v_總金額" variabletype="other">總金額</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s16">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other" id="b20">
+                                    <field name="VAR" id="v_今天存的錢" variabletype="other">今天存的錢</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s18">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b19">
+                                        <field name="VAR" id="v_第一天存的錢" variabletype="other">第一天存的錢</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="controls_repeat_ext_scratch" id="b29">
+                                        <value name="TIMES">
+                                          <shadow type="math_number" id="s21">
+                                            <field name="NUM">10</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b22">
+                                            <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="math_change_other" id="b25">
+                                            <field name="VAR" id="v_總金額" variabletype="other">總金額</field>
+                                            <value name="DELTA">
+                                              <shadow type="math_number" id="s23">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b24">
+                                                <field name="VAR" id="v_今天存的錢" variabletype="other">今天存的錢</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="math_change_other" id="b28">
+                                                <field name="VAR" id="v_今天存的錢" variabletype="other">今天存的錢</field>
+                                                <value name="DELTA">
+                                                  <shadow type="math_number" id="s26">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                  <block type="variables_get_other" id="b27">
+                                                    <field name="VAR" id="v_每天多存" variabletype="other">每天多存</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="javascript_data_output_scratch" id="b32">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s30">
+                                                <field name="TEXT"></field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b31">
+                                                <field name="VAR" id="v_總金額" variabletype="other">總金額</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

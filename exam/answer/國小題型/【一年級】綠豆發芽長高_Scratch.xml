@@ -1,0 +1,155 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_第一天高度">第一天高度</variable>
+    <variable type="other" id="v_每天長高">每天長高</variable>
+    <variable type="other" id="v_目標高度">目標高度</variable>
+    <variable type="other" id="v_天數">天數</variable>
+    <variable type="other" id="v_高度">高度</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b35" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_第一天高度" variabletype="other">第一天高度</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_每天長高" variabletype="other">每天長高</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch" id="b12">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_目標高度" variabletype="other">目標高度</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b14"></block>
+                            </value>
+                            <next>
+                              <block type="variables_set_other" id="b17">
+                                <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s16">
+                                    <field name="TEXT">1</field>
+                                  </shadow>
+                                </value>
+                                <next>
+                                  <block type="variables_set_other" id="b20">
+                                    <field name="VAR" id="v_高度" variabletype="other">高度</field>
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s18">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b19">
+                                        <field name="VAR" id="v_第一天高度" variabletype="other">第一天高度</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="controls_whileUntil_scratch" id="b31">
+                                        <field name="MODE">WHILE</field>
+                                        <value name="BOOL">
+                                          <block type="logic_compare" id="b25">
+                                            <field name="OP">LT</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s21">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b22">
+                                                <field name="VAR" id="v_高度" variabletype="other">高度</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s23">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b24">
+                                                <field name="VAR" id="v_目標高度" variabletype="other">目標高度</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO">
+                                          <block type="math_change_other" id="b28">
+                                            <field name="VAR" id="v_高度" variabletype="other">高度</field>
+                                            <value name="DELTA">
+                                              <shadow type="math_number" id="s26">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b27">
+                                                <field name="VAR" id="v_每天長高" variabletype="other">每天長高</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="math_change_other" id="b30">
+                                                <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                                                <value name="DELTA">
+                                                  <shadow type="math_number" id="s29">
+                                                    <field name="NUM">1</field>
+                                                  </shadow>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </statement>
+                                        <next>
+                                          <block type="javascript_data_output_scratch" id="b34">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s32">
+                                                <field name="TEXT"></field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b33">
+                                                <field name="VAR" id="v_天數" variabletype="other">天數</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

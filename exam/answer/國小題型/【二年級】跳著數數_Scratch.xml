@@ -1,0 +1,134 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_起點">起點</variable>
+    <variable type="other" id="v_每次跳">每次跳</variable>
+    <variable type="other" id="v_上限">上限</variable>
+    <variable type="other" id="v_目前的數">目前的數</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b31" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_起點" variabletype="other">起點</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="javascript_data_input_scratch" id="b7">
+                <value name="TEXT">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_每次跳" variabletype="other">每次跳</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s8">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                      <block type="javascript_data_input_get_scratch" id="b9"></block>
+                    </value>
+                    <next>
+                      <block type="javascript_data_input_scratch" id="b12">
+                        <value name="TEXT">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT"></field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="variables_set_other" id="b15">
+                            <field name="VAR" id="v_上限" variabletype="other">上限</field>
+                            <value name="VALUE">
+                              <shadow type="text_noquotes" id="s13">
+                                <field name="TEXT">0</field>
+                              </shadow>
+                              <block type="javascript_data_input_get_scratch" id="b14"></block>
+                            </value>
+                            <next>
+                              <block type="variables_set_other" id="b18">
+                                <field name="VAR" id="v_目前的數" variabletype="other">目前的數</field>
+                                <value name="VALUE">
+                                  <shadow type="text_noquotes" id="s16">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other" id="b17">
+                                    <field name="VAR" id="v_起點" variabletype="other">起點</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_whileUntil_scratch" id="b30">
+                                    <field name="MODE">WHILE</field>
+                                    <value name="BOOL">
+                                      <block type="logic_compare" id="b23">
+                                        <field name="OP">LTE</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s19">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b20">
+                                            <field name="VAR" id="v_目前的數" variabletype="other">目前的數</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s21">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b22">
+                                            <field name="VAR" id="v_上限" variabletype="other">上限</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO">
+                                      <block type="javascript_data_output_scratch" id="b26">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes" id="s24">
+                                            <field name="TEXT"></field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b25">
+                                            <field name="VAR" id="v_目前的數" variabletype="other">目前的數</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="math_change_other" id="b29">
+                                            <field name="VAR" id="v_目前的數" variabletype="other">目前的數</field>
+                                            <value name="DELTA">
+                                              <shadow type="math_number" id="s27">
+                                                <field name="NUM">1</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b28">
+                                                <field name="VAR" id="v_每次跳" variabletype="other">每次跳</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

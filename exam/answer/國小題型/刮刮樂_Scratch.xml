@@ -1,0 +1,254 @@
+<xml xmlns="https://developers.google.com/blockly/xml" platform="scratch">
+  <variables>
+    <variable type="other" id="v_號碼">號碼</variable>
+    <variable type="other" id="v_六的個數">六的個數</variable>
+    <variable type="other" id="v_位置">位置</variable>
+  </variables>
+  <block type="javascript_start_scratch" id="b57" x="30" y="30">
+    <next>
+      <block type="javascript_data_input_scratch" id="b2">
+        <value name="TEXT">
+          <shadow type="text_noquotes" id="s1">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+        <next>
+          <block type="variables_set_other" id="b5">
+            <field name="VAR" id="v_號碼" variabletype="other">號碼</field>
+            <value name="VALUE">
+              <shadow type="text_noquotes" id="s3">
+                <field name="TEXT">0</field>
+              </shadow>
+              <block type="javascript_data_input_get_scratch" id="b4"></block>
+            </value>
+            <next>
+              <block type="variables_set_other" id="b8">
+                <field name="VAR" id="v_號碼" variabletype="other">號碼</field>
+                <value name="VALUE">
+                  <shadow type="text_noquotes" id="s6">
+                    <field name="TEXT">0</field>
+                  </shadow>
+                  <block type="variables_get_other" id="b7">
+                    <field name="VAR" id="v_號碼" variabletype="other">號碼</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set_other" id="b10">
+                    <field name="VAR" id="v_六的個數" variabletype="other">六的個數</field>
+                    <value name="VALUE">
+                      <shadow type="text_noquotes" id="s9">
+                        <field name="TEXT">0</field>
+                      </shadow>
+                    </value>
+                    <next>
+                      <block type="variables_set_other" id="b12">
+                        <field name="VAR" id="v_位置" variabletype="other">位置</field>
+                        <value name="VALUE">
+                          <shadow type="text_noquotes" id="s11">
+                            <field name="TEXT">1</field>
+                          </shadow>
+                        </value>
+                        <next>
+                          <block type="controls_whileUntil_scratch" id="b33">
+                            <field name="MODE">UNTIL</field>
+                            <value name="BOOL">
+                              <block type="logic_compare" id="b19">
+                                <field name="OP">GT</field>
+                                <value name="A">
+                                  <shadow type="text_noquotes" id="s13">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="variables_get_other" id="b14">
+                                    <field name="VAR" id="v_位置" variabletype="other">位置</field>
+                                  </block>
+                                </value>
+                                <value name="B">
+                                  <shadow type="text_noquotes" id="s15">
+                                    <field name="TEXT">0</field>
+                                  </shadow>
+                                  <block type="text_length_scratch" id="b18">
+                                    <value name="VALUE">
+                                      <shadow type="text_noquotes" id="s16">
+                                        <field name="TEXT">abc</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b17">
+                                        <field name="VAR" id="v_號碼" variabletype="other">號碼</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <statement name="DO">
+                              <block type="controls_if_1_scratch" id="b30">
+                                <value name="condition">
+                                  <block type="logic_compare" id="b27">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes" id="s20">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="text_charAt_scratch" id="b25">
+                                        <value name="VALUE">
+                                          <shadow type="text_noquotes" id="s21">
+                                            <field name="TEXT">abc</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b22">
+                                            <field name="VAR" id="v_號碼" variabletype="other">號碼</field>
+                                          </block>
+                                        </value>
+                                        <value name="WHERE">
+                                          <shadow type="math_number" id="s23">
+                                            <field name="NUM">1</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b24">
+                                            <field name="VAR" id="v_位置" variabletype="other">位置</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes" id="s26">
+                                        <field name="TEXT">6</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="math_change_other" id="b29">
+                                    <field name="VAR" id="v_六的個數" variabletype="other">六的個數</field>
+                                    <value name="DELTA">
+                                      <shadow type="math_number" id="s28">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <next>
+                                  <block type="math_change_other" id="b32">
+                                    <field name="VAR" id="v_位置" variabletype="other">位置</field>
+                                    <value name="DELTA">
+                                      <shadow type="math_number" id="s31">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="controls_if_2_scratch" id="b56">
+                                <value name="condition">
+                                  <block type="logic_compare" id="b37">
+                                    <field name="OP">EQ</field>
+                                    <value name="A">
+                                      <shadow type="text_noquotes" id="s34">
+                                        <field name="TEXT">0</field>
+                                      </shadow>
+                                      <block type="variables_get_other" id="b35">
+                                        <field name="VAR" id="v_六的個數" variabletype="other">六的個數</field>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <shadow type="text_noquotes" id="s36">
+                                        <field name="TEXT">3</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </value>
+                                <statement name="statement_if">
+                                  <block type="javascript_data_output_scratch" id="b39">
+                                    <value name="TEXT">
+                                      <shadow type="text_noquotes" id="s38">
+                                        <field name="TEXT">500</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </statement>
+                                <statement name="statement_else">
+                                  <block type="controls_if_2_scratch" id="b55">
+                                    <value name="condition">
+                                      <block type="logic_compare" id="b43">
+                                        <field name="OP">EQ</field>
+                                        <value name="A">
+                                          <shadow type="text_noquotes" id="s40">
+                                            <field name="TEXT">0</field>
+                                          </shadow>
+                                          <block type="variables_get_other" id="b41">
+                                            <field name="VAR" id="v_六的個數" variabletype="other">六的個數</field>
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <shadow type="text_noquotes" id="s42">
+                                            <field name="TEXT">2</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="statement_if">
+                                      <block type="javascript_data_output_scratch" id="b45">
+                                        <value name="TEXT">
+                                          <shadow type="text_noquotes" id="s44">
+                                            <field name="TEXT">200</field>
+                                          </shadow>
+                                        </value>
+                                      </block>
+                                    </statement>
+                                    <statement name="statement_else">
+                                      <block type="controls_if_2_scratch" id="b54">
+                                        <value name="condition">
+                                          <block type="logic_compare" id="b49">
+                                            <field name="OP">EQ</field>
+                                            <value name="A">
+                                              <shadow type="text_noquotes" id="s46">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                              <block type="variables_get_other" id="b47">
+                                                <field name="VAR" id="v_六的個數" variabletype="other">六的個數</field>
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <shadow type="text_noquotes" id="s48">
+                                                <field name="TEXT">1</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="statement_if">
+                                          <block type="javascript_data_output_scratch" id="b51">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s50">
+                                                <field name="TEXT">100</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                        <statement name="statement_else">
+                                          <block type="javascript_data_output_scratch" id="b53">
+                                            <value name="TEXT">
+                                              <shadow type="text_noquotes" id="s52">
+                                                <field name="TEXT">0</field>
+                                              </shadow>
+                                            </value>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
