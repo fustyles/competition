@@ -27,7 +27,7 @@ Copyright 2026 Taiwan (ChungYi Fu)
 	<script src="js/blocks_compressed.js"></script>
 	<script src="js/javascript_compressed.js"></script>
 	<script src="js/custom.js"></script>	
-	<script src="js/index.js?v=20261120"></script>
+	<script src="js/index.js?v=20261123c"></script>
 	<script src="js/message.js"></script>
 	<script src="plugin/ScreenShot/screenshot.js"></script>
 	<script src="js/jquery.min.js"></script>
@@ -192,6 +192,30 @@ Copyright 2026 Taiwan (ChungYi Fu)
 		#javascript_content #iframe_output.qtab-active,
 		#javascript_content #grade_panel.qtab-active { display: block !important; }
 		#javascript_content #question_splitter { display: none !important; }
+
+		/* ---------- 訊息視窗：嵌在「執行結果」下方 ---------- */
+		/* 有訊息視窗時，執行結果：訊息視窗 = 2：1（要改比例只需改這兩個數字） */
+		#javascript_content { --result-ratio: 2; --console-ratio: 1; }
+		#javascript_content.has-console #iframe_output {
+			height: calc((100% - 40px) * var(--result-ratio) / (var(--result-ratio) + var(--console-ratio))) !important;
+		}
+		#javascript_content #consoleLog {
+			display: none;
+			position: static;
+			width: 100% !important;
+			height: calc((100% - 40px) * var(--console-ratio) / (var(--result-ratio) + var(--console-ratio)));
+			box-sizing: border-box;
+			border-radius: 0;
+			border: 1px solid #ddd;
+			border-top: none;
+			box-shadow: none;
+			font-size: 14px;
+		}
+		#javascript_content.has-console #iframe_output.qtab-active ~ #consoleLog { display: flex; }
+		#javascript_content #console_header { cursor: default; height: 26px; }
+		/* 訊息視窗文字：訊息（輸出至訊息視窗積木）為橙色；輸入、輸出由 index.js 另外包成黑色 */
+		#javascript_content #console_output { color: #E67E00; }
+		#javascript_content #console_output .console-io { color: #000; }
 
 		/* ---------- 正式評分頁籤 ---------- */
 		#grade_panel {
@@ -390,6 +414,18 @@ Copyright 2026 Taiwan (ChungYi Fu)
 			<div id="question_input" class="qtab-active" style="border: 1px solid #ddd;width:100%;height:95%;overflow: auto;padding:0px; overflow-y:auto; overflow-x:hidden;"></div>
             <div id="question_splitter" title="上下拖曳調整大小（雙擊還原）"></div>
             <iframe id="iframe_output" style="border: 1px solid #ddd;width:100%; height:5%; background-color:white; padding:0px; overflow-y:auto; overflow-x:hidden;" frameborder="0" src="" onload="this.contentWindow.document.body.style.wordWrap='break-word'; this.contentWindow.document.body.style.overflowX='hidden';"></iframe>
+            <!-- 訊息視窗：放在執行結果下方（執行結果：訊息視窗 = 2：1），只在「執行結果」頁籤顯示 -->
+            <div id="consoleLog">
+                <div id="console_header">
+                    <span id="console_title">訊息視窗</span>
+                    <a id="consoleCancelButton" title="Hide">
+                        <i class="material-icons">close</i>
+                    </a>
+                </div>
+                <div id="console_content">
+                    <div id="console_output"></div>
+                </div>
+            </div>
             <div id="grade_panel"></div>
 		</div>       
 	</div>
@@ -432,17 +468,6 @@ Copyright 2026 Taiwan (ChungYi Fu)
         </div>
     </div>	
     
-    <div id="consoleLog">
-        <div id="console_header">
-            <span id="console_title">訊息視窗</span>
-            <a id="consoleCancelButton" title="Hide">
-                <i class="material-icons">close</i>
-            </a>
-        </div>
-        <div id="console_content">
-            <div id="console_output"></div>
-        </div>
-    </div>       
 </div>
 </main>
 

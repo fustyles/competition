@@ -959,22 +959,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		window.location.href = "../";
     }); 
     
+	// 訊息視窗嵌在「執行結果」下方：以 #javascript_content 的 has-console 類別控制顯示（高度比例見 index.html 的 CSS）
 	function toggleConsoleForm(show) {
-		const formDiv = document.getElementById('consoleLog');
+		const content = document.getElementById('javascript_content');
+		if (!content) return;
+		content.classList.toggle('has-console', !!show);
 		if (show) {
-			formDiv.style.display = 'flex'; 
-
-            var metrics = Blockly.getMainWorkspace().getMetrics();
-            formDiv.style.left = (metrics.toolboxWidth + 100) + 'px';
-            formDiv.style.top = (metrics.viewHeight - 280) + 'px';
-            formDiv.style.width = '200px';
-            formDiv.style.height = '300px';
-            
-            var div = document.getElementById('console_output');
-            div.innerHTML = '';
-
-		} else {
-			formDiv.style.display = 'none';
+			var div = document.getElementById('console_output');
+			if (div) div.innerHTML = '';
 		}
 	}
 	window.toggleConsoleForm = toggleConsoleForm;
@@ -983,49 +975,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleConsoleForm(false);
     });	
     
-    var box = document.getElementById('consoleLog');
-    var header = document.getElementById('console_header');
-    var offsetX = 0, offsetY = 0, dragging = false;
-
-    header.addEventListener('pointerdown', function (e) {
-        // 點到 × 按鈕時不拖曳
-        if (e.target.closest('#consoleCancelButton')) return;
-
-        var rect = box.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        // 從 right/bottom 定位改成 left/top，方便移動
-        box.style.left = rect.left + 'px';
-        box.style.top = rect.top + 'px';
-        box.style.right = 'auto';
-        box.style.bottom = 'auto';
-
-        dragging = true;
-        header.setPointerCapture(e.pointerId);   // 滑鼠經過 iframe 時也不會中斷
-        e.preventDefault();
-    });
-
-    header.addEventListener('pointermove', function (e) {
-        if (!dragging) return;
-
-        // 限制在可視範圍內
-        var maxX = window.innerWidth - box.offsetWidth;
-        var maxY = window.innerHeight - box.offsetHeight;
-        var x = Math.min(Math.max(0, e.clientX - offsetX), maxX);
-        var y = Math.min(Math.max(0, e.clientY - offsetY), maxY);
-
-        box.style.left = x + 'px';
-        box.style.top = y + 'px';
-    });
-
-    function stopDrag(e) {
-        if (!dragging) return;
-        dragging = false;
-        header.releasePointerCapture(e.pointerId);
-    }
-    header.addEventListener('pointerup', stopDrag);
-    header.addEventListener('pointercancel', stopDrag);        
+    // 訊息視窗已固定在執行結果下方，不再拖曳移動
 
 	function promptAndAddParam(type) {
 		var message = hasDuplicateNull(createFunctionVariable[1]);
@@ -1702,6 +1652,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 也會立即回報錯誤，不必等到 20 秒逾時
 	var IFRAME_ERROR_TRAP = "<script>window.onerror=function(m,s,l,c,e){try{var f=window.frameElement;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(m));f.title='err';}}catch(x){}};window.addEventListener('unhandledrejection',function(ev){try{var f=window.frameElement,e=ev.reason;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(e));f.title='err';}}catch(x){}});<\/script>";
 
+	function escHtml(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+	// 把執行結果的內容附加到訊息視窗（只在訊息視窗開啟時），每筆一行；
+	// 輸入、輸出包在 .console-io 中以黑色顯示（訊息為橙色）；raw 為 true 時不加包裝（例如紅色的停止原因）
+	function consoleMirror(html, raw) {
+		var content = document.getElementById('javascript_content');
+		var div = document.getElementById('console_output');
+		if (!div || !content || !content.classList.contains('has-console')) return;
+		html = String(html == null ? '' : html).replace(/(<br\s*\/?>\s*)+$/i, '').replace(/^(\s*<br\s*\/?>)+/i, '');
+		if (html === '') return;
+		div.innerHTML += (div.innerHTML ? '<br>' : '') + (raw ? html : '<span class="console-io">' + html + '</span>');
+		div.scrollTop = div.scrollHeight;
+	}
+	window.__consoleMirror = consoleMirror;
+
 	// 執行（手動輸入）：輸出顯示在「執行結果」頁籤；執行中顯示倒數動畫，逾時或出錯時停止並提示原因
 	function runCode() {
 	  if (RunWatch.isActive()) return;
@@ -1710,9 +1675,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	  // 包裝 prompt：考生輸入資料期間通知外層暫停計時
 	  var promptHook = "(function(){var p=window.prompt;window.prompt=function(m,d){try{parent.__runPause(true);}catch(e){}try{return p.call(window,m,d);}finally{try{parent.__runPause(false);}catch(e){}}};})();";
 
+	  // 輸入、輸出積木寫入執行結果時，同步複製一份到訊息視窗，讓輸入、輸出與訊息依時間順序排列
+	  var mirrorHook = "(function(){var b=document.body,o=b.insertAdjacentHTML;b.insertAdjacentHTML=function(pos,html){o.call(b,pos,html);try{parent.__consoleMirror(html);}catch(e){}};})();";
+
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-	  iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+promptHook+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.setAttribute('data-error',(e&&e.message)?e.message:String(e));window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+	  iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+promptHook+mirrorHook+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.setAttribute('data-error',(e&&e.message)?e.message:String(e));window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 	  var container = document.getElementById('iframeContainer');
 	  if (container) container.remove();
@@ -1734,22 +1702,23 @@ document.addEventListener('DOMContentLoaded', function() {
 	  var formatOutput = function (text) {
 		return text.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 	  };
-	  var end = function (html) {
+	  var end = function (html, note) {
 		if (finished) return;
 		finished = true;
 		RunWatch.finish();
 		container.remove();               // 清除執行中的 iframe
 		iframeWrite("iframe_output", html);
+		if (note) consoleMirror('<span style="color:#B91C1C;font-weight:bold;">' + note + '</span>', true);
 		showQuestionTab('output');
 	  };
 
 	  // 逾時：強制停止並提示
 	  RunWatch.start(msgText('RUN_WATCH_RUNNING', '程式執行中'), function () {
 		var out = bodyText();
-		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('timeout'));
+		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('timeout'), escHtml(msgText('RUN_MSG_TIMEOUT', '⏱ 執行超過 %1 秒，已強制停止', Math.round(RUN_TIMEOUT_MS / 1000))));
 	  }, function () {
 		var out = bodyText();
-		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('stopped'));
+		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('stopped'), escHtml(msgText('RUN_MSG_STOPPED', '⏹ 已手動停止執行')));
 	  });
 
 	  var checkFinish = function () {
@@ -1762,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		  var err = iframe.getAttribute('data-error') || '';
 		  if (err === '__RUN_TIMEOUT__') { RunWatch.timeout(); return; }   // 迴圈中的時間檢查已逾時
 		  var out = body.innerText;
-		  end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('error', err));
+		  end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('error', err), escHtml(msgText('RUN_MSG_ERROR', '❌ 程式執行發生錯誤，已停止') + (err ? '：' + err : '')));
 		} else {
 		  setTimeout(checkFinish, 100);
 		}
@@ -1778,7 +1747,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		iframeWrite(iframe.id, iframe_code);
 	  } catch (e) {
 		console.log(e);
-		end(runMessageHtml('error', e && e.message));
+		end(runMessageHtml('error', e && e.message), escHtml(msgText('RUN_MSG_ERROR', '❌ 程式執行發生錯誤，已停止')));
 	  }
 	  setTimeout(checkFinish, 100);   // onload 未觸發時也會檢查
 	}
@@ -2590,9 +2559,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (RunWatch.isActive()) return;   // 執行或評分中
         document.getElementById('javascript_content').style.display = "block";
 
+        // 先切換到「執行結果」頁籤，缺少開始積木時才看得到提示訊息
+        showQuestionTab('output');
+
         if (scratchStyle) {
             const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
             if (topBlocks.length!=1) {
+                toggleConsoleForm(false);
                 iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
                 //alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
                 if (topBlocks.length==0) {
@@ -2835,6 +2808,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 例如 ../exam/answer/113全國賽/飲食兌換券_Blockly.xml|exam/answer/113全國賽/飲食兌換券_Blockly.xml
 	function showAnswer(path) {
 		if (!path) return;
+		console.log(path);
 		var paths = String(path).split("|").filter(function (p) { return p; });
 		if (paths.length == 0) return;
 
