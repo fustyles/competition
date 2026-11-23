@@ -973,7 +973,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('consoleCancelButton').addEventListener('click', () => {
         toggleConsoleForm(false);
-    });	
+    });
+
+    // 訊息視窗：切換是否顯示輸入、輸出資料（隱藏時只留「輸出至訊息視窗」積木的訊息內容）
+    // 只切換 CSS 類別，資料仍保留，可隨時切回顯示；設定在換題、重新執行時維持不變
+    (function () {
+        var btn = document.getElementById('consoleIoToggle');
+        if (!btn) return;
+        // 依目前狀態與語系（?lang=en / zh-hans / zh-hant）更新按鈕圖示、文字與提示
+        function refresh() {
+            var div = document.getElementById('console_output');
+            var hide = !!(div && div.classList.contains('hide-io'));
+            btn.classList.toggle('off', hide);
+            btn.setAttribute('aria-pressed', hide ? 'false' : 'true');
+            btn.title = msgText('CONSOLE_IO_TOGGLE_TIP', '點選切換：顯示／隱藏輸入、輸出資料');
+            btn.querySelector('.material-icons').textContent = hide ? 'visibility_off' : 'visibility';
+            document.getElementById('consoleIoToggleText').textContent = hide
+                ? msgText('CONSOLE_IO_HIDDEN', '輸入/輸出：隱藏')
+                : msgText('CONSOLE_IO_SHOWN', '輸入/輸出：顯示');
+        }
+        btn.addEventListener('click', function () {
+            var div = document.getElementById('console_output');
+            if (!div) return;
+            div.classList.toggle('hide-io');
+            refresh();
+        });
+        window.updateConsoleIoToggle = refresh;
+        refresh();
+    })();	
     
     // 訊息視窗已固定在執行結果下方，不再拖曳移動
 
@@ -1287,6 +1314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		hookToolboxToggle();
 		restoreQuestionFromStorage();    // 載入上次的題目內容（需在 updateMsg 之後，才不會被預設文字蓋掉）
 		document.getElementById('button_test').title = msgText('QTAB_GRADE', '正式評分');
+		if (window.updateConsoleIoToggle) window.updateConsoleIoToggle();   // 訊息視窗「輸入/輸出」按鈕套用目前語系
 		appReady = true;
 		appReadyCallbacks.splice(0).forEach(function (cb) { try { cb(); } catch (e) { console.error(e); } });
 	}, 1000);
@@ -1655,14 +1683,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	function escHtml(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 	// 把執行結果的內容附加到訊息視窗（只在訊息視窗開啟時），每筆一行；
-	// 輸入、輸出包在 .console-io 中以黑色顯示（訊息為橙色）；raw 為 true 時不加包裝（例如紅色的停止原因）
+	// 輸入、輸出包在 .console-io 區塊中以黑色顯示（訊息為橙色），可用「輸入/輸出」按鈕隱藏；
+	// raw 為 true 時包在 .console-note（例如紅色的停止原因），隱藏輸入輸出時仍會顯示
 	function consoleMirror(html, raw) {
 		var content = document.getElementById('javascript_content');
 		var div = document.getElementById('console_output');
 		if (!div || !content || !content.classList.contains('has-console')) return;
 		html = String(html == null ? '' : html).replace(/(<br\s*\/?>\s*)+$/i, '').replace(/^(\s*<br\s*\/?>)+/i, '');
 		if (html === '') return;
-		div.innerHTML += (div.innerHTML ? '<br>' : '') + (raw ? html : '<span class="console-io">' + html + '</span>');
+		div.insertAdjacentHTML('beforeend', '<div class="' + (raw ? 'console-note' : 'console-io') + '">' + html + '</div>');
 		div.scrollTop = div.scrollHeight;
 	}
 	window.__consoleMirror = consoleMirror;
