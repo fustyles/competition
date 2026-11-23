@@ -1349,6 +1349,23 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('consoleCancelButton').addEventListener('click', () => {
         toggleConsoleForm(false);
     });	
+
+    // 訊息視窗：切換是否顯示輸入、輸出資料（隱藏時只留「輸出至訊息視窗」積木的訊息內容）
+    // 只切換 CSS 類別，資料仍保留，可隨時切回顯示；設定在換題、重新執行時維持不變
+    (function () {
+        var btn = document.getElementById('consoleIoToggle');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+            var div = document.getElementById('console_output');
+            if (!div) return;
+            var hide = !div.classList.contains('hide-io');
+            div.classList.toggle('hide-io', hide);
+            btn.classList.toggle('off', hide);
+            btn.setAttribute('aria-pressed', hide ? 'false' : 'true');
+            btn.querySelector('.material-icons').textContent = hide ? 'visibility_off' : 'visibility';
+            document.getElementById('consoleIoToggleText').textContent = hide ? '輸入/輸出：隱藏' : '輸入/輸出：顯示';
+        });
+    })();
     
     // 訊息視窗已固定在執行結果下方，不再拖曳移動
 
@@ -2032,14 +2049,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 也會立即回報錯誤，不必等到 20 秒逾時
 	var IFRAME_ERROR_TRAP = "<script>window.onerror=function(m,s,l,c,e){try{var f=window.frameElement;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(m));f.title='err';}}catch(x){}};window.addEventListener('unhandledrejection',function(ev){try{var f=window.frameElement,e=ev.reason;if(f&&!f.title){f.setAttribute('data-error',(e&&e.message)?e.message:String(e));f.title='err';}}catch(x){}});<\/script>";
 
-	// 把執行結果的內容附加到訊息視窗（只在訊息視窗開啟時），每筆一行；包在 .console-io 中以黑色顯示（訊息為橙色）
+	// 把執行結果的內容附加到訊息視窗（只在訊息視窗開啟時），每筆一行；包在 .console-io 區塊中以黑色顯示（訊息為橙色），可用「輸入/輸出」按鈕隱藏
 	function consoleMirror(html) {
 		var content = document.getElementById('javascript_content');
 		var div = document.getElementById('console_output');
 		if (!div || !content || !content.classList.contains('has-console')) return;
 		html = String(html == null ? '' : html).replace(/(<br\s*\/?>\s*)+$/i, '').replace(/^(\s*<br\s*\/?>)+/i, '');
 		if (html === '') return;
-		div.innerHTML += (div.innerHTML ? '<br>' : '') + '<span class="console-io">' + html + '</span>';
+		div.insertAdjacentHTML('beforeend', '<div class="console-io">' + html + '</div>');
 		div.scrollTop = div.scrollHeight;
 	}
 	window.__consoleMirror = consoleMirror;

@@ -61,7 +61,7 @@ Blockly.JavaScript['javascript_console_scratch'] = function(block) {
 	'  var div = parentDoc.getElementById("console_output");\n'+
 	'  if (!div) return;\n'+
 	'  if (div.style.display!="none")\n'+
-	'    div.innerHTML += (div.innerHTML?"<br>":"") + text;\n'+
+	'    div.insertAdjacentHTML("beforeend", "<div class=\\"console-msg\\">" + text + "</div>");\n'+
 	'}';
     
 	var TEXT = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC)|| "''";	
