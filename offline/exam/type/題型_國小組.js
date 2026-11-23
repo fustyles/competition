@@ -135,7 +135,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`生日派對禮物分配`, `國小基礎應用`)}</span>
+${answerButtons(`生日派對禮物分配`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -175,7 +175,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【一年級】撲滿裡的錢`, `國小基礎練習`)}</span>
+${answerButtons(`【一年級】撲滿裡的錢`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -214,7 +214,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【六年級】地圖比例尺`, `國小基礎練習`)}</span>
+${answerButtons(`【六年級】地圖比例尺`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -253,7 +253,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【一年級】單數和雙數`, `國小基礎練習`)}</span>
+${answerButtons(`【一年級】單數和雙數`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -292,7 +292,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【三年級】平分與剩下`, `國小基礎練習`)}</span>
+${answerButtons(`【三年級】平分與剩下`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -329,7 +329,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【二年級】公尺和公分`, `國小基礎練習`)}</span>
+${answerButtons(`【二年級】公尺和公分`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -364,7 +364,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`免運費計算`, `國小基礎應用`)}</span>
+${answerButtons(`免運費計算`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -401,7 +401,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【四年級】角的分類`, `國小基礎練習`)}</span>
+${answerButtons(`【四年級】角的分類`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -436,7 +436,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`分段收費`, `國小基礎應用`)}</span>
+${answerButtons(`分段收費`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -473,7 +473,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`低溫警報`, `國小基礎應用`)}</span>
+${answerButtons(`低溫警報`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -510,7 +510,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`社團錄取`, `國小基礎應用`)}</span>
+${answerButtons(`社團錄取`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -547,7 +547,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`會員折扣累計`, `國小基礎應用`)}</span>
+${answerButtons(`會員折扣累計`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -586,7 +586,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【三年級】磁鐵吸得起來嗎`, `國小基礎練習`)}</span>
+${answerButtons(`【三年級】磁鐵吸得起來嗎`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -627,7 +627,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【二年級】存錢筒越存越多`, `國小基礎練習`)}</span>
+${answerButtons(`【二年級】存錢筒越存越多`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -691,7 +691,7 @@ ${sample(7,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`寶可夢訓練師-1 平均等級`, `114嘉義縣國小組`)}</span>
+${answerButtons(`寶可夢訓練師-1 平均等級`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -732,7 +732,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【一年級】哪一枝最長`, `國小基礎練習`)}</span>
+${answerButtons(`【一年級】哪一枝最長`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -771,7 +771,7 @@ ${sample(1,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`誰走最快`, `國小基礎應用`)}</span>
+${answerButtons(`誰走最快`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -810,7 +810,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【三年級】一天的溫差`, `國小基礎練習`)}</span>
+${answerButtons(`【三年級】一天的溫差`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -849,7 +849,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【三年級】植物澆水日`, `國小基礎練習`)}</span>
+${answerButtons(`【三年級】植物澆水日`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -890,7 +890,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【二年級】跳著數數`, `國小基礎練習`)}</span>
+${answerButtons(`【二年級】跳著數數`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -931,7 +931,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【一年級】綠豆發芽長高`, `國小基礎練習`)}</span>
+${answerButtons(`【一年級】綠豆發芽長高`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -968,7 +968,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【四年級】找出所有因數`, `國小基礎練習`)}</span>
+${answerButtons(`【四年級】找出所有因數`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1004,7 +1004,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`幸運號碼牌`, `本公告自編`)}</span>
+${answerButtons(`幸運號碼牌`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1043,7 +1043,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【六年級】最簡整數比`, `國小基礎練習`)}</span>
+${answerButtons(`【六年級】最簡整數比`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1082,7 +1082,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【五年級】兩路公車同時到站`, `國小基礎練習`)}</span>
+${answerButtons(`【五年級】兩路公車同時到站`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1126,7 +1126,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`點名報數`, `114苗栗縣國小組`)}</span>
+${answerButtons(`點名報數`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1170,7 +1170,7 @@ ${sample(3,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`班服投票`, `114桃園市國小組`)}</span>
+${answerButtons(`班服投票`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1211,7 +1211,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【一年級】由小排到大`, `國小基礎練習`)}</span>
+${answerButtons(`【一年級】由小排到大`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1251,7 +1251,7 @@ ${sample(3,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`苗栗項鍊`, `114苗栗縣國小組`)}</span>
+${answerButtons(`苗栗項鍊`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1317,7 +1317,7 @@ ${sample(8,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`刮刮樂`, `114臺南市國小組`)}</span>
+${answerButtons(`刮刮樂`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1380,7 +1380,7 @@ a`,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`動態密碼轉換`, `114嘉義縣國小組`)}</span>
+${answerButtons(`動態密碼轉換`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1419,7 +1419,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`【六年級】雞兔同籠`, `國小基礎練習`)}</span>
+${answerButtons(`【六年級】雞兔同籠`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1475,7 +1475,7 @@ ${sample(7,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`碼易丁飲料店-3 最少硬幣數找零`, `114南投縣國小組`)}</span>
+${answerButtons(`碼易丁飲料店-3 最少硬幣數找零`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1512,7 +1512,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`爬樓梯有幾種走法`, `本公告自編`)}</span>
+${answerButtons(`爬樓梯有幾種走法`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1552,7 +1552,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`傳紙條`, `本公告自編`)}</span>
+${answerButtons(`傳紙條`, `國小題型`)}</span>
 </td>
 </tr>
 `;
@@ -1592,7 +1592,7 @@ ${sample(2,
 '
  onclick='${ONCLICK}'><img src="${ICON_IMPORT}" alt="Import" style="${ANSWER_IMG_STYLE}">
 </button>
-${answerButtons(`家族樹往上數幾代`, `本公告自編`)}</span>
+${answerButtons(`家族樹往上數幾代`, `國小題型`)}</span>
 </td>
 </tr>
 `;
