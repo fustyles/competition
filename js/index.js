@@ -1945,9 +1945,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	  // 包裝 prompt：考生輸入資料期間通知外層暫停計時
 	  var promptHook = "(function(){var p=window.prompt;window.prompt=function(m,d){try{parent.__runPause(true);}catch(e){}try{return p.call(window,m,d);}finally{try{parent.__runPause(false);}catch(e){}}};})();";
 
+	  // 「輸出至訊息視窗」積木改為寫入執行結果（橙色），與輸入、輸出依時間順序排列在同一區
+	  var consoleHook = "window.__consoleToBody=true;";
+
 	  var iframe_code="\<!DOCTYPE html\>\<html\>\<head\>\<meta charset='utf-8'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Headers' content='Origin, X-Requested-With, Content-Type, Accept'\>\<meta http-equiv='Access-Control-Allow-Methods' content='GET,POST,PUT,DELETE,OPTIONS'\>\<meta http-equiv='Access-Control-Allow-Origin' content='*'\>\<meta http-equiv='Access-Control-Allow-Credentials' content='true'\>\<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'\>\<\/script\>";
 
-	  iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+promptHook+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.setAttribute('data-error',(e&&e.message)?e.message:String(e));window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
+	  iframe_code += "\<\/head\>\<body\>" + IFRAME_ERROR_TRAP + "\<script\>"+promptHook+consoleHook+js_beautify("const delay=(seconds)=>{return new Promise((resolve)=>{setTimeout(resolve,seconds*1000);});};const main=async()=>{try{"+code+"}catch(e){console.log(e);window.frameElement.setAttribute('data-error',(e&&e.message)?e.message:String(e));window.frameElement.title = 'err';return;}window.frameElement.title = 'ok';}main();")+"\<\/script\>\<\/body\>\<\/html\>";
 
 	  var container = document.getElementById('iframeContainer');
 	  if (container) container.remove();
@@ -1969,6 +1972,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	  var formatOutput = function (text) {
 		return text.replace(/ /g,"&nbsp;").replace(/\n/g, "<br>");
 	  };
+	  // 執行結果改取 HTML（去掉 <script>），保留訊息的橙色；取不到時退回純文字
+	  var bodyHtml = function () {
+		try {
+			var b = iframe.contentWindow.document.body.cloneNode(true);
+			b.querySelectorAll('script').forEach(function (el) { el.remove(); });
+			return b.innerHTML.trim();
+		} catch (e) { return formatOutput(bodyText()); }
+	  };
 	  var end = function (html) {
 		if (finished) return;
 		finished = true;
@@ -1979,11 +1990,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	  // 逾時：強制停止並提示
 	  RunWatch.start(msgText('RUN_WATCH_RUNNING', '程式執行中'), function () {
-		var out = bodyText();
-		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('timeout'));
+		var out = bodyHtml();
+		end((out ? out + '<br>' : '') + runMessageHtml('timeout'));
 	  }, function () {
-		var out = bodyText();
-		end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('stopped'));
+		var out = bodyHtml();
+		end((out ? out + '<br>' : '') + runMessageHtml('stopped'));
 	  });
 
 	  var checkFinish = function () {
@@ -1991,12 +2002,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		var body = null;
 		try { body = iframe.contentWindow.document.body; } catch (e) {}
 		if (body && iframe.title == "ok") {
-		  end(formatOutput(body.innerText));
+		  end(bodyHtml());
 		} else if (body && iframe.title == "err") {
 		  var err = iframe.getAttribute('data-error') || '';
 		  if (err === '__RUN_TIMEOUT__') { RunWatch.timeout(); return; }   // 迴圈中的時間檢查已逾時
-		  var out = body.innerText;
-		  end((out ? formatOutput(out) + '<br>' : '') + runMessageHtml('error', err));
+		  var out = bodyHtml();
+		  end((out ? out + '<br>' : '') + runMessageHtml('error', err));
 		} else {
 		  setTimeout(checkFinish, 100);
 		}
@@ -2347,13 +2358,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
       
-		const scratchBlocks = workspace.getBlocksByType("javascript_console_scratch", false);
-        const blocklyBlocks = workspace.getBlocksByType("javascript_console", false);
-		const printBlocks = workspace.getBlocksByType("text_print", false);		
-		if (scratchBlocks.length>0||blocklyBlocks.length>0||printBlocks.length>0)
-            toggleConsoleForm(true);
-        else
-            toggleConsoleForm(false);
+		// 訊息已合併到執行結果（橙色），不再另外開啟訊息視窗
+		toggleConsoleForm(false);
         
 		reloadZoom();
         document.getElementById("question_input").style.height = "35%";

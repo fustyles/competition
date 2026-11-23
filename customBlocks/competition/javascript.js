@@ -57,6 +57,10 @@ Blockly.JavaScript['javascript_data_input_get_scratch'] = function(block) {
 
 Blockly.JavaScript['javascript_console_scratch'] = function(block) {	
 	Blockly.JavaScript.definitions_['javascript_consoleOutput'] = 'function consoleOutput(text) {\n'+
+	'  if (window.__consoleToBody) {\n'+
+	'    document.body.insertAdjacentHTML("beforeend", "<span class=\\"console-msg\\" style=\\"color:#E67E00;\\">"+String(text).replace(/ /g,"&nbsp;")+"</span><br>");\n'+
+	'    return;\n'+
+	'  }\n'+
 	'  var parentDoc = window.parent.document;\n'+
 	'  var div = parentDoc.getElementById("console_output");\n'+
 	'  if (!div) return;\n'+
