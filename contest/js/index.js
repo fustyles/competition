@@ -2017,6 +2017,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			var result = null;
 			if (examQuestionNo) {
 				result = await runOfficialGrading('save');
+				// 評分完成後立即上傳評分結果到 Google 試算表（不等待上傳完成，避免延遲存檔）
+				if (result && window.GSheetUpload) GSheetUpload.upload(result);
 			} else if (!confirm(gmsg('GRADE_SAVE_NO_QUESTION', '尚未從題庫選擇題目，無法進行正式評分。\n仍要儲存積木結構檔（不含分數）嗎？'))) {
 				return;
 			}
