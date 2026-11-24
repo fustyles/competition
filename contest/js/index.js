@@ -431,9 +431,9 @@ var ExamLogin = (function () {
 		overlay.setAttribute('aria-modal', 'true');
 		overlay.innerHTML =
 			'<div class="el-box">' +
-				'<div class="el-head">考生登錄<small>請輸入登錄帳號、競賽代碼與試題代碼後送出</small></div>' +
+				'<div class="el-head">考生登錄<small>請輸入電腦代碼、競賽代碼與試題代碼後送出</small></div>' +
 				'<form id="examLoginForm" autocomplete="off" novalidate>' +
-					'<label for="examLoginAccount">登錄帳號</label>' +
+					'<label for="examLoginAccount">電腦代碼</label>' +
 					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<label for="examLoginPassword">競賽代碼</label>' +
 					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
