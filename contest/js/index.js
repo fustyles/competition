@@ -637,21 +637,15 @@ var ExamLogin = (function () {
 						'程式必須依照試題所列的資料順序，先依序輸入全部的輸入值，再依序輸出全部的輸出值，<b>輸入與輸出不可穿插</b>。' +
 						'<span class="er-warn">只要有任何一個輸入值或輸出值的順序與試題不符，該題不予計分。</span></div></div>' +
 					'<div class="er-rule"><div class="er-num">2</div><div class="er-text"><h3>每個值單獨處理一次</h3>' +
-						'每一個值都必須「單獨輸入一次」或「單獨輸出一次」。試題中若有多個值寫在同一行，並以空白隔開（例如 ' + chip('er-plain', '60 75') + '），' +
+						'試題中若有多個值寫在同一行，並以空白隔開（例如 ' + chip('er-plain', '60 75') + '），' +
 						'仍要分開處理，也就是執行兩次輸入：<span class="er-nw">' + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + '。</span>輸出的方式也相同。</div></div>' +
-					'<div class="er-rule"><div class="er-num">3</div><div class="er-text"><h3>範例說明</h3>' +
-						'下表的輸入有 3 個值，輸出也有 3 個值，程式的執行順序如下：' +
 						'<div class="er-demo"><table>' +
 							'<tr><th>輸入</th><td>3<br>60 75</td></tr>' +
 							'<tr><th>輸出</th><td>2 20<br>30</td></tr>' +
 						'</table><div class="er-flow"><b>執行順序</b>' +
 							chip('er-in', '輸入 3') + arrow + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + arrow +
 							chip('er-out', '輸出 2') + arrow + chip('er-out', '輸出 20') + arrow + chip('er-out', '輸出 30') +
-						'</div></div></div></div>' +
-					'<div class="er-rule"><div class="er-num">4</div><div class="er-text"><h3>英文字母區分大小寫</h3>' +
-						'輸入與輸出資料中的英文字母要區分大小寫，大寫和小寫視為不同的值（例如 ' +
-						'<span class="er-nw">' + chip('er-plain', 'Y') + '<span class="er-ne">≠</span>' + chip('er-plain', 'y') + '、</span>' +
-						'<span class="er-nw">' + chip('er-plain', 'NO') + '<span class="er-ne">≠</span>' + chip('er-plain', 'no') + '），</span>請完全依照試題的寫法輸入與輸出。</div></div>' +
+						'</div></div>' +
 				'</div>' +
 				'<div class="er-foot"><button type="button" id="examRulesOk">我已了解，開始作答</button></div>' +
 			'</div>';
