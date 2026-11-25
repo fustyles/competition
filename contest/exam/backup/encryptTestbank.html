@@ -94,6 +94,7 @@
       資料夾中若已有同名的<b>舊加密檔</b>會直接取代；若同名檔是<b>未加密的原始試題檔</b>，則不會寫入任何檔案，請改選其他資料夾。<br>
       不支援選擇資料夾的瀏覽器（Chrome / Edge 以外）會改以下載方式輸出。
     </div>
+    <label class="chk"><input id="dlMode" type="checkbox"> 不選資料夾，直接以下載方式輸出</label>
   </div>
 
   <div class="card">
@@ -178,24 +179,51 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
   const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
   // ---------- 讀取檔案 ----------
-  async function readText(name) {
-    if (state.mode === 'dir' && state.dirHandle) {
-      // 支援 file 欄位含子路徑，例如 "sub/e.js"
-      const parts = name.split(/[\\/]/).filter(Boolean);
-      let dir = state.dirHandle;
-      for (let i = 0; i < parts.length - 1; i++) dir = await dir.getDirectoryHandle(parts[i]);
-      const fh = await dir.getFileHandle(parts[parts.length - 1]);
-      return (await fh.getFile()).text();
+  // state.files：相對路徑(小寫) -> File 或 FileSystemFileHandle；state.base：list.js 所在的子路徑
+  // 檔名比對鍵：統一 Unicode 正規化（NFC/NFKC）、去除不可見字元與前後空白、忽略大小寫
+  const keyOf = (s) => String(s).normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase();
+  const SKIP_DIRS = new Set(['node_modules', '.git', '.svn']);
+  async function indexDir(dir, prefix = '', depth = 0, out = new Map()) {
+    for await (const [name, h] of dir.entries()) {
+      const rel = prefix + name;
+      if (h.kind === 'file') out.set(keyOf(rel), h);
+      else if (depth < 5 && !SKIP_DIRS.has(name.toLowerCase())) await indexDir(h, rel + '/', depth + 1, out);
     }
-    const f = state.files.get(name.toLowerCase()) ||
-              state.files.get(name.split(/[\\/]/).pop().toLowerCase());
+    return out;
+  }
+  // 正規化路徑：處理 \、./、../
+  function normPath(p) {
+    const out = [];
+    for (const seg of p.replace(/\\/g, '/').split('/')) {
+      if (!seg || seg === '.') continue;
+      if (seg === '..') out.pop(); else out.push(keyOf(seg));
+    }
+    return out.join('/');
+  }
+  function lookup(name) {
+    const n = normPath(name);
+    // 依序嘗試：相對於 list.js 所在資料夾、相對於所選資料夾、同檔名且唯一
+    for (const k of [normPath((state.base || '') + n), n]) if (state.files.has(k)) return state.files.get(k);
+    const bn = n.split('/').pop();
+    const hits = [...state.files.keys()].filter(k => k.split('/').pop() === bn);
+    return hits.length === 1 ? state.files.get(hits[0]) : null;
+  }
+  async function readText(name) {
+    const f = lookup(name);
     if (!f) throw new Error('找不到檔案：' + name);
-    return f.text();
+    return f.getFile ? (await f.getFile()).text() : f.text();
+  }
+  // 在已選內容中找 list.js（取最淺層的一個）
+  function findListJs() {
+    const hits = [...state.files.keys()].filter(k => k.split('/').pop() === 'list.js')
+      .sort((a, b) => a.split('/').length - b.split('/').length || a.length - b.length);
+    return hits[0] || null;
   }
 
 
   // 執行 list.js，取得 examList
   function parseList(src) {
+    src = src.replace(/^\s*export\s+(?=(const|let|var)\b)/gm, '');   // 容許 export const examList
     const fn = new Function(src + '\n;return (typeof examList !== "undefined") ? examList : undefined;');
     const list = fn();
     if (!Array.isArray(list)) throw new Error('list.js 中找不到 examList 陣列');
@@ -212,9 +240,11 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
     $('btnRun').disabled = true;
     $('tbl').hidden = true;
     try {
-      const listSrc = await readText('list.js');
-      state.examList = parseList(listSrc);
-      log(`✔ 讀取 list.js：共 ${state.examList.length} 個試題檔`, 'ok');
+      const listPath = findListJs();
+      if (!listPath) throw new Error(`在所選內容（共 ${state.files.size} 個檔案）中找不到 list.js。請確認選的是放有 list.js 的資料夾（或其上層資料夾）。`);
+      state.base = listPath.includes('/') ? listPath.slice(0, listPath.lastIndexOf('/') + 1) : '';
+      state.examList = parseList(await readText(listPath));
+      log(`✔ 讀取 ${listPath}：共 ${state.examList.length} 個試題檔`, 'ok');
     } catch (e) { log('✘ list.js：' + e.message, 'err'); renderInfo(); return; }
     state.CryptoJS = CryptoJS;   // 使用本頁內嵌的 CryptoJS
 
@@ -225,6 +255,13 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
       catch { missing++; log(`⚠ 找不到試題檔：${it.file}（${it.name || ''}）`, 'warn'); }
     }
     if (!missing) log('✔ 所有試題檔皆存在', 'ok');
+    else {
+      const names = [...new Set([...state.files.values()].map(f => (f.name || '')))].filter(n => /\.js$/i.test(n));
+      log(`　目前選到的 .js 檔（${names.length} 個）：${names.join('、') || '（無）'}`, 'warn');
+      log(state.mode === 'files'
+        ? '　「選擇多個檔案」模式需同時選取 list.js 與所有試題檔（可用 Ctrl / ⌘ 或 Shift 多選）；並請確認檔名與 list.js 中的 file 欄位一致。'
+        : '　請確認試題檔與 list.js 在同一資料夾（或其子資料夾），且檔名與 list.js 中的 file 欄位一致。', 'warn');
+    }
 
     // 同一個輸出檔名出現兩次會互相覆蓋
     const seen = new Map();
@@ -358,26 +395,40 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
   };
 
   // ---------- 選擇來源 ----------
+  // 被嵌在跨網域 iframe 中時，瀏覽器不允許 showDirectoryPicker
+  const inCrossOriginFrame = (() => { try { return window.top !== window.self && !window.top.location.href; } catch { return true; } })();
+  const canPickDir = !!window.showDirectoryPicker && !inCrossOriginFrame;
+  let pickerBroken = false;   // 呼叫後立即失敗過一次，之後就不再使用資料夾視窗
+
   $('btnPickDir').onclick = async () => {
-    if (window.showDirectoryPicker) {
-      try {
-        state.dirHandle = await window.showDirectoryPicker({ mode: 'read' });
-        state.mode = 'dir'; state.files.clear();
-        await prepare();
-      } catch (e) { if (e.name !== 'AbortError') log('✘ ' + e.message, 'err'); }
-    } else {
-      $('dirInput').click();   // 不支援 File System Access API 的瀏覽器
+    if (!canPickDir || pickerBroken) { $('dirInput').click(); return; }   // 改用 <input webkitdirectory>
+    let handle; const t0 = performance.now();
+    try { handle = await window.showDirectoryPicker({ mode: 'read', id: 'encryptSrc' }); }
+    catch (e) {
+      if (e.name === 'AbortError' && performance.now() - t0 > 800) { log('已取消選擇資料夾', 'warn'); return; }
+      // 視窗沒出現就失敗（嵌入式瀏覽器、權限被封鎖、部分 Chromium 衍生瀏覽器等）→ 改用傳統方式
+      pickerBroken = true;
+      log(`⚠ 此瀏覽器無法開啟資料夾視窗（${e.name}），改用另一種選擇方式`, 'warn');
+      $('dirInput').click(); return;
     }
+    try {
+      clearLog(); log('讀取資料夾內容中…');
+      state.mode = 'dir'; state.dirHandle = handle;
+      state.files = await indexDir(handle);
+      await prepare();
+    } catch (e) { log('✘ 讀取資料夾失敗：' + e.message, 'err'); }
   };
   $('btnPickFiles').onclick = () => $('filesInput').click();
 
   function useFileList(fileList, isDir) {
-    state.mode = 'files'; state.dirHandle = null; state.files.clear();
+    fileList = [...fileList];   // 先複製，下面清空 input 不會影響
+    state.mode = 'files'; state.dirHandle = null; state.files = new Map();
+    $('dirInput').value = ''; $('filesInput').value = '';   // 允許再次選同一個資料夾
     // 資料夾模式下以相對於所選資料夾的路徑為 key（同時保留純檔名）
     for (const f of fileList) {
       const rel = (f.webkitRelativePath || f.name).split('/').slice(isDir ? 1 : 0).join('/');
-      state.files.set(rel.toLowerCase(), f);
-      if (!state.files.has(f.name.toLowerCase())) state.files.set(f.name.toLowerCase(), f);
+      state.files.set(normPath(rel), f);
+      if (!state.files.has(keyOf(f.name))) state.files.set(keyOf(f.name), f);
     }
     prepare();
   }
@@ -441,13 +492,27 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
 
     // 跳出視窗選擇存放加密檔的資料夾（不支援的瀏覽器改以下載輸出）
     state.outDir = null;
-    if (window.showDirectoryPicker) {
+    if (canPickDir && !pickerBroken && !$('dlMode').checked) {
+      const t0 = performance.now();
       try {
         state.outDir = await window.showDirectoryPicker({ mode: 'readwrite', id: 'encryptOut' });
       } catch (e) {
-        if (e.name === 'AbortError') { log('已取消：未選擇存放加密檔的資料夾', 'warn'); return; }
-        log('✘ 無法開啟資料夾：' + e.message, 'err'); return;
+        const quick = performance.now() - t0 <= 800;
+        if (e.name === 'AbortError' && quick) pickerBroken = true;
+        if (e.name === 'AbortError' && !quick) {
+          // 視窗有出現但沒取得資料夾：可能是按了取消、沒允許「編輯檔案」權限，或選到 Chrome 封鎖的資料夾
+          log(`⚠ 未取得存放資料夾（${e.name}：${e.message}）`, 'warn');
+          log('　常見原因：① 選完資料夾後的「允許網站編輯檔案？」提示沒有按「編輯檔案」；' +
+              '② 直接選了「桌面」「下載」「文件」或磁碟根目錄（Chrome 不允許寫入，請在裡面新建子資料夾再選）。', 'warn');
+          if (!window.confirm('沒有取得存放加密檔的資料夾。\n\n按「確定」改以下載方式輸出；按「取消」可重新按「開始加密」再選一次資料夾。')) {
+            log('已取消：未選擇存放加密檔的資料夾', 'warn'); return;
+          }
+        }
+        log('⚠ 無法開啟資料夾（' + e.name + '），改以下載方式輸出', 'warn');
+        state.outDir = null;
       }
+    }
+    if (state.outDir) {
       const conflicts = await findConflicts(state.outDir);
       if (conflicts.length) {
         log(`✘ 資料夾「${state.outDir.name}」中的 ${conflicts.join('、')} 是未加密的原始試題檔，為避免覆蓋，未寫入任何檔案。請改選其他資料夾（例如網站的 exam 資料夾）。`, 'err');
@@ -456,7 +521,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
       }
       log(`存放位置：${state.outDir.name}`);
     } else {
-      log('此瀏覽器不支援選擇資料夾，改以下載方式輸出', 'warn');
+      log('以下載方式輸出（檔案會存到瀏覽器的下載資料夾；若跳出「下載多個檔案」提示請按允許）', 'warn');
     }
 
     $('btnRun').disabled = true;
