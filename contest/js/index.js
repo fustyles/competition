@@ -431,9 +431,9 @@ var ExamLogin = (function () {
 		overlay.setAttribute('aria-modal', 'true');
 		overlay.innerHTML =
 			'<div class="el-box">' +
-				'<div class="el-head">考生登錄<small>請輸入電腦代碼、競賽代碼與試題代碼後送出</small></div>' +
+				'<div class="el-head">考生登錄<small>請輸入登錄帳號、競賽代碼與試題代碼後送出</small></div>' +
 				'<form id="examLoginForm" autocomplete="off" novalidate>' +
-					'<label for="examLoginAccount">電腦代碼</label>' +
+					'<label for="examLoginAccount">登錄帳號</label>' +
 					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<label for="examLoginPassword">競賽代碼</label>' +
 					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
@@ -2017,8 +2017,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			var result = null;
 			if (examQuestionNo) {
 				result = await runOfficialGrading('save');
-				// 評分完成後立即上傳評分結果到 Google 試算表（不等待上傳完成，避免延遲存檔）
-				if (result && window.GSheetUpload) GSheetUpload.upload(result);
+				// 評分完成後立即上傳評分結果與 JavaScript 程式碼到 Google 試算表（不等待上傳完成，避免延遲存檔）
+				if (result && window.GSheetUpload) {
+					var jsCode = '';
+					try { jsCode = js_beautify(Blockly.JavaScript.workspaceToCode(workspace)); }
+					catch (e) { try { jsCode = Blockly.JavaScript.workspaceToCode(workspace); } catch (e2) { jsCode = ''; } }
+					GSheetUpload.upload(result, jsCode);
+				}
 			} else if (!confirm(gmsg('GRADE_SAVE_NO_QUESTION', '尚未從題庫選擇題目，無法進行正式評分。\n仍要儲存積木結構檔（不含分數）嗎？'))) {
 				return;
 			}
