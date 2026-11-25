@@ -54,12 +54,14 @@
     <h2>① 選擇 list.js 所在資料夾</h2>
     <div class="row">
       <button id="btnPickDir">選擇資料夾</button>
+      <button id="btnPickDirAlt" class="ghost" type="button">以傳統方式選擇資料夾</button>
       <button id="btnPickFiles" class="ghost">改為選擇多個檔案</button>
       <input id="dirInput" type="file" webkitdirectory hidden>
       <input id="filesInput" type="file" accept=".js" multiple hidden>
     </div>
     <div class="hint">
       只會讀取，不會修改這個資料夾中的任何檔案。<br>
+      「選擇資料夾」沒有反應時，請改按「以傳統方式選擇資料夾」（瀏覽器會詢問是否上傳，只是讀取，不會真的上傳）。<br>
       「選擇多個檔案」模式：請同時選取 list.js 與所有試題檔。
     </div>
     <div id="fileInfo"></div>
@@ -408,8 +410,10 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
       if (e.name === 'AbortError' && performance.now() - t0 > 800) { log('已取消選擇資料夾', 'warn'); return; }
       // 視窗沒出現就失敗（嵌入式瀏覽器、權限被封鎖、部分 Chromium 衍生瀏覽器等）→ 改用傳統方式
       pickerBroken = true;
-      log(`⚠ 此瀏覽器無法開啟資料夾視窗（${e.name}），改用另一種選擇方式`, 'warn');
-      $('dirInput').click(); return;
+      log(`⚠ 此瀏覽器無法開啟資料夾視窗（${e.name}）`, 'warn');
+      log('　若沒有自動跳出選擇視窗，請按「以傳統方式選擇資料夾」或再按一次「選擇資料夾」。', 'warn');
+      try { $('dirInput').click(); } catch {}   // 開過選擇視窗後點擊權限可能已被用掉，因此可能沒反應
+      return;
     }
     try {
       clearLog(); log('讀取資料夾內容中…');
@@ -419,6 +423,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
     } catch (e) { log('✘ 讀取資料夾失敗：' + e.message, 'err'); }
   };
   $('btnPickFiles').onclick = () => $('filesInput').click();
+  $('btnPickDirAlt').onclick = () => $('dirInput').click();   // 直接在點擊事件中開啟，不經過 await
 
   function useFileList(fileList, isDir) {
     fileList = [...fileList];   // 先複製，下面清空 input 不會影響
