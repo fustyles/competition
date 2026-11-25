@@ -50,7 +50,7 @@ var QUESTION_META_KEY = 'francis_blockly_question_meta_standard';   // 目前題
 // ===== 考生與題目（全域變數）=====
 // examAccount：考生登錄成功時寫入（ExamLogin.unlock）
 // examName / examQuestionNo / examQuestionName：在題目清單點選「匯入題目」時寫入（selectExamQuestion）
-var examAccount      = '';   // 登錄帳號
+var examAccount      = '';   // 電腦代碼
 var examName         = '';   // 題庫名稱，例如「國小組」
 var examQuestionNo   = '';   // 題號，例如「3」
 var examQuestionName = '';   // 題目名稱，例如「【一年級】撲滿裡的錢」
@@ -59,14 +59,14 @@ var examAllowedNos   = [];   // 試題代碼解密後的題號（字串陣列，
 
 // ===== 閒置清空：登錄時若距離上次使用超過 100 天，清空工作區積木與試題內容（含評分紀錄）=====
 var LAST_ACTIVE_KEY   = 'francis_last_active_standard';
-var LAST_ACCOUNT_KEY  = 'francis_last_account_standard';   // 上一位登錄的帳號（帳號不同時詢問是否清除資料）
+var LAST_ACCOUNT_KEY  = 'francis_last_account_standard';   // 上一位登錄的電腦代碼（電腦代碼不同時詢問是否清除資料）
 var INACTIVE_RESET_MS = 144000 * 60 * 1000;   // 要改時間只改這裡（分鐘 × 60 × 1000）
-// 在頁面載入時先讀出上次使用時間（登錄前不更新，避免輸入帳號密碼時就被覆蓋）
+// 在頁面載入時先讀出上次使用時間（登錄前不更新，避免輸入電腦代碼密碼時就被覆蓋）
 var lastActiveAtLoad = (function () {
 	try { return Number(localStorage.getItem(LAST_ACTIVE_KEY)) || 0; } catch (e) { return 0; }
 })();
 
-// 正式評分紀錄（依帳號分開存放在 localStorage）
+// 正式評分紀錄（依電腦代碼分開存放在 localStorage）
 var GRADING_STORAGE_PREFIX = 'francis_grading_records_standard_';
 var GRADING_MAX_RECORDS    = 300;
 
@@ -228,7 +228,7 @@ function runTimeoutHint() {
 
 // =====================================================
 //  考生登錄（鎖定畫面）
-//  開啟首頁即鎖定畫面，考生輸入「登錄帳號」、「競賽代碼」與「試題代碼」後送出。
+//  開啟首頁即鎖定畫面，考生輸入「電腦代碼」、「競賽代碼」與「試題代碼」後送出。
 //  競賽代碼 = 加密試題的解密金鑰：系統逐一嘗試解密 list.js 中的每個題庫檔，
 //  能正確解密者加入題庫下拉選單；全部無法解密則提示競賽代碼錯誤。
 //  試題代碼 = 6 位數字，由「試題抽籤與代碼.html」以競賽代碼產生，記錄 1～12 題中抽中哪幾題：
@@ -238,14 +238,14 @@ function runTimeoutHint() {
 var ExamLogin = (function () {
 	var EXAM_DIR      = 'exam/';            // 題庫資料夾（與原本 loadExam 相同）
 	var ENCRYPTED_VAR = 'encryptedExam';    // 加密檔中的密文變數名稱
-	var DEFAULT_ACCOUNT  = 'kh001';         // 登錄畫面預設帳號（不需要時改為 ''）
+	var DEFAULT_ACCOUNT  = 'kh001';         // 登錄畫面預設電腦代碼（不需要時改為 ''）
 	var DEFAULT_PASSWORD = '0000';          // 登錄畫面預設競賽代碼（不需要時改為 ''）
 	// 登錄畫面預設試題代碼（此為競賽代碼 0000、第 1～6 題的代碼，不需要時改為 ''）
 	var DEFAULT_QUESTION_CODE = '790180';
 
 	var unlocked = null;      // [{ name, file, contest }]，登錄成功後才有值
 	var account  = '';
-	var resetReason = '';     // 'account'：與上一位帳號不同且考生同意清除資料
+	var resetReason = '';     // 'account'：與上一位電腦代碼不同且考生同意清除資料
 	var callbacks = [];
 	var overlay, docKeyBlocker;
 
@@ -421,6 +421,39 @@ var ExamLogin = (function () {
 			'#examLoginOverlay button.el-danger:hover{background:#b91c1c;}' +
 			'#examLoginOverlay button.el-cancel{background:#fff;color:#4a5d85;border:1px solid #7d8bb0;letter-spacing:1px;}' +
 			'#examLoginOverlay button.el-cancel:hover{background:#eef1f8;}' +
+			'#examRulesOverlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;' +
+			'background:rgba(30,38,58,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);' +
+			'font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;color:#1f2937;animation:erFade .25s ease-out;}' +
+			'@keyframes erFade{from{opacity:0}to{opacity:1}}' +
+			'@keyframes erRise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}' +
+			'#examRulesOverlay .er-box{width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.35);animation:erRise .3s ease-out;}' +
+			'#examRulesOverlay .er-head{background:linear-gradient(135deg,#4a5d85,#66709a);color:#fff;padding:18px 26px;}' +
+			'#examRulesOverlay .er-head h2{margin:0;font-size:22px;letter-spacing:2px;}' +
+			'#examRulesOverlay .er-head p{margin:4px 0 0;font-size:14px;opacity:.88;}' +
+			'#examRulesOverlay .er-body{padding:18px 26px 6px;overflow-y:auto;}' +
+			'#examRulesOverlay .er-rule{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed #e2e6ef;}' +
+			'#examRulesOverlay .er-rule:last-child{border-bottom:0;}' +
+			'#examRulesOverlay .er-num{flex:0 0 32px;height:32px;border-radius:50%;background:#eef1f8;color:#4a5d85;font-weight:bold;font-size:17px;display:flex;align-items:center;justify-content:center;}' +
+			'#examRulesOverlay .er-text{flex:1;font-size:16px;line-height:1.85;}' +
+			'#examRulesOverlay .er-text h3{margin:2px 0 4px;font-size:17px;color:#3b4b6e;}' +
+			'#examRulesOverlay .er-warn{color:#b91c1c;font-weight:bold;}' +
+			'#examRulesOverlay .er-chip{display:inline-block;min-width:1.6em;padding:1px 9px;margin:2px 1px;border-radius:6px;font-family:Consolas,Menlo,"Courier New",monospace;font-size:15px;font-weight:bold;text-align:center;line-height:1.6;vertical-align:middle;}' +
+			'#examRulesOverlay .er-in{background:#fff4e5;color:#b45309;border:1px solid #f6c48a;}' +
+			'#examRulesOverlay .er-out{background:#e8f1fb;color:#1d4f91;border:1px solid #9cc0ea;}' +
+			'#examRulesOverlay .er-plain{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}' +
+			'#examRulesOverlay .er-arrow{color:#9aa3b5;margin:0 3px;font-weight:bold;}' +
+			'#examRulesOverlay .er-demo{margin:10px 0 4px;border:1px solid #e2e6ef;border-radius:10px;overflow:hidden;}' +
+			'#examRulesOverlay .er-demo table{border-collapse:collapse;width:100%;}' +
+			'#examRulesOverlay .er-demo th{width:64px;background:#f5f7fb;color:#4a5d85;font-size:15px;padding:8px 10px;border-bottom:1px solid #e2e6ef;}' +
+			'#examRulesOverlay .er-demo td{padding:8px 12px;border-bottom:1px solid #e2e6ef;font-family:Consolas,Menlo,"Courier New",monospace;font-size:17px;letter-spacing:2px;}' +
+			'#examRulesOverlay .er-flow{padding:10px 12px;background:#fbfcfe;font-size:15px;line-height:2.1;}' +
+			'#examRulesOverlay .er-flow b{color:#4a5d85;margin-right:6px;}' +
+			'#examRulesOverlay .er-nw{white-space:nowrap;}' +
+			'#examRulesOverlay .er-ne{color:#b91c1c;font-weight:bold;margin:0 4px;}' +
+			'#examRulesOverlay .er-foot{padding:14px 26px 20px;border-top:1px solid #eef0f5;background:#fafbfd;}' +
+			'#examRulesOverlay .er-foot button{width:100%;padding:12px;font-size:18px;font-weight:bold;letter-spacing:4px;color:#fff;background:#4a5d85;border:0;border-radius:10px;cursor:pointer;font-family:inherit;}' +
+			'#examRulesOverlay .er-foot button:hover{background:#3b4b6e;}' +
+			'#examRulesOverlay .er-foot button:focus-visible{outline:3px solid rgba(125,139,176,.5);outline-offset:2px;}' +
 			'#examLoginBadge{position:fixed;right:10px;bottom:10px;z-index:2147482000;background:rgba(74,93,133,.92);color:#fff;font-size:13px;' +
 			'padding:4px 12px;border-radius:999px;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;pointer-events:none;}';
 		document.head.appendChild(css);
@@ -431,9 +464,9 @@ var ExamLogin = (function () {
 		overlay.setAttribute('aria-modal', 'true');
 		overlay.innerHTML =
 			'<div class="el-box">' +
-				'<div class="el-head">考生登錄<small>請輸入登錄帳號、競賽代碼與試題代碼後送出</small></div>' +
+				'<div class="el-head">考生登錄<small>請輸入電腦代碼、競賽代碼與試題代碼後送出</small></div>' +
 				'<form id="examLoginForm" autocomplete="off" novalidate>' +
-					'<label for="examLoginAccount">登錄帳號</label>' +
+					'<label for="examLoginAccount">電腦代碼</label>' +
 					'<input id="examLoginAccount" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
 					'<label for="examLoginPassword">競賽代碼</label>' +
 					'<input id="examLoginPassword" type="text" autocomplete="off" spellcheck="false" class="el-code">' +
@@ -475,7 +508,7 @@ var ExamLogin = (function () {
 			pwdEl.classList.toggle('el-bad', !pwd);
 			qcEl.classList.toggle('el-bad', !qc);
 			if (!acc || !pwd || !qc) {
-				var miss = [!acc && '登錄帳號', !pwd && '競賽代碼', !qc && '試題代碼'].filter(Boolean);
+				var miss = [!acc && '電腦代碼', !pwd && '競賽代碼', !qc && '試題代碼'].filter(Boolean);
 				setMsg('請輸入' + miss.join('、'));
 				(!acc ? accEl : !pwd ? pwdEl : qcEl).focus();
 				return;
@@ -509,13 +542,13 @@ var ExamLogin = (function () {
 				var lastAcc = '';
 				try { lastAcc = localStorage.getItem(LAST_ACCOUNT_KEY) || ''; } catch (e2) {}
 				if (lastAcc && lastAcc !== acc) {
-					// 與上一位登錄帳號不同：不論間隔多久都先詢問，同意才清除資料並登錄
+					// 與上一位電腦代碼不同：不論間隔多久都先詢問，同意才清除資料並登錄
 					return askAccountSwitch(lastAcc, acc).then(function (ok) {
 						if (ok) {
 							resetReason = 'account';
 							unlock(acc, list, pwd, nos);
 						} else {
-							setMsg('已取消登錄，請重新輸入登錄帳號、競賽代碼與試題代碼');
+							setMsg('已取消登錄，請重新輸入電腦代碼、競賽代碼與試題代碼');
 							setTimeout(function () { accEl.focus(); accEl.select(); }, 0);
 						}
 					});
@@ -536,15 +569,15 @@ var ExamLogin = (function () {
 		setTimeout(function () { accEl.focus(); accEl.select(); }, 0);
 	}
 
-	// 在登錄視窗內顯示「帳號不同」確認畫面；回傳 Promise<boolean>（true＝清除資料並登錄）
+	// 在登錄視窗內顯示「電腦代碼不同」確認畫面；回傳 Promise<boolean>（true＝清除資料並登錄）
 	function askAccountSwitch(lastAcc, acc) {
 		return new Promise(function (resolve) {
 			var form = overlay.querySelector('#examLoginForm');
 			var panel = document.createElement('div');
 			panel.className = 'el-confirm';
 			panel.innerHTML =
-				'<div class="el-confirm-text">此電腦上一位登錄的帳號是 <b class="el-prev"></b>，' +
-				'與本次登錄的帳號 <b class="el-now"></b> 不同。' +
+				'<div class="el-confirm-text">此電腦上一位登錄的電腦代碼是 <b class="el-prev"></b>，' +
+				'與本次登錄的電腦代碼 <b class="el-now"></b> 不同。' +
 				'<span class="el-confirm-warn">繼續登錄將清除工作區積木、試題內容與所有評分紀錄，且無法復原。</span></div>' +
 				'<button type="button" class="el-danger">清除資料並登錄</button>' +
 				'<button type="button" class="el-cancel">取消，回到登錄畫面</button>';
@@ -565,7 +598,7 @@ var ExamLogin = (function () {
 
 	function unlock(acc, list, key, nos) {
 		account = acc;
-		examAccount = acc;   // 全域變數：登錄帳號
+		examAccount = acc;   // 全域變數：電腦代碼
 		examKey = key;       // 全域變數：競賽代碼（加密／解密積木結構檔用）
 		examAllowedNos = nos || [];   // 全域變數：試題代碼中的題號
 		try { localStorage.setItem(LAST_ACCOUNT_KEY, acc); } catch (e) {}
@@ -576,12 +609,63 @@ var ExamLogin = (function () {
 
 		var badge = document.createElement('div');
 		badge.id = 'examLoginBadge';
-		badge.textContent = '考生：' + acc;
+		badge.textContent = '電腦代碼：' + acc;
 		document.body.appendChild(badge);
 
 		callbacks.splice(0).forEach(function (cb) {
 			try { cb(unlocked); } catch (e) { console.error(e); }
 		});
+
+		showAnswerRules();   // 登錄後立即顯示作答說明
+	}
+
+	// ---------- 作答說明（登錄成功後立即顯示）----------
+	function showAnswerRules() {
+		if (document.getElementById('examRulesOverlay')) return;
+		var chip = function (cls, t) { return '<span class="er-chip ' + cls + '">' + t + '</span>'; };
+		var arrow = '<span class="er-arrow">➜</span>';
+		var ov = document.createElement('div');
+		ov.id = 'examRulesOverlay';
+		ov.setAttribute('role', 'dialog');
+		ov.setAttribute('aria-modal', 'true');
+		ov.setAttribute('aria-labelledby', 'examRulesTitle');
+		ov.innerHTML =
+			'<div class="er-box">' +
+				'<div class="er-head"><h2 id="examRulesTitle">作答說明：輸入與輸出規則</h2><p>開始作答前請詳細閱讀，未依規則輸入或輸出將影響計分。</p></div>' +
+				'<div class="er-body">' +
+					'<div class="er-rule"><div class="er-num">1</div><div class="er-text"><h3>先全部輸入，再全部輸出</h3>' +
+						'程式必須依照試題所列的資料順序，先依序輸入全部的輸入值，再依序輸出全部的輸出值，<b>輸入與輸出不可穿插</b>。' +
+						'<span class="er-warn">只要有任何一個輸入值或輸出值的順序與試題不符，該題不予計分。</span></div></div>' +
+					'<div class="er-rule"><div class="er-num">2</div><div class="er-text"><h3>每個值單獨處理一次</h3>' +
+						'每一個值都必須「單獨輸入一次」或「單獨輸出一次」。試題中若有多個值寫在同一行，並以空白隔開（例如 ' + chip('er-plain', '60 75') + '），' +
+						'仍要分開處理，也就是執行兩次輸入：<span class="er-nw">' + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + '。</span>輸出的方式也相同。</div></div>' +
+					'<div class="er-rule"><div class="er-num">3</div><div class="er-text"><h3>範例說明</h3>' +
+						'下表的輸入有 3 個值，輸出也有 3 個值，程式的執行順序如下：' +
+						'<div class="er-demo"><table>' +
+							'<tr><th>輸入</th><td>3<br>60 75</td></tr>' +
+							'<tr><th>輸出</th><td>2 20<br>30</td></tr>' +
+						'</table><div class="er-flow"><b>執行順序</b>' +
+							chip('er-in', '輸入 3') + arrow + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + arrow +
+							chip('er-out', '輸出 2') + arrow + chip('er-out', '輸出 20') + arrow + chip('er-out', '輸出 30') +
+						'</div></div></div></div>' +
+					'<div class="er-rule"><div class="er-num">4</div><div class="er-text"><h3>英文字母區分大小寫</h3>' +
+						'輸入與輸出資料中的英文字母要區分大小寫，大寫和小寫視為不同的值（例如 ' +
+						'<span class="er-nw">' + chip('er-plain', 'Y') + '<span class="er-ne">≠</span>' + chip('er-plain', 'y') + '、</span>' +
+						'<span class="er-nw">' + chip('er-plain', 'NO') + '<span class="er-ne">≠</span>' + chip('er-plain', 'no') + '），</span>請完全依照試題的寫法輸入與輸出。</div></div>' +
+				'</div>' +
+				'<div class="er-foot"><button type="button" id="examRulesOk">我已了解，開始作答</button></div>' +
+			'</div>';
+		document.body.appendChild(ov);
+
+		// 說明顯示期間攔截鍵盤事件，避免操作到底下的 Blockly 工作區
+		var blocker = function (e) { if (!ov.contains(e.target)) { e.stopPropagation(); e.preventDefault(); } };
+		['keydown', 'keyup', 'keypress'].forEach(function (t) { document.addEventListener(t, blocker, true); });
+		var btn = ov.querySelector('#examRulesOk');
+		btn.addEventListener('click', function () {
+			['keydown', 'keyup', 'keypress'].forEach(function (t) { document.removeEventListener(t, blocker, true); });
+			ov.remove();
+		});
+		setTimeout(function () { btn.focus(); }, 0);
 	}
 
 	// 先於主程式的 DOMContentLoaded 註冊，確保開啟首頁就先鎖定畫面
@@ -594,7 +678,8 @@ var ExamLogin = (function () {
 		getExams: function () { return unlocked ? unlocked.slice() : []; },
 		getAccount: function () { return account; },
 		isUnlocked: function () { return !!unlocked; },
-		resetReason: function () { return resetReason; }
+		resetReason: function () { return resetReason; },
+		showRules: showAnswerRules   // 需要時可再次顯示作答說明
 	};
 })();
 
@@ -2009,7 +2094,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	// 儲存積木結構檔：先進行正式評分，再把「帳號;題號;分數」寫入 xml 的 record 屬性
+	// 儲存積木結構檔：先進行正式評分，再把「電腦代碼;題號;分數」寫入 xml 的 record 屬性
 	document.getElementById('button_save_xml').onclick = async function () {
 		try {
 			if (gradingBusy) return;
@@ -2499,7 +2584,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
-	// 目前工作區的 xml 文字；record = "帳號;題號;分數"（null 表示未評分）
+	// 目前工作區的 xml 文字；record = "電腦代碼;題號;分數"（null 表示未評分）
 	function workspaceXmlText(result) {
 		var xml = Blockly.Xml.workspaceToDom(workspace);
 		xml.setAttribute('platform', scratchStyle ? 'scratch' : 'blockly');
@@ -2516,7 +2601,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		return Blockly.Xml.domToText(xml);
 	}
 
-	// ---------- 評分紀錄（localStorage，依帳號分開）----------
+	// ---------- 評分紀錄（localStorage，依電腦代碼分開）----------
 	function gradingKey() { return GRADING_STORAGE_PREFIX + (examAccount || '_'); }
 
 	function loadGradingRecords() {
@@ -2646,7 +2731,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (result.status === 'ok') {
 				result.cases.forEach(function (c) { if (c.pass) result.score += c.score; });
 			}
-			result.xml = workspaceXmlText(result);   // 評分當時的積木結構（含 record="帳號;題號;分數"）
+			result.xml = workspaceXmlText(result);   // 評分當時的積木結構（含 record="電腦代碼;題號;分數"）
 			result.id = result.time + '_' + Math.random().toString(36).slice(2, 8);
 
 			saveGradingRecord(result);
@@ -2882,7 +2967,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			localStorage.removeItem(WORKSPACE_STORAGE_KEY);
 			localStorage.removeItem(QUESTION_STORAGE_KEY);
 			localStorage.removeItem(QUESTION_META_KEY);
-			// 評分紀錄：清除此瀏覽器中所有帳號的紀錄
+			// 評分紀錄：清除此瀏覽器中所有電腦代碼的紀錄
 			Object.keys(localStorage)
 				.filter(function (k) { return k.indexOf(GRADING_STORAGE_PREFIX) === 0; })
 				.forEach(function (k) { localStorage.removeItem(k); });
@@ -2958,9 +3043,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		whenAppReady(function () {
 			var idle = Date.now() - lastActiveAtLoad;
 			if (ExamLogin.resetReason() === 'account') {
-				// 與上一位帳號不同，考生已同意清除
+				// 與上一位電腦代碼不同，考生已同意清除
 				resetSessionData();
-				showToast('已切換登錄帳號，先前的工作區積木、試題內容與評分紀錄已清除。');
+				showToast('已切換電腦代碼，先前的工作區積木、試題內容與評分紀錄已清除。');
 			} else if (!lastActiveAtLoad || idle > INACTIVE_RESET_MS || idle < 0) {
 				resetSessionData();
 				if (lastActiveAtLoad) showToast('距離上次使用已超過 ' + (function (m) { return m % 1440 === 0 ? (m / 1440) + ' 天' : m % 60 === 0 ? (m / 60) + ' 小時' : m + ' 分鐘'; })(Math.round(INACTIVE_RESET_MS / 60000)) + '，已清空工作區積木與試題內容。');

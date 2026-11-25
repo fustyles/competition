@@ -9,7 +9,7 @@
  */
 var SPREADSHEET_ID = '1wAjaThthCij6X1kix6ZYfAx2YCnO66qdl7wEpKzGOh0';
 var SHEET_NAME     = 'grade';
-var HEADERS = ['競賽代碼', '電腦代碼(登錄帳號)', '競賽組別', '題號', '題目名稱', '得分', '評分時間', '評分結果狀態', '錯誤類型', '程式碼'];
+var HEADERS = ['競賽代碼', '電腦代碼', '競賽組別', '題號', '題目名稱', '得分', '評分時間', '評分結果狀態', '錯誤類型', '程式碼'];
 var REPORT_COLS = 9;   // 成績統計網頁只讀前 9 欄（不含程式碼，更新較快）
 
 // 成績統計網頁的管理密碼（請改成只有你知道的字串）
@@ -43,7 +43,7 @@ function doPost(e) {
 
     var r = sheet.getLastRow() + 1;
     var range = sheet.getRange(r, 1, 1, row.length);
-    // 競賽代碼、帳號、題號、時間等以文字儲存（避免 0000 變成 0、時間被轉格式）；得分保持數字
+    // 競賽代碼、電腦代碼、題號、時間等以文字儲存（避免 0000 變成 0、時間被轉格式）；得分保持數字
     range.setNumberFormats([['@', '@', '@', '@', '@', '0', '@', '@', '@', '@']]);
     range.setValues([row]);
 

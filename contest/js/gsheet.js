@@ -1,7 +1,7 @@
 /*
   儲存積木結構檔時，正式評分完成後立即把評分結果上傳到 Google 試算表（工作表 grade）
 
-  欄位：競賽代碼 | 電腦代碼(登錄帳號) | 競賽組別 | 題號 | 題目名稱 | 得分 | 評分時間 | 評分結果狀態 | 錯誤類型 | 程式碼
+  欄位：競賽代碼 | 電腦代碼 | 競賽組別 | 題號 | 題目名稱 | 得分 | 評分時間 | 評分結果狀態 | 錯誤類型 | 程式碼
 
   接收端是部署在試算表上的 Google Apps Script 網頁應用程式（見 gsheet_apps_script.gs），
   部署後把「網頁應用程式網址」（…/exec）填入下方 GSHEET_WEBAPP_URL。
@@ -86,7 +86,7 @@ var GSheetUpload = (function () {
 		var row = {
 			id:        result.id,                         // 排除重複用，不寫入試算表
 			contest:   (typeof examKey !== 'undefined' ? examKey : ''),   // 競賽代碼
-			account:   result.account || '',              // 登錄帳號
+			account:   result.account || '',              // 電腦代碼
 			group:     result.exam || '',                 // 競賽組別
 			no:        result.no || '',                   // 題號
 			name:      result.name || '',                 // 題目名稱
