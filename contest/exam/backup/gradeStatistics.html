@@ -42,12 +42,17 @@
 	tbody tr:hover td { background: #fafbfc; }
 	.empty { color: var(--muted); padding: 24px; text-align: center; }
 	.note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+	.grp { margin-bottom: 18px; }
+	.grp:last-child { margin-bottom: 0; }
+	.grp-title { margin: 0 0 8px; font-size: 15px; padding-left: 8px; border-left: 4px solid var(--accent); }
+	.grp-title small { color: var(--muted); font-weight: normal; margin-left: 8px; font-size: 13px; }
+	th .qn { display: block; font-size: 12px; font-weight: normal; color: var(--muted); }
 </style>
 </head>
 <body>
 <header>
 	<h1>競賽成績統計</h1>
-	<p>讀取 Google 試算表（工作表 grade）；同一帳號同一題多次上傳時，以評分時間最新的一筆計分。</p>
+	<p>讀取 Google 試算表（工作表 grade）；同一位考生同一題多次上傳時，以得分最高的一筆計分。</p>
 </header>
 <main>
 	<section class="card">
@@ -68,7 +73,7 @@
 		<div class="row">
 			<label>競賽代碼<select id="fContest"></select></label>
 			<label>競賽組別<select id="fGroup"></select></label>
-			<label>登錄帳號搜尋<input id="fAccount" type="text" placeholder="例如 kh0"></label>
+			<label>電腦代碼搜尋<input id="fAccount" type="text" placeholder="例如 kh0"></label>
 		</div>
 		<div class="stats" style="margin-top:12px">
 			<span><b id="sAcc">0</b>位考生</span>
@@ -79,18 +84,18 @@
 
 	<section class="card" id="secTotal" hidden>
 		<div class="sec-head">
-			<h2>總成績<small>依登錄帳號排序</small></h2>
+			<h2>總成績<small>依電腦代碼排序</small></h2>
 			<button class="ghost" id="csvTotal">下載 CSV</button>
 		</div>
 		<div class="scroll"><table id="tTotal"></table></div>
 	</section>
 	<section class="card" id="secDetail" hidden>
 		<div class="sec-head">
-			<h2>各題得分<small>依登錄帳號排序</small></h2>
+			<h2>各題得分<small>依組別分表，表內依電腦代碼排序</small></h2>
 			<button class="ghost" id="csvDetail">下載 CSV</button>
 		</div>
-		<div class="scroll"><table id="tDetail"></table></div>
-		<div class="note">格子右下的小數字為該題上傳次數；紅底表示最新一次評分結果為「錯誤」（得分以 0 計）；「—」表示未上傳。滑鼠移到格子上可看評分時間。</div>
+		<div id="tDetail"></div>
+		<div class="note">格子右下的小數字為該題上傳次數；每題取該考生得分最高的一筆計分；紅底表示該筆評分結果為「錯誤」（得分以 0 計）；「—」表示未上傳。滑鼠移到格子上可看計分那筆的評分時間。</div>
 	</section>
 
 </main>
@@ -211,7 +216,7 @@
 	$('key').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('load').click(); });
 
 	// ---------- 資料整理 ----------
-	// 欄位順序：競賽代碼 登錄帳號 競賽組別 題號 題目名稱 得分 評分時間 評分結果狀態 錯誤類型
+	// 欄位順序：競賽代碼 電腦代碼 競賽組別 題號 題目名稱 得分 評分時間 評分結果狀態 錯誤類型
 	function toRecord(r, i) {
 		return {
 			contest: String(r[0] || '').trim(), account: String(r[1] || '').trim(), group: String(r[2] || '').trim(),
@@ -243,7 +248,7 @@
 	['fContest', 'fGroup'].forEach(function (id) { $(id).onchange = render; });
 	$('fAccount').oninput = render;
 
-	// 依篩選條件，每位考生每題取最新一筆；回傳 { students, questions, rowCount }
+	// 依篩選條件，每位考生每題取得分最高的一筆；回傳 { students, groups, qCount, rowCount }
 	function aggregate() {
 		var fc = $('fContest').value, fg = $('fGroup').value, fa = $('fAccount').value.trim().toLowerCase();
 		var recs = allRows.map(toRecord).filter(function (r) {
@@ -256,28 +261,37 @@
 			var sk = r.contest + '\u0001' + r.group + '\u0001' + r.account;
 			var st = students[sk] || (students[sk] = { contest: r.contest, group: r.group, account: r.account, q: {} });
 			var cur = st.q[r.no];
-			// 評分時間較新者取代；時間相同時，試算表中較後面（較晚寫入）的一筆取代
+			// 得分較高者取代；同分時取評分時間較新的一筆，時間也相同時取試算表中較後面（較晚寫入）的一筆
 			if (!cur) st.q[r.no] = { rec: r, count: 1 };
 			else {
 				cur.count++;
-				if (r.time > cur.rec.time || (r.time === cur.rec.time && r.row > cur.rec.row)) cur.rec = r;
+				if (r.score > cur.rec.score ||
+					(r.score === cur.rec.score && (r.time > cur.rec.time || (r.time === cur.rec.time && r.row > cur.rec.row)))) cur.rec = r;
 			}
-			qset[r.no] = qset[r.no] || r.name;
+			// 最後評分時間：該考生所有上傳紀錄中最新的時間（不限計分的那筆）
+			if (r.time >= (st.lastTime || 0)) { st.lastTime = r.time; st.lastText = r.timeText; }
+			// 題目依「組別＋題號」區分：不同組別的同一題號是不同的題目
+			var qs = qset[r.group] || (qset[r.group] = {});
+			qs[r.no] = qs[r.no] || r.name;
 		});
 		var list = Object.keys(students).map(function (k) {
-			var st = students[k], total = 0, last = 0, lastText = '';
-			Object.keys(st.q).forEach(function (no) {
-				var rec = st.q[no].rec;
-				total += rec.score;
-				if (rec.time >= last) { last = rec.time; lastText = rec.timeText; }
-			});
-			st.total = total; st.answered = Object.keys(st.q).length; st.lastText = lastText;
+			var st = students[k], total = 0;
+			Object.keys(st.q).forEach(function (no) { total += st.q[no].rec.score; });
+			st.total = total; st.answered = Object.keys(st.q).length;
 			return st;
 		}).sort(function (a, b) {
 			return natural(a.account, b.account) || natural(a.group, b.group) || natural(a.contest, b.contest);
 		});
-		var questions = Object.keys(qset).sort(natural).map(function (no) { return { no: no, name: qset[no] }; });
-		return { students: list, questions: questions, rowCount: recs.length };
+		// 依組別分開：每組有自己的題目清單與考生清單（各題得分表與 CSV 依組別分開呈現）
+		var groups = Object.keys(qset).sort(natural).map(function (g) {
+			return {
+				group: g,
+				questions: Object.keys(qset[g]).sort(natural).map(function (no) { return { no: no, name: qset[g][no] }; }),
+				students: list.filter(function (s) { return s.group === g; })
+			};
+		});
+		var qCount = groups.reduce(function (n, g) { return n + g.questions.length; }, 0);
+		return { students: list, groups: groups, qCount: qCount, rowCount: recs.length };
 	}
 
 	// ---------- 畫面 ----------
@@ -292,38 +306,48 @@
 		var a = current = aggregate();
 		var multiContest = uniq(a.students.map(function (s) { return s.contest; })).length > 1;
 		$('sAcc').textContent = a.students.length;
-		$('sQ').textContent = a.questions.length;
+		$('sQ').textContent = a.qCount;
 		$('sRows').textContent = a.rowCount;
 		$('secDetail').hidden = $('secTotal').hidden = false;
 
 		if (!a.students.length) {
-			$('tDetail').innerHTML = $('tTotal').innerHTML = '<tr><td class="empty">沒有符合條件的成績</td></tr>';
+			$('tDetail').innerHTML = '<div class="empty">沒有符合條件的成績</div>';
+			$('tTotal').innerHTML = '<tr><td class="empty">沒有符合條件的成績</td></tr>';
 			return;
 		}
 		var lead = function (s) {
 			return (multiContest ? '<td>' + esc(s.contest) + '</td>' : '') +
 				'<td class="l">' + esc(s.account) + '</td><td>' + esc(s.group) + '</td>';
 		};
-		var leadHead = (multiContest ? '<th>競賽代碼</th>' : '') + '<th class="l">登錄帳號</th><th>競賽組別</th>';
+		var leadHead = (multiContest ? '<th>競賽代碼</th>' : '') + '<th class="l">電腦代碼</th><th>競賽組別</th>';
 
-		// 各題得分
-		var h = '<thead><tr>' + leadHead + a.questions.map(function (q) {
-			return '<th title="' + esc(q.name) + '">第 ' + esc(q.no) + ' 題</th>';
-		}).join('') + '<th>總分</th></tr></thead><tbody>';
-		a.students.forEach(function (s) {
-			h += '<tr>' + lead(s);
-			a.questions.forEach(function (q) {
-				var c = s.q[q.no];
-				if (!c) { h += '<td class="none">—</td>'; return; }
-				var bad = c.rec.status === '錯誤';
-				var tip = '評分時間 ' + c.rec.timeText + '｜' + (c.rec.status || '') +
-					(c.rec.errorType ? '（' + c.rec.errorType + '）' : '') + '｜上傳 ' + c.count + ' 次';
-				h += '<td' + (bad ? ' class="bad"' : '') + ' title="' + esc(tip) + '">' + c.rec.score +
-					(c.count > 1 ? '<span class="n">×' + c.count + '</span>' : '') + '</td>';
+		// 各題得分：每個組別一張表，欄位是該組自己的題目（同一題號在不同組別是不同題目，不可共用欄位）
+		var groupLead = function (s) {
+			return (multiContest ? '<td>' + esc(s.contest) + '</td>' : '') + '<td class="l">' + esc(s.account) + '</td>';
+		};
+		var groupLeadHead = (multiContest ? '<th>競賽代碼</th>' : '') + '<th class="l">電腦代碼</th>';
+		$('tDetail').innerHTML = a.groups.map(function (g) {
+			var h = '<thead><tr>' + groupLeadHead + g.questions.map(function (q) {
+				return '<th title="' + esc(q.name) + '">第 ' + esc(q.no) + ' 題' +
+					(q.name ? '<span class="qn">' + esc(q.name) + '</span>' : '') + '</th>';
+			}).join('') + '<th>總分</th></tr></thead><tbody>';
+			g.students.forEach(function (s) {
+				h += '<tr>' + groupLead(s);
+				g.questions.forEach(function (q) {
+					var c = s.q[q.no];
+					if (!c) { h += '<td class="none">—</td>'; return; }
+					var bad = c.rec.status === '錯誤';
+					var tip = '計分紀錄（最高分）評分時間 ' + c.rec.timeText + '｜' + (c.rec.status || '') +
+						(c.rec.errorType ? '（' + c.rec.errorType + '）' : '') + '｜上傳 ' + c.count + ' 次';
+					h += '<td' + (bad ? ' class="bad"' : '') + ' title="' + esc(tip) + '">' + c.rec.score +
+						(c.count > 1 ? '<span class="n">×' + c.count + '</span>' : '') + '</td>';
+				});
+				h += '<td class="total">' + s.total + '</td></tr>';
 			});
-			h += '<td class="total">' + s.total + '</td></tr>';
-		});
-		$('tDetail').innerHTML = h + '</tbody>';
+			return '<div class="grp"><h3 class="grp-title">' + esc(g.group || '（未填組別）') +
+				'<small>' + g.students.length + ' 位考生・' + g.questions.length + ' 題</small></h3>' +
+				'<div class="scroll"><table>' + h + '</tbody></table></div></div>';
+		}).join('');
 
 		// 總成績
 		var t = '<thead><tr>' + leadHead + '<th>作答題數</th><th>總分</th><th>最後評分時間</th></tr></thead><tbody>';
@@ -349,17 +373,24 @@
 	}
 	$('csvDetail').onclick = function () {
 		if (!current) return;
-		var rows = [['競賽代碼', '登錄帳號', '競賽組別'].concat(current.questions.map(function (q) { return '第' + q.no + '題'; }), ['總分'])];
-		current.students.forEach(function (s) {
-			rows.push([s.contest, s.account, s.group].concat(current.questions.map(function (q) {
-				return s.q[q.no] ? s.q[q.no].rec.score : '';
-			}), [s.total]));
+		// 依組別分段：每段有自己的標題列（題號＋題目名稱），段與段之間空一行
+		var rows = [];
+		current.groups.forEach(function (g, i) {
+			if (i > 0) rows.push([]);
+			rows.push(['競賽代碼', '電腦代碼', '競賽組別'].concat(g.questions.map(function (q) {
+				return '第' + q.no + '題' + (q.name ? ' ' + q.name : '');
+			}), ['總分']));
+			g.students.forEach(function (s) {
+				rows.push([s.contest, s.account, s.group].concat(g.questions.map(function (q) {
+					return s.q[q.no] ? s.q[q.no].rec.score : '';
+				}), [s.total]));
+			});
 		});
 		download('各題得分.csv', rows);
 	};
 	$('csvTotal').onclick = function () {
 		if (!current) return;
-		var rows = [['競賽代碼', '登錄帳號', '競賽組別', '作答題數', '總分', '最後評分時間']];
+		var rows = [['競賽代碼', '電腦代碼', '競賽組別', '作答題數', '總分', '最後評分時間']];
 		current.students.forEach(function (s) { rows.push([s.contest, s.account, s.group, s.answered, s.total, s.lastText]); });
 		download('總成績.csv', rows);
 	};
