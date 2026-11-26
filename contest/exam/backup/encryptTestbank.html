@@ -89,10 +89,11 @@
   <div class="card">
     <h2>③ 輸出設定</h2>
     <label for="varName">加密檔中的變數名稱</label>
-    <input id="varName" type="text" value="encryptedExam">
+    <input id="varName" type="text" value="encryptedExam" readonly tabindex="-1" style="background:#f3f4f6;color:#6b7280;cursor:not-allowed;" title="固定為 encryptedExam（競賽平台只讀取這個名稱），不可修改">
     <div class="hint">
       按「開始加密」後會跳出視窗，請選擇存放加密檔的資料夾（例如網站的 <code>exam</code> 資料夾）。<br>
-      輸出檔名與原試題檔相同，內容為 <code>var 變數名稱 = "密文";</code>。<br>
+      變數名稱固定為 <code>encryptedExam</code>（競賽平台 <code>js/index.js</code> 只讀取這個名稱），不可修改。<br>
+      輸出檔名與原試題檔相同，內容為 <code>var encryptedExam = "密文";</code>。<br>
       資料夾中若已有同名的<b>舊加密檔</b>會直接取代；若同名檔是<b>未加密的原始試題檔</b>，則不會寫入任何檔案，請改選其他資料夾。<br>
       不支援選擇資料夾的瀏覽器（Chrome / Edge 以外）會改以下載方式輸出。
     </div>
@@ -161,6 +162,8 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
 (() => {
   const $ = (id) => document.getElementById(id);
   const logEl = $('log');
+  // 加密檔中的密文變數名稱：必須與競賽平台 js/index.js 的 ENCRYPTED_VAR 相同，固定不可修改
+  const VAR_NAME = 'encryptedExam';
   const state = {
     mode: null,          // 'dir' | 'files'
     dirHandle: null,     // FileSystemDirectoryHandle
@@ -492,8 +495,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
     if (!validateKeys()) { log('✘ 金鑰設定未通過檢查（需全部填寫、兩次一致且彼此不同）', 'err'); return; }
     const keys = state.examList.map((_, i) => $('k' + i).value);
     if (new Set(keys).size !== keys.length) { log('✘ 金鑰不可相同', 'err'); return; }
-    const varName = $('varName').value.trim();
-    if (!/^[A-Za-z_$][\w$]*$/.test(varName)) { log('✘ 變數名稱不合法', 'err'); return; }
+    const varName = VAR_NAME;   // 固定名稱，不讀取畫面欄位
 
     // 跳出視窗選擇存放加密檔的資料夾（不支援的瀏覽器改以下載輸出）
     state.outDir = null;
@@ -562,7 +564,7 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
 
   // ---------- 解密範例 ----------
   const renderSample = () => {
-    const v = $('varName').value.trim() || 'encryptedExam';
+    const v = VAR_NAME;
     $('sample').textContent =
 `<script src="js/aes.js"><\/script>
 <script>
@@ -591,7 +593,7 @@ function loadEncryptedExam(file, key) {
 // loadEncryptedExam('e.js', 國小組金鑰).then(() => { ... 使用 contest ... });
 <\/script>`;
   };
-  $('varName').addEventListener('input', renderSample);
+  $('varName').value = VAR_NAME;   // 畫面欄位只供顯示
   renderSample();
 })();
 </script>

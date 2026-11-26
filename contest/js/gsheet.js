@@ -3,7 +3,7 @@
 
   欄位：競賽代碼 | 電腦代碼 | 競賽組別 | 題號 | 題目名稱 | 得分 | 評分時間 | 評分結果狀態 | 錯誤類型 | 積木結構檔 | 程式碼
 
-  接收端是部署在試算表上的 Google Apps Script 網頁應用程式（見 gsheet_apps_script.gs），
+  接收端是部署在試算表上的 Google Apps Script 網頁應用程式（見後台 managerFiles/gsheet.gs），
   部署後把「網頁應用程式網址」（…/exec）填入下方 GSHEET_WEBAPP_URL。
 
   上傳失敗（例如斷線）時，資料先存在 localStorage 的待上傳佇列，
