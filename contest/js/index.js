@@ -640,11 +640,11 @@ var ExamLogin = (function () {
 						'試題中若有多個值寫在同一行，並以空白隔開（例如 ' + chip('er-plain', '60 75') + '），' +
 						'仍要分開處理，也就是執行兩次輸入：<span class="er-nw">' + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + '。</span>輸出的方式也相同。</div></div>' +
 						'<div class="er-demo"><table>' +
-							'<tr><th>輸入</th><td>3<br>60 75</td></tr>' +
-							'<tr><th>輸出</th><td>2 20<br>30</td></tr>' +
+							'<tr><th>輸入</th><td>3<br>45 75 90</td></tr>' +
+							'<tr><th>輸出</th><td>2 70</td></tr>' +
 						'</table><div class="er-flow"><b>執行順序</b>' +
-							chip('er-in', '輸入 3') + arrow + chip('er-in', '輸入 60') + arrow + chip('er-in', '輸入 75') + arrow +
-							chip('er-out', '輸出 2') + arrow + chip('er-out', '輸出 20') + arrow + chip('er-out', '輸出 30') +
+							chip('er-in', '輸入 3') + arrow + chip('er-in', '輸入 45') + arrow + chip('er-in', '輸入 75') + arrow + chip('er-in', '輸入 90') + arrow +
+							chip('er-out', '輸出 2') + arrow + chip('er-out', '輸出 70') +
 						'</div></div>' +
 				'</div>' +
 				'<div class="er-foot"><button type="button" id="examRulesOk">我已了解，開始作答</button></div>' +

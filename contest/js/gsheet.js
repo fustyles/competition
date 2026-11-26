@@ -1,7 +1,7 @@
 /*
   儲存積木結構檔時，正式評分完成後立即把評分結果上傳到 Google 試算表（工作表 grade）
 
-  欄位：競賽代碼 | 電腦代碼 | 競賽組別 | 題號 | 題目名稱 | 得分 | 評分時間 | 評分結果狀態 | 錯誤類型 | 程式碼
+  欄位：競賽代碼 | 電腦代碼 | 競賽組別 | 題號 | 題目名稱 | 得分 | 評分時間 | 評分結果狀態 | 錯誤類型 | 積木結構檔 | 程式碼
 
   接收端是部署在試算表上的 Google Apps Script 網頁應用程式（見 gsheet_apps_script.gs），
   部署後把「網頁應用程式網址」（…/exec）填入下方 GSHEET_WEBAPP_URL。
@@ -13,7 +13,7 @@ var GSHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzGmEnnR8Exi69Y
 
 var GSheetUpload = (function () {
 	var QUEUE_KEY = 'francis_gsheet_queue_standard';
-	var QUEUE_MAX = 100;
+	var QUEUE_MAX = 50;
 	var CODE_MAX = 49000;   // 試算表單一儲存格上限 50,000 字
 	var flushing = false;
 
@@ -22,6 +22,14 @@ var GSheetUpload = (function () {
 		var d = new Date(t);
 		return d.getFullYear() + '/' + pad(d.getMonth() + 1) + '/' + pad(d.getDate()) + ' ' +
 			pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+	}
+	// 積木結構檔（未加密的 xml，與存檔內容相同）；超過儲存格上限時先移除積木 id（載入時會自動重建），仍過長才截斷
+	function fitXml(xml) {
+		xml = String(xml || '');
+		if (xml.length <= CODE_MAX) return xml;
+		var slim = xml.replace(/\s(?:id|x|y)="[^"]*"/g, '').replace(/>\s+</g, '><');
+		if (slim.length <= CODE_MAX) return slim;
+		return slim.slice(0, CODE_MAX) + '<!-- …（積木結構檔過長，已截斷，請以考生存檔為準）-->';
 	}
 	function truncate(code) {
 		code = String(code || '');
@@ -94,6 +102,7 @@ var GSheetUpload = (function () {
 			time:      formatTime(result.time),           // 評分時間
 			status:    isError ? '錯誤' : '成功',          // 評分結果狀態
 			errorType: isError ? errorTypeLabel(result.reason) : '',  // 錯誤類型
+			xml:       fitXml(result.xml),                // 積木結構檔
 			code:      truncate(code)                     // 程式碼
 		};
 		var q = loadQueue();
