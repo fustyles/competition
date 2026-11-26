@@ -9,8 +9,8 @@
  */
 var SPREADSHEET_ID = '1wAjaThthCij6X1kix6ZYfAx2YCnO66qdl7wEpKzGOh0';
 var SHEET_NAME     = 'grade';
-var HEADERS = ['競賽代碼', '電腦代碼', '競賽組別', '題號', '題目名稱', '得分', '評分時間', '評分結果狀態', '錯誤類型', '程式碼'];
-var REPORT_COLS = 9;   // 成績統計網頁只讀前 9 欄（不含程式碼，更新較快）
+var HEADERS = ['競賽代碼', '電腦代碼', '競賽組別', '題號', '題目名稱', '得分', '評分時間', '評分結果狀態', '錯誤類型', '積木結構檔', '程式碼'];
+var REPORT_COLS = 9;   // 成績統計網頁只讀前 9 欄（不含積木結構檔與程式碼，更新較快）
 
 // 成績統計網頁的管理密碼（請改成只有你知道的字串）
 var REPORT_KEY = '請改成你的管理密碼';
@@ -26,14 +26,11 @@ function doPost(e) {
     if (d.id && cache.get('id_' + d.id)) return reply({ ok: true, duplicate: true });
 
     var sheet = getSheet();
-    if (sheet.getLastRow() === 0) sheet.appendRow(HEADERS);
-    else if (sheet.getRange(1, HEADERS.length).getValue() === '') {
-      sheet.getRange(1, HEADERS.length).setValue(HEADERS[HEADERS.length - 1]);   // 舊工作表自動補上「程式碼」標題
-    }
+    ensureHeaders(sheet);
 
     var row = [
       d.contest, d.account, d.group, d.no, d.name,
-      d.score, d.time, d.status, d.errorType, d.code
+      d.score, d.time, d.status, d.errorType, d.xml, d.code
     ].map(function (v, i) {
       v = v == null ? '' : String(v);
       if (i === 5) return v === '' ? '' : Number(v);          // 得分
@@ -44,7 +41,7 @@ function doPost(e) {
     var r = sheet.getLastRow() + 1;
     var range = sheet.getRange(r, 1, 1, row.length);
     // 競賽代碼、電腦代碼、題號、時間等以文字儲存（避免 0000 變成 0、時間被轉格式）；得分保持數字
-    range.setNumberFormats([['@', '@', '@', '@', '@', '0', '@', '@', '@', '@']]);
+    range.setNumberFormats([['@', '@', '@', '@', '@', '0', '@', '@', '@', '@', '@']]);
     range.setValues([row]);
 
     if (d.id) cache.put('id_' + d.id, '1', 21600);   // 6 小時內排除重複
@@ -69,6 +66,20 @@ function doGet(e) {
   // 以顯示文字讀取，避免時間被轉成日期物件、0000 被轉成數字
   var rows = n < 2 ? [] : sheet.getRange(2, 1, n - 1, REPORT_COLS).getDisplayValues();
   return reply({ ok: true, rows: rows, readAt: new Date().toISOString() }, p.callback);
+}
+
+// 檢查標題列；舊版工作表（第 10 欄為「程式碼」）自動在它前面插入「積木結構檔」欄，舊資料不會錯位
+function ensureHeaders(sheet) {
+  if (sheet.getLastRow() === 0) { sheet.appendRow(HEADERS); return; }
+  var XML_COL = HEADERS.indexOf('積木結構檔') + 1;   // 10
+  if (String(sheet.getRange(1, XML_COL).getValue()).trim() === '程式碼') {
+    sheet.insertColumnBefore(XML_COL);
+  }
+  var head = sheet.getRange(1, 1, 1, HEADERS.length);
+  var cur = head.getValues()[0];
+  for (var i = 9; i < HEADERS.length; i++) {
+    if (String(cur[i]).trim() === '') sheet.getRange(1, i + 1).setValue(HEADERS[i]);
+  }
 }
 
 function getSheet() {
