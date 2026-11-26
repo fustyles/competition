@@ -2812,7 +2812,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						'<td>' + escapeHtml(r.no) + '</td>' +
 						'<td class="gp-name">' + escapeHtml(r.exam ? r.exam + ' ' : '') + escapeHtml(r.name) + '</td>' +
 						'<td><b>' + r.score + '</b> / ' + r.total +
-							(r.status === 'error' ? '<br><small class="gp-fail">' + (r.reason === 'stopped' ? '手動停止' : r.reason === 'timeout' ? '逾時' : '執行錯誤') + '</small>' : '') + '</td>' +
+							(r.status === 'error' ? '<br><small class="gp-fail">' + reasonLabel(r.reason) + '</small>' : '') + '</td>' +
 						'<td><a href="#" data-rec="' + escapeHtml(r.id) + '">載入</a></td></tr>';
 				}).join('') + '</tbody></table>'
 			: '<div class="gp-msg">尚無評分紀錄。</div>';
