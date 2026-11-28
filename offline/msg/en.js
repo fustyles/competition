@@ -657,5 +657,17 @@ Blockly.Msg["CLEAR_OK"] = "Clear";
 Blockly.Msg["CLEAR_DONE"] = "Saved data cleared (workspace blocks, question, output and grading history).";
 Blockly.Msg["XML_LOAD_ERROR"] = "The block file is invalid and cannot be loaded.";
 
+// ===== Answer rules: input and output =====
+Blockly.Msg["RULES_TITLE"] = "How to Answer: Input and Output Rules";
+Blockly.Msg["RULES_SUBTITLE"] = "Please read carefully before you start, and follow these rules for input and output.";
+Blockly.Msg["RULES_1_TITLE"] = "Input everything first, then output everything";
+Blockly.Msg["RULES_1_TEXT"] = "Your program must follow the order of the data in the question: first input all the input values in order, then output all the output values in order. <b>Do not mix inputs and outputs.</b>";
+Blockly.Msg["RULES_2_TITLE"] = "Handle each value separately";
+Blockly.Msg["RULES_2_TEXT"] = "If the question puts several values on one line separated by spaces (for example %1), you still handle them one at a time, which means inputting twice: %2. Outputs work the same way.";
+Blockly.Msg["RULES_IN"] = "Input";
+Blockly.Msg["RULES_OUT"] = "Output";
+Blockly.Msg["RULES_FLOW"] = "Order";
+Blockly.Msg["RULES_OK"] = "I understand, start";
+
 return Blockly.Msg;
 }));

@@ -657,5 +657,17 @@ Blockly.Msg["CLEAR_OK"] = "确定清除";
 Blockly.Msg["CLEAR_DONE"] = "已清除暂存数据（工作区积木、试题内容、执行结果与评分记录）。";
 Blockly.Msg["XML_LOAD_ERROR"] = "积木结构档内容错误，无法载入。";
 
+// ===== 作答说明：输入与输出规则 =====
+Blockly.Msg["RULES_TITLE"] = "作答说明：输入与输出规则";
+Blockly.Msg["RULES_SUBTITLE"] = "开始作答前请详细阅读，并依照以下规则输入与输出数据。";
+Blockly.Msg["RULES_1_TITLE"] = "先全部输入，再全部输出";
+Blockly.Msg["RULES_1_TEXT"] = "程序必须依照试题所列的数据顺序，先依序输入全部的输入值，再依序输出全部的输出值，<b>输入与输出不可穿插</b>。";
+Blockly.Msg["RULES_2_TITLE"] = "每个值单独处理一次";
+Blockly.Msg["RULES_2_TEXT"] = "试题中若有多个值写在同一行，并以空格隔开（例如 %1），仍要分开处理，也就是执行两次输入：%2。输出的方式也相同。";
+Blockly.Msg["RULES_IN"] = "输入";
+Blockly.Msg["RULES_OUT"] = "输出";
+Blockly.Msg["RULES_FLOW"] = "执行顺序";
+Blockly.Msg["RULES_OK"] = "我已了解，开始作答";
+
 return Blockly.Msg;
 }));

@@ -653,5 +653,17 @@ Blockly.Msg["CLEAR_OK"] = "確定清除";
 Blockly.Msg["CLEAR_DONE"] = "已清除暫存資料（工作區積木、試題內容、執行結果與評分紀錄）。";
 Blockly.Msg["XML_LOAD_ERROR"] = "積木結構檔內容錯誤，無法載入。";
 
+// ===== 作答說明：輸入與輸出規則 =====
+Blockly.Msg["RULES_TITLE"] = "作答說明：輸入與輸出規則";
+Blockly.Msg["RULES_SUBTITLE"] = "開始作答前請詳細閱讀，並依照以下規則輸入與輸出資料。";
+Blockly.Msg["RULES_1_TITLE"] = "先全部輸入，再全部輸出";
+Blockly.Msg["RULES_1_TEXT"] = "程式必須依照試題所列的資料順序，先依序輸入全部的輸入值，再依序輸出全部的輸出值，<b>輸入與輸出不可穿插</b>。";
+Blockly.Msg["RULES_2_TITLE"] = "每個值單獨處理一次";
+Blockly.Msg["RULES_2_TEXT"] = "試題中若有多個值寫在同一行，並以空白隔開（例如 %1），仍要分開處理，也就是執行兩次輸入：%2。輸出的方式也相同。";
+Blockly.Msg["RULES_IN"] = "輸入";
+Blockly.Msg["RULES_OUT"] = "輸出";
+Blockly.Msg["RULES_FLOW"] = "執行順序";
+Blockly.Msg["RULES_OK"] = "我已了解，開始作答";
+
 return Blockly.Msg;
 }));
