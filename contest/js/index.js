@@ -3066,14 +3066,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (RunWatch.isActive()) return;   // 執行或評分中
         document.getElementById('javascript_content').style.display = "block";
 
-        // 先切換到「執行結果」頁籤，缺少開始積木時才看得到提示訊息
-        showQuestionTab('output');
+        // 不在這裡切換頁籤：等程式執行完畢（成功、錯誤、逾時或手動停止）才由 runCode() 切換到「執行結果」
 
         if (scratchStyle) {
             const topBlocks = workspace.getBlocksByType("javascript_start_scratch", false); 
             if (topBlocks.length!=1) {
                 toggleConsoleForm(false);
                 iframeWrite("iframe_output", Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
+                showQuestionTab('output');   // 缺少開始積木：不會執行，直接顯示提示訊息
                 //alert(Blockly.Msg["JAVASCRIPT_START_ALERT_SCRATCH"]);
                 if (topBlocks.length==0) {
                     var xml = '<block type="javascript_start_scratch" x="10" y="10"></block>';
@@ -3096,7 +3096,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("question_input").style.height = "35%";
         document.getElementById("iframe_output").style.height = "60%";
 
-        showQuestionTab('output');
         document.getElementById('iframe_output').innerHTML = "";
         stopCode();
         setTimeout(function(){
