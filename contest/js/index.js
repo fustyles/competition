@@ -2424,12 +2424,21 @@ document.addEventListener('DOMContentLoaded', function() {
 	// =====================================================
 	var QUESTION_TABS = { question: 'question_input', output: 'iframe_output', grade: 'grade_panel' };
 
+	// 各頁籤面板的捲動位置：面板隱藏後再顯示時，瀏覽器可能把捲軸歸零，切換時自行記住並還原
+	var questionTabScroll = {};
+
 	function showQuestionTab(name) {
 		if (!QUESTION_TABS[name]) name = 'question';
 		Object.keys(QUESTION_TABS).forEach(function (k) {
 			var panel = document.getElementById(QUESTION_TABS[k]);
+			if (panel && panel.classList.contains('qtab-active') && k !== name) questionTabScroll[k] = panel.scrollTop;
+		});
+		Object.keys(QUESTION_TABS).forEach(function (k) {
+			var panel = document.getElementById(QUESTION_TABS[k]);
 			if (panel) panel.classList.toggle('qtab-active', k === name);
 		});
+		var shown = document.getElementById(QUESTION_TABS[name]);
+		if (shown && questionTabScroll[name] != null) shown.scrollTop = questionTabScroll[name];
 		document.querySelectorAll('#question_tabs .qtab').forEach(function (b) {
 			b.classList.toggle('active', b.getAttribute('data-tab') === name);
 		});
@@ -2457,6 +2466,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		var qi = document.getElementById('question_input');
 		qi.innerHTML = btn.getAttribute('data-q');
 		qi.scrollTop = 0;
+		questionTabScroll.question = 0;   // 新題目從頂端開始
 		saveQuestionToStorage();   // 立即儲存題目內容（含測資）與題號，不等 3 秒
 		toggleImportQuestionForm(false);
 		resetOutput();
@@ -3092,9 +3102,13 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleConsoleForm(false);
 
         document.getElementById('javascript_content').style.display = "block";
+        // reloadZoom() 會把題目捲回最頂端：先記下目前捲動位置，執行後保持原位
+        var qiEl = document.getElementById("question_input");
+        var qiScroll = qiEl.scrollTop;
         reloadZoom();	
-        document.getElementById("question_input").style.height = "35%";
+        qiEl.style.height = "35%";
         document.getElementById("iframe_output").style.height = "60%";
+        qiEl.scrollTop = qiScroll;
 
         document.getElementById('iframe_output').innerHTML = "";
         stopCode();
