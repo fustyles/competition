@@ -222,6 +222,92 @@ function runTimeoutHint() {
 	return msgText('RUN_HINT_TIMEOUT', '程式在 %1 秒內沒有執行完成。可能原因：迴圈的結束條件一直不成立（無窮迴圈）、重複次數太多，或等待（延遲）的時間太長。', Math.round(RUN_TIMEOUT_MS / 1000));
 }
 
+// =====================================================
+//  作答說明：輸入與輸出規則（開啟網頁、平台載入完成後顯示；與競賽版相同，但不含計分說明）
+//  文字可在語系檔加入 RULES_* 變數翻譯；沒有時使用繁體中文預設文字
+// =====================================================
+function showAnswerRules() {
+	if (document.getElementById('examRulesOverlay')) return;
+	if (!document.getElementById('examRulesStyle')) {
+		var css = document.createElement('style');
+		css.id = 'examRulesStyle';
+		css.textContent =
+			'#examRulesOverlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;' +
+			'background:rgba(30,38,58,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);' +
+			'font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;color:#1f2937;animation:erFade .25s ease-out;}' +
+			'@keyframes erFade{from{opacity:0}to{opacity:1}}' +
+			'@keyframes erRise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}' +
+			'#examRulesOverlay .er-box{width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.35);animation:erRise .3s ease-out;}' +
+			'#examRulesOverlay .er-head{background:linear-gradient(135deg,#4a5d85,#66709a);color:#fff;padding:18px 26px;}' +
+			'#examRulesOverlay .er-head h2{margin:0;font-size:22px;letter-spacing:2px;}' +
+			'#examRulesOverlay .er-head p{margin:4px 0 0;font-size:14px;opacity:.88;}' +
+			'#examRulesOverlay .er-body{padding:18px 26px 6px;overflow-y:auto;}' +
+			'#examRulesOverlay .er-rule{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed #e2e6ef;}' +
+			'#examRulesOverlay .er-rule:last-child{border-bottom:0;}' +
+			'#examRulesOverlay .er-num{flex:0 0 32px;height:32px;border-radius:50%;background:#eef1f8;color:#4a5d85;font-weight:bold;font-size:17px;display:flex;align-items:center;justify-content:center;}' +
+			'#examRulesOverlay .er-text{flex:1;font-size:16px;line-height:1.85;}' +
+			'#examRulesOverlay .er-text h3{margin:2px 0 4px;font-size:17px;color:#3b4b6e;}' +
+			'#examRulesOverlay .er-chip{display:inline-block;min-width:1.6em;padding:1px 9px;margin:2px 1px;border-radius:6px;font-family:Consolas,Menlo,"Courier New",monospace;font-size:15px;font-weight:bold;text-align:center;line-height:1.6;vertical-align:middle;}' +
+			'#examRulesOverlay .er-in{background:#fff4e5;color:#b45309;border:1px solid #f6c48a;}' +
+			'#examRulesOverlay .er-out{background:#e8f1fb;color:#1d4f91;border:1px solid #9cc0ea;}' +
+			'#examRulesOverlay .er-plain{background:#f3f4f6;color:#374151;border:1px solid #d1d5db;}' +
+			'#examRulesOverlay .er-arrow{color:#9aa3b5;margin:0 3px;font-weight:bold;}' +
+			'#examRulesOverlay .er-demo{margin:10px 0 4px;border:1px solid #e2e6ef;border-radius:10px;overflow:hidden;}' +
+			'#examRulesOverlay .er-demo table{border-collapse:collapse;width:100%;}' +
+			'#examRulesOverlay .er-demo th{width:64px;background:#f5f7fb;color:#4a5d85;font-size:15px;padding:8px 10px;border-bottom:1px solid #e2e6ef;}' +
+			'#examRulesOverlay .er-demo td{padding:8px 12px;border-bottom:1px solid #e2e6ef;font-family:Consolas,Menlo,"Courier New",monospace;font-size:17px;letter-spacing:2px;}' +
+			'#examRulesOverlay .er-flow{padding:10px 12px;background:#fbfcfe;font-size:15px;line-height:2.1;}' +
+			'#examRulesOverlay .er-flow b{color:#4a5d85;margin-right:6px;}' +
+			'#examRulesOverlay .er-nw{white-space:nowrap;}' +
+			'#examRulesOverlay .er-foot{padding:14px 26px 20px;border-top:1px solid #eef0f5;background:#fafbfd;}' +
+			'#examRulesOverlay .er-foot button{width:100%;padding:12px;font-size:18px;font-weight:bold;letter-spacing:4px;color:#fff;background:#4a5d85;border:0;border-radius:10px;cursor:pointer;font-family:inherit;}' +
+			'#examRulesOverlay .er-foot button:hover{background:#3b4b6e;}' +
+			'#examRulesOverlay .er-foot button:focus-visible{outline:3px solid rgba(125,139,176,.5);outline-offset:2px;}';
+		document.head.appendChild(css);
+	}
+	var chip = function (cls, t) { return '<span class="er-chip ' + cls + '">' + t + '</span>'; };
+	var arrow = '<span class="er-arrow">➜</span>';
+	var inLabel = msgText('RULES_IN', '輸入'), outLabel = msgText('RULES_OUT', '輸出');
+	var ov = document.createElement('div');
+	ov.id = 'examRulesOverlay';
+	ov.setAttribute('role', 'dialog');
+	ov.setAttribute('aria-modal', 'true');
+	ov.setAttribute('aria-labelledby', 'examRulesTitle');
+	ov.innerHTML =
+		'<div class="er-box">' +
+			'<div class="er-head"><h2 id="examRulesTitle">' + msgText('RULES_TITLE', '作答說明：輸入與輸出規則') + '</h2>' +
+				'<p>' + msgText('RULES_SUBTITLE', '開始作答前請詳細閱讀，並依照以下規則輸入與輸出資料。') + '</p></div>' +
+			'<div class="er-body">' +
+				'<div class="er-rule"><div class="er-num">1</div><div class="er-text"><h3>' + msgText('RULES_1_TITLE', '先全部輸入，再全部輸出') + '</h3>' +
+					msgText('RULES_1_TEXT', '程式必須依照試題所列的資料順序，先依序輸入全部的輸入值，再依序輸出全部的輸出值，<b>輸入與輸出不可穿插</b>。') + '</div></div>' +
+				'<div class="er-rule"><div class="er-num">2</div><div class="er-text"><h3>' + msgText('RULES_2_TITLE', '每個值單獨處理一次') + '</h3>' +
+					msgText('RULES_2_TEXT', '試題中若有多個值寫在同一行，並以空白隔開（例如 %1），仍要分開處理，也就是執行兩次輸入：%2。輸出的方式也相同。',
+						chip('er-plain', '60 75'),
+						'<span class="er-nw">' + chip('er-in', inLabel + ' 60') + arrow + chip('er-in', inLabel + ' 75') + '</span>') + '</div></div>' +
+					'<div class="er-demo"><table>' +
+						'<tr><th>' + inLabel + '</th><td>3<br>45 75 90</td></tr>' +
+						'<tr><th>' + outLabel + '</th><td>2 70</td></tr>' +
+					'</table><div class="er-flow"><b>' + msgText('RULES_FLOW', '執行順序') + '</b>' +
+						chip('er-in', inLabel + ' 3') + arrow + chip('er-in', inLabel + ' 45') + arrow + chip('er-in', inLabel + ' 75') + arrow + chip('er-in', inLabel + ' 90') + arrow +
+						chip('er-out', outLabel + ' 2') + arrow + chip('er-out', outLabel + ' 70') +
+					'</div></div>' +
+			'</div>' +
+			'<div class="er-foot"><button type="button" id="examRulesOk">' + msgText('RULES_OK', '我已了解，開始作答') + '</button></div>' +
+		'</div>';
+	document.body.appendChild(ov);
+
+	// 說明顯示期間攔截鍵盤事件，避免操作到底下的 Blockly 工作區
+	var blocker = function (e) { if (!ov.contains(e.target)) { e.stopPropagation(); e.preventDefault(); } };
+	['keydown', 'keyup', 'keypress'].forEach(function (t) { document.addEventListener(t, blocker, true); });
+	var btn = ov.querySelector('#examRulesOk');
+	btn.addEventListener('click', function () {
+		['keydown', 'keyup', 'keypress'].forEach(function (t) { document.removeEventListener(t, blocker, true); });
+		ov.remove();
+	});
+	setTimeout(function () { btn.focus(); }, 0);
+}
+window.showAnswerRules = showAnswerRules;   // 需要時可再次顯示作答說明
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -2587,7 +2673,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
-	whenAppReady(function () { renderGradePanel(); });
+	whenAppReady(function () {
+		renderGradePanel();
+		showAnswerRules();   // 平台載入完成後顯示作答說明
+	});
 
 	function stopCode() {
 	  // 原本設定 src = "about:blank"：本機 file:// 開啟時 iframe 會變成不同來源，之後無法寫入執行結果。
